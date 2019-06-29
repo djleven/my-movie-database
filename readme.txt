@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
 Requires at least: 3.7
 Tested up to: 4.9.8
-Stable tag: 1.2.1
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,13 +12,13 @@ My Movie Database allows you to easily add detailed information about movies, tv
 
 == Description ==
 
-The My Movie Database plugin compliments your content by adding information about the movies, the television shows and the people in the industry you choose. 
+The My Movie Database plugin compliments your content by adding information about the movies, the television shows and the people in the industry you choose.
 
-The plugin was developed to enrich your movie or tvshow content / review by 'automatically' adding the related information and allowing you to focus on your writing instead. 
+The plugin was developed to enrich your movie or tvshow content / review by 'automatically' adding the related information and allowing you to focus on your writing instead.
 
-You can use it via shortcodes or the standard posts method, see below for more info and/or the <a target="_blank" href="https://e-leven.net/my-movie-database/shortcode-default-parameters">live demo page</a>.
- 
-The data comes from the <a target="_blank" href="https://www.themoviedb.org">Movie Database (TMDb)</a>, the leading crowdsourced movie industry information community. This means that this plugin will make calls to the <a target="_blank" href="https://www.themoviedb.org/documentation/api"> TMDb api</a> (in other words their 'website service') to retrieve the requested data. The TMDb API service is provided free of charge. 
+You can use it via shortcodes or the standard posts method, see below for more info and/or the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/shortcode-default-parameters">live demo page</a>.
+
+The data comes from the <a target="_blank" href="https://www.themoviedb.org">Movie Database (TMDb)</a>, the leading crowdsourced movie industry information community. This means that this plugin will make calls to the <a target="_blank" href="https://www.themoviedb.org/documentation/api"> TMDb api</a> (in other words their 'website service') to retrieve the requested data. The TMDb API service is provided free of charge.
 - The My-Movie-Database plugin uses the TMDb API but is in no way endorsed or certified by TMDb.
 
 == Installation ==
@@ -29,7 +29,7 @@ The data comes from the <a target="_blank" href="https://www.themoviedb.org">Mov
 
 1. Log into your WordPress site and navigate to the admin area.
 2. Go to: **Plugins &gt; Add New**.
-3. Enter **"My Movie Database"** in the search field located at the top right corner of the page. 
+3. Enter **"My Movie Database"** in the search field located at the top right corner of the page.
 4. Once you find the plugin click on **"Install Now"**.
 5. Select **"Install Now"**
 6. After the installation success message, select **"Activate"** and you’re ready to go.
@@ -43,7 +43,7 @@ Now you can install it using the wordpress admin interface or by manually upload
 
 1. Log into your WordPress site and navigate to the admin area.
 2. Go to: **Plugins &gt; Add New**.
-3. Select **"Upload Plugin"** from the top of the page. 
+3. Select **"Upload Plugin"** from the top of the page.
 4. Click on **"browse"** and locate the plugin you downloaded on your hard drive.
 5. Select **"Install Now"**
 6. After the installation success message, select **"Activate"** and you’re ready to go.
@@ -106,7 +106,7 @@ For the Movie posts only (in the advanced configuration option tab) :
 1. You have the option of using the default wordpress posts instead of a new custom post type.</li>
 2. You also have the option of renaming the default WP posts into movies or leaving them as is ('Posts').</li>
 
-See the <a target="_blank" href="https://e-leven.net/my-movie-database/plugin-configuration-mmdb-options-page/"> configuration documentation page</a> for more detailed info.
+See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/"> configuration documentation page</a> for more detailed info.
 
 >All the of the above apply for TvShows and Persons as well.
 
@@ -124,7 +124,7 @@ You can find the id by searching for the movie, tvshow or person:
 
 - In the respective custom post type edit screen in your wordpress backend See 'Adding a New Movie (or editing a Movie post)' above (visible on screenshot 5)
 
-- At the TMDb website: 
+- At the TMDb website:
 
 Once you find the desired id you use it like this:
 
@@ -155,7 +155,7 @@ So if for example you want to use the accordion template file your shortcode wil
 
 The default template value is "tabs" so if you don't specify the template, the tabs template will be used.
 
-If you want to make/use your own template, and/or edit the existing templates reter to <a target="_blank" href="https://e-leven.net/my-movie-database/plugin-configuration-mmdb-options-page/"> the configuration documentation</a> under 'Choosing the template to use'.
+If you want to make/use your own template, and/or edit the existing templates reter to <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/"> the configuration documentation</a> under 'Choosing the template to use'.
 
 **4-) size (optional - override)**
 
@@ -165,7 +165,7 @@ So if you have a full-width area with a no sidebar layout you would choose ‘la
 
 [my-mοvie-db id=your_id type=yοur_type size=large]
 
-See the <a target="_blank" href="https://e-leven.net/my-movie-database/width-setting/"> width setting demo example on the plugin site page</a>.
+See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/width-setting/"> width setting demo example on the plugin site page</a>.
 
 **5-) header and body (optional - override)**
 
@@ -182,25 +182,31 @@ Using a valid css color for these settings, your shortcode will look like this:
 
 **Shortcode examples**
 
-See the <a target="_blank" href="https://e-leven.net/my-movie-database/shortcode-default-parameters"> demo shortcode examples on the plugin site page</a> for more info.
+See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/shortcode-default-parameters"> demo shortcode examples on the plugin site page</a> for more info.
 
 **Configuration and customization of display**
 
 From the plugin options page you can select which sections to display/hide, default templates, predefined widths, body and header colors, etc.
 
-See the <a target="_blank" href="https://e-leven.net/my-movie-database/plugin-configuration-mmdb-options-page/"> configuration documentation page</a>  for more detailed info.
+See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/"> configuration documentation page</a>  for more detailed info.
 
 == Screenshots ==
 
 1. The accordion template, main section.
-2. The accordion template, cast section. 
-3. The tabs template, main tab. 
+2. The accordion template, cast section.
+3. The tabs template, main tab.
 4. Your search results. Note the TMDb Id is visible (Needed if you use a shortcode).
 5. Confirm your selection popup
 6. The main settings for TvShow (Same for Movies and Persons except for the hide section labels)
 7. The advanced settings section
 
 == Changelog ==
+
+= 1.3.1 =
+* Added: Custom post types archive enabled
+*        https://wordpress.org/support/topic/post-type-archive-slug/
+* Fixed bug: various issues relating to unavailable content
+* Fixed bug: bug when tmdb servers are unavailable / down
 
 = 1.2.1 =
 * Added: Ability to associate wordpress categories to movies, tvshows and persons

@@ -96,9 +96,10 @@ class Episode{
     }
 
     /**
-     * 	Get the Season's AirDate
+     *    Get the Season's AirDate
      *
-     * 	@return string
+     * @param null $format
+     * @return string
      */
     public function getAirDate($format = null) {
         return mmdbFormatDate($format, $this->_data['air_date']);

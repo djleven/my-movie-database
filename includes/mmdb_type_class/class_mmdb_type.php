@@ -68,6 +68,7 @@ abstract class MMDB_Type {
      */
     protected function getCallback() {
 
+        $callback = null;
         if ($this->type_slug == 'movie') {
 
             $callback = 'getMovie';
@@ -103,9 +104,9 @@ abstract class MMDB_Type {
 
         $tmdb_content = null;
         $MetaID = $this->tmdb_id;
+        $callback = $this->getCallback();
 
-        if($MetaID) {
-            $callback = $this->getCallback();
+        if($MetaID && $callback) {
             $tmdb_content = $mmdb->$callback($MetaID);
         }
         return $tmdb_content;
@@ -160,17 +161,6 @@ abstract class MMDB_Type {
         return $partial;
     }
 
-    /**
-     * Assign the available view sections to be checked against the show/hide admin settings
-     *
-     * @since    1.0.0
-     * @return    array
-     */
-    protected function mmdb_view_sections() {
-        $views = array ('overview_text', 'section_2', 'section_3', 'section_4');
-
-        return $views;
-    }
 
     /**
      * Check a view section against the show/hide admin settings
@@ -195,13 +185,14 @@ abstract class MMDB_Type {
     }
 
     /**
-     * Retrieve view sections that are to be visible
+     * Retrieve view sections that are to be visible based on show/hide admin settings
      *
      * @since    1.0.0
      * @return   array
      */
-    protected function mmdb_show_settings($views) {
-
+    protected function mmdb_show_settings() {
+        $views = $this->tmdb_type->sections;
+        $result = [];
         foreach($views as $view) {
 
             $view_value = $this->mmdb_show_section($view);
@@ -217,15 +208,18 @@ abstract class MMDB_Type {
      * Check visible view sections for data availability
      *
      * @since    1.0.3
+     * @param    $views  array
+     * @param    $mmdb   Object
      * @return   array
      */
     protected function mmdb_show_if_data($views, $mmdb) {
 
+        $result = [];
         foreach($views as $view => $view_value) {
             if($view_value) {
                 $view_value = $this->tmdb_type->show_section_if($view,$mmdb);
-                $result[$view] = $view_value;
             }
+            $result[$view] = $view_value;
         }
 
         return $result;
@@ -314,11 +308,13 @@ abstract class MMDB_Type {
      * Dynamilcally generate CSS from CSS related admin settings
      *
      * @since    1.0.0
+     * @param    $mmdbID   string
+     * @param    $template string
      * @return   string
      */
     protected function my_dynamic_styles($mmdbID, $template) {
 
-        $styles = array();
+        $styles = [];
         $header_color = $this->get_header_color_setting();
         $uniqueID = '#mmdb-content_' . $mmdbID;
         $type = $this->type_slug;
@@ -371,13 +367,14 @@ abstract class MMDB_Type {
             if ($mmdb) {
                 ob_start();
                 $mmdbID = $mmdb->getID() . '_' . $type_slug;
+                $mmdbImagePath = $tmdb->getSecureImageURL('w185');
+                $mmdbPosterPath = $tmdb->getSecureImageURL('w300');
+                $mmdbProfilePath = $tmdb->getSecureImageURL('w132_and_h132_bestv2');
                 if ($rules) {
-                    $show_settings = $mmdb_type->mmdb_show_settings($mmdb_type->mmdb_view_sections());
-                    $show_settings = $mmdb_type->mmdb_show_if_data($show_settings, $mmdb);
+                    $show_settings = $mmdb_type->mmdb_show_if_data($mmdb_type->mmdb_show_settings(), $mmdb);
                     $mmdb_type->my_dynamic_styles($mmdbID, $template);
                 }
                 include ($file);
-                //var_dump($show_settings);
                 $output = ob_get_clean();
 
                 return array($this->plugin_slug() .'_type' => $mmdb_type, 'output' => $output);

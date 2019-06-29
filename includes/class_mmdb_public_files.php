@@ -16,6 +16,10 @@ class MMDB_Public_Files {
 
     private $path;
 
+    const SMALL_PLACEHOLDER = 'cinema';
+    const MEDIUM_PLACEHOLDER = 'cinema185';
+    const LARGE_PLACEHOLDER = 'cinema300';
+
     /**
      * Initialize the class and set its properties.
      *
@@ -33,9 +37,10 @@ class MMDB_Public_Files {
      * @since      1.0.8
      * @param      string $file_name The file name.
      * @param      string $type The file type / extension.
+     * @param      null $ext
      * @return     string
      */
-    public function mmdb_set_scripts_order($file_name, $type, $ext = null) {
+    public function mmdbSetScriptsOrder($file_name, $type, $ext = null) {
 
         if(!($ext)) {$ext = $type;}
         $path =  $this->path . $type . '/' . $file_name . '.' . $ext;
@@ -64,57 +69,108 @@ class MMDB_Public_Files {
      * Cast and Crew like profile image url, return placeholder img if empty.
      *
      * @since      1.0.0
-     * @param      object $result The ressource object.
-     * @param      object $tmdb The tmdb object.
+     * @param      object $result The resource object.
+     * @param      string $path
+     * @param      string $placeholderSize
+     * @param      string $type
+     * @param      string $ext
      * @return     string
      */
-    public function mmdb_get_profile_image($result, $tmdb) {
+    public function mmdbGetCreditProfileImage(
+        $result,
+        $path,
+        $placeholderSize = 'small',
+        $type = 'img',
+        $ext = 'png'
+    ) {
+        $image = $result['profile_path'];
+        return $image ?
+            $path . $image
+            : $this->mmdbSetScriptsOrder($this->mmdbGetPlaceholder($placeholderSize), $type, $ext);
 
-        $image=$result['profile_path'] == null ? $this->mmdb_set_scripts_order('cinema', 'img', 'png') : $tmdb->getSecureImageURL('w132_and_h132_bestv2') . $result['profile_path'];
-
-        return $image;
     }
 
     /**
      * Poster image url, return placeholder img if empty.
      *
      * @since      1.0.0
-     * @param      object    $mmdb  The ressource object.
+     * @param      object $mmdb The resource object.
+     * @param      string $path
+     * @param      null | string $placeholderSize
+     * @param      string $type
+     * @param      string $ext
      * @return     string
      */
-    public function mmdb_get_poster($mmdb) {
+    public function mmdbGetPoster(
+        $mmdb,
+        $path,
+        $placeholderSize = 'medium',
+        $type = 'img',
+        $ext = 'png'
+    ) {
+        $image = $mmdb->getPoster();
 
-        $image=$mmdb->getPoster() == null ? $this->mmdb_set_scripts_order('cinema185', 'img', 'png') : "https://image.tmdb.org/t/p/w185/" . $mmdb->getPoster();
-
-        return $image;
+        return $image ?
+            $path . $image
+            : $this->mmdbSetScriptsOrder($this->mmdbGetPlaceholder($placeholderSize), $type, $ext);
     }
 
     /**
      * Backdrop poster image url, return placeholder img if empty.
      *
      * @since      1.0.0
-     * @param      object    $mmdb  The ressource object.
+     * @param      object    $mmdb  The resource object.
+     * @param      string    $path
      * @return     string
      */
-    function mmdb_get_backdrop_poster($mmdb) {
+    function mmdbGetBackdropPoster($mmdb, $path) {
 
-        $image=$mmdb->getPoster() == null ? $this->mmdb_set_scripts_order('cinema100', 'img', 'png')  : "https://image.tmdb.org/t/p/w185/" . $mmdb->getPoster();
-
-        return $image;
+        return $this->mmdbGetPoster($mmdb, $path,'medium');
     }
 
     /**
      * Profile poster image url used in admin/persons, return placeholder img if empty.
      *
      * @since      1.0.0
-     * @param      object    $mmdb  The ressource object.
+     * @param      object    $mmdb  The resource object.
+     * @param      string    $path
+     * @param      null | string $placeholderSize
+     * @param      string $type
+     * @param      string $ext
      * @return     string
      */
-    function mmdb_get_profile($mmdb) {
+    function mmdbGetProfile(
+        $mmdb,
+        $path,
+        $placeholderSize = 'medium',
+        $type = 'img',
+        $ext = 'png'
+    ) {
+        $image = $mmdb->getProfile();
 
-        $image=$mmdb->getProfile() == null ? $this->mmdb_set_scripts_order('cinema185', 'img', 'png') : "https://image.tmdb.org/t/p/w185/" . $mmdb->getProfile();
+        return $image ?
+            $path . $image
+            : $this->mmdbSetScriptsOrder($this->mmdbGetPlaceholder($placeholderSize), $type, $ext);
+    }
 
-        return $image;
+    /**
+     * Profile poster image url used in admin/persons, return placeholder img if empty.
+     *
+     * @since      1.0.0
+     * @param      string $placeholderSize
+     * @return     string
+     */
+    function mmdbGetPlaceholder($placeholderSize) {
+
+        if ($placeholderSize === 'small') {
+            return self::SMALL_PLACEHOLDER;
+        } else if($placeholderSize === 'medium') {
+            return self::MEDIUM_PLACEHOLDER;
+        } else if($placeholderSize === 'large') {
+            return self::LARGE_PLACEHOLDER;
+        } else {
+            return self::SMALL_PLACEHOLDER;
+        }
     }
 
 }

@@ -68,11 +68,10 @@ class Movie{
     /**
      * 	Get the Movie Directors IDs
      *
-     * 	@return Array(int)
+     * 	@return array
      */
     public function getDirectorIds() {
-
-        $director_ids = array();
+        $director_ids = [];
 
         $crew = $this->_data['credits']['crew'];
 
@@ -123,7 +122,7 @@ class Movie{
     /**
      * 	Get the Movie's youtube trailer
      *
-     * 	@return string
+     * 	@return string | null
      */
 
     public function getTrailer() {
@@ -133,6 +132,8 @@ class Movie{
         if($trailer['youtube']){
             return $trailer['youtube'][0]['source'];
         }
+
+        return null;
     }
 
     /**
@@ -141,7 +142,7 @@ class Movie{
      * 	@return Genre[]
      */
     public function getGenres() {
-        $genres = array();
+        $genres = [];
 
         foreach ($this->_data['genres'] as $data) {
             $genres[] = new Genre($data);
@@ -156,7 +157,7 @@ class Movie{
      * 	@return Review[]
      */
     public function getReviews() {
-        $reviews = array();
+        $reviews = [];
 
         foreach ($this->_data['review']['result'] as $data) {
             $reviews[] = new Review($data);
@@ -171,7 +172,7 @@ class Movie{
      * 	@return Company[]
      */
     public function getCompanies() {
-        $companies = array();
+        $companies = [];
 
         foreach ($this->_data['production_companies'] as $data) {
             $companies[] = new Company($data);
@@ -217,9 +218,10 @@ class Movie{
     }
 
     /**
-     * 	Get the Movie's release date
+     * Get the Movie's release date
      *
-     * 	@return string
+     * @param null $format
+     * @return string
      */
     public function getRelDate($format = null) {
         return mmdbFormatDate($format, $this->_data['release_date']);
@@ -228,20 +230,22 @@ class Movie{
     /**
      * 	Get the Movie's cast
      *
-     * 	@return Cast[]
+     * 	@return array
      */
     public function getCast() {
+        $cast = [];
 
         foreach ($this->_data['credits']['cast']as $data) {
 
             $cast[] = $data;
 
         }
-
-        usort($cast,function($a,$b){
-            $c = $a['order'] - $b['order'];
-            return $c;
-        });
+        if($cast) {
+            usort($cast,function($a,$b){
+                $c = $a['order'] - $b['order'];
+                return $c;
+            });
+        }
 
         return $cast;
     }
@@ -249,14 +253,14 @@ class Movie{
     /**
      * 	Get the Movie's crew
      *
-     * 	@return Crew[]
+     * 	@return array
      */
     public function getCrew() {
+        $cast = [];
 
         foreach ($this->_data['credits']['crew']as $data) {
 
             $cast[] = $data;
-
         }
 
         return $cast;
@@ -265,14 +269,14 @@ class Movie{
     /**
      * 	Get the Movie's spoken languages
      *
-     * 	@return Langs[]
+     * 	@return array
      */
     public function getLanguages() {
+        $langs = [];
 
         foreach ($this->_data['spoken_languages'] as $data) {
 
             $langs[] = $data;
-
         }
 
         return $langs;
@@ -281,15 +285,15 @@ class Movie{
     /**
      * 	Get the Movie's translations
      *
-     * 	@return Translations[]
+     * 	@return array
      */
 
     public function getTranslations() {
+        $trans = [];
 
         foreach ($this->_data['translations']['translations'] as $data) {
 
             $trans[] = $data;
-
         }
 
         return $trans;

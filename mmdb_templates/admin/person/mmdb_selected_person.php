@@ -18,7 +18,7 @@
     <div id="selected" style="text-align: center;">
 
         <div id="<?php echo esc_attr($mmdb->getID()) ?>" class="movie-container" style="margin-bottom:40px">
-            <img src=<?php echo esc_url($this->public_files->mmdb_get_profile($mmdb)); ?> />
+            <img src=<?php echo esc_url($this->public_files->mmdbGetProfile($mmdb, $tmdb->getSecureImageURL('w185'))); ?> />
             <div class="info">
                 <h2><?php echo esc_html($mmdb->getName()) ?> </h2>
                 <p></p>
@@ -33,7 +33,7 @@
                 <?php } ?>
             </div>
             <div class="description">
-                <?php echo esc_textarea($mmdb->getΒiography()) ?></div>
+                <?php echo esc_textarea($mmdb->getBiography()) ?></div>
         </div>
 
     </div>

@@ -17,7 +17,6 @@ class Season{
     //------------------------------------------------------------------------------
 
     private $_data;
-    private $_idTVShow;
 
     /**
      * 	Construct Class
@@ -82,7 +81,7 @@ class Season{
      *  Get a Seasons's Episode
      *
      *  @param int $numEpisode The episode number
-     * 	@return int
+     * 	@return Episode
      */
     public function getEpisode($numEpisode) {
         return new Episode($this->_data['episodes'][$numEpisode]);
@@ -94,7 +93,7 @@ class Season{
      * 	@return Episode[]
      */
     public function getEpisodes() {
-        $episodes = array();
+        $episodes = [];
 
         foreach($this->_data['episodes'] as $data){
             $episodes[] = new Episode($data, $this->getTVShowID());
@@ -113,9 +112,10 @@ class Season{
     }
 
     /**
-     * 	Get the Season's AirDate
+     *    Get the Season's AirDate
      *
-     * 	@return string
+     * @param null $format
+     * @return string
      */
     public function getAirDate($format = null) {
         return mmdbFormatDate($format, $this->_data['air_date']);

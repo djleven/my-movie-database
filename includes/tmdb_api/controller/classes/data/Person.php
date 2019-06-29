@@ -37,7 +37,7 @@ class Person{
     // Get Variables
     //------------------------------------------------------------------------------
 
-    /** 
+    /**
      *  Get the Person's name
      *
      *  @return string
@@ -46,7 +46,7 @@ class Person{
         return $this->_data['name'];
     }
 
-    /** 
+    /**
      *  Get the Person's id
      *
      *  @return int
@@ -55,7 +55,7 @@ class Person{
         return $this->_data['id'];
     }
 
-    /** 
+    /**
      *  Get the Person's profile image
      *
      *  @return string
@@ -65,17 +65,17 @@ class Person{
     }
 
 
-    /** 
+    /**
      *  Get the Person's profile biography
      *
      *  @return string
      */
-    public function getΒiography() {
+    public function getBiography() {
         return $this->_data['biography'];
     }
 
 
-    /** 
+    /**
      *  Get the Person's birthday
      *
      *  @return string
@@ -84,7 +84,7 @@ class Person{
         return $this->_data['birthday'];
     }
 
-    /** 
+    /**
      *  Get the Person's deathday
      *
      *  @return string
@@ -93,7 +93,7 @@ class Person{
         return $this->_data['deathday'];
     }
 
-    /** 
+    /**
      *  Get the Person's place of birth
      *
      *  @return string
@@ -102,7 +102,7 @@ class Person{
         return $this->_data['place_of_birth'];
     }
 
-    /** 
+    /**
      *  Get the Person's imdb id
      *
      *  @return string
@@ -111,7 +111,7 @@ class Person{
         return $this->_data['imdb_id'];
     }
 
-    /** 
+    /**
      *  Get the Person's popularity
      *
      *  @return int
@@ -126,7 +126,7 @@ class Person{
      *  @return MovieRole[]
      */
     public function getMovieRoles() {
-        $movieRoles = array();
+        $movieRoles = [];
 
         foreach($this->_data['movie_credits']['cast'] as $data){
             $movieRoles[] = new MovieRole($data, $this->getID());
@@ -141,7 +141,7 @@ class Person{
      *  @return TVShowRole[]
      */
     public function getTVShowRoles() {
-        $tvShowRoles = array();
+        $tvShowRoles = [];
 
         foreach($this->_data['tv_credits']['cast'] as $data){
             $tvShowRoles[] = new TVShowRole($data, $this->getID());
@@ -156,7 +156,7 @@ class Person{
      *  @return MovieRole[]
      */
     public function getMovieJobs() {
-        $movieRoles = array();
+        $movieRoles = [];
 
         foreach($this->_data['movie_credits']['crew'] as $data){
             $movieRoles[] = new MovieJob($data, $this->getID());
@@ -171,7 +171,7 @@ class Person{
      *  @return TVShowRole[]
      */
     public function getTVShowJobs() {
-        $tvShowRoles = array();
+        $tvShowRoles = [];
 
         foreach($this->_data['tv_credits']['crew'] as $data){
             $tvShowRoles[] = new TVShowJob($data, $this->getID());
@@ -183,49 +183,41 @@ class Person{
     /**
      *  Count the Person's MovieRoles
      *
-     *  @return MovieRole[]
+     *  @return int
      */
     public function getMovieRoleCount() {
 
-        $movieRoles = count($this->_data['movie_credits']['cast']);
-
-        return $movieRoles;
+        return $this->getArrayCount($this->_data['movie_credits']['cast']);
     }
 
     /**
      *  Count the Person's TVShowRoles
      *
-     *  @return MovieRole[]
+     *  @return int
      */
     public function getTvRoleCount() {
 
-        $tvShowRoles = count($this->_data['tv_credits']['cast']);
-
-        return $tvShowRoles;
+        return $this->getArrayCount($this->_data['tv_credits']['cast']);
     }
 
     /**
      *  Count the Person's Movie Crew Credits
      *
-     *  @return MovieRole[]
+     *  @return int
      */
     public function getMovieCrewCount() {
 
-        $movieRoles = count($this->_data['movie_credits']['crew']);
-
-        return $movieRoles;
+        return $this->getArrayCount($this->_data['movie_credits']['crew']);
     }
 
     /**
      *  Count the Person's TVShow Crew Credits
      *
-     *  @return MovieRole[]
+     *  @return int
      */
     public function getTvCrewCount() {
 
-        $tvShowRoles = count($this->_data['tv_credits']['crew']);
-
-        return $tvShowRoles;
+        return $this->getArrayCount($this->_data['tv_credits']['crew']);
     }
 
 
@@ -278,6 +270,19 @@ class Person{
      */
     public function getMediaType(){
         return self::MEDIA_TYPE_PERSON;
+    }
+
+    /**
+     * Count number of items in array
+     *
+     * @param $array array
+     * @return int
+     */
+    public function getArrayCount($array){
+        if($array && is_array($array)) {
+            return count($array);
+        }
+        return null;
     }
 }
 ?>

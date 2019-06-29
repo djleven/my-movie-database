@@ -25,6 +25,12 @@ abstract class MMDB_Data_Type {
     public $sections_setting_id;
     public $body_color_setting_id;
     public $header_color_setting_id;
+    public $sections;
+
+    const SECTION_OVERVIEW = 'overview_text';
+    const SECTION_2 = 'section_2';
+    const SECTION_3 = 'section_3';
+    const SECTION_4 = 'section_4';
 
     /**
      * Initialize the class and set its properties.
@@ -49,6 +55,12 @@ abstract class MMDB_Data_Type {
         $this->sections_setting_id = $this->make_type_setting_slug('sections');
         $this->body_color_setting_id = $this->make_type_setting_slug('body_color');
         $this->header_color_setting_id = $this->make_type_setting_slug('header_color');
+        $this->sections = [
+            static::SECTION_OVERVIEW,
+            static::SECTION_2,
+            static::SECTION_3,
+            static::SECTION_4
+        ];
     }
 
     /**
@@ -116,13 +128,17 @@ abstract class MMDB_Data_Type {
      * @since     1.0.3
      * @param     string $section
      * @param     Movie | TVShow | Person $mmdb
-     * @return    array
+     * @return    bool
      */
     public function show_section_if($section,$mmdb) {
 
         $check_function = 'show_' . $section . '_if';
 
-        return $this->$check_function($mmdb);
+        if (method_exists($this, $check_function)) {
+            return $this->$check_function($mmdb);
+        }
+
+        return true;
     }
 
     /**

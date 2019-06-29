@@ -18,7 +18,7 @@
             <!-- the post type template - for each - of the admin search results -->
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div id="<?php echo esc_attr($mmdb_result->getID()) ?>" class="movie-container" style="margin-bottom:40px">
-                    <img src=<?php echo esc_url($this->public_files->mmdb_get_profile($mmdb_result))?> />
+                    <img src=<?php echo esc_url($this->public_files->mmdbGetProfile($mmdb_result, $tmdb->getSecureImageURL('w185')))?> />
                     <div class="info">
                         <h2><?php echo esc_html($mmdb_result->getName()) ?> </h2>
                         <p><strong><?php esc_html_e("TMDb ID: ", 'my-movie-db');?></strong><?php echo esc_html($mmdb_result->getID());?></p>

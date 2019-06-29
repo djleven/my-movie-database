@@ -107,6 +107,13 @@ class MMDB_Admin {
                 $custom_post_types[$i] = new PostType(
                     $plugin_admin_type->type_slug,
                     [
+                        'public'             => true,
+                        'publicly_queryable' => true,
+                        'show_ui'            => true,
+                        'show_in_menu'       => true,
+                        'query_var'          => true,
+                        'has_archive'        => true,
+                        'hierarchical'       => true,
                         "supports" => [
                             "title",
                             "editor",

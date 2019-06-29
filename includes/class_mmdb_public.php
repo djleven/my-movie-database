@@ -152,11 +152,11 @@ class MMDB_Public {
     public function get_mmdb_asset_files() {
 
         return
-            wp_enqueue_style( $this->plugin_name, $this->public_files->mmdb_set_scripts_order($this->plugin_name, 'css'), array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name, $this->public_files->mmdbSetScriptsOrder($this->plugin_name, 'css'), array(), $this->version, 'all' );
             /**
              * Unused so far js file for front-end - empty file for future use
              *
-            wp_enqueue_script( $this->plugin_name, $this->public_files->mmdb_set_scripts_order($this->plugin_name, 'js'), array( 'jquery' ) )
+            wp_enqueue_script( $this->plugin_name, $this->public_files->mmdbSetScriptsOrder($this->plugin_name, 'js'), array( 'jquery' ) )
              */
     }
 
@@ -168,8 +168,8 @@ class MMDB_Public {
     public function get_bootsrap_files() {
 
         return
-            wp_enqueue_style( 'bootstrap', $this->public_files->mmdb_set_scripts_order('bootstrap', 'css'), array() ) .
-            wp_enqueue_script( 'bootstrap', $this->public_files->mmdb_set_scripts_order('bootstrap.min', 'js'), array( 'jquery' ) );
+            wp_enqueue_style( 'bootstrap', $this->public_files->mmdbSetScriptsOrder('bootstrap', 'css'), array() ) .
+            wp_enqueue_script( 'bootstrap', $this->public_files->mmdbSetScriptsOrder('bootstrap.min', 'js'), array( 'jquery' ) );
     }
 
     /**

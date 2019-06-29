@@ -36,21 +36,25 @@ if (!function_exists('mmdb_get_name_list')) {
 if (!function_exists('mmdb_get_cast_list')) {
     function mmdb_get_cast_list($movie, $limit = NULL, $del = ', ') {
 
+        $result = null;
         $results = $movie->getCast();
-        $the_results = array();
-        $i = 1;
-        foreach($results as $result) {
-            if (isset($limit)) {
-                if ($i <= $limit) {
+        if ($results) {
+            $the_results = array();
+            $i = 1;
+            foreach($results as $result) {
+                if (isset($limit)) {
+                    if ($i <= $limit) {
+                        $the_results[] = $result['name'];
+                    }
+                    $i++;
+                }
+                else {
                     $the_results[] = $result['name'];
                 }
-                $i++;
             }
-            else {
-                $the_results[] = $result['name'];
-            }
+            $result = implode("$del", $the_results);
         }
-        $result = implode("$del", $the_results);
+
         return $result;
     }
 }
@@ -58,21 +62,22 @@ if (!function_exists('mmdb_get_cast_list')) {
 if (!function_exists('mmdb_get_csv_list')) {
     function mmdb_get_csv_list($array, $key, $limit = NULL, $delimeter = ', ') {
 
+        $result = null;
         $the_results = array();
-        $i = 1;
-        foreach($array as $result) {
-            if (isset($limit)) {
-                if ($i <= $limit) {
+        if ($array) {
+            $i = 1;
+            foreach ($array as $result) {
+                if (isset($limit)) {
+                    if ($i <= $limit) {
+                        $the_results[] = $result[$key];
+                    }
+                    $i++;
+                } else {
                     $the_results[] = $result[$key];
                 }
-                $i++;
             }
-            else {
-                $the_results[] = $result[$key];
-            }
+            $result = implode("$delimeter", $the_results);
         }
-        $result = implode("$delimeter", $the_results);
-
         return $result;
     }
 }
@@ -80,12 +85,14 @@ if (!function_exists('mmdb_get_csv_list')) {
 if (!function_exists('mmdb_get_object_csv_list')) {
     function mmdb_get_object_csv_list($object, $method, $limit = NULL, $delimeter = ', ') {
 
+        $result = null;
         $the_results = array();
-        foreach($object as $result) {
-            $the_results[] = $result->$method();
+        if ($object) {
+            foreach ($object as $result) {
+                $the_results[] = $result->$method();
+            }
+            $result = implode("$delimeter", $the_results);
         }
-        $result = implode("$delimeter", $the_results);
-
         return $result;
     }
 }

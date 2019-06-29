@@ -17,7 +17,7 @@
 
                     <li><?php echo esc_html__("Episodes", 'my-movie-db') . ':&nbsp;' . esc_html($result->get('episode_count')) ?></li>
                 </ul>
-                <img class="mmdb-poster" src="<?php echo esc_url($this->public_files->mmdb_get_poster($result)); ?>"/>
+                <img class="mmdb-poster" src="<?php echo esc_url($this->public_files->mmdbGetPoster($result, $mmdbImagePath)); ?>"/>
             </div>
         <?php endif; endforeach; ?>
 </div><!-- .mmdb-body -->

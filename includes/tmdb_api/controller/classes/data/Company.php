@@ -31,7 +31,7 @@ class Company {
     // Get Variables
     //------------------------------------------------------------------------------
 
-    /** 
+    /**
      *  Get the Company's name
      *
      *  @return string
@@ -40,7 +40,7 @@ class Company {
         return $this->_data['name'];
     }
 
-    /** 
+    /**
      *  Get the Company's id
      *
      *  @return int
@@ -49,7 +49,7 @@ class Company {
         return $this->_data['id'];
     }
 
-    /** 
+    /**
      *  Get the Company's description
      *
      *  @return string
@@ -58,8 +58,8 @@ class Company {
         return $this->_data['description'];
     }
 
-    /** 
-     *  Get the Company's headquearters
+    /**
+     *  Get the Company's headquarters
      *
      *  @return string
      */
@@ -67,7 +67,7 @@ class Company {
         return $this->_data['headquarters'];
     }
 
-    /** 
+    /**
      *  Get the Company's homepage
      *
      *  @return string
@@ -76,7 +76,7 @@ class Company {
         return $this->_data['homepage'];
     }
 
-    /** 
+    /**
      *  Get the Company's logo
      *
      *  @return string
@@ -85,7 +85,7 @@ class Company {
         return $this->_data['logo_path'];
     }
 
-    /** 
+    /**
      *  Get the Company's parent company id
      *
      *  @return int
@@ -100,7 +100,7 @@ class Company {
      *  @return Movie[]
      */
     public function getMovies() {
-        $movies = array();
+        $movies = [];
 
         foreach($this->_data['movies']['results'] as $data){
             $movies[] = new Movie($data);
@@ -124,7 +124,7 @@ class Company {
     // Export
     //------------------------------------------------------------------------------
 
-    /** 
+    /**
      *  Get the JSON representation of the Movie
      *
      *  @return string

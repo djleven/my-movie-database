@@ -10,7 +10,7 @@
 
     foreach ($results as $result):?>
         <div class="<?php echo esc_attr($this->get_multiple_column_css());?> credits">
-            <img class="img-circle" src="<?php echo esc_url($this->public_files->mmdb_get_profile_image($result, $tmdb)); ?>"/>
+            <img class="img-circle" src="<?php echo esc_url($this->public_files->mmdbGetCreditProfileImage($result, $mmdbProfilePath)); ?>"/>
             <ul class="people">
                 <li><?php echo esc_html($result['name']); ?></li>
                 <li><?php echo esc_html__("Role", 'my-movie-db') . ':&nbsp;' . esc_html($result['character']); ?></li>

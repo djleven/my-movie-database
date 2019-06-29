@@ -9,7 +9,7 @@
     $mvresults = $mmdb->getMovieJobs();
     $tvresults = $mmdb->getTVShowJobs();
 
-    if($mvresults) { ?>
+    if($mvresults) : ?>
         <div>
             <h4><?php esc_html_e("Movie Credits", 'my-movie-db');?></h4>
         </div>
@@ -18,7 +18,7 @@
             <?php foreach ($mvresults as $result): ?>
 
                 <div class="<?php echo esc_attr($this->get_two_column_css());?> movie credits">
-                    <img src="<?php echo esc_url($this->public_files->mmdb_get_poster($result)); ?>"/>
+                    <img src="<?php echo esc_url($this->public_files->mmdbGetPoster($result, $mmdbImagePath)); ?>"/>
                     <ul class="people">
                         <li><?php echo esc_html($result->getMovieTitle()); ?></li>
                         <li><?php echo esc_html($result->getMovieJob()); ?></li>
@@ -28,9 +28,9 @@
 
             <?php endforeach; ?>
         </div>
-    <?php } ?>
+    <?php endif ?>
 
-    <?php if($tvresults) { ?>
+    <?php if($tvresults) : ?>
         <div>
             <h4><?php esc_html_e("TvShow Credits", 'my-movie-db');?></h4>
         </div>
@@ -38,7 +38,7 @@
             <?php foreach ($tvresults as $result): ?>
 
                 <div class="<?php echo esc_attr($this->get_two_column_css());?> tv credits">
-                    <img src="<?php echo esc_url($this->public_files->mmdb_get_backdrop_poster($result)); ?>"/>
+                    <img src="<?php echo esc_url($this->public_files->mmdbGetBackdropPoster($result, $mmdbImagePath)); ?>"/>
                     <ul class="people">
                         <li><?php echo esc_html($result->getTVShowName()); ?></li>
                         <li><?php echo esc_html($result->getTVShowJob()); ?></li>
@@ -47,5 +47,5 @@
 
             <?php endforeach; ?>
         </div>
-    <?php } ?>
+    <?php endif ?>
 </div><!-- .mmdb-body -->

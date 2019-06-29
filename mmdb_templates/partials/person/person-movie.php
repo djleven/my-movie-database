@@ -11,7 +11,7 @@
     foreach ($results as $result):?>
         <div class="movie-role-wrapper">
             <div class="col-sm-4 poster-img">
-                <img src="<?php echo esc_url($this->public_files->mmdb_get_poster($result)); ?>"/>
+                <img src="<?php echo esc_url($this->public_files->mmdbGetPoster($result, $mmdbImagePath)); ?>"/>
             </div>
             <div class="col-sm-8 outer-180">
                 <ul class="movie-role">

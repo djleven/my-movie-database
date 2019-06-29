@@ -12,13 +12,15 @@
 <!-- the post type template wrapper -->
 <div class="panel panel-default">
     <div class="panel-body" style="text-align: center;">
-        <?php foreach($mmdb_results as $mmdb_result) {
+        <?php
+        $imagePath = $tmdb->getSecureImageURL('w185');
+        foreach($mmdb_results as $mmdb_result) {
             ?>
 
             <!-- the post type template - for each - of the admin search results -->
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div id="<?php echo esc_attr($mmdb_result->getID()) ?>" class="movie-container" style="margin-bottom:40px">
-                    <img src=<?php echo esc_url($this->public_files->mmdb_get_poster($mmdb_result))?> />
+                    <img src=<?php echo esc_url($this->public_files->mmdbGetPoster($mmdb_result, $tmdb->getSecureImageURL('w185')))?> />
                     <div class="info">
                         <h2><?php echo esc_html($mmdb_result->getName()) ?> </h2>
                         <p><strong><?php esc_html_e("First Aired: ", 'my-movie-db');  echo esc_html(substr($mmdb_result->get('first_air_date') , 0, 4)) ?></strong>

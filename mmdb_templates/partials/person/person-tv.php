@@ -8,21 +8,23 @@
     <div>
         <?php $guest = false;
         $results = $mmdb->getTVShowRoles();
-        foreach ($results as $result):
-            if($result->getTVShowEpisodeCount() < 3) { $guest = true;}
-            if($result->getTVShowEpisodeCount() > 2) { ?>
+        if($results) :
+            foreach ($results as $result):
+                if($result->getTVShowEpisodeCount() < 3) { $guest = true;}
+                if($result->getTVShowEpisodeCount() > 2) : ?>
 
-                <div class="<?php echo esc_attr($this->get_two_column_css());?> credits">
-                    <img src="<?php echo esc_url($this->public_files->mmdb_get_backdrop_poster($result)); ?>"/>
-                    <ul class="people">
-                        <li><?php echo esc_html($result->getTVShowName()); ?></li>
-                        <li><?php echo esc_html($result->getCharacter()); ?></li>
-                    </ul>
-                </div>
+                    <div class="<?php echo esc_attr($this->get_two_column_css());?> credits">
+                        <img src="<?php echo esc_url($this->public_files->mmdbGetBackdropPoster($result, $mmdbImagePath)); ?>"/>
+                        <ul class="people">
+                            <li><?php echo esc_html($result->getTVShowName()); ?></li>
+                            <li><?php echo esc_html($result->getCharacter()); ?></li>
+                        </ul>
+                    </div>
 
-            <?php } ?>
+                <?php endif;
 
-        <?php endforeach; ?>
+            endforeach;
+         endif; ?>
     </div>
     <?php if($guest) { ?>
         <div>
@@ -30,19 +32,20 @@
         </div>
     <?php }?>
     <div>
-        <?php foreach ($results as $result):
-            if($result->getTVShowEpisodeCount() < 3) { ?>
+        <?php if($results) :
+            foreach ($results as $result):
+                if($result->getTVShowEpisodeCount() < 3) : ?>
 
-                <div class="<?php echo esc_attr($this->get_two_column_css());?> credits">
-                    <img src="<?php echo esc_url($this->public_files->mmdb_get_backdrop_poster($result)); ?>"/>
-                    <ul class="people">
-                        <li><?php echo esc_html($result->getTVShowName()); ?></li>
-                        <li><?php echo esc_html($result->getCharacter()); ?></li>
-                    </ul>
-                </div>
+                    <div class="<?php echo esc_attr($this->get_two_column_css());?> credits">
+                        <img src="<?php echo esc_url($this->public_files->mmdbGetBackdropPoster($result, $mmdbImagePath)); ?>"/>
+                        <ul class="people">
+                            <li><?php echo esc_html($result->getTVShowName()); ?></li>
+                            <li><?php echo esc_html($result->getCharacter()); ?></li>
+                        </ul>
+                    </div>
 
-            <?php } ?>
-
-        <?php endforeach; ?>
+                <?php endif;
+            endforeach;
+        endif;?>
     </div>
 </div><!-- .mmdb-body -->

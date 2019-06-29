@@ -258,7 +258,7 @@ class TMDB {
      *
      * 	@param string $action	API specific function name for in the URL
      * 	@param string $appendToResponse	The extra append of the request
-     * 	@return array
+     * 	@return array | null
      */
     private function _call($action, $appendToResponse = '') {
 
@@ -270,26 +270,50 @@ class TMDB {
 
         //use Wordpress' HTTP API instead of own curl function - multiple benefits - pointed out by Ipstenu
         $results = wp_remote_get($url);
-        //$http_code = wp_remote_retrieve_response_code( $results );
+        $response_code = wp_remote_retrieve_response_code( $results );
 
-        return (array) json_decode(($results['body']), true);
+        if ( $response_code !== 200 ) {
+            return null;
+        } else {
+            return (array)json_decode(($results['body']), true);
+        }
     }
 
     //------------------------------------------------------------------------------
     // Get Data Objects
     //------------------------------------------------------------------------------
+    /**
+     * Get a TMDB object
+     *
+     * @param $class
+     * @param $object
+     * @param null $idTVShow
+     * @return Movie | TvShow | Season | Episode | Person | null
+     */
+    public function getTmdbObject($class, $object, $idTVShow = null) {
+        $tmdb = null;
+
+        if($object) {
+            if($idTVShow) {
+                $tmdb = new $class($object, $idTVShow);
+            } else {
+                $tmdb = new $class($object);
+            }
+        }
+        return $tmdb;
+    }
 
     /**
      * 	Get a Movie
      *
      * 	@param int $idMovie The Movie id
      * 	@param array $appendToResponse The extra append of the request
-     * 	@return Movie
+     * 	@return Movie | null
      */
     public function getMovie($idMovie, $appendToResponse = null) {
         $appendToResponse = (isset($appendToResponse)) ? $appendToResponse : $this->getConfig()->getAppender('movie');
 
-        return new Movie($this->_call('movie/' . $idMovie, $appendToResponse));
+        return $this->getTmdbObject('Movie', $this->_call('movie/' . $idMovie, $appendToResponse));
     }
 
     /**
@@ -297,12 +321,12 @@ class TMDB {
      *
      * 	@param int $idTVShow The TVShow id
      * 	@param array $appendToResponse The extra append of the request
-     * 	@return TVShow
+     * 	@return TVShow | null
      */
     public function getTVShow($idTVShow, $appendToResponse = null) {
         $appendToResponse = (isset($appendToResponse)) ? $appendToResponse : $this->getConfig()->getAppender('tvshow');
 
-        return new TVShow($this->_call('tv/' . $idTVShow, $appendToResponse));
+        return $this->getTmdbObject('TVShow', $this->_call('tv/' . $idTVShow, $appendToResponse));
     }
 
     /**
@@ -311,12 +335,12 @@ class TMDB {
      *  @param int $idTVShow The TVShow id
      *  @param int $numSeason The Season number
      * 	@param array $appendToResponse The extra append of the request
-     * 	@return Season
+     * 	@return Season | null
      */
     public function getSeason($idTVShow, $numSeason, $appendToResponse = null) {
         $appendToResponse = (isset($appendToResponse)) ? $appendToResponse : $this->getConfig()->getAppender('season');
 
-        return new Season($this->_call('tv/'. $idTVShow .'/season/' . $numSeason, $appendToResponse), $idTVShow);
+        return $this->getTmdbObject('TVShow', $this->_call('tv/'. $idTVShow .'/season/' . $numSeason, $appendToResponse), $idTVShow);
     }
 
     /**
@@ -326,12 +350,12 @@ class TMDB {
      *  @param int $numSeason The Season number
      *  @param int $numEpisode the Episode number
      * 	@param array $appendToResponse The extra append of the request
-     * 	@return Episode
+     * 	@return Episode | null
      */
     public function getEpisode($idTVShow, $numSeason, $numEpisode, $appendToResponse = null) {
         $appendToResponse = (isset($appendToResponse)) ? $appendToResponse : $this->getConfig()->getAppender('episode');
 
-        return new Episode($this->_call('tv/'. $idTVShow .'/season/'. $numSeason .'/episode/'. $numEpisode, $appendToResponse), $idTVShow);
+        return $this->getTmdbObject('Episode', $this->_call('tv/'. $idTVShow .'/season/'. $numSeason .'/episode/'. $numEpisode, $appendToResponse), $idTVShow);
     }
 
     /**
@@ -339,12 +363,12 @@ class TMDB {
      *
      * 	@param int $idPerson The Person id
      * 	@param array $appendToResponse The extra append of the request
-     * 	@return Person
+     * 	@return Person | null
      */
     public function getPerson($idPerson, $appendToResponse = null) {
         $appendToResponse = (isset($appendToResponse)) ? $appendToResponse : $this->getConfig()->getAppender('person');
 
-        return new Person($this->_call('person/' . $idPerson, $appendToResponse));
+        return $this->getTmdbObject('Person', $this->_call('person/' . $idPerson, $appendToResponse));
     }
 
     //------------------------------------------------------------------------------
@@ -409,4 +433,3 @@ class TMDB {
     }
 
 }
-?>

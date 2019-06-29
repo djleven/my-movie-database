@@ -18,7 +18,7 @@
     <div id="selected" style="text-align: center;">
 
         <div id="<?php echo esc_attr($mmdb->getID()) ?>" class="movie-container" style="margin-bottom:40px">
-            <img src=<?php echo esc_url($this->public_files->mmdb_get_poster($mmdb)); ?> />
+            <img src=<?php echo esc_url($this->public_files->mmdbGetPoster($mmdb, $tmdb->getSecureImageURL('w185'))); ?> />
             <div class="info">
                 <h2><?php esc_html($mmdb->getName()) ?> </h2>
                 <p><strong><?php esc_html_e("First Aired: ", 'my-movie-db');  echo esc_html($mmdb->getFirstAirDate("Y")) ?></strong>

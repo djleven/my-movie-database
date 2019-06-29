@@ -21,10 +21,10 @@ class MMDB_Data_Type_person extends MMDB_Data_Type{
     public function set_hide_sections_setting() {
 
         return [
-            'overview_text'  => __( 'Overview Text', 'my-movie-db' ),
-            'section_2'   	=> __( 'Movie Roles', 'my-movie-db' ),
-            'section_3'   	=> __( 'Tv Roles / Appearances', 'my-movie-db' ),
-            'section_4' 	=> __( 'Crew Credits', 'my-movie-db' ),
+            static::SECTION_OVERVIEW  => __( 'Overview Text', 'my-movie-db' ),
+            static::SECTION_2   	  => __( 'Movie Roles', 'my-movie-db' ),
+            static::SECTION_3   	  => __( 'Tv Roles / Appearances', 'my-movie-db' ),
+            static::SECTION_4   	  => __( 'Crew Credits', 'my-movie-db' ),
         ];
     }
 

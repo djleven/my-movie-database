@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <?php if(isset($show_settings['section_2'])) { ?>
+        <?php if($show_settings['section_2']) { ?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <?php } ?>
-        <?php if(isset($show_settings['section_3'])) { ?>
+        <?php if($show_settings['section_3']) { ?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <?php } ?>
-        <?php if(isset($show_settings['section_4'])) { ?>
+        <?php if($show_settings['section_4']) { ?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">

@@ -86,16 +86,15 @@ class TVShow{
      *  Get a TVShow's season
      *
      *  @param int $numSeason The season number
-     * 	@return int
+     * 	@return Season | null
      */
     public function getSeason($numSeason) {
         foreach($this->_data['seasons'] as $season){
             if ($season['season_number'] == $numSeason){
-                $data = $season;
-                break;
+
+                return new Season($season);
             }
         }
-        return new Season($data);
     }
 
     /**
@@ -104,7 +103,7 @@ class TVShow{
      * 	@return Season[]
      */
     public function getSeasons() {
-        $seasons = array();
+        $seasons = [];
 
         foreach($this->_data['seasons'] as $data){
             $seasons[] = new Season($data, $this->getID());
@@ -168,18 +167,20 @@ class TVShow{
     }
 
     /**
-     * 	Get the TVShow's first air date
+     *    Get the TVShow's first air date
      *
-     * 	@return string
+     * @param null $format
+     * @return string
      */
     public function getFirstAirDate($format = null) {
         return mmdbFormatDate($format, $this->_data['first_air_date']);
     }
 
     /**
-     * 	Get the TVShow's last air date
+     *    Get the TVShow's last air date
      *
-     * 	@return string
+     * @param null $format
+     * @return string
      */
     public function getLastAirDate($format = null) {
         return mmdbFormatDate($format, $this->_data['last_air_date']);
@@ -200,7 +201,7 @@ class TVShow{
      * 	@return Genre[]
      */
     public function getGenres() {
-        $genres = array();
+        $genres = [];
 
         foreach ($this->_data['genres'] as $data) {
             $genres[] = new Genre($data);
@@ -221,18 +222,21 @@ class TVShow{
     /**
      * 	Get the TVShow's cast
      *
-     * 	@return Cast[]
+     * 	@return array
      */
     public function getCast() {
+        $cast = [];
 
         foreach ($this->_data['credits']['cast']as $data) {
 
             $cast[] = $data;
         }
-        usort($cast,function($a,$b){
-            $c = $a['order'] - $b['order'];
-            return $c;
-        });
+        if ($cast) {
+            usort($cast,function($a,$b){
+                $c = $a['order'] - $b['order'];
+                return $c;
+            });
+        }
 
         return $cast;
     }
@@ -243,6 +247,7 @@ class TVShow{
      * 	@return array
      */
     public function getCrew() {
+        $crew = [];
 
         foreach ($this->_data['credits']['crew']as $data) {
 
