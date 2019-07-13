@@ -3,8 +3,8 @@ Contributors: djleven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
 Requires at least: 3.7
-Tested up to: 4.9.8
-Stable tag: 1.3.1
+Tested up to: 5.2.2
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -202,6 +202,8 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 
 == Changelog ==
 
+= 1.3.2 =
+* Fixed bug: When Gutenberg is used thickbox stylesheet is no longer loaded by wp
 = 1.3.1 =
 * Added: Custom post types archive enabled
 *        https://wordpress.org/support/topic/post-type-archive-slug/

@@ -287,6 +287,17 @@ class MMDB_Admin {
 
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/my_movie_database-admin.js', array('jquery'), $this->version, false);
 
+            /**
+             * Load thickbox if wp isn't going to
+             *
+             *  When Gutenberg is used, thickbox stylesheet is no longer loaded by wp (affected wp versions unknown)
+             *  https://github.com/WordPress/gutenberg/issues/11341
+             */
+            $script = 'thickbox';
+            if (!wp_script_is($script, 'to_do')) {
+                wp_enqueue_style($script);
+                wp_enqueue_script($script);
+            }
         }
         // Load for all admin screens below.
     }
