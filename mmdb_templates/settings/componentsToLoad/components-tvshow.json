@@ -1,0 +1,26 @@
+{
+  "accordion": {
+    "entry": "index",
+    "overview": ["content/tvshow","tv-overview"],
+    "section_2": ["common","cast-crew"],
+    "section_3": ["common","cast-crew"],
+    "section_4": ["content/tvshow","tv-seasons"],
+    "common": ["overview", "sections", "credits"]
+  },
+  "tabs": {
+    "entry": "index",
+    "overview": ["content/tvshow","tv-overview"],
+    "section_2": ["common","cast-crew"],
+    "section_3": ["common","cast-crew"],
+    "section_4": ["content/tvshow","tv-seasons"],
+    "common": ["overview", "sections", "credits"]
+  },
+  "custom": {
+    "entry": "",
+    "overview": "",
+    "section_2": "",
+    "section_3": "",
+    "section_4": "",
+    "common": ""
+  }
+}
