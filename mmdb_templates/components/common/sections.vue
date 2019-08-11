@@ -2,14 +2,14 @@
     <div>
         <div class="mmdb-header"
              v-if="showHeader"
-             :style="`background-color: ${$store.state.cssClasses.headerColor};`">
+             :style="'background-color: ' + $store.state.cssClasses.headerColor + ';'">
             <h3 class="mmdb-header-title">
                 {{ header }}
                 <span v-if="subHeader" class="pull-right">{{ subHeader }}</span>
             </h3>
         </div>
-        <div :class="`col-md-12 mmdb-body ${classList}`"
-             :style="`background-color: ${$store.state.cssClasses.bodyColor};`">
+        <div :class="'col-md-12 mmdb-body ' + classList"
+             :style="'background-color: ' + $store.state.cssClasses.bodyColor + ';'">
            <slot></slot>
         </div>
     </div>

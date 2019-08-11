@@ -5,7 +5,7 @@
             @mouseover="active=null" >{{ $store.state.__t[title] }}</h4>
         <div :class="overviewOnHover ? 'overview-on-hover' : 'credits-wrapper'">
             <template v-for="(credit, index) in credits" :key="index">
-                <div :class="`${$store.state.cssClasses[columnClass]} credits`"
+                <div :class="$store.state.cssClasses[columnClass] + ' credits'"
                      ref="creditWrapper"
                      @click="activeState(index)"
                      @mouseover="activeState(index)">
@@ -22,7 +22,7 @@
                         </div>
                         <img v-else
                              :class="imageSize === 'small' ? 'img-circle' : 'image'"
-                             :alt="`${credit.title || credit.name} image`"
+                             :alt="credit.title || credit.name + ' image'"
                              :src="getImage(index)"/>
                     </div>
                     <ul class="credits">
@@ -82,7 +82,7 @@
                 const _this = this
                 Object.keys(this.credits).forEach(function (a, index) {
                     if(index === active) {
-                        el[index].style.backgroundImage=`url('${_this.getImage(index)}')`
+                        el[index].style.backgroundImage='url("' + _this.getImage(index) + '")'
                         el[index].classList.add('bg-image')
                     } else {
                         el[index].style.backgroundImage='none'

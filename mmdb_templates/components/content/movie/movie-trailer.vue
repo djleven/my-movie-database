@@ -4,7 +4,7 @@
               class-list="trailer">
         <div class="mmdb-trailer-video">
             <iframe width="560" height="315" frameborder="0"
-                    :src="`https://www.youtube-nocookie.com/embed/${$store.state.content.trailers.youtube[0].source}`"
+                    :src="'https://www.youtube-nocookie.com/embed/' + $store.state.content.trailers.youtube[0].source"
                     allowfullscreen>
             </iframe>
         </div>

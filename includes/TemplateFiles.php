@@ -139,7 +139,7 @@ class TemplateFiles {
                 MMDB_NAME, '
                 var mmdb_conf = {
                     locale: "' . get_locale() . '",
-                    debug: ' . AdminController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", false) . ',
+                    debug: ' . AdminController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
                     date_format: "' . get_option( 'date_format' ) . '",
                     overviewOnHover: ' . AdminController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
                 }',

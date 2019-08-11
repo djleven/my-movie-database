@@ -6,7 +6,7 @@
             <template v-if="$store.state.type === 'person'">
                 <template v-for="(mediaType, index) in credits" :key="index">
                     <credits v-if="mediaType.length"
-                             :title="`${index}_${type}`"
+                             :title="index + '_' + type"
                              image-size="medium"
                              :overview-on-hover="mmdb_conf.overviewOnHover"
                              column-class="twoColumn"

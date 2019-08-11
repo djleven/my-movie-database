@@ -10,10 +10,10 @@
                 <img class="mmdb-poster"
                      :src="getImage()"
                      ref="poster"
-                     :alt="`${title} image`"
+                     :alt="title + ' image'"
                 />
             </div>
-            <div :class="`meta-wrapper ${$store.state.cssClasses.twoColumn}`"
+            <div :class="'meta-wrapper ' + $store.state.cssClasses.twoColumn"
                  ref="metaWrapper">
                 <div class="mmdb-meta">
                     <template v-for="(meta, index) in mainMeta" :key="index">
@@ -105,7 +105,7 @@
                 setTimeout(function(){
                     let imageHeight = _this.$refs.poster.offsetHeight
                     if(imageHeight > 50) {
-                        _this.$refs.metaWrapper.style.height = imageHeight+'px'
+                        _this.$refs.metaWrapper.style.height = imageHeight + 'px'
                     } else {
                         _this.setMetaWrapperHeight()
                     }
