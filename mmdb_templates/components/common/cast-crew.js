@@ -1,4 +1,24 @@
-<template>
+Vue.component("cast-crew", {
+    props: ['section'],
+    computed: {
+        credits: function () {
+            const credits = this.$store.state.credits
+            if (this.section === 'section_2') {
+                this.type = 'cast'
+                return credits.cast
+            } else if (this.section === 'section_3')  {
+                this.type = 'crew'
+                return credits.crew
+            }
+            return null
+        }
+    },
+    data: function () {
+        return {
+            type: ''
+        }
+    },
+    template: `
     <sections :header="$store.state.__t[type]"
               :sub-header="$store.state.content.name || $store.state.content.title"
               :class-list="type">
@@ -18,28 +38,5 @@
                      :credits="credits">
             </credits>
         </slot>
-    </sections>
-</template>
-<script>
-    module.exports = {
-        props: ['section'],
-        computed: {
-            credits: function () {
-                const credits = this.$store.state.credits
-                if (this.section === 'section_2') {
-                    this.type = 'cast'
-                    return credits.cast
-                } else if (this.section === 'section_3')  {
-                    this.type = 'crew'
-                    return credits.crew
-                }
-                return null
-            }
-        },
-        data: function () {
-            return {
-                type: ''
-            }
-        }
-    }
-</script>
+    </sections>`
+});

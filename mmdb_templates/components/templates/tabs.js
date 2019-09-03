@@ -1,4 +1,16 @@
-<template>
+Vue.component("tabs", {
+    props: ['sections'],
+    computed: {
+        activeTab: function () {
+            return this.$store.state.activeTab
+        }
+    },
+    methods: {
+        setActive: function (activeTab) {
+            this.$store.commit('setActive', activeTab)
+        }
+    },
+    template: `
     <div class="mmdbTabs">
         <ul class="nav nav-tabs">
             <template v-for="(section, index) in sections">
@@ -26,20 +38,5 @@
             </transition>
         </template>
         <div class="clearfix"></div>
-    </div>
-</template>
-<script>
-    module.exports = {
-        props: ['sections'],
-        computed: {
-            activeTab: function () {
-                return this.$store.state.activeTab
-            }
-        },
-        methods: {
-            setActive: function (activeTab) {
-                this.$store.commit('setActive', activeTab)
-            }
-        }
-    }
-</script>
+    </div>`
+});

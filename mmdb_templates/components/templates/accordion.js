@@ -1,4 +1,19 @@
-<template>
+Vue.component("accordion", {
+    props: ['sections'],
+    computed: {
+        activeTab: function () {
+            return this.$store.state.activeTab
+        }
+    },
+    methods: {
+        setActive: function (activeTab) {
+            if(activeTab === this.activeTab) {
+                activeTab = -1
+            }
+            this.$store.commit('setActive', activeTab)
+        }
+    },
+    template:`
     <div class="panel-group">
         <template v-for="(section, index) in sections">
             <div v-if="section.showIf"
@@ -14,7 +29,7 @@
                 </div>
                 <transition :name="$store.state.cssClasses.transitionEffect">
                     <div class="panel-body mmdb-body"
-                         :style="'background-color: ' + $store.state.cssClasses.bodyColor} + ';'"
+                         :style="'background-color: ' + $store.state.cssClasses.bodyColor + ';'"
                          v-show="activeTab === index">
                         <component :is="section.component"
                                    :section="index">
@@ -23,23 +38,5 @@
                 </transition>
             </div>
         </template>
-    </div>
-</template>
-<script>
-    module.exports = {
-        props: ['sections'],
-        computed: {
-            activeTab: function () {
-                return this.$store.state.activeTab
-            }
-        },
-        methods: {
-            setActive: function (activeTab) {
-                if(activeTab === this.activeTab) {
-                    activeTab = -1
-                }
-                this.$store.commit('setActive', activeTab)
-            }
-        }
-    }
-</script>
+    </div>`
+});

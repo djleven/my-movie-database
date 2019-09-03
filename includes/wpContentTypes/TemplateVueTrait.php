@@ -112,49 +112,65 @@ trait TemplateVueTrait
     }
 
     /**
-     * Create the script content that registers the required Vue components via httpVueLoader
+     * Register the required Vue components and return the last component's wp registration handle
      *
-     * Access global wp_scripts and remove duplicate file entries if previous passes exist
+     * @return string  last component's wp registration handle
      */
     protected function registerVueComponents() {
 
-        global $wp_scripts;
         $components_to_add = [];
+        $component_script_handles = [];
         $count = 0;
         foreach ($this->components as $key => $component) {
             if($component['filename']) {
-                $components_to_add[$count] = 'httpVueLoader.register(Vue, "'
-                    . TemplateFiles::getPublicFile(
+                $components_to_add[$count] =
+                    TemplateFiles::getPublicFile(
                         $component['filename'],
                         self::COMPONENTS_ROOT_FOLDER . $component['path'],
-                        'vue',
-                        false) .
-                    '");';
+                        'js',
+                        false);
+                wp_enqueue_script(
+                    'vueComponent-' . $component['filename'], $components_to_add[$count], array( 'vue', 'vuex' ), 0.2, true);
+                $component_script_handles[$count] = 'vueComponent-' . $component['filename'];
                 $count++;
             }
         }
-        $components_to_add = array_unique($components_to_add);
-        $previously_added = $wp_scripts->get_data('httpVueLoader', 'after')[1];
-        if($previously_added){
-            $previously_added = explode(PHP_EOL, $previously_added);
-            $components_to_add = array_unique(array_merge($components_to_add, $previously_added));
-            $wp_scripts->add_data('httpVueLoader', 'after', [null]);
-        }
-        wp_add_inline_script( 'httpVueLoader', implode(PHP_EOL, $components_to_add));
+
+        add_filter( 'script_loader_tag', array($this, 'replace_js_tag_with_babel'), 10, 3 );
+
+        return end($component_script_handles);
     }
+
+    /**
+     * Replace Vue components and myMovieDatabase.js script tag with babel type
+     * @param string $tag     The <script> tag for the enqueued script.
+     * @param string $handle  The script's registered handle.
+     * @return string
+     */
+    public function replace_js_tag_with_babel( $tag, $handle ) {
+        $handleStartsWith = 'vueComponent-';
+        $isVueComponent = substr_compare($handle, $handleStartsWith, 0, strlen($handleStartsWith)) === 0;
+        if ( $isVueComponent || $handle === MMDB_NAME ) {
+            $tag = str_replace( "<script type='text/javascript'", "<script type='text/babel'", $tag );
+        }
+
+        return $tag;
+    }
+
     /**
      * Setup and return the type view output
      *
      * @since     1.0.0
-     * @return    string	$output    The generated html of the template view
+     * @param     string  $lastVueComponent The last registered vue component handle to add inline script to
+     * @return    string  $output           The generated html of the template view
      */
-    public function createVueInstance() {
+    public function createVueInstance($lastVueComponent) {
 
         $mmdbID = $this->tmdb_id;
         if(!$mmdbID) {
             $mmdbID = 0;
         }
-        $myVue ='// The Vue instance for the mmdb content type
+        $myVue ='// The Vue instance for the ' . $this->data_type . ' ' . $mmdbID . '
                  new Vue({
                     el: "#' . $this->getVueMountPoint() . '",
                     store: new Vuex.Store({
@@ -198,7 +214,7 @@ trait TemplateVueTrait
                     })
                 });';
 
-        wp_add_inline_script( MMDB_NAME, $myVue);
+        wp_add_inline_script( $lastVueComponent, $myVue);
     }
 
     /**
@@ -209,9 +225,9 @@ trait TemplateVueTrait
      */
     public function templateVueOutput() {
 
+        $lastVueComponent = $this->registerVueComponents();
         $this->localizeTemplateScript();
-        $this->registerVueComponents();
-        $this->createVueInstance();
+        $this->createVueInstance($lastVueComponent);
         $vueComponent = $this->components['entry']['filename'];
 
         $output =

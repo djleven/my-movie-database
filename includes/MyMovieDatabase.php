@@ -3,7 +3,6 @@
  * This class serves as the entry point for the plugin.
  *
  * It is used to:
- * - define the plugin unique identifiers,
  * - load dependencies,
  * - define internationalization,
  * - instantiate the core plugin controllers for both the public-facing side of the site and the admin area.
@@ -45,6 +44,7 @@ class MyMovieDatabase {
 
     public function __construct() {
 
+        $this->version = "2.0.1";
         $this->load_dependencies();
         $this->setLocale();
         $this->run();

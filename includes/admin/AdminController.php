@@ -298,7 +298,12 @@ class AdminController {
      */
     public function enqueue_scripts() {
 
-        TemplateFiles::enqueueCommonFiles($this->isAdminEditPostPage());
+        $isAdminEditPostPage = $this->isAdminEditPostPage();
+        if($isAdminEditPostPage) {
+            wp_enqueue_style(
+                MMDB_NAME . 'Admin', TemplateFiles::getPublicFile(MMDB_CAMEL_NAME . 'Admin', 'css'), [], '1.0.0', 'all' );
+        }
+        TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
     }
 
     /**

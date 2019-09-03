@@ -1,5 +1,70 @@
-<template>
-    <div>
+Vue.component("credits", {
+    props: {
+        credits: {
+            type: Object,
+            required: true
+        },
+        columnClass: {
+            type: String,
+            default: 'multipleColumn'
+        },
+        title: {
+            type: String,
+            default: null
+        },
+        imageSize: {
+            type: String,
+            default: 'small'
+        },
+        overviewOnHover: {
+            type: String,
+            default: false
+        }
+    },
+    data: function () {
+        return {
+            active: null
+        }
+    },
+    watch: {
+        active: function () {
+            const active = this.active
+            const el = this.$refs.creditWrapper
+            const _this = this
+            Object.keys(this.credits).forEach(function (a, index) {
+                if(index === active) {
+                    el[index].style.backgroundImage='url("' + _this.getImage(index) + '")'
+                    el[index].classList.add('bg-image')
+                } else {
+                    el[index].style.backgroundImage='none'
+                    el[index].classList.remove('bg-image')
+                }
+            })
+        }
+    },
+    methods: {
+        getImage: function (index) {
+            let size = this.imageSize
+            let file =
+                this.credits[index].poster_path || this.credits[index].profile_path
+
+            if(file) {
+                return theMovieDb.helpers.getImage(file, size)
+            }
+
+            return this.$store.state.placeholder[size]
+        },
+        activeState: function (index) {
+            if(this.overviewOnHover && index !== this.active) {
+                this.active = index
+            }
+        },
+        getExcerpt: function (text) {
+
+            return theMovieDb.helpers.getExcerpt(text, 350)
+        }
+    },
+    template: `<div>
         <h4 v-if="title"
             @click="active=null"
             @mouseover="active=null" >{{ $store.state.__t[title] }}</h4>
@@ -43,75 +108,5 @@
             </template>
         </div>
         <div style="clear:both"></div>
-    </div>
-</template>
-
-<script>
-    module.exports = {
-        props: {
-            credits: {
-                type: Object,
-                required: true
-            },
-            columnClass: {
-                type: String,
-                default: 'multipleColumn'
-            },
-            title: {
-                type: String,
-                default: null
-            },
-            imageSize: {
-                type: String,
-                default: 'small'
-            },
-            overviewOnHover: {
-                type: String,
-                default: false
-            }
-        },
-        data: function () {
-            return {
-                active: null
-            }
-        },
-        watch: {
-            active: function () {
-                const active = this.active
-                const el = this.$refs.creditWrapper
-                const _this = this
-                Object.keys(this.credits).forEach(function (a, index) {
-                    if(index === active) {
-                        el[index].style.backgroundImage='url("' + _this.getImage(index) + '")'
-                        el[index].classList.add('bg-image')
-                    } else {
-                        el[index].style.backgroundImage='none'
-                        el[index].classList.remove('bg-image')
-                    }
-                })
-            }
-        },
-        methods: {
-            getImage: function (index) {
-                let size = this.imageSize
-                let file =
-                    this.credits[index].poster_path || this.credits[index].profile_path
-
-                if(file) {
-                    return theMovieDb.helpers.getImage(file, size)
-                }
-
-                return this.$store.state.placeholder[size]
-            },
-            activeState: function (index) {
-                if(this.overviewOnHover && index !== this.active) {
-                    this.active = index
-                }
-            },
-            getExcerpt: function (text) {
-
-                return theMovieDb.helpers.getExcerpt(text, 350)
-            }
-        }
-    }
-</script>
+    </div>`
+});

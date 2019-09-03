@@ -94,15 +94,17 @@ class TemplateFiles {
      */
     private static function validateFileExists($file, $type = '') {
 
-        try{
-            $openFile = @fopen($file,'r');
-            if( !$openFile ) {
-                throw new \Exception("The My Movie Database $type file $file could not be found",404);
+        if(AdminController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0))  {
+            try{
+                $openFile = @fopen($file,'r');
+                if( !$openFile ) {
+                    throw new \Exception("The My Movie Database $type file $file could not be found",404);
+                }
             }
-        }
-        catch( \Exception $e ){
-            echo "Error : " . $e->getMessage();
-            return;
+            catch( \Exception $e ){
+                echo "Error : " . $e->getMessage();
+                return;
+            }
         }
     }
 
@@ -122,19 +124,23 @@ class TemplateFiles {
 
         // To load only on mmdb active post type pages.
         if($activeScreen) {
+
+            /** Promise (or other) polyfill if needed*/
+            wp_enqueue_script( MMDB_NAME . 'polyfill-service', 'https://cdn.polyfill.io/v2/polyfill.min.js');
+
+            /**  Add Babel */
+            wp_enqueue_script( 'babel', MMDB_PLUGIN_URL . 'vendor/babel.min.js', array(MMDB_NAME . 'polyfill-service'), '6.26.0' );
+
             /** The TMDB API (TheMovieDatabase) wrapper used */
-            wp_register_script( MMDB_NAME, plugin_dir_url( __FILE__ ) . MMDB_CAMEL_NAME . '.js', array(), 0.1, true);
-            /**
-             * - vue and vuex : lovable js framework and it's state management (vuex)
-             * - httpVueLoader : use vue template files (SFCs) without a node.js environment or build step.
-             */
+            wp_enqueue_script( MMDB_NAME, plugin_dir_url( __FILE__ ) . MMDB_CAMEL_NAME . '.js', array('jquery'), 0.1, true);
+
+            /** Add vue and vuex => vue js framework and it's state management (vuex)*/
             wp_enqueue_script(
                 'vue', MMDB_PLUGIN_URL . 'vendor/Vue/vue-min.js', array( 'jquery' ), '2.6.10', true );
             wp_enqueue_script(
                 'vuex', MMDB_PLUGIN_URL . 'vendor/Vue/vuex-min.js', array( 'vue' ), '2.0.0', true );
-            wp_enqueue_script(
-                'httpVueLoader', MMDB_PLUGIN_URL . 'vendor/Vue/httpVueLoader.js', array( 'vue' ), 0.1, true);
-            wp_enqueue_script( MMDB_NAME );
+
+            /** WP and mmdb and config */
             wp_add_inline_script(
                 MMDB_NAME, '
                 var mmdb_conf = {
