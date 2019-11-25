@@ -330,11 +330,17 @@ div[id^='mmdb-content'] .overview-on-hover .credits img {
 .mmdb-body .bg-image {
     background-repeat: no-repeat;
     background-position: center center;
-    background-color: hsla(0,0%,100%,0.80);
+    background-color: hsla(0,0%,100%,0.7);
     background-blend-mode: overlay;
     background-size: contain;
     cursor: pointer;
 }
+/* IE and Edge hack */
+_:-ms-lang(x), .mmdb-body .bg-image {
+    background-image: none!important;
+    background-color: hsla(0,0%,100%,0.2);
+}
+
 .mmdb-body img {
     margin: auto;
 }
