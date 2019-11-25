@@ -18,12 +18,14 @@ The plugin was developed to enrich your movie or tvshow content / review by 'aut
 
 You can use it via shortcodes or the standard posts method, see below for more info and/or the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/shortcode-default-parameters">live demo page</a>.
 
+Please note that as of version 2.0 of the plugin, support for the Internet Explorer browser is limited to version 11 only.
+
 The data comes from the <a target="_blank" href="https://www.themoviedb.org">Movie Database (TMDb)</a>, the leading crowdsourced movie industry information community. This means that this plugin will make calls to the <a target="_blank" href="https://www.themoviedb.org/documentation/api"> TMDb api</a> (in other words their 'website service') to retrieve the requested data. The TMDb API service is provided free of charge.
 - The My-Movie-Database plugin uses the TMDb API but is in no way endorsed or certified by TMDb.
 
 == Installation ==
 
-###Fast and easy install
+### Fast and easy install
 
 #### From the wordpress admin
 
@@ -34,7 +36,7 @@ The data comes from the <a target="_blank" href="https://www.themoviedb.org">Mov
 5. Select **"Install Now"**
 6. After the installation success message, select **"Activate"** and you’re ready to go.
 
-###Alternative installations
+### Alternative installations
 
 **Download a copy of the plugin and save it to your computer.** <br>
 Now you can install it using the wordpress admin interface or by manually uploading it.
@@ -96,6 +98,7 @@ From the plugin option page you can configure:
 3. select from a predetermined set of width combinations for multiple column arrangements as seen on sections like cast and crew.
 4. which sections to display/hide
 5. the header and body colors for the available templates
+6. the CSS transition to use when switching sections
 
 For the Movie posts only (in the advanced configuration option tab) :
 
@@ -108,7 +111,7 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 
 ### Using the plugin with shortcodes
 
-The plugin shortcode is [my_movie_db] . The parameters that can be set are <span>id</span>, <span>type</span>, <span>template</span> and <span>size</span>.
+The plugin shortcode is [my_movie_db] . The parameters that can be set are:
 
 1. The basic parameters that you need to set are  <strong>id</strong>  and <strong>type</strong>.
 2. Optional parameters to override the global plugin settings are :<strong> template, </strong><strong>size, body </strong>(color) and<strong> header </strong>(color).
