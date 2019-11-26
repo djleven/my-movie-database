@@ -377,8 +377,91 @@ class Settings {
      * @return string
      */
     public function plugin_page() {
-        echo '<div style="height:70px;"><img src="' . MMDB_PLUGIN_URL . 'assets/img/icon-64x64.png" style="float:left;padding: 10px 0; "/><h1 style="float:left;padding: 15px 10px;">My Movie Database Options</h1></div>';
-        echo '<div class="wrap">';
+        ?>
+        <style>
+            .mmdb_admin_header {
+                height: 70px;
+            }
+            .mmdb_admin_header .admin-logo {
+                float:left;
+                padding: 10px 0;
+            }
+            .mmdb_admin_header h1 {
+                float:left;
+                padding: 15px 10px;
+            }
+            .mmdb-row {
+                clear: both;
+            }
+            .mmdb-row h3 {
+                margin: 0;
+                text-align: center;
+            }
+        </style>
+        <div class="mmdb_admin_header">
+            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
+            <h1><?php _e( 'My Movie Database Options',  MMDB_WP_NAME );?></h1>
+        </div>
+        <div class="mmdb-row">
+
+            <div class="update-nag">
+                <h3> <?php _e( 'Get Help',  MMDB_WP_NAME );?></h3>
+                <ul>
+                    <li>
+                        <span class="dashicons dashicons-editor-help"></span><strong><?php _e( 'Documentation',  MMDB_WP_NAME );?>:</strong>
+                        <a href="https://mymoviedatabase.cinema.ttic.ca/how-to-use-the-mmdb-plugin/" target="_blank">
+                            <?php _e( 'How to use the plugin.',  MMDB_WP_NAME );?>
+                        </a>
+
+                    </li>
+                    <li>
+                        <span class="dashicons dashicons-admin-tools"></span><strong><?php _e( 'Documentation',  MMDB_WP_NAME );?>:</strong>
+                        <a href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/" target="_blank">
+                            <?php _e( 'Configuration options',  MMDB_WP_NAME );?>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="dashicons dashicons-tickets-alt"></span><strong><?php _e( 'Support',  MMDB_WP_NAME );?>:</strong>
+                        <?php _e( 'If you need to you can',  MMDB_WP_NAME );?>
+                        <a href="https://wordpress.org/support/plugin/my-movie-database/" target="_blank">
+                            <?php _e( 'open a ticket.',  MMDB_WP_NAME );?>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="update-nag">
+                <h3> <?php _e( 'Give Help - Contribute',  MMDB_WP_NAME );?></h3>
+                <ul>
+                    <li>
+                        <span class="dashicons dashicons-star-half"></span><strong><?php _e( 'Review',  MMDB_WP_NAME );?>:</strong>
+                        <?php _e( 'It means a lot to us',  MMDB_WP_NAME );?>,
+                        <a href="https://wordpress.org/support/plugin/my-movie-database/reviews/" target="_blank">
+                            <?php _e( 'please leave your review.',  MMDB_WP_NAME );?>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="dashicons dashicons-flag"></span><strong><?php _e( 'Translate',  MMDB_WP_NAME );?>:</strong>
+                        <?php _e( 'Help',  MMDB_WP_NAME );?>
+                        <a href="https://translate.wordpress.org/projects/wp-plugins/my-movie-database/" target="_blank">
+                            <?php _e( 'translate the plugin in your language.',  MMDB_WP_NAME );?>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="dashicons dashicons-buddicons-community"></span> <strong><?php _e( 'Donate',  MMDB_WP_NAME );?>:</strong>
+                        <?php _e( 'Or if you prefer, maybe',  MMDB_WP_NAME );?>
+                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6" target="_blank">
+                            <?php _e( 'buy us a beer?',  MMDB_WP_NAME );?>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="wrap">
+
+        <?php
 
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
