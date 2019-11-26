@@ -1,19 +1,19 @@
 <?php
 /**
- * The file that defines the WpContentType abstract class
+ * The file that defines the WpAbstractContentType abstract class
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/includes/wpContentType
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/wpContentTypes
  */
-namespace MyMovieDatabase\WpContentTypes;
+namespace MyMovieDatabase\Lib\WpContentTypes;
 
-use MyMovieDatabase\Admin\AdminController;
-use MyMovieDatabase\Admin\DataTypes\DataType;
+use MyMovieDatabase\CoreController;
+use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 
-abstract class WpContentType {
+abstract class WpAbstractContentType {
 
     use TemplateVueTrait;
 
@@ -54,9 +54,9 @@ abstract class WpContentType {
      * @since     1.0.0
      * @return    string
      */
-    protected function getDataTypeSettingGroup() {
+    protected function getResourceTypeSettingGroup() {
 
-        return DataType::makeTypeSettingGroupId($this->data_type);
+        return AbstractResourceType::makeTypeSettingGroupId($this->data_type);
     }
 
     /**
@@ -67,10 +67,10 @@ abstract class WpContentType {
      * @param     $default      string    The default value if no setting exists
      * @return    mixed
      */
-    protected function getDataTypeSetting($settingId, $default = '') {
+    protected function getResourceTypeSetting($settingId, $default = '') {
 
         $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_' . $settingId;
-        return AdminController::getMmdbOption($post_setting_name, $this->getDataTypeSettingGroup(), $default);
+        return CoreController::getMmdbOption($post_setting_name, $this->getResourceTypeSettingGroup(), $default);
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class WpContentType {
      */
     protected function getTemplateSetting() {
 
-        return $this->getDataTypeSetting( 'tmpl', 'tabs');
+        return $this->getResourceTypeSetting( 'tmpl', 'tabs');
     }
 
     /**
@@ -91,7 +91,7 @@ abstract class WpContentType {
      */
     protected function getHeaderColorSetting() {
 
-        return $this->getDataTypeSetting( 'header_color', '#265a88');
+        return $this->getResourceTypeSetting( 'header_color', '#265a88');
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class WpContentType {
      */
     protected function getBodyColorSetting() {
 
-        return $this->getDataTypeSetting( 'body_color', '#DCDCDC');
+        return $this->getResourceTypeSetting( 'body_color', '#DCDCDC');
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class WpContentType {
      */
     protected function getTransitionEffectSetting() {
 
-        return $this->getDataTypeSetting( 'transition_effect', 'fade');
+        return $this->getResourceTypeSetting( 'transition_effect', 'fade');
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class WpContentType {
      */
     protected function getWidthSetting() {
 
-        return $this->getDataTypeSetting( 'width', 'medium');
+        return $this->getResourceTypeSetting( 'width', 'medium');
     }
 
     /**
@@ -175,8 +175,8 @@ abstract class WpContentType {
     protected function showSectionSettings() {
 
         $result = [];
-        $sections = DataType::getSections();
-        $settings = $this->getDataTypeSetting('sections', []);
+        $sections = AbstractResourceType::getSections();
+        $settings = $this->getResourceTypeSetting('sections', []);
 
         foreach($sections as $section) {
             $visible = true;

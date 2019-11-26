@@ -1,21 +1,21 @@
 <?php
 /**
- * Defines the properties of the TMDB data types made available to the plugin.
+ * Defines the properties of the TMDB resource (data) types made available to the plugin.
  *
  * Used to create wordpress post types and settings.
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/admin
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/resourceTypes
  * @author     Kostas Stathakos <info@e-leven.net>
  */
-namespace MyMovieDatabase\Admin\DataTypes;
+namespace MyMovieDatabase\Lib\ResourceTypes;
 
-use MyMovieDatabase\Admin\AdminController;
+use MyMovieDatabase\CoreController;
 
-abstract class DataType {
+abstract class AbstractResourceType {
 
     public $data_type;
     public $data_type_label;
@@ -66,7 +66,7 @@ abstract class DataType {
     public function getPostTypeSetting() {
 
         $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_post_type';
-        return AdminController::getMmdbOption($post_setting_name, MMDB_ADVANCED_OPTION_GROUP , $this->data_type);
+        return CoreController::getMmdbOption($post_setting_name, MMDB_ADVANCED_OPTION_GROUP , $this->data_type);
     }
 
     /**

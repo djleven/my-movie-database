@@ -7,9 +7,9 @@
  * Version:           2.0.2
  * Author:            Kostas Stathakos
  * Author URI:        https://e-leven.net/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       my-movie-db
+ * License:           GPL-3.0+
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:       my-movie-database
  * Domain Path:       /languages
  */
 // If this file is called directly, abort.
@@ -30,20 +30,19 @@ define( 'MMDB_ADVANCED_OPTION_GROUP', MMDB_PLUGIN_ID . '_opt_advanced' );
 /**
  * The core plugin entry class
  */
-include_once plugin_dir_path( __FILE__ ) . 'includes/MyMovieDatabase.php';
+include_once plugin_dir_path( __FILE__ ) . 'core/MyMovieDatabase.php';
 
 new ActivationStateChanges();
 new MyMovieDatabase\MyMovieDatabase();
 
+/**
+ * Define the activation and deactivation sequence tasks for the plugin.
+ *
+ * @since    2.0.2
+ */
 class ActivationStateChanges {
 
     const PLUGIN_ACTIVATED = 'Plugin_Activated';
-
-    /**
-     * Define the activation and deactivation sequence tasks for the plugin.
-     *
-     * @since    2.0.2
-     */
 
     public function __construct() {
 

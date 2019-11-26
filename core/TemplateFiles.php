@@ -7,13 +7,11 @@
  * @link       https://e-leven.net/
  * @since      1.1.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/public
+ * @package    my-movie-database
+ * @subpackage my-movie-database/public
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 namespace MyMovieDatabase;
-
-use MyMovieDatabase\Admin\AdminController;
 
 class TemplateFiles {
 
@@ -94,7 +92,7 @@ class TemplateFiles {
      */
     private static function validateFileExists($file, $type = '') {
 
-        if(AdminController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0))  {
+        if(CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0))  {
             try{
                 $openFile = @fopen($file,'r');
                 if( !$openFile ) {
@@ -118,36 +116,38 @@ class TemplateFiles {
     public static function enqueueCommonFiles($activeScreen) {
 
         $css_file =
-            AdminController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
+            CoreController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
         $bootstrap =
-            AdminController::getMmdbOption('mmdb_bootstrap', MMDB_ADVANCED_OPTION_GROUP, 'yes');
+            CoreController::getMmdbOption('mmdb_bootstrap', MMDB_ADVANCED_OPTION_GROUP, 'yes');
 
+        $vendor_dir = MMDB_PLUGIN_URL . 'core/vendor/';
         // To load only on mmdb active post type pages.
         if($activeScreen) {
 
-            /** Promise (or other) polyfill if needed*/
+            /** Promise (or other) polyfill if needed */
             wp_enqueue_script( MMDB_NAME . 'polyfill-service', 'https://cdn.polyfill.io/v2/polyfill.min.js');
 
             /**  Add Babel */
-            wp_enqueue_script( 'babel', MMDB_PLUGIN_URL . 'vendor/babel.min.js', array(MMDB_NAME . 'polyfill-service'), '6.26.0' );
+            wp_enqueue_script( 'babel', $vendor_dir . 'babel.min.js', array(MMDB_NAME . 'polyfill-service'), '6.26.0' );
 
             /** The TMDB API (TheMovieDatabase) wrapper used */
             wp_enqueue_script( MMDB_NAME, plugin_dir_url( __FILE__ ) . MMDB_CAMEL_NAME . '.js', array('jquery'), 0.1, true);
 
             /** Add vue and vuex => vue js framework and it's state management (vuex)*/
+            /**  TODO: Add option to conditionally load Vue and/or Vuex */
             wp_enqueue_script(
-                'vue', MMDB_PLUGIN_URL . 'vendor/Vue/vue-min.js', array( 'jquery' ), '2.6.10', true );
+                'vue', $vendor_dir . 'Vue/vue-min.js', array( 'jquery' ), '2.6.10', true );
             wp_enqueue_script(
-                'vuex', MMDB_PLUGIN_URL . 'vendor/Vue/vuex-min.js', array( 'vue' ), '2.0.0', true );
+                'vuex', $vendor_dir . 'Vue/vuex-min.js', array( 'vue' ), '2.0.0', true );
 
             /** WP and mmdb and config */
             wp_add_inline_script(
                 MMDB_NAME, '
                 var mmdb_conf = {
                     locale: "' . get_locale() . '",
-                    debug: ' . AdminController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
+                    debug: ' . CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
                     date_format: "' . get_option( 'date_format' ) . '",
-                    overviewOnHover: ' . AdminController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
+                    overviewOnHover: ' . CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
                 }',
                 'before'
             );

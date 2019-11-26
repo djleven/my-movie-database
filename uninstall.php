@@ -22,7 +22,7 @@
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
+ * @package    my-movie-database
  */
 
 // If uninstall not called from WordPress, then exit.

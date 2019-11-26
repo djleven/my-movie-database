@@ -2,16 +2,16 @@
 /**
  * The file that defines the mmdb shortcode class
  *
- * The ShortcodeContentType class is a subclass of the abstract MMDB_type class.
+ * The ShortcodeContentType class is a subclass of the WpAbstractContentType class.
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/includes/wpContentType
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/wpContentTypes
  */
-namespace MyMovieDatabase\WpContentTypes;
-class ShortcodeContentType extends WpContentType {
+namespace MyMovieDatabase\Lib\WpContentTypes;
+class ShortcodeContentType extends WpAbstractContentType {
 
     public $header_color;
     public $body_color;

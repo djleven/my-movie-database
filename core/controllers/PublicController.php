@@ -8,15 +8,14 @@
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/public
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/controllers
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 namespace MyMovieDatabase;
 
-use MyMovieDatabase\WpContentTypes\WpPostContentType;
-use MyMovieDatabase\WpContentTypes\ShortcodeContentType;
-use MyMovieDatabase\Admin\AdminController;
+use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
+use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
 
 class PublicController {
 
@@ -181,7 +180,7 @@ class PublicController {
      */
     private function postTypesToArchivePagesSetting()
     {
-        return AdminController::getMmdbOption(
+        return CoreController::getMmdbOption(
             'mmdb_wp_categories',
             MMDB_ADVANCED_OPTION_GROUP,
             'yes'

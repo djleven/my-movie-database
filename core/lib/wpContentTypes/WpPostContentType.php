@@ -2,17 +2,17 @@
 /**
  * The class that defines the mmdb post content
  *
- * The WpPostContentType is a subclass of the abstract WpContentType class.
+ * The WpPostContentType is a subclass of the abstract WpAbstractContentType class.
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/includes/wpContentType
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/wpContentTypes
  */
-namespace MyMovieDatabase\WpContentTypes;
+namespace MyMovieDatabase\Lib\WpContentTypes;
 
-class WpPostContentType extends WpContentType {
+class WpPostContentType extends WpAbstractContentType {
 
     public $post_id;
 
@@ -41,7 +41,7 @@ class WpPostContentType extends WpContentType {
 
     private function getPositionSetting() {
 
-        return $this->getDataTypeSetting( 'pos', 'after');
+        return $this->getResourceTypeSetting( 'pos', 'after');
     }
 
     /**

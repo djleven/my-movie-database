@@ -1,17 +1,17 @@
 <?php
 /**
- * Defines the properties of the TMDB person view data types made available to the plugin.
+ * Defines the properties of the TMDB person resource (data) types view made available to the plugin.
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/admin
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/resourceTypes
  * @author     Kostas Stathakos <info@e-leven.net>
  */
-namespace MyMovieDatabase\Admin\DataTypes;
+namespace MyMovieDatabase\Lib\ResourceTypes;
 
-class PersonDataType extends DataType{
+class PersonResourceType extends AbstractResourceType {
 
     /**
      * Set the hidden sections labels

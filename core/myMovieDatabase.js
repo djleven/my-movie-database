@@ -2,8 +2,6 @@
  * Adapted from https://github.com/cavestri/themoviedb-javascript-library
  * The MIT License (MIT)
  * Copyright (c) Franco Cavestri
- *
- *
  */
 var theMovieDb = {};
 

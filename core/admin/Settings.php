@@ -5,8 +5,8 @@
  * @link       https://e-leven.net/
  * @since      0.7.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/admin
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/admin
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 namespace MyMovieDatabase\Admin;
@@ -14,17 +14,17 @@ namespace MyMovieDatabase\Admin;
 class Settings {
 
     private $settings_api;
-    private $plugin_admin_types;
+    private $plugin_resource_types;
 
     /**
      * Initialize the class and set its properties.
      *
      * @since    0.7.0
-     * @param      array    $plugin_admin_types    The tmdb data types.
+     * @param      array    $plugin_resource_types    The tmdb resource (data) types.
      */
-    public function __construct($plugin_admin_types) {
+    public function __construct($plugin_resource_types) {
         $this->settings_api = new \WeDevs_Settings_API;
-        $this->plugin_admin_types = $plugin_admin_types;
+        $this->plugin_resource_types = $plugin_resource_types;
     }
 
     /**
@@ -57,14 +57,14 @@ class Settings {
     private function getTypeSections() {
 
         $sections = [];
-        $plugin_admin_types = $this->plugin_admin_types;
+        $plugin_resource_types = $this->plugin_resource_types;
 
-        foreach($plugin_admin_types as $plugin_admin_type) {
+        foreach($plugin_resource_types as $plugin_resource_type) {
 
             $sections[] =
                 [
-                    'id'    => $plugin_admin_type->type_setting_id,
-                    'title' => esc_html__( "$plugin_admin_type->data_type_label Settings", MMDB_WP_NAME )
+                    'id'    => $plugin_resource_type->type_setting_id,
+                    'title' => esc_html__( "$plugin_resource_type->data_type_label Settings", MMDB_WP_NAME )
                 ];
         }
 
@@ -135,11 +135,11 @@ class Settings {
      */
     private function getTypeSectionFields() {
 
-        $plugin_admin_types = $this->plugin_admin_types;
+        $plugin_resource_types = $this->plugin_resource_types;
         $k = 1;
         $merge_settings = [];
 
-        foreach($plugin_admin_types as $plugin_type) {
+        foreach($plugin_resource_types as $plugin_type) {
 
             $settings_fields[$k] = array(
 

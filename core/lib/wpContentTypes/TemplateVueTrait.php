@@ -1,5 +1,14 @@
 <?php
-namespace MyMovieDatabase\WpContentTypes;
+/**
+ * This trait defines the Vuejs related functionality for WpContentType concrete classes
+ *
+ * @link       https://e-leven.net/
+ * @since      2.0.0
+ *
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/lib/wpContentTypes
+ */
+namespace MyMovieDatabase\Lib\WpContentTypes;
 
 use MyMovieDatabase\TemplateFiles;
 
@@ -233,7 +242,7 @@ trait TemplateVueTrait
         $output =
             '<div id="' . $this->getVueMountPoint() . '"><' . $vueComponent .'></' . $vueComponent .'></div>';
 
-        if( get_class($this) === 'MyMovieDatabase\WpContentTypes\WpAdminPostContentType') {
+        if( get_class($this) === 'MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType') {
             $output .= PHP_EOL;
             $output .= '<input type="hidden" name="' . self::MMDB_POST_META_ID . '" id="' . self::MMDB_POST_META_ID . '" value="'. $this->tmdb_id .'"/>';
         }

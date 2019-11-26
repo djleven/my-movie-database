@@ -5,8 +5,8 @@
  * @link       https://e-leven.net/
  * @since      1.0.0
  *
- * @package    My_movie_database
- * @subpackage My_movie_database/admin
+ * @package    my-movie-database
+ * @subpackage my-movie-database/core/admin
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 
