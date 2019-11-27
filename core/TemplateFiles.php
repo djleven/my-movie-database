@@ -92,18 +92,29 @@ class TemplateFiles {
      */
     private static function validateFileExists($file, $type = '') {
 
-        if(CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0))  {
-            try{
-                $openFile = @fopen($file,'r');
-                if( !$openFile ) {
-                    throw new \Exception("The My Movie Database $type file $file could not be found",404);
-                }
-            }
-            catch( \Exception $e ){
-                echo "Error : " . $e->getMessage();
-                return;
+        try{
+            $openFile = @fopen($file,'r');
+            if( !$openFile ) {
+                throw new \Exception(
+                    "File Read Error: The My Movie Database $type file $file could not be found",
+                    404
+                );
             }
         }
+        catch( \Exception $e ) {
+            if(defined('WP_DEBUG_DISPLAY') &&
+                WP_DEBUG && WP_DEBUG_DISPLAY &&
+                CoreController::getMmdbOption(
+                "mmdb_debug",
+                "mmdb_opt_advanced",
+                0)
+            ) {
+                echo $e->getMessage();
+            }
+            self::writeToLog($e->getMessage());
+            return;
+        }
+
     }
 
     /**
@@ -263,6 +274,22 @@ class TemplateFiles {
             return self::LARGE_PLACEHOLDER;
         } else {
             return self::SMALL_PLACEHOLDER;
+        }
+    }
+
+    /**
+     * Log content to error log
+     * TODO: Move this elsewhere for common use when other class needs to use it
+     *
+     * @since      2.0.2
+     * @param      mixed   $content
+     *
+     */
+    private static function writeToLog ( $content )  {
+        if ( is_array( $content ) || is_object( $content ) ) {
+            error_log( print_r( $content, true ) );
+        } else {
+            error_log( $content );
         }
     }
 

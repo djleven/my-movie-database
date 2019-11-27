@@ -1,4 +1,5 @@
 === My Movie Database ===
+
 Contributors: djleven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
@@ -18,10 +19,42 @@ The plugin was developed to enrich your movie or tvshow content / review by 'aut
 
 You can use it via shortcodes or the standard posts method, see below for more info and/or the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/shortcode-default-parameters">live demo page</a>.
 
-Please note that as of version 2.0 of the plugin, support for the Internet Explorer browser is limited to version 11 only.
-
 The data comes from the <a target="_blank" href="https://www.themoviedb.org">Movie Database (TMDb)</a>, the leading crowdsourced movie industry information community. This means that this plugin will make calls to the <a target="_blank" href="https://www.themoviedb.org/documentation/api"> TMDb api</a> (in other words their 'website service') to retrieve the requested data. The TMDb API service is provided free of charge.
 - The My-Movie-Database plugin uses the TMDb API but is in no way endorsed or certified by TMDb.
+
+## New version 2 of the plugin is here!
+
+Version 2 brings many changes, new features and improvements. A big part of the plugin was rewritten from scratch.
+
+**Improvements**
+
+1. Javascript asynchronous template rendering (using VueJS)
+2. Improved page load speed and overall user experience (your pages won't wait for the movie data to load)
+3. Overview (description) on hover (configurable option) for person credits and tvshow seasons
+4. Transition effect configurable option when switching between sections / tabs
+5. Enhanced admin search UI and preview resembling the frontend output based on selected settings
+6. Rearrangement of person credit sections with improved section consistency (crew / cast credits)
+7. Fixed a few bugs
+
+**Breaking changes**
+
+While the overall styling of the two main templates (tabs and accordion) and all previous settings have been preserved, there are some breaking changes:
+
+* Removed: PHP based templates
+
+    This means that previous templates are no longer compatible. This will be a problem if you have made modifications to your templates.
+
+    **If you have copied your templates folder inside your theme, you must delete the copied folder for the plugin to work.**
+
+
+* Removed: Support for Internet Explorer prior to version 11
+
+    Please note that as of version 2.0 of the plugin, support for the Internet Explorer browser is limited to version 11 only.
+
+
+* Removed: Section 4 for persons
+
+    The person template has been rearranged, most users should not have a problem with this as it was previously not very nice.
 
 == Installation ==
 
@@ -83,7 +116,7 @@ Below the content textarea of your Movie post you will find the mmdb search for 
 
 2. You will then be presented with the search results. Hover over them for further info and click on the desired movie.
 
-(screenshot 4)
+   (screenshot 4)
 
 3. Once you have made your selection you must save the post.
 
@@ -154,11 +187,11 @@ So if for example you want to use the accordion template file your shortcode wil
 
 The default template value is "tabs" so if you don't specify the template, the tabs template will be used.
 
-If you want to make/use your own template, and/or edit the existing templates reter to <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/"> the configuration documentation</a> under 'Choosing the template to use'.
+If you want to make/use your own template, and/or edit the existing templates refer to <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/"> the configuration documentation</a> under 'Choosing the template to use'.
 
 **4-) size (optional - override)**
 
-Depending on the width setup/style of your target page, you can select from a predermined set of width combinations for a best fit. This setting only affects bootstrap multiple column arrangements (for now) as seen on sections like cast and crew.
+Depending on the width setup/style of your target page, you can select from a predetermined set of width combinations for a best fit. This setting only affects bootstrap multiple column arrangements (for now) as seen on sections like cast and crew.
 
 So if you have a full-width area with a no sidebar layout you would choose ‘large‘, ‘medium‘ if you have one sidebar and ‘small‘ for a two sidebar area. The default value is ‘medium’.
 
@@ -199,6 +232,11 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 6. The advanced settings section
 
 == Changelog ==
+
+= 2.0.2 =
+* Added: Display (existing) file read errors only if wp debug display, plugin and wp debug mode are turned on. Always log these errors if possible.
+* Added-dev: Refactor file structure and class / variable naming to optimise code readability. Split dependancies for admin vs public and load only when necessary.
+* Added: Flush permalinks after plugin activation (so it won't have to be done manually) to get custom post type pages to appear immediately.
 
 = 2.0.1 =
 * Fixed-bug: Remove experimental SFC (and httpVueLoader) in favor of component template literals transpiled inline by babel
