@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
 Requires at least: 3.7
 Tested up to: 5.2.2
-Stable tag: 2.0.1
+Stable tag: 2.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -232,6 +232,9 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 6. The advanced settings section
 
 == Changelog ==
+
+= 2.0.3 =
+* Fixed-bug: Cast / crew hide sections bug.
 
 = 2.0.2 =
 * Added: Display (existing) file read errors only if wp debug display, plugin and wp debug mode are turned on. Always log these errors if possible.

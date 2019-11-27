@@ -139,7 +139,7 @@ trait TemplateVueTrait
                         'js',
                         false);
                 wp_enqueue_script(
-                    'vueComponent-' . $component['filename'], $components_to_add[$count], array( 'vue', 'vuex' ), 0.2, true);
+                    'vueComponent-' . $component['filename'], $components_to_add[$count], array( 'vue', 'vuex' ), 0.3, true);
                 $component_script_handles[$count] = 'vueComponent-' . $component['filename'];
                 $count++;
             }

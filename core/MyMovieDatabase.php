@@ -45,7 +45,7 @@ class MyMovieDatabase {
 
     public function __construct() {
 
-        $this->version = "2.0.2";
+        $this->version = "2.0.3";
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
 
         $this->run();

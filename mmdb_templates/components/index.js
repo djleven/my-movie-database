@@ -23,7 +23,7 @@ Vue.component("index", {
                     component: this.$store.state.components.overview.filename
                 },
                 section_2: {
-                    showIf: this.$store.state.showSettings.section_3 && this.cast.length,
+                    showIf: this.$store.state.showSettings.section_2 && this.cast.length,
                     title: this.$store.state.__t.cast,
                     component: this.$store.state.components.section_2.filename
                 },
