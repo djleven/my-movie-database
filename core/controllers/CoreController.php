@@ -149,7 +149,9 @@ class CoreController {
                             "custom-fields",
                             "comments",
                             "revisions",
-                            "page-attributes"
+                            "page-attributes",
+                            "publicize",
+                            'wpcom-markdown'
                         ],
                         'rewrite' => [
                             'slug' => $plugin_resource_type->data_type

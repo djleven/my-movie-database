@@ -19,6 +19,9 @@ use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
 
 class PublicController {
 
+    const MMDB_SHORTCODE = 'my_movie_db';
+    const MMDB_SHORTCODE_ALT = 'my-movie-db';
+
     /**
      * Active post types as per admin user settings.
      *
@@ -54,7 +57,8 @@ class PublicController {
      */
     private function registerMainHooks() {
 
-        add_shortcode( 'my_movie_db', array( $this, 'shortcode_content_view_hook'));
+        add_shortcode( self::MMDB_SHORTCODE, array( $this, 'shortcode_content_view_hook'));
+        add_shortcode( self::MMDB_SHORTCODE_ALT, array( $this, 'shortcode_content_view_hook'));
         add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts' ));
         add_action( 'the_content', array($this, 'post_content_view_hook' ));
         add_filter( 'the_content_feed', array($this, 'remove_shortcode_from_feed'));
@@ -98,7 +102,8 @@ class PublicController {
         // $post not set on 404 pages, returns Trying to get property of non-object
         if (isset( $post )) {
 
-            $result = has_shortcode( $post->post_content, 'my_movie_db');
+            $result = has_shortcode( $post->post_content, self::MMDB_SHORTCODE) ||
+                has_shortcode( $post->post_content, self::MMDB_SHORTCODE_ALT);
         }
 
         return $result;
@@ -225,7 +230,8 @@ class PublicController {
      */
     public function remove_shortcode_from_feed($content){
 
-        remove_shortcode('my_movie_db');
+        remove_shortcode(self::MMDB_SHORTCODE);
+        remove_shortcode(self::MMDB_SHORTCODE_ALT);
 
         return $content;
     }

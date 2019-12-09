@@ -175,10 +175,17 @@ trait TemplateVueTrait
      */
     public function createVueInstance($lastVueComponent) {
 
+        global $mmdbID_processed;
+        $uniqueID = $this->getUniqueID();
+        if(in_array($uniqueID, $mmdbID_processed)) {
+            return false;
+        }
+
         $mmdbID = $this->tmdb_id;
         if(!$mmdbID) {
             $mmdbID = 0;
         }
+
         $myVue ='// The Vue instance for the ' . $this->data_type . ' ' . $mmdbID . '
                  new Vue({
                     el: "#' . $this->getVueMountPoint() . '",
@@ -224,6 +231,7 @@ trait TemplateVueTrait
                 });';
 
         wp_add_inline_script( $lastVueComponent, $myVue);
+        $mmdbID_processed[] = $uniqueID;
     }
 
     /**
