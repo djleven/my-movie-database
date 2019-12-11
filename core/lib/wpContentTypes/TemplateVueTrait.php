@@ -177,7 +177,7 @@ trait TemplateVueTrait
 
         global $mmdbID_processed;
         $uniqueID = $this->getUniqueID();
-        if(in_array($uniqueID, $mmdbID_processed)) {
+        if(is_array($mmdbID_processed) && in_array($uniqueID, $mmdbID_processed)) {
             return false;
         }
 

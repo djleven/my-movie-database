@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -232,6 +232,9 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 6. The advanced settings section
 
 == Changelog ==
+
+= 2.0.4 =
+* Fixed-bug: PHP warning from Jetpack's Publicize and Sharing conflict fix
 
 = 2.0.4 =
 * Added: Add support for 'my-movie-db' shortcode (without underscores, closer to wp convention)
