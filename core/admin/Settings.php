@@ -57,14 +57,13 @@ class Settings {
     private function getTypeSections() {
 
         $sections = [];
-        $plugin_resource_types = $this->plugin_resource_types;
 
-        foreach($plugin_resource_types as $plugin_resource_type) {
+        foreach($this->plugin_resource_types as $plugin_resource_type) {
 
             $sections[] =
                 [
                     'id'    => $plugin_resource_type->type_setting_id,
-                    'title' => esc_html__( "$plugin_resource_type->data_type_label Settings", MMDB_WP_NAME )
+                    'title' => esc_html__( $plugin_resource_type->data_type_label, MMDB_WP_NAME ) . ' ' .  esc_html__( 'Settings', MMDB_WP_NAME )
                 ];
         }
 
@@ -98,13 +97,10 @@ class Settings {
      */
     private function getAfterTypesSections() {
 
-        $sections[] =
-            [
+        return [[
                 'id'    => MMDB_ADVANCED_OPTION_GROUP,
                 'title' => esc_html__( 'Advanced Settings', MMDB_WP_NAME )
-            ];
-
-        return $sections;
+            ]];
     }
 
     /**
@@ -117,14 +113,11 @@ class Settings {
      */
     private function getSettingsSections() {
 
-        //$sections1 = $this->getBeforeTypesSections();
-        $sections2 = $this->getTypeSections();
-        $sections3 = $this->getAfterTypesSections();
-
-        //$sections = array_merge($sections1, $sections2, $sections3);
-        $sections = array_merge($sections2, $sections3);
-
-        return $sections;
+        return array_merge(
+//            $this->getBeforeTypesSections(),
+            $this->getTypeSections(),
+            $this->getAfterTypesSections()
+        );
     }
 
     /**
@@ -361,13 +354,75 @@ class Settings {
      */
     private function getSettingsFields() {
 
-        //$settings_fields1 = $this->getBeforeTypeSectionsFields();
-        $settings_fields2 = $this->getTypeSectionFields();
-        $settings_fields3 = $this->getAfterTypeSectionsFields();
+        return array_merge(
+//                $this->getBeforeTypeSectionsFields(),
+                $this->getTypeSectionFields(),
+                $this->getAfterTypeSectionsFields()
+        );
 
-        //$settings_fields = array_merge($settings_fields1, $settings_fields2, $settings_fields3);
-        $settings_fields = array_merge($settings_fields2, $settings_fields3);
-        return $settings_fields;
+    }
+
+    /**
+     * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
+     *
+     * @since    0.7.0
+     *
+     * @since    1.0.0 			split into other seperate section functions which are merged here
+     */
+    private function getHeaderInfo() {
+
+        return [
+            [
+                'title' => esc_html__( 'Get Help',  MMDB_WP_NAME ),
+                'rows' => [
+                    [
+                        'title' => esc_html__( 'Documentation',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-editor-help',
+                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/how-to-use-the-mmdb-plugin/',
+                        'url-text' => esc_html__( 'How to use the plugin.',  MMDB_WP_NAME )
+                    ],
+                    [
+                        'title' => esc_html__( 'Documentation',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-admin-tools',
+                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/',
+                        'url-text' => esc_html__( 'Configuration options',  MMDB_WP_NAME )
+                    ],
+                    [
+                        'title' => esc_html__( 'Support',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-tickets-alt',
+                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/',
+                        'text' => esc_html__( 'Still can\'t figure it out?',  MMDB_WP_NAME ),
+                        'url-text' => esc_html__( 'Open up a ticket.',  MMDB_WP_NAME )
+                    ],
+                ],
+            ],
+            [
+                'title' => esc_html__( 'Give Help - Contribute',  MMDB_WP_NAME ),
+                'rows' => [
+                    [
+                        'title' => esc_html__( 'Review',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-star-half',
+                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/reviews/',
+                        'text' => esc_html__( 'It means a lot to us.',  MMDB_WP_NAME ),
+                        'url-text' => esc_html__( 'Please leave your review.',  MMDB_WP_NAME ),
+                    ],
+                    [
+                        'title' => esc_html__( 'Translate',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-flag',
+                        'url' => 'https://translate.wordpress.org/projects/wp-plugins/my-movie-database/',
+                        'text' => esc_html__( 'Help',  MMDB_WP_NAME ),
+                        'url-text' => esc_html__( 'translate the plugin in your language.',  MMDB_WP_NAME )
+                    ],
+                    [
+                        'title' => esc_html__( 'Donate',  MMDB_WP_NAME ),
+                        'span_class' => 'dashicons-buddicons-community',
+                        'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6',
+                        'text' => esc_html__( 'Or if you prefer, maybe',  MMDB_WP_NAME ),
+                        'url-text' => esc_html__( 'buy us a beer?',  MMDB_WP_NAME )
+                    ],
+                ]
+            ]
+        ];
     }
 
     /**
@@ -397,66 +452,31 @@ class Settings {
                 margin: 0;
                 text-align: center;
             }
+            .mmdb-row .update-nag span {
+                padding-right: 5px;
+            }
         </style>
         <div class="mmdb_admin_header">
             <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
-            <h1><?php _e( 'My Movie Database Options',  MMDB_WP_NAME );?></h1>
+            <h1><?php esc_html__( 'My Movie Database Options',  MMDB_WP_NAME );?></h1>
         </div>
         <div class="mmdb-row">
-
+            <?php foreach($this->getHeaderInfo() as $info) :?>
             <div class="update-nag">
-                <h3> <?php _e( 'Get Help',  MMDB_WP_NAME );?></h3>
+                <h3><?php echo $info['title']?></h3>
                 <ul>
+                    <?php foreach($info['rows'] as $row) :?>
                     <li>
-                        <span class="dashicons dashicons-editor-help"></span><strong><?php _e( 'Documentation',  MMDB_WP_NAME );?>:</strong>
-                        <a href="https://mymoviedatabase.cinema.ttic.ca/how-to-use-the-mmdb-plugin/" target="_blank">
-                            <?php _e( 'How to use the plugin.',  MMDB_WP_NAME );?>
-                        </a>
-
-                    </li>
-                    <li>
-                        <span class="dashicons dashicons-admin-tools"></span><strong><?php _e( 'Documentation',  MMDB_WP_NAME );?>:</strong>
-                        <a href="https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/" target="_blank">
-                            <?php _e( 'Configuration options',  MMDB_WP_NAME );?>
+                        <span class="dashicons <?php echo $row['span_class']?>"></span><strong><?php echo $row['title']?>:</strong>
+                        <?php $text = isset($row['text']) ? $row['text'] : ''; echo $text; ?>
+                        <a href="<?php echo $row['url']?>" target="_blank">
+                            <?php echo $row['url-text']?>
                         </a>
                     </li>
-                    <li>
-                        <span class="dashicons dashicons-tickets-alt"></span><strong><?php _e( 'Support',  MMDB_WP_NAME );?>:</strong>
-                        <?php _e( 'If you need to you can',  MMDB_WP_NAME );?>
-                        <a href="https://wordpress.org/support/plugin/my-movie-database/" target="_blank">
-                            <?php _e( 'open a ticket.',  MMDB_WP_NAME );?>
-                        </a>
-                    </li>
+                    <?php endforeach;?>
                 </ul>
             </div>
-
-            <div class="update-nag">
-                <h3> <?php _e( 'Give Help - Contribute',  MMDB_WP_NAME );?></h3>
-                <ul>
-                    <li>
-                        <span class="dashicons dashicons-star-half"></span><strong><?php _e( 'Review',  MMDB_WP_NAME );?>:</strong>
-                        <?php _e( 'It means a lot to us',  MMDB_WP_NAME );?>,
-                        <a href="https://wordpress.org/support/plugin/my-movie-database/reviews/" target="_blank">
-                            <?php _e( 'please leave your review.',  MMDB_WP_NAME );?>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="dashicons dashicons-flag"></span><strong><?php _e( 'Translate',  MMDB_WP_NAME );?>:</strong>
-                        <?php _e( 'Help',  MMDB_WP_NAME );?>
-                        <a href="https://translate.wordpress.org/projects/wp-plugins/my-movie-database/" target="_blank">
-                            <?php _e( 'translate the plugin in your language.',  MMDB_WP_NAME );?>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="dashicons dashicons-buddicons-community"></span> <strong><?php _e( 'Donate',  MMDB_WP_NAME );?>:</strong>
-                        <?php _e( 'Or if you prefer, maybe',  MMDB_WP_NAME );?>
-                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6" target="_blank">
-                            <?php _e( 'buy us a beer?',  MMDB_WP_NAME );?>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
+            <?php endforeach;?>
         </div>
 
         <div class="wrap">
