@@ -45,7 +45,7 @@ class MyMovieDatabase {
 
     public function __construct() {
 
-        $this->version = "2.0.3";
+        $this->version = "2.0.5";
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
 
         $this->run();
@@ -72,7 +72,6 @@ class MyMovieDatabase {
      * @access   private
      */
     private function loadCommonDependencies() {
-
         /**
          * The class responsible for defining (shared) core controller functions.
          */
@@ -91,11 +90,12 @@ class MyMovieDatabase {
         require_once self::MMDB_LIB_DIR . 'resourceTypes/PersonResourceType.php';
 
         /**
-         * A class for creating Wordpress custom post types and custom taxonomies (by jjgrainger).
+         * A class for creating Wordpress custom post types and custom taxonomies.
          */
-//        require_once self::MMDB_VENDOR_DIR . 'PostTypes/Columns.php';
-        require_once self::MMDB_VENDOR_DIR . 'PostTypes/PostType.php';
-        require_once self::MMDB_VENDOR_DIR . 'PostTypes/Taxonomy.php';
+        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Columns.php';
+        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostTypeEntityAbstract.php';
+        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostType.php';
+        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Taxonomy.php';
 
         /**
          * A class responsible for handling plugin template files.
@@ -112,7 +112,6 @@ class MyMovieDatabase {
          * The concrete subclass responsible for the mmdb post view
          */
         require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpPostContentType.php';
-
     }
 
     /**

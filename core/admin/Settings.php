@@ -317,6 +317,17 @@ class Settings {
                     )
                 ),
                 array(
+                    'name'    => 'mmdb_hierarchical_taxonomy',
+                    'label'   => esc_html__( 'Hierarchical Categories', MMDB_WP_NAME ),
+                    'desc'    => esc_html__( 'Plugin categories can be hierarchical or not', MMDB_WP_NAME ),
+                    'type'    => 'radio',
+                    'default' => 'yes',
+                    'options' => array(
+                        'yes'  => esc_html__( 'Yes, I want the standard hierarchical categories', MMDB_WP_NAME ),
+                        'no'  => esc_html__( 'No, I want categories to be in the form of tags', MMDB_WP_NAME ),
+                    )
+                ),
+                array(
                     'name'    => 'mmdb_overview_on_hover',
                     'label'   => esc_html__( "Overview on hover", MMDB_WP_NAME ),
                     'desc'    => esc_html__( 'Show description on hover for person credits and tvshow seasons', MMDB_WP_NAME ),
