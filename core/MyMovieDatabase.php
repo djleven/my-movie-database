@@ -61,7 +61,7 @@ class MyMovieDatabase {
         load_plugin_textdomain(
             MMDB_WP_NAME,
             false,
-            MMDB_PLUGIN_DIR . '/languages/'
+            MMDB_WP_NAME . '/languages'
         );
     }
 
