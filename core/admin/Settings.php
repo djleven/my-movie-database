@@ -140,7 +140,7 @@ class Settings {
 
                     array(
                         'name'    => $plugin_type->tmpl_setting_id,
-                        'label'   => esc_html__( "$plugin_type->data_type_label template", MMDB_WP_NAME ),
+                        'label'   => __( $plugin_type->data_type_label, MMDB_WP_NAME ). ' - ' . __( 'template', MMDB_WP_NAME ),
                         'desc'    => esc_html__( 'Select the template to use. The custom template is empty by default', MMDB_WP_NAME ),
                         'type'    => 'select',
                         'default' => 'tabs',
@@ -152,7 +152,7 @@ class Settings {
                     ),
                     array(
                         'name'    => $plugin_type->width_setting_id,
-                        'label'   => esc_html__( "$plugin_type->data_type_label width", MMDB_WP_NAME ),
+                        'label'   => __( $plugin_type->data_type_label, MMDB_WP_NAME ). ' - ' . __( 'width', MMDB_WP_NAME ),
                         'desc'    => esc_html__( 'Select the responsive widths to use. Full-width if you have a no sidebar layout, one-sidebar if you have, well, one sidebar(!), etc', MMDB_WP_NAME ),
                         'type'    => 'select',
                         'default' => 'large',
@@ -197,7 +197,7 @@ class Settings {
                     array(
                         'name'    => $plugin_type->header_color_setting_id,
                         'label'   => esc_html__( 'Header Background Color', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( "Background color for the $plugin_type->data_type headers", MMDB_WP_NAME ),
+                        'desc'    => esc_html__( "Background color for the template header", MMDB_WP_NAME ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
                         'default' => '#265a88'
@@ -205,7 +205,7 @@ class Settings {
                     array(
                         'name'    => $plugin_type->body_color_setting_id,
                         'label'   => esc_html__( 'Body Color', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( "Background color for the $plugin_type->data_type content", MMDB_WP_NAME ),
+                        'desc'    => esc_html__( "Background color for the template content", MMDB_WP_NAME ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
                         'default' => '#DCDCDC'
@@ -319,7 +319,7 @@ class Settings {
                 array(
                     'name'    => 'mmdb_hierarchical_taxonomy',
                     'label'   => esc_html__( 'Hierarchical Categories', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Plugin categories can be hierarchical or not', MMDB_WP_NAME ),
+                    'desc'    => esc_html__( 'Plugin categories can be hierarchical (have parents / children) or not. Non-hierarchical categories behave like wordpress tags', MMDB_WP_NAME ),
                     'type'    => 'radio',
                     'default' => 'yes',
                     'options' => array(
