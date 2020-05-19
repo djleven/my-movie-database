@@ -4,8 +4,8 @@ Contributors: djleven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6
 Tags: movie, movies, tv, television series, tv show, TMDb, mmdb, cast, crew
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 2.0.5
+Tested up to: 5.4.1
+Stable tag: 2.0.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -233,7 +233,16 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 
 == Changelog ==
 
-= 2.0.4 =
+= 2.0.6 =
+* Added: French and Italian (via @PandaSekh) translations
+* Added: Updated languages files to v2.x of plugin
+* Fixed bug: Translation not working (regression)
+* Added: Option to make plugin taxonomies non-hierarchical
+* Added: Wordpress tags alongside categories for mmdb post types
+* Added: Made all columns sortable on post type admin list view
+* Added-dev: Refactored PostTypes for plugin needs
+
+= 2.0.5 =
 * Fixed-bug: PHP warning from Jetpack's Publicize and Sharing conflict fix
 
 = 2.0.4 =
@@ -243,7 +252,7 @@ See the <a target="_blank" href="https://mymoviedatabase.cinema.ttic.ca/plugin-c
 * Minor: Remove forgotten .vue files and update 'Tested up to' version 5.3
 
 = 2.0.3 =
-* Fixed-bug: Cast / crew hide sections bug.
+* Fixed bug: Cast / crew hide sections bug.
 
 = 2.0.2 =
 * Added: Display (existing) file read errors only if wp debug display, plugin and wp debug mode are turned on. Always log these errors if possible.

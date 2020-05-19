@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+rm languages/my-movie-database-fr_BE.mo
+rm languages/my-movie-database-fr_BE.po
+rm languages/my-movie-database-fr_CA.mo
+rm languages/my-movie-database-fr_CA.po
+
+cp languages/my-movie-database-fr_FR.mo languages/my-movie-database-fr_BE.mo
+cp languages/my-movie-database-fr_FR.po languages/my-movie-database-fr_BE.po
+cp languages/my-movie-database-fr_FR.mo languages/my-movie-database-fr_CA.mo
+cp languages/my-movie-database-fr_FR.po languages/my-movie-database-fr_CA.po

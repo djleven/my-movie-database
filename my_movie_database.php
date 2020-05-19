@@ -4,7 +4,7 @@
  * Plugin Name:       My Movie Database
  * Plugin URI:        https://wordpress.org/plugins/my-movie-database/
  * Description:       The My Movie Database plugin compliments your content by adding information about the movies, the television shows and the people you choose. The data comes from the Movie Database (TMDb). This plugin was developed to enrich your movie or tvshow critique / review by 'automatically' adding the related information and allowing you to focus on your writing instead.
- * Version:           2.0.5
+ * Version:           2.0.6
  * Author:            Kostas Stathakos
  * Author URI:        https://e-leven.net/
  * License:           GPL-3.0+
