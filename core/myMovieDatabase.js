@@ -165,7 +165,8 @@ theMovieDb.helpers = {
             {
                 day: '2-digit',
                 month: month,
-                year: 'numeric'
+                year: 'numeric',
+                timeZone: 'UTC',
             }
         );
     },
