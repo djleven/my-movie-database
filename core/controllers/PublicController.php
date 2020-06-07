@@ -203,7 +203,7 @@ class PublicController {
      */
     public function post_types_to_archive_pages($query) {
 
-        if( is_category() ) {
+        if( is_category() || is_tag()) {
             $post_type = get_query_var('post_type');
             if (!$post_type) {
                 $post_type =

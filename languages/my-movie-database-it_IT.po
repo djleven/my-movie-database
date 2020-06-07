@@ -2,45 +2,50 @@ msgid ""
 msgstr ""
 "POT-Creation-Date: 2018-09-03 15:28+0000\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"PO-Revision-Date: 2020-02-03 17:28+0100\n"
+"PO-Revision-Date: 2020-05-19 01:39+0000\n"
 "X-Generator: Poedit 2.2.4\n"
 "Project-Id-Version: My Movie Database\n"
-"Language-Team: English (United States)\n"
+"Language-Team: Italiano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/my-movie-"
+"database\n"
 "X-Poedit-KeywordsList: _x;__x;__;_e\n"
 "Last-Translator: Alessio Franceschi <alessiofranceschi2@gmail.com>\n"
-"Language: it_IT\n"
+"Language: it-IT\n"
 
-#: admin/class_mmdb_post_meta_box.php:158
-msgid "You have not entered anything in the search field"
-msgstr "Non hai inserito niente nel campo di ricerca"
+#: core/admin/PostMetaBox.php:77
+msgid "Search Database"
+msgstr "Cerca nel Database"
 
-#: admin/class_mmdb_settings.php:106
+#: core/admin/Settings.php:66
+msgid "Settings"
+msgstr ""
+
+#: core/admin/Settings.php:102
 msgid "Advanced Settings"
 msgstr "Impostazioni Avanzate"
 
-#: admin/class_mmdb_settings.php:153
+#: core/admin/Settings.php:144
 msgid "Select the template to use. The custom template is empty by default"
 msgstr ""
 "Seleziona il Template da usare. Il template personalizzato è vuoto di "
 "default."
 
-#: admin/class_mmdb_settings.php:157
+#: core/admin/Settings.php:148
 msgid "With tabs"
 msgstr "Con schede"
 
-#: admin/class_mmdb_settings.php:158
+#: core/admin/Settings.php:149
 msgid "With accordion"
 msgstr "A fisarmonica"
 
-#: admin/class_mmdb_settings.php:159
+#: core/admin/Settings.php:150
 msgid "Custom template"
 msgstr "Template personalizzato"
 
-#: admin/class_mmdb_settings.php:165
+#: core/admin/Settings.php:156
 msgid ""
 "Select the responsive widths to use. Full-width if you have a no sidebar "
 "layout, one-sidebar if you have, well, one sidebar(!), etc"
@@ -48,116 +53,144 @@ msgstr ""
 "Seleziona la larghezza responsive da utilizzare. Larghezza piena se hai un "
 "layout senza sidebar, una sidebar se hai, beh, una sidebar (!). ecc"
 
-#: admin/class_mmdb_settings.php:169
+#: core/admin/Settings.php:160
 msgid "Full-width"
 msgstr "Larghezza piena"
 
-#: admin/class_mmdb_settings.php:170
+#: core/admin/Settings.php:161
 msgid "One sidebar"
 msgstr "Una sidebar"
 
-#: admin/class_mmdb_settings.php:171
+#: core/admin/Settings.php:162
 msgid "Two sidebars"
 msgstr "Due sidebar"
 
-#: admin/class_mmdb_settings.php:177
+#: core/admin/Settings.php:167
+msgid "Transition effect"
+msgstr ""
+
+#: core/admin/Settings.php:168
+msgid "Select the transition effect to use when switching sections"
+msgstr ""
+
+#: core/admin/Settings.php:172
+msgid "Fade"
+msgstr ""
+
+#: core/admin/Settings.php:173
+msgid "Bounce"
+msgstr ""
+
+#: core/admin/Settings.php:174
+msgid "None"
+msgstr ""
+
+#: core/admin/Settings.php:179
 msgid "Display position"
 msgstr "Posizione di visualizzazione"
 
-#: admin/class_mmdb_settings.php:178
+#: core/admin/Settings.php:180
 msgid "Choose to display MMDB info before or after the content"
 msgstr "Scegli se mostrare le info di MMDB prima o dopo il contenuto"
 
-#: admin/class_mmdb_settings.php:182
+#: core/admin/Settings.php:184
 msgid "After content"
 msgstr "Dopo il contenuto"
 
-#: admin/class_mmdb_settings.php:183
+#: core/admin/Settings.php:185
 msgid "Before content"
 msgstr "Prima del contenuto"
 
-#: admin/class_mmdb_settings.php:188
+#: core/admin/Settings.php:190
 msgid "Hide sections"
 msgstr "Nascondi sezioni"
 
-#: admin/class_mmdb_settings.php:189
+#: core/admin/Settings.php:191
 msgid "Select the sections to be hidden"
 msgstr "Seleziona le sezioni da nascondere"
 
-#: admin/class_mmdb_settings.php:197
+#: core/admin/Settings.php:199
 msgid "Header Background Color"
 msgstr "Colore di sfondo dell'intestazione"
 
-#: admin/class_mmdb_settings.php:205
+#: core/admin/Settings.php:200
+msgid "Background color for the template header"
+msgstr ""
+
+#: core/admin/Settings.php:207
 msgid "Body Color"
 msgstr "Colore del corpo"
 
-#: admin/class_mmdb_settings.php:248
+#: core/admin/Settings.php:208
+msgid "Background color for the template content"
+msgstr ""
+
+#: core/admin/Settings.php:250
 msgid "Enable \"Movies\" section?"
 msgstr "Abilita la sezione \"Film\"?"
 
-#: admin/class_mmdb_settings.php:249
+#: core/admin/Settings.php:251
 msgid "Movies post type - what is to be done?"
 msgstr "Tipo di post Film - cosa fare?"
 
-#: admin/class_mmdb_settings.php:253
+#: core/admin/Settings.php:255
 msgid "Yes, use a \"Movies\" post section (custom post type)"
 msgstr "Sì, utilizza una sezione post \"Film\" (tipo di post personalizzato)"
 
-#: admin/class_mmdb_settings.php:254
+#: core/admin/Settings.php:256
 msgid "No, use Posts but change the \"Posts\" menu label to \"Movies\""
 msgstr "No, usa i Post ma cambia l'etichetta del menù \"Post\" in \"Film\""
 
-#: admin/class_mmdb_settings.php:255
+#: core/admin/Settings.php:257
 msgid "No, use Posts and leave them as they are"
 msgstr "No, usa i Post e lasciali così come sono"
 
-#: admin/class_mmdb_settings.php:256
+#: core/admin/Settings.php:258
 msgid ""
 "None of the above, I only want to use Movies with shortcodes (or not at all)"
 msgstr ""
 "Nessuna delle precedenti, voglio usare i Film solo con gli shortcodes (o per "
 "niente)"
 
-#: admin/class_mmdb_settings.php:261
+#: core/admin/Settings.php:263
 msgid "Enable \"Tvshows\" section?"
 msgstr "Abilita la sezione \"Serie TV\"?"
 
-#: admin/class_mmdb_settings.php:262
+#: core/admin/Settings.php:264
 msgid "Tvshows post type - what is to be done?"
 msgstr "Tipo di post Serie TV - cosa fare?"
 
-#: admin/class_mmdb_settings.php:266
+#: core/admin/Settings.php:268
 msgid "Yes, use a \"TvShows\" post section (custom post type)"
 msgstr ""
 "Sì, utilizza una sezione post \"Serie TV\" (tipo di post personalizzato)"
 
-#: admin/class_mmdb_settings.php:267
+#: core/admin/Settings.php:269
 msgid "No no, I only want to use TvShows with shortcodes (or not at all)"
 msgstr "No no, voglio usare le Serie TV solo con gli shortcodes (o per niente)"
 
-#: admin/class_mmdb_settings.php:272
+#: core/admin/Settings.php:274
 msgid "Enable \"Persons\" section?"
 msgstr "Abilita la sezione \"Persone\"?"
 
-#: admin/class_mmdb_settings.php:273
+#: core/admin/Settings.php:275
 msgid "Persons post type - what is to be done?"
 msgstr "Tipo di post Persone - cosa fare?"
 
-#: admin/class_mmdb_settings.php:277
+#: core/admin/Settings.php:279
 msgid "Yes, use a \"Persons\" post section (custom post type)"
 msgstr ""
 "Sì, utilizza una sezione post \"Persone\" (tipo di post personalizzato)"
 
-#: admin/class_mmdb_settings.php:278
+#: core/admin/Settings.php:280
 msgid "No no, I only want to use Persons with shortcodes (or not at all)"
 msgstr "No no, voglio usare le Persone solo con gli shortcodes (o per niente)"
 
-#: admin/class_mmdb_settings.php:283
+#: core/admin/Settings.php:285
 msgid "Include plugin css file"
 msgstr "Includi il file css del plugin"
 
-#: admin/class_mmdb_settings.php:284
+#: core/admin/Settings.php:286
 msgid ""
 "Select when to load the plugin css file, selecting No will never load the "
 "plugin css file"
@@ -165,49 +198,48 @@ msgstr ""
 "Scegli quando caricare il file css del plugin, selezionando No non si "
 "caricherà mai il file css del plugin"
 
-#: admin/class_mmdb_settings.php:288
+#: core/admin/Settings.php:290
 msgid "Yes, load it for posts that use my-movie-database only"
 msgstr "Si, caricalo solo per i post che utilizzano my-movie-database"
 
-#: admin/class_mmdb_settings.php:289
+#: core/admin/Settings.php:291
 msgid "Yes, but load it for all wp pages (for use with archive, etc)"
 msgstr "Si, ma caricalo per tutte le pagine wp (per l'uso negli archivi, ecc)"
 
-#: admin/class_mmdb_settings.php:290 admin/class_mmdb_settings.php:302
+#: core/admin/Settings.php:292 core/admin/Settings.php:304 
+#: core/admin/Settings.php:327
 msgid "No"
 msgstr "No"
 
-#: admin/class_mmdb_settings.php:295
-msgid "Include bootstrap"
-msgstr "Includi bootstrap"
-
-#: admin/class_mmdb_settings.php:296
-msgid ""
-"Default templates require bootstrap libraries, select No if you dont want "
-"this plugin to include them"
+#: core/admin/Settings.php:297
+msgid "Include bootstrap stylesheet"
 msgstr ""
-"I template di base richiedono le librerie bootstrap, seleziona No se non "
-"vuoi che questo plugin le includa"
 
-#: admin/class_mmdb_settings.php:300
+#: core/admin/Settings.php:298
+msgid ""
+"Default templates require bootstrap css, select No if you dont want this "
+"plugin to include it"
+msgstr ""
+
+#: core/admin/Settings.php:302
 msgid "Yes, load it for my-movie-database pages only"
 msgstr "Si, caricale solo per le pagine con my-movie-database"
 
-#: admin/class_mmdb_settings.php:301
+#: core/admin/Settings.php:303
 msgid "Yes, but load it for all wp pages"
 msgstr "Si, ma caricalo per tutte le pagine wp"
 
-#: admin/class_mmdb_settings.php:307
+#: core/admin/Settings.php:309
 msgid "Wordpress Categories"
 msgstr "Categorie Wordpress"
 
-#: admin/class_mmdb_settings.php:308
+#: core/admin/Settings.php:310
 msgid "Default Wordpress categories can be selectable for your your mmdb posts"
 msgstr ""
 "Le categorie di base di WordPress possono essere selezionate per i tuoi post "
 "di mmdb"
 
-#: admin/class_mmdb_settings.php:312
+#: core/admin/Settings.php:314
 msgid ""
 "Yes, allow movies, tvshows and persons to be associated to wordpress "
 "categories"
@@ -215,7 +247,7 @@ msgstr ""
 "Si, consenti a film, serie tv e persone di essere associate alle categorie "
 "wordpress"
 
-#: admin/class_mmdb_settings.php:313
+#: core/admin/Settings.php:315
 msgid ""
 "Yes, associate them but do not show mmdb type posts in wordpress category "
 "pages as it conflicts with my theme or plugins"
@@ -223,319 +255,402 @@ msgstr ""
 "Si, associale ma non mostrare i post di tipo mmdb nelle pagine delle "
 "categorie perché va in conflitto con il mio tema o i miei plugin"
 
-#: admin/class_mmdb_settings.php:314
+#: core/admin/Settings.php:316
 msgid "No, do not use wordpress categories"
 msgstr "No, non usare le categorie wordpress"
 
-#: admin/class_mmdb_settings.php:319
+msgid "Hierarchical Categories"
+msgstr ""
+
+msgid ""
+"Plugin categories can be hierarchical (have parents / children) or not. Non-"
+"hierarchical categories behave like wordpress tags"
+msgstr ""
+
+msgid "Yes, I want the standard hierarchical categories"
+msgstr ""
+
+msgid "No, I want categories to be in the form of tags"
+msgstr ""
+
+#: core/admin/Settings.php:321
+msgid "Overview on hover"
+msgstr ""
+
+#: core/admin/Settings.php:322
+msgid "Show description on hover for person credits and tvshow seasons"
+msgstr ""
+
+#: core/admin/Settings.php:326
+msgid "Yes"
+msgstr ""
+
+#: core/admin/Settings.php:332
 msgid "Debug Mode"
 msgstr "Modalità Debug"
 
-#: admin/class_mmdb_settings.php:320
-msgid "This will simply output the call to TMDB"
-msgstr "Questo semplicemente mostrerà la richiesta fatta a TMDB"
+#: core/admin/Settings.php:333
+msgid ""
+"Will output data received from TMDB in your browser's (web developer tools) "
+"console"
+msgstr ""
 
-#: admin/partials/mmdb_post_meta_fields.php:26
-msgid "Search Database"
-msgstr "Cerca nel Database"
+#: core/admin/Settings.php:376
+msgid "Get Help"
+msgstr ""
 
-#: admin/partials/mmdb_no_selection.php:17
-msgid "Nothing has been selected."
-msgstr "Niente è stato selezionato."
+#: core/admin/Settings.php:379 core/admin/Settings.php:385
+msgid "Documentation"
+msgstr ""
 
-#: admin/mmdb_data_type_class/class_mmdb_movie_data_type.php:24
-#: admin/mmdb_data_type_class/class_mmdb_person_data_type.php:24
-#: admin/mmdb_data_type_class/class_mmdb_tvshow_data_type.php:24
+#: core/admin/Settings.php:382
+msgid "How to use the plugin."
+msgstr ""
+
+#: core/admin/Settings.php:388
+msgid "Configuration options"
+msgstr ""
+
+#: core/admin/Settings.php:391
+msgid "Support"
+msgstr ""
+
+#: core/admin/Settings.php:394
+msgid "Still can't figure it out?"
+msgstr ""
+
+#: core/admin/Settings.php:395
+msgid "Open up a ticket."
+msgstr ""
+
+#: core/admin/Settings.php:400
+msgid "Give Help - Contribute"
+msgstr ""
+
+#: core/admin/Settings.php:403
+msgid "Review"
+msgstr ""
+
+#: core/admin/Settings.php:406
+msgid "It means a lot to us."
+msgstr ""
+
+#: core/admin/Settings.php:407
+msgid "Please leave your review."
+msgstr ""
+
+#: core/admin/Settings.php:410
+msgid "Translate"
+msgstr ""
+
+#: core/admin/Settings.php:413
+msgid "Help"
+msgstr ""
+
+#: core/admin/Settings.php:414
+msgid "translate the plugin in your language."
+msgstr ""
+
+#: core/admin/Settings.php:417
+msgid "Donate"
+msgstr ""
+
+#: core/admin/Settings.php:420
+msgid "Or if you prefer, maybe"
+msgstr ""
+
+#: core/admin/Settings.php:421
+msgid "buy us a beer?"
+msgstr ""
+
+#: core/admin/Settings.php:461
+msgid "My Movie Database Options"
+msgstr ""
+
+#: core/vendor/WpSettingsApi.php:368
+msgid "Choose File"
+msgstr "Scegli il file"
+
+msgid "Movie"
+msgstr "Film"
+
+msgid "TvShow"
+msgstr "Serie TV"
+
+msgid "Person"
+msgstr "Persona"
+
+msgid "movie"
+msgstr "film"
+
+msgid "tvshow"
+msgstr "serie tv"
+
+msgid "person"
+msgstr "persona"
+
+msgid "Movies"
+msgstr "Film"
+
+msgid "TvShows"
+msgstr "Serie TV"
+
+msgid "Persons"
+msgstr "Persone"
+
 msgid "Overview Text"
 msgstr "Panoramica del Testo"
 
-#: admin/mmdb_data_type_class/class_mmdb_movie_data_type.php:25
-#: admin/mmdb_data_type_class/class_mmdb_tvshow_data_type.php:25
-#: mmdb_templates/shortcode/tvshow/accordion.php:19
-#: mmdb_templates/shortcode/tvshow/tabs.php:9
-#: mmdb_templates/shortcode/movie/accordion.php:19
-#: mmdb_templates/shortcode/movie/tabs.php:9
-#: mmdb_templates/partials/tvshow/tv-cast.php:3
-#: mmdb_templates/partials/movie/movie-cast.php:3
-#: mmdb_templates/content/tvshow/accordion.php:19
-#: mmdb_templates/content/tvshow/tabs.php:9
-#: mmdb_templates/content/movie/accordion.php:19
-#: mmdb_templates/content/movie/tabs.php:9
 msgid "Cast"
 msgstr "Cast"
 
-#: admin/mmdb_data_type_class/class_mmdb_movie_data_type.php:26
-#: admin/mmdb_data_type_class/class_mmdb_tvshow_data_type.php:26
-#: mmdb_templates/shortcode/tvshow/accordion.php:33
-#: mmdb_templates/shortcode/tvshow/tabs.php:13
-#: mmdb_templates/shortcode/movie/accordion.php:33
-#: mmdb_templates/shortcode/movie/tabs.php:13
-#: mmdb_templates/partials/tvshow/tv-crew.php:3
-#: mmdb_templates/partials/movie/movie-crew.php:3
-#: mmdb_templates/content/tvshow/accordion.php:33
-#: mmdb_templates/content/tvshow/tabs.php:13
-#: mmdb_templates/content/movie/accordion.php:33
-#: mmdb_templates/content/movie/tabs.php:13
 msgid "Crew"
 msgstr "Crew"
 
-#: admin/mmdb_data_type_class/class_mmdb_movie_data_type.php:27
-#: mmdb_templates/shortcode/movie/accordion.php:47
-#: mmdb_templates/shortcode/movie/tabs.php:17
-#: mmdb_templates/partials/movie/movie-trailer.php:3
-#: mmdb_templates/partials/movie/movie-trailer.php:14
-#: mmdb_templates/partials/movie/movie-trailer.php:24
-#: mmdb_templates/content/movie/accordion.php:47
-#: mmdb_templates/content/movie/tabs.php:17
 msgid "Trailer"
 msgstr "Trailer"
 
-#: admin/mmdb_data_type_class/class_mmdb_person_data_type.php:25
-#: mmdb_templates/shortcode/person/accordion.php:19
-#: mmdb_templates/shortcode/person/tabs.php:9
-#: mmdb_templates/partials/person/person-movie.php:3
-#: mmdb_templates/content/person/accordion.php:19
-#: mmdb_templates/content/person/tabs.php:9
-msgid "Movie Roles"
-msgstr "Ruoli nel film"
+msgid "Cast Credits"
+msgstr ""
 
-#: admin/mmdb_data_type_class/class_mmdb_person_data_type.php:26
-msgid "Tv Roles / Appearances"
-msgstr "Ruoli nella serie / Apparizioni"
-
-#: admin/mmdb_data_type_class/class_mmdb_person_data_type.php:27
-#: mmdb_templates/shortcode/person/accordion.php:47
-#: mmdb_templates/shortcode/person/tabs.php:17
-#: mmdb_templates/partials/person/person-jobs.php:3
-#: mmdb_templates/content/person/accordion.php:47
-#: mmdb_templates/content/person/tabs.php:17
 msgid "Crew Credits"
 msgstr "Crediti della troupe"
 
-#: admin/mmdb_data_type_class/class_mmdb_tvshow_data_type.php:27
-#: mmdb_templates/shortcode/tvshow/accordion.php:47
-#: mmdb_templates/shortcode/tvshow/tabs.php:17
-#: mmdb_templates/partials/tvshow/tv-seasons.php:3
-#: mmdb_templates/content/tvshow/accordion.php:47
-#: mmdb_templates/content/tvshow/tabs.php:17
 msgid "Seasons"
 msgstr "Stagioni"
 
-#: mmdb_templates/shortcode/tvshow/accordion.php:6
-#: mmdb_templates/shortcode/tvshow/tabs.php:6
-#: mmdb_templates/shortcode/person/accordion.php:6
-#: mmdb_templates/shortcode/person/tabs.php:6
-#: mmdb_templates/shortcode/movie/accordion.php:6
-#: mmdb_templates/shortcode/movie/tabs.php:6
-#: mmdb_templates/content/tvshow/accordion.php:6
-#: mmdb_templates/content/tvshow/tabs.php:6
-#: mmdb_templates/content/person/accordion.php:6
-#: mmdb_templates/content/person/tabs.php:6
-#: mmdb_templates/content/movie/accordion.php:6
-#: mmdb_templates/content/movie/tabs.php:6
+msgid "Movie Roles"
+msgstr "Ruoli nel film"
+
+msgid "Tv Roles / Appearances"
+msgstr "Ruoli nella serie / Apparizioni"
+
 msgid "Overview"
 msgstr "Panoramica"
 
-#: mmdb_templates/shortcode/tvshow/accordion.php:19
-#: mmdb_templates/shortcode/tvshow/accordion.php:33
-#: mmdb_templates/shortcode/tvshow/accordion.php:47
-#: mmdb_templates/shortcode/person/accordion.php:19
-#: mmdb_templates/shortcode/person/accordion.php:33
-#: mmdb_templates/shortcode/person/accordion.php:47
-#: mmdb_templates/shortcode/movie/accordion.php:19
-#: mmdb_templates/shortcode/movie/accordion.php:33
-#: mmdb_templates/shortcode/movie/accordion.php:47
-#: mmdb_templates/content/tvshow/accordion.php:19
-#: mmdb_templates/content/tvshow/accordion.php:33
-#: mmdb_templates/content/tvshow/accordion.php:47
-#: mmdb_templates/content/person/accordion.php:19
-#: mmdb_templates/content/person/accordion.php:33
-#: mmdb_templates/content/person/accordion.php:47
-#: mmdb_templates/content/movie/accordion.php:19
-#: mmdb_templates/content/movie/accordion.php:33
-#: mmdb_templates/content/movie/accordion.php:47
 msgid "View"
 msgstr "Vedi"
 
-#: mmdb_templates/shortcode/tvshow/custom.php:3
-#: mmdb_templates/shortcode/person/custom.php:3
-#: mmdb_templates/shortcode/movie/custom.php:3
-#: mmdb_templates/content/tvshow/custom.php:3
-#: mmdb_templates/content/person/custom.php:3
-#: mmdb_templates/content/movie/custom.php:3
 msgid "This is an empty template"
 msgstr "Questo è un template vuoto"
 
-#: mmdb_templates/shortcode/person/accordion.php:33
-#: mmdb_templates/partials/person/person-tv.php:3
-#: mmdb_templates/content/person/accordion.php:33
 msgid "Tv Roles and Appearances"
 msgstr "Ruoli nella Serie e Apparizioni"
 
-#: mmdb_templates/shortcode/person/tabs.php:13
-#: mmdb_templates/content/person/tabs.php:13
 msgid "Tv Roles"
 msgstr "Ruoli nella Serie"
 
-#: mmdb_templates/partials/tvshow/tv-cast.php:16
-#: mmdb_templates/partials/movie/movie-cast.php:16
 msgid "Role"
 msgstr "Ruolo"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:3
-#: mmdb_templates/partials/person/person-main.php:3
-#: mmdb_templates/partials/movie/movie-main.php:3
 msgid "Summary"
 msgstr "Riassunto"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:17
-#: mmdb_templates/partials/movie/movie-main.php:22
 msgid "Genres"
 msgstr "Generi"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:20
 msgid "Created by"
 msgstr "Creata da"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:24
-#: mmdb_templates/partials/movie/movie-main.php:19
 msgid "Starring"
 msgstr "Con"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:28
 msgid "Episodes / Seasons"
 msgstr "Episodi / Stagioni"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:32
 msgid "First aired"
 msgstr "Prima messa in onda"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:37
 msgid "Last air date"
 msgstr "Ultima messa in onda"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:44
-#: mmdb_templates/partials/person/person-main.php:65
 msgid "Website"
 msgstr "Sito Web"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:48
-#: mmdb_templates/partials/movie/movie-main.php:25
 msgid "Runtime"
 msgstr "Durata"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:60
 msgid "Networks"
 msgstr "Reti Televisive"
 
-#: mmdb_templates/partials/tvshow/tv-main.php:63
-#: mmdb_templates/partials/movie/movie-main.php:40
 msgid "Production Companies"
 msgstr "Compagnie di Produzione"
 
-#: mmdb_templates/partials/tvshow/tv-seasons.php:14
+msgid "Production Countries"
+msgstr "Paesi di Produzione"
+
 msgid "Season"
 msgstr "Stagione"
 
-#: mmdb_templates/partials/tvshow/tv-seasons.php:16
 msgid "Air date"
 msgstr "Data di messa in onda"
 
-#: mmdb_templates/partials/tvshow/tv-seasons.php:18
 msgid "Episodes"
 msgstr "Episodi"
 
-#: mmdb_templates/partials/person/person-jobs.php:14
 msgid "Movie Credits"
 msgstr "Crediti del Film"
 
-#: mmdb_templates/partials/person/person-jobs.php:35
 msgid "TvShow Credits"
 msgstr "Crediti della Serie TV"
 
-#: mmdb_templates/partials/person/person-main.php:17
-#: mmdb_templates/admin/person/mmdb_selected_person.php:26
 msgid "Birthday"
 msgstr "Compleanno"
 
-#: mmdb_templates/partials/person/person-main.php:23
-#: mmdb_templates/admin/person/mmdb_selected_person.php:29
 msgid "Birthplace"
 msgstr "Luogo di nascita"
 
-#: mmdb_templates/partials/person/person-main.php:29
-#: mmdb_templates/admin/person/mmdb_selected_person.php:32
 msgid "Death date"
 msgstr "Morte"
 
-#: mmdb_templates/partials/person/person-main.php:35
 msgid "Movie Acting Roles"
 msgstr "Ruoli di recitazione nel film"
 
-#: mmdb_templates/partials/person/person-main.php:41
 msgid "Tv Roles/Appearances"
 msgstr "Ruoli nella Serie TV / Apparizioni"
 
-#: mmdb_templates/partials/person/person-main.php:47
 msgid "Movie Crew Credits"
 msgstr "Crediti della Troupe Cinematografica"
 
-#: mmdb_templates/partials/person/person-main.php:53
 msgid "Tv Crew Credits"
 msgstr "Crediti della Troupe Televisiva"
 
-#: mmdb_templates/partials/person/person-main.php:59
 msgid "Imdb Profile"
 msgstr "Profilo Imdb"
 
-#: mmdb_templates/partials/person/person-tv.php:29
 msgid "Guest Appearances"
 msgstr "Ospiti"
 
-#: mmdb_templates/partials/movie/movie-main.php:16
 msgid "Release Date"
 msgstr "Data di Rilascio"
 
-#: mmdb_templates/partials/movie/movie-main.php:28
 msgid "Original Title"
 msgstr "Titolo Originale"
 
-#: mmdb_templates/partials/movie/movie-main.php:31
 msgid "Original Film Language"
 msgstr "Lingua Originale del FIlm"
 
-#: mmdb_templates/partials/movie/movie-trailer.php:14
 msgid "Launch"
 msgstr "Lancio"
 
-#: mmdb_templates/admin/tvshow/mmdb_search_tvshow.php:24
-#: mmdb_templates/admin/tvshow/mmdb_selected_tvshow.php:24
 msgid "First Aired: "
 msgstr "Prima messa in onda: "
 
-#: mmdb_templates/admin/tvshow/mmdb_search_tvshow.php:26
-#: mmdb_templates/admin/person/mmdb_search_person.php:24
-#: mmdb_templates/admin/movie/mmdb_search_movie.php:26
 msgid "TMDb ID: "
 msgstr "ID TMDb: "
 
-#: mmdb_templates/admin/tvshow/mmdb_selected_tvshow.php:16
-#: mmdb_templates/admin/person/mmdb_selected_person.php:16
-#: mmdb_templates/admin/movie/mmdb_selected_movie.php:16
 msgid "You have selected : "
 msgstr "Hai selezionato: "
 
-#: mmdb_templates/admin/person/mmdb_search_person.php:26
 msgid "Known for"
 msgstr "Conosciuto per"
 
-#: mmdb_templates/admin/partials/buttons.php:4
+msgid "Also known as"
+msgstr ""
+
 msgid "Yes, this what I was looking for!"
 msgstr "Si, era quello che stavo cercando!"
 
-#: mmdb_templates/admin/partials/buttons.php:5
 msgid "No, I want to keep on looking!"
 msgstr "No, voglio continuare a cercare!"
+
+# This is an abreviation of 'minutes'
+msgid "min"
+msgstr ""
+
+msgid "Add New"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Movie Categories"
+msgstr ""
+
+msgid "Movie Category"
+msgstr ""
+
+msgid "TvShow Categories"
+msgstr ""
+
+msgid "TvShow Category"
+msgstr ""
+
+msgid "Person Categories"
+msgstr ""
+
+msgid "Person Category"
+msgstr ""
+
+msgid "Add a new Movie Category"
+msgstr ""
+
+msgid "Add a new TvShow Category"
+msgstr ""
+
+msgid "Add a new Person Category"
+msgstr ""
+
+msgid "Popular Movie Categories"
+msgstr ""
+
+msgid "Popular TvShow Categories"
+msgstr ""
+
+msgid "Popular Person Categories"
+msgstr ""
+
+msgid "Separate Movie Categories with commas"
+msgstr ""
+
+msgid "Separate TvShow Categories with commas"
+msgstr ""
+
+msgid "Separate Person Categories with commas"
+msgstr ""
+
+msgid "No Movie Categories found"
+msgstr ""
+
+msgid "No TvShow Categories found"
+msgstr ""
+
+msgid "No Person Categories found"
+msgstr ""
+
+msgid "No Movies found"
+msgstr ""
+
+msgid "No TvShows found"
+msgstr ""
+
+msgid "No Persons found"
+msgstr ""
+
+msgid "All Movies"
+msgstr ""
+
+msgid "All TvShows"
+msgstr ""
+
+msgid "All Persons"
+msgstr ""
+
+# This is a reference to the categories gender'
+msgid "All Categories"
+msgstr "All"
+
+msgid "Add or remove"
+msgstr ""
+
+msgid "Choose from most used"
+msgstr ""
+
+msgid "in Trash"
+msgstr ""
+
+msgid "There is no description available"
+msgstr ""
 
 #. Name of the plugin
 msgid "My Movie Database"

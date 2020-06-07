@@ -61,7 +61,7 @@ trait TemplateVueTrait
         $json_data = json_decode($json, true);
         if($json_data) {
             foreach ($json_data as $key => $value) {
-                $array[$key] = __($value , "my-movie-db");
+                $array[$key] = __($value , MMDB_WP_NAME);
             }
         }
         return $array;

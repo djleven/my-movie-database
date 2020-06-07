@@ -11,8 +11,8 @@
  */
 namespace MyMovieDatabase;
 
-use PostTypes\PostType;
-use PostTypes\Taxonomy;
+use MyMovieDatabase\Lib\PostTypes\PostType;
+use MyMovieDatabase\Lib\PostTypes\Taxonomy;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
@@ -88,19 +88,19 @@ class CoreController {
      * @since     1.0.0
      * @return    array
      */
-    private function getActivePostTypes() {
+    private function getActivePostTypes()
+    {
 
         $active_post_types = [];
         $plugin_resource_types = $this->available_resource_types;
 
-        foreach($plugin_resource_types as $plugin_resource_type) {
+        foreach ($plugin_resource_types as $plugin_resource_type) {
 
             if ($plugin_resource_type->getPostTypeSetting() != 'no_post') {
 
-                if (substr($plugin_resource_type->getPostTypeSetting() , 0, 5) === 'posts') {
+                if (substr($plugin_resource_type->getPostTypeSetting(), 0, 5) === 'posts') {
                     $active_post_types[] = 'post';
-                }
-                else {
+                } else {
                     $active_post_types[] = $plugin_resource_type->getPostTypeSetting();
                 }
 
@@ -118,62 +118,58 @@ class CoreController {
 
         $plugin_resource_types = $this->available_resource_types;
         $custom_post_types = [];
-        $custom_taxonomies = [];
+        $custom_taxonomy = [];
+        $tax_options = [];
         $i = 0;
         $wpCategoriesOption = self::getMmdbOption(
             'mmdb_wp_categories',
             MMDB_ADVANCED_OPTION_GROUP,
             'yes'
         );
+        $hierarchicalTaxonomy = self::getMmdbOption(
+            'mmdb_hierarchical_taxonomy',
+            MMDB_ADVANCED_OPTION_GROUP,
+            'yes'
+        );
+        if($hierarchicalTaxonomy !== 'yes') {
+            $tax_options = [
+                'hierarchical' => false,
+            ];
+        }
 
         foreach($plugin_resource_types as $plugin_resource_type) {
             if ($plugin_resource_type->getPostTypeSetting() == $plugin_resource_type->data_type) {
 
-                $custom_post_types[$i] = new PostType(
-                    $plugin_resource_type->data_type,
-                    [
-                        'public'             => true,
-                        'publicly_queryable' => true,
-                        'show_ui'            => true,
-                        'show_in_menu'       => true,
-                        'query_var'          => true,
-                        'has_archive'        => true,
-                        'hierarchical'       => true,
-                        "supports" => [
-                            "title",
-                            "editor",
-                            "author",
-                            "thumbnail",
-                            "excerpt",
-                            "trackbacks",
-                            "custom-fields",
-                            "comments",
-                            "revisions",
-                            "page-attributes",
-                            "publicize",
-                            'wpcom-markdown'
-                        ],
-                        'rewrite' => [
-                            'slug' => $plugin_resource_type->data_type
-                        ],
-                    ]
-                );
-                $custom_post_types[$i]->icon($plugin_resource_type->type_menu_icon);
-                $taxonomy = $plugin_resource_type->data_type . '-category';
-                $custom_post_types[$i]->taxonomy($taxonomy);
-                if($wpCategoriesOption !== 'no') {
-                    $custom_post_types[$i]->taxonomy('category');
-                }
-                $custom_post_types[$i]->register();
+                $names = [
+                    'name' => $plugin_resource_type->data_type,
+                    'singular' => $plugin_resource_type->data_type_label,
+                     'plural' => $plugin_resource_type->data_type_label . 's',
+                    'slug' => $plugin_resource_type->data_type,
+                ];
 
                 $tax_names = [
-                    'name' => $taxonomy,
-                    'singular' => "$plugin_resource_type->data_type_label Category",
-                    'plural' => "$plugin_resource_type->data_type_label Categories",
+                    'name' => $plugin_resource_type->data_type . '-category',
+                    'singular' => $plugin_resource_type->data_type_label . ' Category',
+                    'plural' => $plugin_resource_type->data_type_label . ' Categories',
                     'slug' => $plugin_resource_type->data_type . '-categories',
                 ];
-                $custom_taxonomies[$i] = new Taxonomy($tax_names);
-                $custom_taxonomies[$i]->register();
+
+                $custom_taxonomy[$i] =
+                    new Taxonomy($tax_names, MMDB_WP_NAME, $tax_options);
+
+                $custom_post_types[$i] =
+                    new PostType($names, MMDB_WP_NAME, $plugin_resource_type->type_menu_icon);
+                $custom_post_types[$i]->taxonomy($custom_taxonomy[$i]->name);
+                $custom_post_types[$i]->columns()->sortable( [ 'taxonomy-' . $custom_taxonomy[$i]->name => true ] );
+
+                if($wpCategoriesOption !== 'no') {
+                    $custom_post_types[$i]->taxonomy(['category', 'post_tag']);
+                    $custom_post_types[$i]->columns()->sortable( ['categories' => true, 'tags' => true ] );
+                }
+
+                $custom_taxonomy[$i]->registerActions();
+                $custom_post_types[$i]->registerActions();
+
                 $i++;
 
             }
