@@ -1,0 +1,70 @@
+.mmdb-body.mmdb-search.white {
+    background: #fff;
+    padding: 0 10px;
+}
+.mmdb-body.mmdb-search {
+    text-align: center;
+}
+.mmdb-body.mmdb-search .info img, .mmdb-search .info .description {
+    max-height: 272px;
+    max-width: 196px;
+    object-fit: contain;
+    text-align: left;
+    margin: auto;
+}
+.mmdb-body.mmdb-search .info .description {
+    font-size: 12px;
+    line-height: 16px;
+    overflow: auto;
+}
+.mmdb-body.mmdb-search .info .title-container  {
+    height: 75px;
+    line-height: 75px;
+    padding: 0 4px;
+}
+.mmdb-body.mmdb-search .info .title-container h3 {
+    color: #000;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.mmdb-body.mmdb-search .info {
+    height: 367px;
+    padding: 10px 5px;
+    cursor: pointer;
+}
+.mmdb-body.mmdb-search .bold {
+    font-weight: bold;
+}
+.mmdb-body.mmdb-search .credits.mmdb-search {
+    padding: 20px 15px;
+    border-radius: 20px;
+}
+.mmdb-search .loader {
+    background: rgba(0,0,0,0.5);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+.mmdb-search .loaderInner {
+    height: 60px;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    position: absolute;
+    top: 50%;
+    width: 60px;
+}
+.mmdb-search .button-primary {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    width: 120px;
+    margin: auto;
+}

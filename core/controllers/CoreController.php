@@ -16,6 +16,7 @@ use MyMovieDatabase\Lib\PostTypes\Taxonomy;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+use MyMovieDatabase\Lib\ResourceAPI\GetResourcesEndpoint;
 
 class CoreController {
 
@@ -45,6 +46,7 @@ class CoreController {
         $this->available_resource_types = $this->setAdminResourceTypes();
         $this->active_post_types = $this->getActivePostTypes();
         $this->registerCustomPostTypes();
+        $this->registerEndpoints();
     }
 
     /**
@@ -143,7 +145,7 @@ class CoreController {
                 $names = [
                     'name' => $plugin_resource_type->data_type,
                     'singular' => $plugin_resource_type->data_type_label,
-                     'plural' => $plugin_resource_type->data_type_label . 's',
+                    'plural' => $plugin_resource_type->data_type_label . 's',
                     'slug' => $plugin_resource_type->data_type,
                 ];
 
@@ -175,6 +177,17 @@ class CoreController {
             }
         }
         return;
+    }
+
+    /**
+     * Register plugin Endpoints with WP API
+     *
+     * @since     2.1.0
+     * @return void
+     */
+    private function registerEndpoints() {
+
+        new GetResourcesEndpoint();
     }
 
 }

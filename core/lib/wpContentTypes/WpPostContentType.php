@@ -29,7 +29,6 @@ class WpPostContentType extends WpAbstractContentType {
         $this->tmdb_id = $this->getPostMetaIdSetting();
         $this->template = $this->getTemplateSetting();
         $this->size = $this->getWidthSetting();
-        $this->components = $this->getVueComponentsToLoad();
     }
 
     /**

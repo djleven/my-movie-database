@@ -45,7 +45,7 @@ class MyMovieDatabase {
 
     public function __construct() {
 
-        $this->version = "2.0.7";
+        $this->version = "2.1.0";
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
 
         $this->run();
@@ -102,6 +102,8 @@ class MyMovieDatabase {
          */
         require_once self::MMDB_INC_DIR . 'TemplateFiles.php';
 
+        require_once self::MMDB_INC_DIR . 'AssetManager.php';
+
         /**
          * The abstract superclass responsible for the mmdb view types and accompanying trait for Vuejs.
          */
@@ -112,6 +114,13 @@ class MyMovieDatabase {
          * The concrete subclass responsible for the mmdb post view
          */
         require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpPostContentType.php';
+
+        /**
+         * The plugin API endpoint classes
+         */
+        require_once self::MMDB_LIB_DIR . 'resourceAPI/RegisterEndpoint.php';
+        require_once self::MMDB_LIB_DIR . 'resourceAPI/GetResourcesEndpoint.php';
+        require_once self::MMDB_LIB_DIR . 'resourceAPI/BuildRequest.php';
     }
 
     /**

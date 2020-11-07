@@ -170,12 +170,15 @@ abstract class WpAbstractContentType {
      * Associative array of visibility settings fot the data type sections
      *
      * @since    1.0.0
+     * @param    array $sections
      * @return   array
      */
-    protected function showSectionSettings() {
+    protected function showSectionSettings($sections = null) {
 
         $result = [];
-        $sections = AbstractResourceType::getSections();
+        if(!$sections) {
+            $sections = AbstractResourceType::getSections();
+        }
         $settings = $this->getResourceTypeSetting('sections', []);
 
         foreach($sections as $section) {

@@ -126,42 +126,25 @@ class TemplateFiles {
      */
     public static function enqueueCommonFiles($activeScreen) {
 
+        $asset_manager = new AssetManager('entry', defined('DEV_ENV') ? DEV_ENV : false);
+
         $css_file =
             CoreController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
         $bootstrap =
             CoreController::getMmdbOption('mmdb_bootstrap', MMDB_ADVANCED_OPTION_GROUP, 'yes');
 
-        $vendor_dir = MMDB_PLUGIN_URL . 'core/vendor/';
         // To load only on mmdb active post type pages.
         if($activeScreen) {
+            if($asset_manager->js_file_path) {
+                wp_enqueue_script( MMDB_NAME, $asset_manager->js_file_path, [],0.1, true);
 
-            /** Promise (or other) polyfill if needed */
-            wp_enqueue_script( MMDB_NAME . 'polyfill-service', 'https://cdn.polyfill.io/v2/polyfill.min.js');
-
-            /**  Add Babel */
-            wp_enqueue_script( 'babel', $vendor_dir . 'babel.min.js', array(MMDB_NAME . 'polyfill-service'), '6.26.0' );
-
-            /** The TMDB API (TheMovieDatabase) wrapper used */
-            wp_enqueue_script( MMDB_NAME, plugin_dir_url( __FILE__ ) . MMDB_CAMEL_NAME . '.js', array('jquery'), 0.1, true);
-
-            /** Add vue and vuex => vue js framework and it's state management (vuex)*/
-            /**  TODO: Add option to conditionally load Vue and/or Vuex */
-            wp_enqueue_script(
-                'vue', $vendor_dir . 'Vue/vue-min.js', array( 'jquery' ), '2.6.10', true );
-            wp_enqueue_script(
-                'vuex', $vendor_dir . 'Vue/vuex-min.js', array( 'vue' ), '2.0.0', true );
-
-            /** WP and mmdb and config */
-            wp_add_inline_script(
-                MMDB_NAME, '
-                var mmdb_conf = {
-                    locale: "' . get_locale() . '",
-                    debug: ' . CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
-                    date_format: "' . get_option( 'date_format' ) . '",
-                    overviewOnHover: ' . CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
-                }',
-                'before'
-            );
+                /** WP and mmdb and config */
+                wp_add_inline_script(
+                    MMDB_NAME,
+                    TemplateFiles::buildJSConfigFileContent(),
+                    'before'
+                );
+            }
             if( $css_file === 'yes') {
                 $css_file = 'all';
             }
@@ -174,6 +157,12 @@ class TemplateFiles {
                 'bootstrap', TemplateFiles::getPublicFile('bootstrap', 'css'), [], '3.3.7' );
         }
         if( $css_file === 'all') {
+
+             if($asset_manager->css_file_path) {
+                 wp_enqueue_style(
+                     MMDB_NAME . '_vue', $asset_manager->css_file_path, [], '2.0.0', 'all' );
+             }
+
             wp_enqueue_style(
                 MMDB_NAME, TemplateFiles::getPublicFile(MMDB_CAMEL_NAME, 'css'), [], '2.0.0', 'all' );
         }
@@ -190,6 +179,19 @@ class TemplateFiles {
      */
     public static function getJsonFileContents($path, $filename) {
         return file_get_contents(self::getPrivateFile($path, $filename));
+
+//        $request  = wp_remote_get( self::getPrivateFile($path, $filename));
+//        $response = wp_remote_retrieve_body( $request );
+//        if (
+//            'OK' !== wp_remote_retrieve_response_message( $response )
+//            OR 200 !== wp_remote_retrieve_response_code( $response )
+//        ) {
+//            return wp_send_json_error( $response );
+//        }
+//
+//
+//
+//        return wp_send_json_success( $response );
     }
 
     /**
@@ -201,18 +203,6 @@ class TemplateFiles {
      */
     public static function getJavascriptI18nSetting($type) {
         return self::getJsonFileContents('settings/i18nForJavascript', 'jsI18n-' . $type . '.json');
-    }
-
-    /**
-     * Get the contents of a vue components to load settings file
-     *
-     * @since      2.0.0
-     * @param      string $type
-     * @return     string | null
-     */
-
-    public static function getVueComponentsToLoadSetting($type) {
-        return self::getJsonFileContents('settings/componentsToLoad', 'components-' . $type . '.json');
     }
 
     /**
@@ -293,4 +283,13 @@ class TemplateFiles {
         }
     }
 
+    protected static function  buildJSConfigFileContent() {
+        return '
+            var mmdb_conf = {
+               locale: "' . get_locale() . '",
+               debug: ' . CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
+               date_format: "' . get_option( 'date_format' ) . '",
+               overviewOnHover: ' . CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
+            }';
+    }
 }

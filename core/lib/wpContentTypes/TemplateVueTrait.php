@@ -11,6 +11,7 @@
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
 use MyMovieDatabase\TemplateFiles;
+use MyMovieDatabase\CoreController;
 
 trait TemplateVueTrait
 {
@@ -34,7 +35,7 @@ trait TemplateVueTrait
     protected function localizeTemplateScript() {
 
         global $wp_scripts;
-        $type =$this->data_type;
+        $type = $this->data_type;
         if ($type === 'movie' || $type === 'tvshow' || $type === 'person') {
             $script_handle = MMDB_PLUGIN_ID . $type . '__t';
             $existing_script = $wp_scripts->get_data(MMDB_NAME, 'data');
@@ -47,6 +48,7 @@ trait TemplateVueTrait
             }
         }
     }
+
     /**
      * Convert JSON key/value to WordPress I18n array
      *
@@ -68,116 +70,33 @@ trait TemplateVueTrait
     }
 
     /**
-     * Get an associative array of vue components to load, each with path and filename
-     *
-     * @since      2.0.0
-     * @return     array
-     */
-    protected function getVueComponentsToLoad() {
-
-        $array = [];
-        if($this->template) {
-            $components = TemplateFiles::getVueComponentsToLoadSetting($this->data_type);
-            $json_data = json_decode($components, true);
-
-            $count = 0;
-            if($json_data) {
-                foreach ($json_data[$this->template] as $key => $value) {
-                    $isArray = is_array($value);
-                    if($key === 'common') {
-                        if($isArray) {
-                            foreach ($value as $otherValue) {
-                                $array[$key . $count]['path'] = 'common';
-                                $array[$key . $count]['filename'] = $otherValue;
-                                $count++;
-                            }
-                        }
-                    } else {
-                        if($isArray) {
-                            $array[$key]['path'] = $value[0];
-                            $array[$key]['filename'] = $value[1];
-                        } else {
-                            $array[$key]['path'] = '';
-                            $array[$key]['filename'] = $value;
-                        }
-                    }
-
-                }
-            }
-            $array['template']['path'] = 'templates';
-            $array['template']['filename'] = $this->template;
-        }
-
-        return $array;
-    }
-
-    /**
-     * Create the script content that registers the required Vue components via httpVueLoader
-     *
-     * @return string
-     */
-    protected function vueComponentsBasePath() {
-        return 'components';
-    }
-
-    /**
-     * Register the required Vue components and return the last component's wp registration handle
-     *
-     * @return string  last component's wp registration handle
-     */
-    protected function registerVueComponents() {
-
-        $components_to_add = [];
-        $component_script_handles = [];
-        $count = 0;
-        foreach ($this->components as $key => $component) {
-            if($component['filename']) {
-                $components_to_add[$count] =
-                    TemplateFiles::getPublicFile(
-                        $component['filename'],
-                        self::COMPONENTS_ROOT_FOLDER . $component['path'],
-                        'js',
-                        false);
-                wp_enqueue_script(
-                    'vueComponent-' . $component['filename'], $components_to_add[$count], array( 'vue', 'vuex' ), 0.3, true);
-                $component_script_handles[$count] = 'vueComponent-' . $component['filename'];
-                $count++;
-            }
-        }
-
-        add_filter( 'script_loader_tag', array($this, 'replace_js_tag_with_babel'), 10, 3 );
-
-        return end($component_script_handles);
-    }
-
-    /**
-     * Replace Vue components and myMovieDatabase.js script tag with babel type
-     * @param string $tag     The <script> tag for the enqueued script.
-     * @param string $handle  The script's registered handle.
-     * @return string
-     */
-    public function replace_js_tag_with_babel( $tag, $handle ) {
-        $handleStartsWith = 'vueComponent-';
-        $isVueComponent = substr_compare($handle, $handleStartsWith, 0, strlen($handleStartsWith)) === 0;
-        if ( $isVueComponent || $handle === MMDB_NAME ) {
-            $tag = str_replace( "<script type='text/javascript'", "<script type='text/babel'", $tag );
-        }
-
-        return $tag;
-    }
-
-    /**
      * Setup and return the type view output
      *
-     * @since     1.0.0
-     * @param     string  $lastVueComponent The last registered vue component handle to add inline script to
+     * @param     $admin
      * @return    string  $output           The generated html of the template view
+     * @since     1.0.0
      */
-    public function createVueInstance($lastVueComponent) {
+    public function createVueInstance($admin) {
 
         global $mmdbID_processed;
+        global $mmdb_single_run_settings;
         $uniqueID = $this->getUniqueID();
-        if(is_array($mmdbID_processed) && in_array($uniqueID, $mmdbID_processed)) {
+
+        if(!is_array($mmdbID_processed)) {
+            $mmdb_single_run_settings = [
+                'global_conf' => [
+                    'locale' => get_locale(),
+                    'debug' => CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0),
+                    'date_format' => get_option( 'date_format' ),
+                    'overviewOnHover' => CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true),
+                ],
+                'placeholder_paths' => [
+                    'small' => TemplateFiles::getSmallImagePlaceholder(),
+                    'medium' => TemplateFiles::getImagePlaceholder(),
+                    'large' => TemplateFiles::getLargeImagePlaceholder(),
+                ]
+            ];
+        } elseif (in_array($uniqueID, $mmdbID_processed)) {
             return false;
         }
 
@@ -186,51 +105,33 @@ trait TemplateVueTrait
             $mmdbID = 0;
         }
 
-        $myVue ='// The Vue instance for the ' . $this->data_type . ' ' . $mmdbID . '
-                 new Vue({
-                    el: "#' . $this->getVueMountPoint() . '",
-                    store: new Vuex.Store({
-                        state: {
-                            id: ' . $mmdbID . ',
-                            type: "' . $this->data_type .'",
-                            template: "' . $this->template . '",
-                            showSettings: ' . json_encode($this->showSectionSettings()) . ',
-                            __t: ' . MMDB_PLUGIN_ID . $this->data_type . '__t' . ',
-                            cssClasses: {
-                                multipleColumn: "' . $this->getMultipleColumnStyle() . '",
-                                twoColumn: "' . $this->getTwoColumnStyle() . '",
-                                headerColor: "' . $this->getHeaderColorSetting() . '",
-                                bodyColor: "' . $this->getBodyColorSetting() . '",
-                                transitionEffect: "' . $this->getTransitionEffectSetting() . '"
-                            },
-                            placeholder: {
-                                small: "' . TemplateFiles::getSmallImagePlaceholder() . '",
-                                medium: "' . TemplateFiles::getImagePlaceholder() . '",
-                                large: "' . TemplateFiles::getLargeImagePlaceholder() . '"
-                            },
-                            components: ' . json_encode($this->components) . ',
-                            content: null,
-                            credits: null,
-                            activeTab: "overview"
-                        },
-                        mutations: {
-                            addContent: function (state, payload) {
-                                state.content = payload
-                            },
-                            addCredits: function (state, payload) {
-                                state.credits = payload
-                            },
-                            setActive: function (state, activeTab) {
-                                state.activeTab = activeTab
-                            },
-                            setID: function (state, id) {
-                                state.id = id
-                            },
-                        }
-                    })
-                });';
+        $myVueState = [
+            'id' => $mmdbID,
+            'type' => $this->data_type,
+            'template' => $this->template,
+            'global_conf' => $mmdb_single_run_settings['global_conf'],
+            'showSettings' => $this->showSectionSettings(),
+            'cssClasses' => [
+                'multipleColumn' => $this->getMultipleColumnStyle(),
+                'twoColumn' => $this->getTwoColumnStyle(),
+                'headerColor' => $this->getHeaderColorSetting(),
+                'bodyColor' => $this->getBodyColorSetting(),
+                'transitionEffect' => $this->getTransitionEffectSetting(),
+            ],
+            'placeholder' => $mmdb_single_run_settings['placeholder_paths']
+        ];
 
-        wp_add_inline_script( $lastVueComponent, $myVue);
+        $myVueState = json_encode($myVueState);
+
+        $myVue ='// The Vue instance for the ' . $this->data_type . ' ' . $mmdbID . '
+                 MyVueLib.entry.default(
+                   "#' . $this->getVueMountPoint() . '",
+                   '. $myVueState . ',
+                   ' . MMDB_PLUGIN_ID . $this->data_type . '__t' . ',
+                   ' . $admin . '
+                )';
+
+        wp_add_inline_script(MMDB_NAME, $myVue);
         $mmdbID_processed[] = $uniqueID;
     }
 
@@ -242,15 +143,20 @@ trait TemplateVueTrait
      */
     public function templateVueOutput() {
 
-        $lastVueComponent = $this->registerVueComponents();
-        $this->localizeTemplateScript();
-        $this->createVueInstance($lastVueComponent);
-        $vueComponent = $this->components['entry']['filename'];
-
-        $output =
-            '<div id="' . $this->getVueMountPoint() . '"><' . $vueComponent .'></' . $vueComponent .'></div>';
-
+        $admin = false;
         if( get_class($this) === 'MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType') {
+            $admin = true;
+        }
+
+        $this->localizeTemplateScript();
+        $this->createVueInstance($admin);
+
+
+        $mountBase = $this->getVueMountPoint();
+        $output =
+            '<div id="' . $mountBase . '-vue"> <div id="' . $mountBase . '"> </div></div>';
+
+        if($admin) {
             $output .= PHP_EOL;
             $output .= '<input type="hidden" name="' . self::MMDB_POST_META_ID . '" id="' . self::MMDB_POST_META_ID . '" value="'. $this->tmdb_id .'"/>';
         }

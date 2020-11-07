@@ -1,0 +1,368 @@
+/**
+ * The css file for the public facing views of the plugin
+ *
+ * @link       https://e-leven.net/
+ * @since      0.7.0
+ *
+ * @package    my-movie-database
+ * @subpackage my-movie-database/mmdb_templates/assets/css
+ */
+
+@media (min-width: 1200px) {
+    .mmdb-body .col-lg-1.credits:nth-child(12n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-lg-2.credits:nth-child(6n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-lg-3.credits:nth-child(4n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-lg-4.credits:nth-child(3n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-lg-6.credits:nth-child(odd) {
+        clear: left;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .mmdb-body .col-md-1.credits:nth-child(12n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-md-2.credits:nth-child(6n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-md-3.credits:nth-child(4n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-md-4.credits:nth-child(3n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-md-6.credits:nth-child(odd) {
+        clear: left;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .mmdb-body .col-sm-1.credits:nth-child(12n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-sm-2.credits:nth-child(6n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-sm-3.credits:nth-child(4n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-sm-4.credits:nth-child(3n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-sm-6.credits:nth-child(odd) {
+        clear: left;
+    }
+    .col-md-12.mmdb-body {
+        float: left;
+        width: 100%;
+    }
+}
+@media (max-width: 767px) {
+    .mmdb-body .col-xs-1.credits:nth-child(12n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-xs-2.credits:nth-child(6n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-xs-3.credits:nth-child(4n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-xs-4.credits:nth-child(3n+1) {
+        clear: left;
+    }
+    .mmdb-body .col-xs-6.credits:nth-child(odd) {
+        clear: left;
+    }
+}
+div[id^='mmdb-content'] a {
+    box-shadow: unset!important;
+    outline: 0!important;
+}
+div[id^='mmdb-content'] {
+    font-size: 15px;
+    padding: 35px 0;
+}
+.postbox div[id^='mmdb-content'] {
+    padding: 0;
+}
+@media (min-width: 768px) {
+    .meta-wrapper {
+        height: 480px;
+        position: relative;
+    }
+    .mmdb-meta,
+    .movie-role {
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%)
+    }
+    .poster-img {
+        height: 278px;
+        overflow: hidden;
+    }
+}
+@media (max-width: 991px) {
+
+}
+@media (min-width: 992px) {
+
+}
+@media (min-width: 1200px) {
+    .mmdb-body .overview-on-hover .img-container .description {
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
+@media (max-width: 1199px) {
+    .mmdb-body .overview-on-hover .img-container .description {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+@media (max-width: 767px) {
+    .meta-wrapper {
+        height: unset!important;
+    }
+}
+.mmdb-desc {
+    text-align: left;
+    padding-top: 10px;
+}
+.movie-role-wrapper {
+    margin: 40px 0;
+}
+div[id^='mmdb-content'] .overview-text {
+    text-align: left;
+    margin-bottom: 20px;
+}
+div[id^='mmdb-content'] .credits p,
+div[id^='mmdb-content'] ul.credits {
+    font-size: 15px;
+    line-height: 14px;
+    padding: 0 0 10px
+}
+div[id^='mmdb-content'] .credits img {
+    margin-bottom: 13px;
+}
+div[id^='mmdb-content'] .credits li {
+    margin-bottom: 5px;
+}
+button.close.pull-right {
+    line-height: 0.2;
+    padding: 1em;
+}
+.modal-title.pull-left {
+    padding-top: 10px;
+}
+div[id^='mmdb-content'] ul {
+    list-style: none;
+}
+div[id^='mmdb-content'] ul li:first-child {
+    font-weight: bold;
+}
+div[id^='mmdb-content'] .nav-tabs > li > a, div[id^='mmdb-content'] .panel-title a {
+    text-decoration: none;
+}
+div[id^='mmdb-content'] .credits {
+    text-align: center;
+}
+div[id^='mmdb-content'] h3 {
+    color: white;
+    padding: 10px 15px;
+    margin: 1px 0 0;
+    font-size: 17px;
+}
+div[id^='mmdb-content'] h3 span{
+    font-size: 14px;
+    padding: 4px;
+}
+div[id^='mmdb-content'] h4 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+div[id^='mmdb-content'] h1.entry-title {
+    text-align: center;
+    margin: 10px auto 30px;
+    font-size: 24px;
+}
+.mmdb-header-title {
+    text-align: left;
+}
+div[id^='mmdb-content'] article.type-post {
+    margin-top: 2em;
+}
+div[id^='mmdb-content'] .mmdb-body {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+div[id^='mmdb-content'] .panel-default > .panel-heading + .panel-collapse > .panel-body,
+div[id^='mmdb-content']  .panel-default  {
+    border: none;
+}
+
+div[id^='mmdb-content'] .panel-default > .panel-heading,
+div[id^='mmdb-content'] .nav-tabs > li  {
+    cursor: pointer;
+    text-align: left;
+}
+
+div[id^='mmdb-content'] .nav-tabs {
+    border-bottom: none;
+}
+.fa-toggle-off::before {
+    color: #fff
+}
+a.collapse-link.collapsed .fa-toggle-off::before {
+    content: "\f205";
+    color: #fff
+}
+a.collapse-link.collapsed .turnon {
+    display: block
+}
+.clearfix {
+    clear: both;
+}
+.modal-content iframe {
+    margin: 0 auto;
+    display: block;
+}
+img.mmdb-poster,
+.mmdb-meta {
+    padding-bottom: 30px;
+    line-height: 1.2;
+}
+.mmdb-meta div {
+    padding-bottom: 10px;
+}
+div[id^='mmdb-content'] h4.mmdb.modal-title {
+    margin-bottom: 0;
+}
+.mmdb-meta {
+    width: 100%;
+	padding:0 35px;
+}
+/*
+.meta-buttons {margin-top:20px;text-align: center;}*/
+
+div[id^='mmdb-content'] #myModal .modal-content {
+    margin-top: 15%
+}
+div[id^='mmdb-content'] .entry-footer.title-data {
+    border-bottom: unset;
+    border-top: unset;
+    margin-top: 0px;
+    padding: 1em 0 0.5em;
+}
+div[id^='mmdb-content'] .entry-footer.title-data .cat-links,
+.entry-footer.title-data .tags-links {
+    font-size: 1rem;
+    line-height: 0.5;
+    padding-left: 0;
+}
+div[id^='mmdb-content'] .entry-footer.title-data .cat-links a,
+.entry-footer.title-data .tags-links a {
+    box-shadow: unset;
+}
+@media (max-width: 499px) {
+    div[id^='mmdb-content'] .mmdb-header-title span {
+        display: none;
+    }
+}
+.center-text {
+    text-align: center;
+}
+/*Transition effects*/
+.bounce-enter-active {
+    animation: bounce-in .5s;
+}
+.bounce-leave-active {
+    animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    75% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.fade-enter-active {
+    transition: opacity .3s;
+}
+.fade-leave-active {
+    transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to  {
+    opacity: 0;
+    background: inherit;
+}
+div[id^='mmdb-content'] .overview-on-hover .img-container {
+     height: 291px;
+}
+div[id^='mmdb-content'] .overview-on-hover .credits img {
+    object-fit: cover;
+    height: 278px;
+    width: 185px;
+}
+.mmdb-body .overview-on-hover .img-container .description {
+    text-align: left;
+    /*left: 0;*/
+    padding: 0 20px;
+    overflow: auto;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -60%);
+}
+.mmdb-body .bg-image {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: hsla(0,0%,100%,0.7);
+    background-blend-mode: overlay;
+    background-size: contain;
+    cursor: pointer;
+}
+/* IE and Edge hack */
+_:-ms-lang(x), .mmdb-body .bg-image {
+    background-image: none!important;
+    background-color: hsla(0,0%,100%,0.2);
+}
+
+.mmdb-body img {
+    margin: auto;
+}
+.mmdb-body .credits {
+    margin: 5px auto;
+}
+.mmdb-body .credits.bg-image .img-container {
+    max-width: 350px;
+}
+.mmdb-trailer-video {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+.mmdb-trailer-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 1080px;
+}

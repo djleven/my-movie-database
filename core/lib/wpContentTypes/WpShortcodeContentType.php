@@ -11,6 +11,8 @@
  * @subpackage my-movie-database/core/lib/wpContentTypes
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
+use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
+
 class ShortcodeContentType extends WpAbstractContentType {
 
     public $header_color;
@@ -49,7 +51,6 @@ class ShortcodeContentType extends WpAbstractContentType {
         $this->size = $this->getWidthSetting();
         $this->header_color = $this->constructAttributes('header');
         $this->body_color = $this->constructAttributes('body');
-        $this->components = $this->getVueComponentsToLoad();
     }
 
     /**
@@ -130,6 +131,35 @@ class ShortcodeContentType extends WpAbstractContentType {
 
         }
         return parent::getBodyColorSetting();
+    }
+
+    /**
+     * Associative array of visibility settings fot the data type sections
+     *
+     * @since    1.0.0
+     * @param    array $sections
+     * @return   array
+     */
+    protected function showSectionSettings($sections = null)
+    {
+        $result = [];
+        $sections = AbstractResourceType::getSections();
+
+        $setting = $this->constructAttributes('section');
+        if(isset($setting)) {
+
+            foreach($sections as $section) {
+                $visible = false;
+                if ($section === $setting) {
+                    $visible = true;
+                }
+                $result[$section] = $visible;
+            }
+
+            return $result;
+        }
+
+        return parent::showSectionSettings($sections);
     }
 
 }
