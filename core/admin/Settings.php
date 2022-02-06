@@ -468,7 +468,7 @@ class Settings {
             }
         </style>
         <div class="mmdb_admin_header">
-            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
+            <img src="<?php echo MMDB_PLUGIN_URL ;?>static/img/icon-64x64.png" class="admin-logo"/>
             <h1><?php esc_html__( 'My Movie Database Options',  MMDB_WP_NAME );?></h1>
         </div>
         <div class="mmdb-row">
