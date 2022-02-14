@@ -33,7 +33,7 @@ define( 'MMDB_ADVANCED_OPTION_GROUP', MMDB_PLUGIN_ID . '_opt_advanced' );
 include_once plugin_dir_path( __FILE__ ) . 'core/MyMovieDatabase.php';
 
 new ActivationStateChanges();
-new MyMovieDatabase\MyMovieDatabase();
+MyMovieDatabase\MyMovieDatabase::getInstance();
 
 /**
  * Define the activation and deactivation sequence tasks for the plugin.

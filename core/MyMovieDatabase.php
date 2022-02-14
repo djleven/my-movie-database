@@ -21,6 +21,13 @@ use MyMovieDatabase\Admin\AdminController;
 class MyMovieDatabase {
 
     /**
+     * The unique instance of the plugin.
+     *
+     * @var MyMovieDatabase
+     */
+    private static $instance;
+
+    /**
      * The current version of the plugin.
      *
      * @since    1.0.0
@@ -28,6 +35,34 @@ class MyMovieDatabase {
      * @var      string    $version    The current version of the plugin.
      */
     protected $version;
+
+    /**
+     * The core controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      CoreController    $coreController    The core controller object of the plugin.
+     */
+    protected $coreController;
+
+    /**
+     * The admin controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      AdminController    $adminController    The admin controller object of the plugin.
+     */
+    protected $adminController = null;
+
+
+    /**
+     * The public controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      PublicController    $publicController    The public controller object of the plugin.
+     */
+    protected $publicController = null;
 
     const MMDB_INC_DIR = MMDB_PLUGIN_DIR . 'core/';
     const MMDB_CONTROLLERS_DIR = self::MMDB_INC_DIR . 'controllers/';
@@ -43,7 +78,7 @@ class MyMovieDatabase {
      * @since    1.0.0
      */
 
-    public function __construct() {
+    private function __construct() {
 
         $this->version = "2.1.0";
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
@@ -72,6 +107,12 @@ class MyMovieDatabase {
      * @access   private
      */
     private function loadCommonDependencies() {
+        /**
+         * The class and interfaces responsible for registering the plugin's wordpress plugin API hooks.
+         */
+        require_once 'PluginAPIInterfaces.php';
+        require_once 'PluginAPIManager.php';
+
         /**
          * The class responsible for defining (shared) core controller functions.
          */
@@ -189,18 +230,37 @@ class MyMovieDatabase {
      * @access   private
      */
     private function run() {
-
         $this->loadCommonDependencies();
-        $core_controller = new CoreController();
+        $this->coreController = new CoreController();
+        $manager = new PluginAPIManager();
+//        $manager->register($this->coreController);
 
         if (is_admin()) {
             $this->loadAdminDependencies();
-            new AdminController($core_controller->available_resource_types, $core_controller->active_post_types);
+            $this->adminController = new AdminController(
+                $this->coreController->available_resource_types,
+                $this->coreController->active_post_types
+            );
+//            $manager->register($this->adminController);
         } else {
             $this->loadPublicDependencies();
-            new PublicController($core_controller->active_post_types);
+            $this->publicController = new PublicController($this->coreController->active_post_types);
+            $manager->register($this->publicController);
         }
     }
 
+    /**
+     * Gets an instance of our plugin.
+     *
+     * @return MyMovieDatabase
+     */
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 }
 

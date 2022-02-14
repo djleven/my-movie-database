@@ -17,7 +17,7 @@ namespace MyMovieDatabase;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
 
-class PublicController {
+class PublicController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface, ShortcodeHookSubscriberInterface {
 
     const MMDB_SHORTCODE = 'my_movie_db';
     const MMDB_SHORTCODE_ALT = 'my-movie-db';
@@ -39,33 +39,57 @@ class PublicController {
     public function __construct($active_post_types = []) {
 
         $this->active_post_types = $active_post_types;
-        $this->registerMainHooks();
     }
 
     /**
-     * Register the main hooks related to the public-facing functionality.
+     * Get the action hooks to be registered related to the public-facing functionality.
      *
      * Enqueue scripts and styles
      * Post content hook for mmdb post content
-     * Register the shortcode for mmdb content
-     * Remove shortcode content from RSS feeds
      *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function get_actions()
+    {
+        return [
+            'wp_enqueue_scripts' => 'enqueue_scripts',
+            'the_content' => 'post_content_view_hook',
+        ];
+    }
+
+    /**
+     * Get the filter hooks to be registered related to the public-facing functionality.
+     *
+     * Remove shortcode content from RSS feeds
      * Conditionally include custom post types on archive pages
      *
-     * @since    1.0.0
-     * @access   private
+     * @since    2.5.0
+     * @access   public
      */
-    private function registerMainHooks() {
-
-        add_shortcode( self::MMDB_SHORTCODE, array( $this, 'shortcode_content_view_hook'));
-        add_shortcode( self::MMDB_SHORTCODE_ALT, array( $this, 'shortcode_content_view_hook'));
-        add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts' ));
-        add_action( 'the_content', array($this, 'post_content_view_hook' ));
-        add_filter( 'the_content_feed', array($this, 'remove_shortcode_from_feed'));
+    public function get_filters()
+    {
+        $filters = [
+            'the_content_feed' => 'remove_shortcode_from_feed',
+        ];
         if($this->postTypesToArchivePagesSetting() === 'yes') {
-
-            add_filter('pre_get_posts', array($this, 'post_types_to_archive_pages'));
+            $filters['pre_get_posts'] =  'post_types_to_archive_pages';
         }
+
+        return $filters;
+    }
+    /**
+     * Get the shortcodes to be registered.
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function get_shortcodes()
+    {
+        return [
+            self::MMDB_SHORTCODE => 'shortcode_content_view_hook',
+            self::MMDB_SHORTCODE_ALT => 'shortcode_content_view_hook',
+        ];
     }
 
     /**
