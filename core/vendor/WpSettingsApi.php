@@ -105,7 +105,9 @@ class WeDevs_Settings_API {
 
             if ( isset($section['desc']) && !empty($section['desc']) ) {
                 $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
-                $callback = create_function('', 'echo "' . str_replace( '"', '\"', $section['desc'] ) . '";');
+                $callback = function() use ( $section ) {
+                    echo str_replace( '"', '\"', $section['desc'] );
+                };
             } else if ( isset( $section['callback'] ) ) {
                 $callback = $section['callback'];
             } else {
@@ -175,7 +177,7 @@ class WeDevs_Settings_API {
     function callback_text( $args ) {
 
         $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-        $size        = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+        $size        = isset( $args['size'] ) ? $args['size'] : 'regular';
         $type        = isset( $args['type'] ) ? $args['type'] : 'text';
         $placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 

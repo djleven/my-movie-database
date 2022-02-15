@@ -50,7 +50,7 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      * @since    2.5.0
      * @access   public
      */
-    public function get_actions()
+    public function getActions()
     {
         return [
             'wp_enqueue_scripts' => 'enqueue_scripts',
@@ -67,7 +67,7 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      * @since    2.5.0
      * @access   public
      */
-    public function get_filters()
+    public function getFilters()
     {
         $filters = [
             'the_content_feed' => 'remove_shortcode_from_feed',
@@ -78,13 +78,14 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
 
         return $filters;
     }
+
     /**
      * Get the shortcodes to be registered.
      *
      * @since    2.5.0
      * @access   public
      */
-    public function get_shortcodes()
+    public function getShortcodes()
     {
         return [
             self::MMDB_SHORTCODE => 'shortcode_content_view_hook',

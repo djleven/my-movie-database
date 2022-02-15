@@ -12,7 +12,9 @@
 
 namespace MyMovieDatabase\Admin;
 
-class EditPostType {
+use MyMovieDatabase\ActionHookSubscriberInterface;
+
+class EditPostType implements ActionHookSubscriberInterface {
 
     public $type_name;
     public $type_slug;
@@ -31,6 +33,21 @@ class EditPostType {
         $this->type_name = $type_name;
         $this->type_slug = $type_slug;
         $this->type_plural = $type_plural;
+    }
+
+    /**
+     * Get the action hooks to be registered related to the main wp post type.
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'admin_head'    => 'mmdb_posts_admin_menu_icons_css',
+            'init'          => 'mmdb_change_posts_object_label',
+            'admin_menu'    => 'mmdb_change_posts_menu_label',
+        ];
     }
 
     /**

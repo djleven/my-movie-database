@@ -11,10 +11,11 @@
  */
 namespace MyMovieDatabase\Admin;
 
+use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType;
 
-class PostMetaBox {
+class PostMetaBox implements ActionHookSubscriberInterface {
 
     public $active_post_types;
 
@@ -34,6 +35,22 @@ class PostMetaBox {
     public function __construct($active_post_types) {
 
         $this->active_post_types = array($active_post_types);
+    }
+
+    /**
+     * Get the action hooks to be registered related to the plugin's use of the meta-box.
+     *
+     * Enqueue scripts
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'add_meta_boxes' => 'mmdb_add_post_meta_boxes',
+            'save_post' => 'mmdb_save_post_class_meta',
+        ];
     }
 
     /**

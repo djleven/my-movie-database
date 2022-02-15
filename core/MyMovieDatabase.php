@@ -37,6 +37,15 @@ class MyMovieDatabase {
     protected $version;
 
     /**
+     * The wp plugin API registration manager of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      PluginAPIManager    $manager    The registration manager of the plugin.
+     */
+    protected $manager;
+
+    /**
      * The core controller object of the plugin.
      *
      * @since    2.5.0
@@ -80,7 +89,7 @@ class MyMovieDatabase {
 
     private function __construct() {
 
-        $this->version = "2.1.0";
+        $this->version = "2.5.0";
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
 
         $this->run();
@@ -171,7 +180,6 @@ class MyMovieDatabase {
      * @access   private
      */
     private function loadAdminDependencies() {
-
         /**
          * A Wordpress Settings API wrapper class (by Tareq Hasan).
          */
@@ -181,6 +189,11 @@ class MyMovieDatabase {
          * The class responsible for configuring the plugin's admin settings (using the above wrapper class).
          */
         require_once self::MMDB_ADMIN_DIR . 'Settings.php';
+
+        /**
+         * The class responsible for orchestrating the plugin's state activation changes.
+         */
+        require_once self::MMDB_ADMIN_DIR . 'ActivationStateChanges.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin area.
@@ -224,6 +237,44 @@ class MyMovieDatabase {
     }
 
     /**
+     * Load the dependencies and instantiate the admin controller.
+     *
+     * @since    2.5.0
+     * @access   private
+     */
+    private function runAdmin() {
+        $this->loadAdminDependencies();
+        $this->adminController = new AdminController(
+            $this->coreController->available_resource_types,
+            $this->coreController->active_post_types
+        );
+
+        $this->manager->register($this->adminController->activation_state_changes);
+        $this->manager->register($this->adminController->settings);
+
+        if($this->adminController->edit_post_type){
+            $this->manager->register($this->adminController->edit_post_type);
+        }
+
+        $this->manager->register($this->adminController->post_meta_box);
+        $this->manager->register($this->adminController);
+    }
+
+
+    /**
+     * Load the dependencies and instantiate the public controllers.
+     *
+     * @since    2.5.0
+     * @access   private
+     */
+    private function runPublic() {
+        $this->loadPublicDependencies();
+        $this->publicController = new PublicController($this->coreController->active_post_types);
+        $this->manager->register($this->publicController);
+    }
+
+
+    /**
      * Load the dependencies and instantiate the core controllers.
      *
      * @since    1.0.0
@@ -231,21 +282,15 @@ class MyMovieDatabase {
      */
     private function run() {
         $this->loadCommonDependencies();
+        $this->manager = new PluginAPIManager();
         $this->coreController = new CoreController();
-        $manager = new PluginAPIManager();
+
 //        $manager->register($this->coreController);
 
         if (is_admin()) {
-            $this->loadAdminDependencies();
-            $this->adminController = new AdminController(
-                $this->coreController->available_resource_types,
-                $this->coreController->active_post_types
-            );
-//            $manager->register($this->adminController);
+            $this->runAdmin();
         } else {
-            $this->loadPublicDependencies();
-            $this->publicController = new PublicController($this->coreController->active_post_types);
-            $manager->register($this->publicController);
+            $this->runPublic();
         }
     }
 

@@ -14,10 +14,12 @@
  */
 namespace MyMovieDatabase\Admin;
 
+use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\FilterHookSubscriberInterface;
 use MyMovieDatabase\CoreController;
 use MyMovieDatabase\TemplateFiles;
 
-class AdminController {
+class AdminController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
 
     /**
      * The resource (data) types made available in the plugin.
@@ -33,6 +35,34 @@ class AdminController {
      * @return    array
      */
     public $active_post_types;
+    /**
+     * Class object that handles the plugin activation state changes
+     *
+     * @since     2.5.0
+     * @return    ActivationStateChanges
+     */
+    public $activation_state_changes;
+    /**
+     * Class object that defines the option page settings functionality
+     *
+     * @since     2.5.0
+     * @return    Settings
+     */
+    public $settings;
+    /**
+     * Class object that conditionally edits / modifies wp post type
+     *
+     * @since     2.5.0
+     * @return    EditPostType
+     */
+    public $edit_post_type = null;
+    /**
+     * Class object that handles the MMDB metaboxes for the active post types
+     *
+     * @since     2.5.0
+     * @return    PostMetaBox
+     */
+    public $post_meta_box;
 
     /**
      * Initialize the class and set its properties.
@@ -42,13 +72,46 @@ class AdminController {
      * @param      array $active_post_types
      */
     public function __construct($available_resource_types, $active_post_types ) {
-
+        $this->activation_state_changes = new ActivationStateChanges();
         $this->available_resource_types = $available_resource_types;
         $this->active_post_types = $active_post_types;
         $this->setAdminSettings();
-        $this->editWpPosts();
-        $this->registerPostMetaBoxes();
-        $this->registerRemainingHooks();
+        $this->setEditWpPosts();
+        $this->setPostMetaBoxes();
+    }
+
+    /**
+     * Get the action hooks to be registered related to the admin-facing functionality.
+     *
+     * Enqueue scripts
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'admin_enqueue_scripts' => 'enqueue_scripts',
+        ];
+    }
+
+    /**
+     * Get the filter hooks to be registered related to the admin-facing functionality.
+     *
+     * Hide the meta boxes in the post screens as default behavior
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getFilters()
+    {
+        return [
+            'default_hidden_meta_boxes' => [
+                'mmdb_hide_meta_box',
+                10,
+                2
+            ]
+        ];
     }
 
     /**
@@ -60,8 +123,7 @@ class AdminController {
     private function setAdminSettings() {
 
         $settings = new Settings($this->available_resource_types);
-        add_action( 'admin_init', array($settings, 'admin_init') );
-        add_action( 'admin_menu', array($settings, 'admin_menu') );
+        $this->settings = $settings;
     }
 
     /**
@@ -70,14 +132,9 @@ class AdminController {
      * @since     1.0.0
      * @return    boolean
      */
-    private function editWpPostsSetting() {
+    private function hasEditWpPostsSetting() {
 
-        if(CoreController::getMmdbOption('mmdb_movie_post_type', MMDB_ADVANCED_OPTION_GROUP, 'movie') == 'posts_custom') {
-
-            return true;
-        }
-
-        return false;
+        return CoreController::getMmdbOption('mmdb_movie_post_type', MMDB_ADVANCED_OPTION_GROUP, 'movie') == 'posts_custom';
     }
 
     /**
@@ -85,17 +142,13 @@ class AdminController {
      *
      * @since     1.0.0
      */
-    private function editWpPosts() {
+    private function setEditWpPosts() {
 
-        if($this->editWpPostsSetting()){
+        if($this->hasEditWpPostsSetting()){
 
             $edit_post_type = new EditPostType('Movie', 'movie', 'Movies');
-            add_action('admin_head', array($edit_post_type, 'mmdb_posts_admin_menu_icons_css'));
-            add_action('init', array($edit_post_type, 'mmdb_change_posts_object_label'));
-            add_action('admin_menu', array($edit_post_type, 'mmdb_change_posts_menu_label'));
+            $this->edit_post_type = $edit_post_type;
         }
-
-        return;
     }
 
     /**
@@ -121,15 +174,14 @@ class AdminController {
     }
 
     /**
-     * Make / register MMDB metaboxes for the active post types
+     * Handle the MMDB metaboxes for the active post types
      *
      * @since     1.0.0
      */
-    private function registerPostMetaBoxes() {
+    private function setPostMetaBoxes() {
 
         $post_meta_box = new PostMetaBox($this->active_post_types);
-        add_action('add_meta_boxes', array($post_meta_box, 'mmdb_add_post_meta_boxes'));
-        add_action('save_post', array($post_meta_box, 'mmdb_save_post_class_meta'));
+        $this->post_meta_box = $post_meta_box;
     }
 
     /**
@@ -170,18 +222,5 @@ class AdminController {
         }
         TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
     }
-
-    /**
-     * Register the remaining hooks related to the admin area functionality.
-     *
-     * @since    1.0.0
-     */
-    private function registerRemainingHooks() {
-
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'));
-        add_filter('default_hidden_meta_boxes', array($this, 'mmdb_hide_meta_box'),10,2);
-
-    }
-
 }
 

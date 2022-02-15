@@ -11,7 +11,9 @@
  */
 namespace MyMovieDatabase\Admin;
 
-class Settings {
+use MyMovieDatabase\ActionHookSubscriberInterface;
+
+class Settings implements ActionHookSubscriberInterface {
 
     private $settings_api;
     private $plugin_resource_types;
@@ -25,6 +27,22 @@ class Settings {
     public function __construct($plugin_resource_types) {
         $this->settings_api = new \WeDevs_Settings_API;
         $this->plugin_resource_types = $plugin_resource_types;
+    }
+
+    /**
+     * Get the action hooks to be registered related to the admin settings.
+     *
+     * Enqueue scripts
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'admin_init'   => 'admin_init',
+            'admin_menu'   => 'admin_menu',
+        ];
     }
 
     /**
@@ -242,8 +260,7 @@ class Settings {
      */
     private function getAfterTypeSectionsFields() {
 
-        $settings_fields = array(
-
+        return [
             MMDB_ADVANCED_OPTION_GROUP => array(
                 array(
                     'name'    => 'mmdb_movie_post_type',
@@ -350,9 +367,7 @@ class Settings {
                     )
                 )
             )
-        );
-
-        return $settings_fields;
+        ];
     }
 
     /**

@@ -25,14 +25,18 @@ class PluginAPIManager
     public function register($object)
     {
         if ($object instanceof ActionHookSubscriberInterface) {
-            $this->register_actions($object);
+            $this->registerActions($object);
         }
         if ($object instanceof FilterHookSubscriberInterface) {
-            $this->register_filters($object);
+            $this->registerFilters($object);
         }
 
         if ($object instanceof ShortcodeHookSubscriberInterface) {
-            $this->register_shortcodes($object);
+            $this->registerShortcodes($object);
+        }
+
+        if ($object instanceof RegisterStateActivationHookSubscriberInterface) {
+            $this->registerActivationStateHooks($object);
         }
     }
 
@@ -43,7 +47,7 @@ class PluginAPIManager
      * @param string                        $name
      * @param mixed                         $parameters
      */
-    private function register_action($object, $name, $parameters)
+    private function registerAction($object, $name, $parameters)
     {
         if (is_string($parameters)) {
             add_action($name, array($object, $parameters));
@@ -57,10 +61,10 @@ class PluginAPIManager
      *
      * @param ActionHookSubscriberInterface $object
      */
-    private function register_actions($object)
+    private function registerActions($object)
     {
-        foreach ($object->get_actions() as $name => $parameters) {
-            $this->register_action($object, $name, $parameters);
+        foreach ($object->getActions() as $name => $parameters) {
+            $this->registerAction($object, $name, $parameters);
         }
     }
 
@@ -71,7 +75,7 @@ class PluginAPIManager
      * @param string                        $name
      * @param mixed                         $parameters
      */
-    private function register_filter($object, $name, $parameters)
+    private function registerFilter($object, $name, $parameters)
     {
         if (is_string($parameters)) {
             add_filter($name, array($object, $parameters));
@@ -85,21 +89,37 @@ class PluginAPIManager
      *
      * @param FilterHookSubscriberInterface $object
      */
-    private function register_filters($object)
+    private function registerFilters($object)
     {
-        foreach ($object->get_filters() as $name => $parameters) {
-            $this->register_filter($object, $name, $parameters);
+        foreach ($object->getFilters() as $name => $parameters) {
+            $this->registerFilter($object, $name, $parameters);
         }
     }
 
     /**
-     * Registers an object with all its shortcode hooks.
+     * Registers an object with all its activation state changes hooks.
+     *
+     * @param RegisterStateActivationHookSubscriberInterface $object
+     */
+    private function registerActivationStateHooks($object)
+    {
+        foreach ($object->getRegisterActivationHooks() as $name => $callback) {
+            register_activation_hook($name, array($object, $callback));
+        }
+
+        foreach ($object->getRegisterDeactivationHooks() as $name => $callback) {
+            register_deactivation_hook($name, array($object, $callback));
+        }
+    }
+
+    /**
+     * Registers an object with all its shortcodes.
      *
      * @param ShortcodeHookSubscriberInterface $object
      */
-    private function register_shortcodes($object)
+    private function registerShortcodes($object)
     {
-        foreach ($object->get_shortcodes() as $name => $callback) {
+        foreach ($object->getShortcodes() as $name => $callback) {
             add_shortcode($name, array($object, $callback));
         }
     }
