@@ -88,7 +88,7 @@ trait TemplateVueTrait
                     'locale' => get_locale(),
                     'debug' => CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0),
                     'date_format' => get_option( 'date_format' ),
-                    'overviewOnHover' => CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true),
+                    'overviewOnHover' => (bool) CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true),
                 ],
                 'placeholder_paths' => [
                     'small' => TemplateFiles::getSmallImagePlaceholder(),
