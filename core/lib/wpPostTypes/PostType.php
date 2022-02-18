@@ -123,6 +123,7 @@ class PostType extends PostTypeEntityAbstract
             'query_var'          => true,
             'has_archive'        => true,
             'hierarchical'       => true,
+            'show_in_rest'       => false,
             "supports" => [
                 "title",
                 "editor",

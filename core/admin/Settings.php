@@ -298,6 +298,17 @@ class Settings implements ActionHookSubscriberInterface {
                     )
                 ),
                 array(
+                    'name'    => 'mmdb_gutenberg_post_type',
+                    'label'   => esc_html__( 'Enable the Gutenberg editor for the plugin post types?', MMDB_WP_NAME ),
+                    'desc'    => esc_html__( 'Use the Gutenberg editor?', MMDB_WP_NAME ),
+                    'type'    => 'radio',
+                    'default' => 0,
+                    'options' => array(
+                        false => esc_html__( 'No, I am oldschool.', MMDB_WP_NAME ),
+                        true  => esc_html__( 'Yes please.', MMDB_WP_NAME ),
+                    )
+                ),
+                array(
                     'name'    => 'mmdb_css_file',
                     'label'   => esc_html__( 'Include plugin css file', MMDB_WP_NAME ),
                     'desc'    => esc_html__( 'Select when to load the plugin css file, selecting No will never load the plugin css file', MMDB_WP_NAME ),

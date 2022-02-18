@@ -123,6 +123,11 @@ class CoreController {
         $custom_taxonomy = [];
         $tax_options = [];
         $i = 0;
+        $useGutenberg = self::getMmdbOption(
+            'mmdb_gutenberg_post_type',
+            MMDB_ADVANCED_OPTION_GROUP,
+            false
+        );
         $wpCategoriesOption = self::getMmdbOption(
             'mmdb_wp_categories',
             MMDB_ADVANCED_OPTION_GROUP,
@@ -160,7 +165,9 @@ class CoreController {
                     new Taxonomy($tax_names, MMDB_WP_NAME, $tax_options);
 
                 $custom_post_types[$i] =
-                    new PostType($names, MMDB_WP_NAME, $plugin_resource_type->type_menu_icon);
+                    new PostType($names, MMDB_WP_NAME, $plugin_resource_type->type_menu_icon, [
+                        'show_in_rest' => $useGutenberg,
+                    ]);
                 $custom_post_types[$i]->taxonomy($custom_taxonomy[$i]->name);
                 $custom_post_types[$i]->columns()->sortable( [ 'taxonomy-' . $custom_taxonomy[$i]->name => true ] );
 
