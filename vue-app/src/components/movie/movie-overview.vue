@@ -73,12 +73,14 @@
                 let languages = this.$store.state.content.spoken_languages
                 const original = this.$store.state.content.original_language
                 if (languages.length) {
-                    languages = languages.filter(function (lang) {
+                    languages = languages.filter((lang) => {
                         if (lang.iso_639_1 === original) {
                             return lang
                         }
                     })
-                    return languages[0].name + '(' + original + ')'
+                  if (languages.length) {
+                    return `${languages[0].name} (${original})`
+                  }
                 }
                 return original
             }
