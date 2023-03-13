@@ -68,10 +68,10 @@ export default {
         return
       }
       let query = this.searchAPI(val)
-      query.then((data) => {
+      query.then((response) => {
+        const data = JSON.parse(response)
         const debug = this.$store.state.global_conf.debug
-        data = JSON.parse(data)
-        if (this.$store.state.global_conf.debug) {
+        if (debug) {
           console.log(data)
         }
         this.page = data.page

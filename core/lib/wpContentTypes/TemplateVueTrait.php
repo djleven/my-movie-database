@@ -124,7 +124,7 @@ trait TemplateVueTrait
         $myVueState = json_encode($myVueState);
 
         $myVue ='// The Vue instance for the ' . $this->data_type . ' ' . $mmdbID . '
-                 MyVueLib.entry.default(
+                 MyMovieDb["app.umd"].default(
                    "#' . $this->getVueMountPoint() . '",
                    '. $myVueState . ',
                    ' . MMDB_PLUGIN_ID . $this->data_type . '__t' . ',

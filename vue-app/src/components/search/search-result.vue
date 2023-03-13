@@ -31,6 +31,7 @@ import helpers from '../../mixins/helpers.js';
 
 export default {
   mixins: [helpers],
+  emits: ['setActive', 'select'],
   props: {
     result: {
       type: Object,

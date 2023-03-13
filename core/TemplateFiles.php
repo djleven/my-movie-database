@@ -23,6 +23,11 @@ class TemplateFiles {
     const ASSETS_PATH = self::TEMPLATES_FOLDER . self::ASSETS_FOLDER;
     const IMG_PATH = 'img';
 
+	/**
+	 * Number of parent directories to go up to assets folder level
+	 */
+	CONST LEVELS_UP_TO_ASSETS = 1;
+	CONST ASSETS_PUBLIC_PATH   = 'assets/';
     /**
      * Return the correct private template file path
      * Check if file exists in the theme folder, if not load the plugin template file
@@ -125,9 +130,6 @@ class TemplateFiles {
      * @param    $activeScreen  boolean
      */
     public static function enqueueCommonFiles($activeScreen) {
-
-        $asset_manager = new AssetManager('entry', defined('DEV_ENV') ? DEV_ENV : false);
-
         $css_file =
             CoreController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
         $bootstrap =
@@ -135,16 +137,17 @@ class TemplateFiles {
 
         // To load only on mmdb active post type pages.
         if($activeScreen) {
-            if($asset_manager->js_file_path) {
-                wp_enqueue_script( MMDB_NAME, $asset_manager->js_file_path, [],0.1, true);
+	        /** mmdb js library */
+	        $mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_PATH . 'app.umd.js';
+	        wp_enqueue_script( MMDB_NAME, $mmdb_js_file, [],0.1, true);
 
-                /** WP and mmdb and config */
-                wp_add_inline_script(
-                    MMDB_NAME,
-                    TemplateFiles::buildJSConfigFileContent(),
-                    'before'
-                );
-            }
+	        /** WP and mmdb and config */
+	        wp_add_inline_script(
+		        MMDB_NAME,
+		        TemplateFiles::buildJSConfigFileContent(),
+		        'before'
+	        );
+
             if( $css_file === 'yes') {
                 $css_file = 'all';
             }
@@ -157,11 +160,6 @@ class TemplateFiles {
                 'bootstrap', TemplateFiles::getPublicFile('bootstrap', 'css'), [], '3.3.7' );
         }
         if( $css_file === 'all') {
-
-             if($asset_manager->css_file_path) {
-                 wp_enqueue_style(
-                     MMDB_NAME . '_vue', $asset_manager->css_file_path, [], '2.0.0', 'all' );
-             }
 
             wp_enqueue_style(
                 MMDB_NAME, TemplateFiles::getPublicFile(MMDB_CAMEL_NAME, 'css'), [], '2.0.0', 'all' );

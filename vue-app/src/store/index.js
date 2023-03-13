@@ -19,47 +19,47 @@ const mutations = {
 
 const actions = {
     loadContent({ commit, state }, products) {
-        let id = this.id
-        if (id && id !== 0) {
-            let credits
-            let content = this.getById(id)
-            content.then((data) => {
-                data = JSON.parse(data)
-                if (this.$store.state.global_conf.debug) {
-                    console.log(data)
-                }
-                if(data.hasOwnProperty('credits')) {
-                    credits = data.credits
-                } else if(data.hasOwnProperty('combined_credits')) {
-                    credits = data.combined_credits
-                } else {
-                    console.log('Error: No credits found in response')
-                }
-
-                this.crewLength = credits.crew.length
-                this.castLength = credits.cast.length
-
-                commit('addContent', data)
-                commit(
-                  'addCredits',
-                  this.processCreditsPayload(credits)
-                )
-
-                this.$emit('content-success')
-                console.log(this.$store.state)
-            })
-            content.catch(() => {
-
-            })
-            content.finally(() => {
-                this.$emit('content-finally')
-            })
-        }
-    },
+        // let id = this.id
+        // if (id && id !== 0) {
+        //     let credits
+        //     let content = this.getById(id)
+        //     content.then((data) => {
+        //         data = JSON.parse(data)
+        //         if (this.$store.state.global_conf.debug) {
+        //             console.log(data)
+        //         }
+        //         if(data.hasOwnProperty('credits')) {
+        //             credits = data.credits
+        //         } else if(data.hasOwnProperty('combined_credits')) {
+        //             credits = data.combined_credits
+        //         } else {
+        //             console.log('Error: No credits found in response')
+        //         }
+        //
+        //         this.crewLength = credits.crew.length
+        //         this.castLength = credits.cast.length
+        //
+        //         commit('addContent', data)
+        //         commit(
+        //           'addCredits',
+        //           this.processCreditsPayload(credits)
+        //         )
+        //
+        //         this.$emit('content-success')
+        //         console.log(this.$store.state)
+        //     })
+        //     content.catch(() => {
+        //
+        //     })
+        //     content.finally(() => {
+        //         this.$emit('content-finally')
+        //     })
+        // }
+    }
 }
 
 
-export default function(conf, i18n) {
+const initiateStore = (conf, i18n) => {
     const type = conf.type
     let object
     if(type === 'movie') {
@@ -70,7 +70,7 @@ export default function(conf, i18n) {
         object =  new Person()
     }
 
-    const mystate = Object.assign({
+    const myState = Object.assign({
         content: null,
         credits: null,
         components: object.components,
@@ -79,8 +79,10 @@ export default function(conf, i18n) {
     }, conf)
 
     return {
-        state: mystate,
+        state: myState,
         actions,
         mutations
     }
 }
+
+export default initiateStore

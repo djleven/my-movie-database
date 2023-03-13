@@ -11,6 +11,7 @@
 
     export default {
         mixins: [helpers, api],
+        emits: ['content-success', 'content-finally'],
         mounted() {
             this.loadContent()
         },
@@ -69,10 +70,10 @@
           if (id && id !== 0) {
             let credits
             let content = this.getById(id)
-            content.then((data) => {
-              data = JSON.parse(data)
+            content.then((response) => {
+              const data = JSON.parse(response)
               if (this.$store.state.global_conf.debug) {
-                console.log(data)
+                console.log(data, 'parsed response')
               }
               if(data.hasOwnProperty('credits')) {
                 credits = data.credits

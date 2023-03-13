@@ -152,8 +152,6 @@ class MyMovieDatabase {
          */
         require_once self::MMDB_INC_DIR . 'TemplateFiles.php';
 
-        require_once self::MMDB_INC_DIR . 'AssetManager.php';
-
         /**
          * The abstract superclass responsible for the mmdb view types and accompanying trait for Vuejs.
          */

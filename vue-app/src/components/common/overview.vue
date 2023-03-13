@@ -2,7 +2,7 @@
     <sections :show-header="showSubSections()"
               :header="$store.state.__t.summary"
               class-list="overview">
-        <template>
+        <div>
             <h1 class="entry-title">
                 {{ title }}
             </h1>
@@ -45,7 +45,7 @@
                     </div>
                 </template>
             </div>
-        </template>
+        </div>
     </sections>
 </template>
 
