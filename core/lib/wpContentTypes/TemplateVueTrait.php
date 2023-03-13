@@ -131,9 +131,22 @@ trait TemplateVueTrait
                    ' . $admin . '
                 )';
 
-        wp_add_inline_script(MMDB_NAME, $myVue);
+        $this->registerInstantiatingScriptWithWorpdress($myVue);
+
         $mmdbID_processed[] = $uniqueID;
     }
+	protected function registerInstantiatingScriptWithWorpdress($content, $firsTry = true) {
+		$hasInstantiatingScriptBeenAdded = wp_add_inline_script( MMDB_NAME, $content );
+		if ( ! $hasInstantiatingScriptBeenAdded ) {
+			TemplateFiles::enqueuePluginLibrary();
+			if ( $firsTry ) {
+				$this->registerInstantiatingScriptWithWorpdress( $content, false );
+			} else {
+				var_dump( 'errorororoorrr' );
+			}
+		}
+	}
+
 
     /**
      * Setup and return the type view output
@@ -148,9 +161,8 @@ trait TemplateVueTrait
             $admin = true;
         }
 
-        $this->localizeTemplateScript();
         $this->createVueInstance($admin);
-
+	    $this->localizeTemplateScript();
 
         $mountBase = $this->getVueMountPoint();
         $output =

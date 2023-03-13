@@ -137,10 +137,7 @@ class TemplateFiles {
 
         // To load only on mmdb active post type pages.
         if($activeScreen) {
-	        /** mmdb js library */
-	        $mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_PATH . 'app.umd.js';
-	        wp_enqueue_script( MMDB_NAME, $mmdb_js_file, [],0.1, true);
-
+			self::enqueuePluginLibrary();
 	        /** WP and mmdb and config */
 	        wp_add_inline_script(
 		        MMDB_NAME,
@@ -167,6 +164,16 @@ class TemplateFiles {
         // Load for all wp pages below.
     }
 
+	/**
+	 * Enqueue plugin main library
+	 *
+	 * @since      3.0.0
+	 * @return     void
+	 */
+	public static function enqueuePluginLibrary() {
+		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_PATH . 'app.umd.js';
+		wp_enqueue_script( MMDB_NAME, $mmdb_js_file, [],0.1, true);
+	}
     /**
      * Get the contents of a template file
      *
