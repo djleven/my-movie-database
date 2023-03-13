@@ -2,8 +2,8 @@
 import { createApp } from 'vue'
 
 import { createStore } from 'vuex'
-import initiateStore from '../store/index.js';
-import registerAllComponents from '../components/_globals.js'
+import initiateStore from './store';
+import registerAllComponents from './_globals.js'
 
 import Root from './root.vue'
 export default function(element, config, i18n, admin = false) {

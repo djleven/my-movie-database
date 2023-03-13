@@ -4,8 +4,8 @@
   "author": "Kostas Stathakos",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service build src/entries/app.js --target lib --inline-vue --name app --mode production --watch",
-    "build": "vue-cli-service build src/entries/app.js --target lib --inline-vue --name app --mode production && sh postBuild.sh",
+    "serve": "vue-cli-service build src/app.js --target lib --inline-vue --name app --mode production --watch",
+    "build": "vue-cli-service build src/app.js --target lib --inline-vue --name app --mode production && sh postBuild.sh",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
