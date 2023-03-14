@@ -1,13 +1,14 @@
-import AbstractEntity from './abstract-entity'
+import AbstractEntity, {AppComponents, EntityComponents, I18EntityCollection} from './abstract-entity'
+import {BaseTemplateSections} from "@/models/settings";
 
-const default_components = {
-    overview: 'MovieOverview',
-    section_2: 'CastCrew',
-    section_3: 'CastCrew',
-    section_4: 'MovieTrailer'
+const TypeComponents: EntityComponents = {
+    [BaseTemplateSections.Overview]: AppComponents.PersonOverview,
+    [BaseTemplateSections.Section_2]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_4]: AppComponents.MovieTrailer,
 }
 
-const default__t = {
+const default__t: I18EntityCollection = {
     "overview": "Overview",
     "view": "View",
     "cast": "Cast",
@@ -30,13 +31,12 @@ const default__t = {
     "role": "Role"
 }
 
-
 export default class Movie extends AbstractEntity {
 
-    getComponents(){
-        return default_components
+    getDefaultComponents(): EntityComponents {
+        return TypeComponents
     }
-    getTranslations(){
+    getDefaultTranslations(): I18EntityCollection  {
         return default__t
     }
 }

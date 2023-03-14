@@ -1,12 +1,13 @@
-import AbstractEntity from './abstract-entity'
+import AbstractEntity, {EntityComponents, I18EntityCollection, AppComponents} from './abstract-entity'
+import {BaseTemplateSections} from "@/models/settings";
 
-const default_components = {
-  overview: 'PersonOverview',
-  section_2: 'CastCrew',
-  section_3: 'CastCrew',
+const TypeComponents: EntityComponents = {
+  [BaseTemplateSections.Overview]: AppComponents.PersonOverview,
+  [BaseTemplateSections.Section_2]: AppComponents.CastCrew,
+  [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
 }
 
-const default__t = {
+const default__t: I18EntityCollection = {
   "overview": "Overview",
   "view": "View",
   "cast": "Cast",
@@ -31,13 +32,12 @@ const default__t = {
   "no_description": "There is no description available"
 }
 
-
 export default class Person extends AbstractEntity {
 
-  getComponents(){
-    return default_components
+  getDefaultComponents(): EntityComponents {
+    return TypeComponents
   }
-  getTranslations(){
+  getDefaultTranslations(): I18EntityCollection  {
     return default__t
   }
 }
