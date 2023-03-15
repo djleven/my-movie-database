@@ -9,27 +9,26 @@
 
 
 <script>
-    import helpers from '../../mixins/helpers.js';
+import {getPropertyAsCsvFromObjectArray, getTitleWithYear} from '@/helpers/templating.js';
     export default {
-        mixins: [helpers],
         computed: {
             content() {
                 return this.$store.state.content
             },
             getTitle() {
-                return this.getTitleWithYear(this.content.name, this.content.first_air_date)
+                return getTitleWithYear(this.content.name, this.content.first_air_date)
             },
             mainMeta() {
                 return {
                     genres: {
-                        value: this.getPropertyAsCsvFromObjectArray(this.content.genres)
+                        value: getPropertyAsCsvFromObjectArray(this.content.genres)
                     },
                     created_by: {
-                        value: this.getPropertyAsCsvFromObjectArray(this.content.created_by)
+                        value: getPropertyAsCsvFromObjectArray(this.content.created_by)
                     },
                     starring: {
                         showIf: this.$store.state.credits.cast,
-                        value: this.getPropertyAsCsvFromObjectArray(
+                        value: getPropertyAsCsvFromObjectArray(
                             this.$store.state.credits.cast.slice(0, 3)
                         )
                     },
@@ -39,11 +38,11 @@
                     },
                     first_air_date: {
                         showIf: this.content.first_air_date,
-                        value: this.formatDate(this.content.first_air_date)
+                        value: this.$store.getters.getFormattedDate(this.content.first_air_date)
                     },
                     last_air_date: {
                         showIf: !this.content.in_production && this.content.last_air_date,
-                        value: this.formatDate(this.content.last_air_date)
+                        value: this.$store.getters.getFormattedDate(this.content.last_air_date)
                     },
                     episode_run_time: {
                         showIf: this.content.episode_run_time.length,
@@ -61,10 +60,10 @@
             bottomMeta() {
                 return {
                     networks: {
-                        value: this.getPropertyAsCsvFromObjectArray(this.content.networks)
+                        value: getPropertyAsCsvFromObjectArray(this.content.networks)
                     },
                     production_companies: {
-                        value: this.getPropertyAsCsvFromObjectArray(this.content.production_companies)
+                        value: getPropertyAsCsvFromObjectArray(this.content.production_companies)
                     }
                 }
             }

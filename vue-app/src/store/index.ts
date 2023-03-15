@@ -1,25 +1,11 @@
+import getters from './getters'
+import actions from './actions'
+import mutations from './mutations'
+
 import Movie from '@/models/contentTypes/movie'
 import Tvshow from '@/models/contentTypes/tvshow'
 import Person from '@/models/contentTypes/person'
 import { ContentId, ContentTypes, Templates, GlobalSettings, SectionShowSettings, TypeStylingSettings, PlaceholderURLs, BaseTemplateSections } from '@/models/settings'
-
-const mutations = {
-    addContent(state, payload: any) {
-        state.content = payload
-    },
-    addCredits(state, payload: any) {
-        state.credits = payload
-    },
-    setActive(state, activeTab: BaseTemplateSections) {
-        state.activeTab = activeTab
-    },
-    setID(state, id: ContentId) {
-        state.id = id
-    },
-}
-
-const actions = {
-}
 
 interface BaseStateInterface {
     id: ContentId
@@ -39,6 +25,8 @@ interface SectionComponentsInterface {
 }
 
 interface StateInterface extends BaseStateInterface {
+    contentLoaded: boolean,
+    contentLoading: boolean,
     content?: any,
     credits?: any,
     activeTab: BaseTemplateSections,
@@ -46,7 +34,7 @@ interface StateInterface extends BaseStateInterface {
     __t: any,
 }
 
-const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInterface, actions: any, mutations: any } => {
+const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInterface, actions: any, mutations: any, getters: any } => {
     const type = conf.type
     let object
     if(type === ContentTypes.Movie) {
@@ -58,6 +46,8 @@ const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInter
     }
 
     const myState: StateInterface = Object.assign({
+        contentLoaded: false,
+        contentLoading: false,
         content: null,
         credits: null,
         components: object.components,
@@ -68,6 +58,7 @@ const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInter
     return {
         state: myState,
         actions,
+        getters,
         mutations
     }
 }

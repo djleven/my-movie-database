@@ -6,27 +6,16 @@
 </template>
 
 <script>
-    import helpers from '../mixins/helpers.js';
-    import api from '../mixins/resourceAPI.js';
-
     export default {
-        mixins: [helpers, api],
-        emits: ['content-success', 'content-finally'],
         mounted() {
             this.loadContent()
-        },
-        data() {
-            return {
-              castLength: false,
-              crewLength:  false,
-            }
         },
         computed: {
             id() {
                 return this.$store.state.id
             },
             loaded() {
-                return this.$store.state.content && this.$store.state.credits
+                return this.$store.state.content && this.creditsContent
             },
           components(){
             return this.$store.state.components
@@ -34,26 +23,32 @@
           showSettings(){
             return this.$store.state.showSettings
           },
+          translations(){
+            return this.$store.state.__t
+          },
+          creditsContent(){
+            return this.$store.state.credits
+          },
             sections() {
                 return {
                     overview: {
                         showIf: true,
-                        title: this.$store.state.__t.overview,
+                        title: this.translations.overview,
                         component: this.components.overview
                     },
                     section_2: {
-                        showIf: this.showSettings.section_2 && this.castLength,
-                        title: this.$store.state.__t.cast,
+                        showIf: this.showSettings.section_2 && this.creditsContent?.cast?.length,
+                        title: this.translations.cast,
                         component: this.components.section_2
                     },
                     section_3: {
-                        showIf: this.showSettings.section_3 && this.crewLength,
-                        title: this.$store.state.__t.crew,
+                        showIf: this.showSettings.section_3 && this.creditsContent?.crew?.length,
+                        title: this.translations.crew,
                         component: this.components.section_3
                     },
                     section_4: {
                         showIf: this.showSettings.section_4 && this.sectionFour(),
-                        title: this.$store.state.__t.section_4,
+                        title: this.translations.section_4,
                         component: this.components.section_4
                     }
                 }
@@ -66,42 +61,7 @@
         },
       methods: {
         loadContent() {
-          let id = this.id
-          if (id && id !== 0) {
-            let credits
-            let content = this.getById(id)
-            content.then((response) => {
-              const data = JSON.parse(response)
-              if (this.$store.state.global_conf.debug) {
-                console.log(data, 'parsed response')
-              }
-              if(data.hasOwnProperty('credits')) {
-                credits = data.credits
-              } else if(data.hasOwnProperty('combined_credits')) {
-                credits = data.combined_credits
-              } else {
-                console.log('Error: No credits found in response')
-              }
-
-              this.crewLength = credits.crew.length
-              this.castLength = credits.cast.length
-
-              this.$store.commit('addContent', data)
-              this.$store.commit(
-                  'addCredits',
-                  this.processCreditsPayload(credits)
-              )
-
-              this.$emit('content-success')
-              console.log(this.$store.state)
-            })
-            content.catch(() => {
-
-            })
-            content.finally(() => {
-              this.$emit('content-finally')
-            })
-                }
+          this.$store.dispatch('loadContent')
             },
             sectionFour() {
                 const type = this.$store.state.type

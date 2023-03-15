@@ -50,9 +50,8 @@
 </template>
 
 <script>
-    import helpers from '../../mixins/helpers.js';
+import {getImageUrl} from '@/helpers/templating';
     export default {
-        mixins: [helpers],
         props: {
             mainMeta: {
                 type: Object,
@@ -98,7 +97,7 @@
                     this.$store.state.content.poster_path || this.$store.state.content.profile_path
 
                 if (file) {
-                    return this.getImageUrl(file, size)
+                    return getImageUrl(file, size)
                 }
 
                 return this.$store.state.placeholder[size]

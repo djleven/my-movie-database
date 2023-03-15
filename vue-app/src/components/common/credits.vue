@@ -13,7 +13,7 @@
                         <div v-if="overviewOnHover && active === index"
                              class="description">
                             <template v-if="credit.overview">
-                                {{ getExcerpt(credit.overview, excerptLength) }}
+                                {{ getOverviewExcerpt(credit.overview, excerptLength) }}
                             </template>
                             <p v-else class="center-text">
                                 {{ $store.state.__t.no_description }}
@@ -47,10 +47,9 @@
 </template>
 
 <script>
-    import helpers from '../../mixins/helpers.js';
+import {getExcerpt, getImageUrl} from '@/helpers/templating';
 
     export default {
-        mixins: [helpers],
         props: {
             credits: {
                 type: Array,
@@ -96,13 +95,16 @@
             }
         },
         methods: {
+          getOverviewExcerpt(overview, length){
+            return getExcerpt(overview, length);
+          },
             getImage(index) {
                 let size = this.imageSize
                 let file =
                     this.credits[index].poster_path || this.credits[index].profile_path
 
                 if(file) {
-                    return this.getImageUrl(file, size)
+                    return getImageUrl(file, size)
                 }
 
                 return this.$store.state.placeholder[size]

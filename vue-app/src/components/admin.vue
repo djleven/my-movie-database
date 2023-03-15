@@ -24,17 +24,14 @@
         <h4>No search results found</h4>
       </div>
     </div>
-    <index @content-success="contentLoadSuccess"
-           @content-finally="contentLoadFinally">
-    </index>
+    <index />
   </div>
 
 </template>
 <script>
-import api from '../mixins/resourceAPI.js';
+import {searchAPI} from '@/helpers/resourceAPI';
 
 export default {
-  mixins: [api],
   data() {
     return {
       page: 1,
@@ -58,6 +55,9 @@ export default {
           this.debouncedInput = val
         }, 600)
       }
+    },
+    contentLoaded(){
+      return this.$store.state.contentLoaded
     }
   },
   watch: {
@@ -67,7 +67,7 @@ export default {
         this.results = []
         return
       }
-      let query = this.searchAPI(val)
+      let query = searchAPI(val, this.$store.state.type)
       query.then((response) => {
         const data = JSON.parse(response)
         const debug = this.$store.state.global_conf.debug
@@ -79,24 +79,28 @@ export default {
         this.total_pages = data.total_pages
         this.searched = true
       })
+    },
+    contentLoaded(val){
+      if(val) {
+        this.resetForm()
+      }
     }
   },
   methods: {
-    contentLoadSuccess() {
+    resetForm() {
       this.results = []
       this.searchInput = ''
       this.searched = false
     },
-    contentLoadFinally() {
-      this.loading = false
-    },
+    // contentLoadFinally() {
+    //   this.loading = false
+    // },
     select (index) {
       const id = this.results[index].id
-      this.loading = true
+      // this.loading = true
       document.getElementById('MovieDatabaseID').value = id;
       this.$store.commit('setID', id)
       this.$store.commit('setActive', 'overview')
-      this.loading = false
     },
     setActive (index) {
       this.active = index

@@ -27,10 +27,9 @@
   </div>
 </template>
 <script>
-import helpers from '../../mixins/helpers.js';
+import {getExcerpt, getImageUrl, getTitleWithYear} from '@/helpers/templating';
 
 export default {
-  mixins: [helpers],
   emits: ['setActive', 'select'],
   props: {
     result: {
@@ -50,14 +49,14 @@ export default {
     getTitle () {
       const title = this.result.name || this.result.title
 
-      return this.getTitleWithYear(title, this.releaseDate)
+      return getTitleWithYear(title, this.releaseDate)
     },
     getImage () {
       const size = 'medium'
       let file =
           this.result.poster_path || this.result.profile_path
       if(file) {
-        return this.getImageUrl(file, size)
+        return getImageUrl(file, size)
       }
 
       return this.$store.state.placeholder[size]
@@ -66,7 +65,7 @@ export default {
 
       if(typeof this.result.overview !== 'undefined') {
 
-        return this.getExcerpt(this.result.overview, 350)
+        return getExcerpt(this.result.overview, 350)
       }
       return null
     },
