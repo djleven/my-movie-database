@@ -1,79 +1,79 @@
 <template>
-    <component v-if="loaded"
-               :is="$store.state.template"
+    <component v-if="store.state.contentLoaded"
+               :is="template"
                :sections="sections">
     </component>
 </template>
 
-<script>
-    export default {
-        mounted() {
-            this.loadContent()
-        },
-        computed: {
-            id() {
-                return this.$store.state.id
-            },
-            loaded() {
-                return this.$store.state.content && this.creditsContent
-            },
-          components(){
-            return this.$store.state.components
-          },
-          showSettings(){
-            return this.$store.state.showSettings
-          },
-          translations(){
-            return this.$store.state.__t
-          },
-          creditsContent(){
-            return this.$store.state.credits
-          },
-            sections() {
-                return {
-                    overview: {
-                        showIf: true,
-                        title: this.translations.overview,
-                        component: this.components.overview
-                    },
-                    section_2: {
-                        showIf: this.showSettings.section_2 && this.creditsContent?.cast?.length,
-                        title: this.translations.cast,
-                        component: this.components.section_2
-                    },
-                    section_3: {
-                        showIf: this.showSettings.section_3 && this.creditsContent?.crew?.length,
-                        title: this.translations.crew,
-                        component: this.components.section_3
-                    },
-                    section_4: {
-                        showIf: this.showSettings.section_4 && this.sectionFour(),
-                        title: this.translations.section_4,
-                        component: this.components.section_4
-                    }
-                }
-            }
-        },
-        watch: {
-            id() {
-                this.loadContent()
-            }
-        },
-      methods: {
-        loadContent() {
-          this.$store.dispatch('loadContent')
-            },
-            sectionFour() {
-                const type = this.$store.state.type
-                const content = this.$store.state.content
-                if (type === 'movie') {
-                    return content.trailers.youtube && content.trailers.youtube.length
-                } else if (type === 'tvshow') {
-                    return content.seasons.length
-                }
+<script setup lang="ts">
+import { computed, onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
+import {BaseTemplateSections, ContentTypes} from "@/models/settings"
 
-                return false
-            },
-        }
+type SectionTemplates  = {
+  [key in BaseTemplateSections]: {
+    showIf: boolean,
+    title: string,
+    component: string,
+  }
+}
+
+const store = useStore();
+const id = computed(() => store.state.id);
+const type = computed(() => store.state.type);
+const components = computed(() => store.state.components);
+const template = computed(() => store.state.template);
+const showSettings = computed(() => store.state.showSettings);
+const translations = computed(() => store.state.__t);
+const content = computed(() => store.state.content);
+
+const sections = computed<SectionTemplates>(() => {
+  return {
+    overview: {
+      showIf: true,
+      title: translations.value.overview,
+      component: components.value.overview
+    },
+    section_2: {
+      showIf: showSettings.value.section_2 && Boolean(content.value.credits.cast.length),
+      title: translations.value.cast,
+      component: components.value.section_2
+    },
+    section_3: {
+      showIf: showSettings.value.section_3 && Boolean(content.value.credits.crew.length),
+      title: translations.value.crew,
+      component: components.value.section_3
+    },
+    section_4: {
+      showIf: showSectionFour(),
+      title: translations.value.section_4,
+      component: components.value.section_4
     }
+  }
+});
+function showSectionFour() {
+  const conditionOne = showSettings.value.section_4
+  if(conditionOne) {
+    if (type.value === ContentTypes.Movie) {
+      return content?.value?.trailers?.youtube?.length
+    } else if (type.value === ContentTypes.TvShow) {
+      return content?.value?.seasons?.length
+    }
+  }
+
+  return false
+}
+onMounted(() => {
+  loadContent()
+})
+
+watch(id, () => {
+  loadContent()
+});
+
+function loadContent() {
+  if (id.value && id.value !== 0) {
+    store.dispatch('loadContent')
+  }
+}
 </script>

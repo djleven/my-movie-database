@@ -25,7 +25,7 @@ export interface GlobalSettings {
     locale: string
     debug: string
     date_format: Color
-    overviewOnHover: Boolean
+    overviewOnHover: boolean
 }
 
 export interface TypeStylingSettings {

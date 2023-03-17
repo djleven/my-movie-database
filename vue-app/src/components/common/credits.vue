@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h4 v-if="title"
+        <h4 v-if="i18TitleKey"
             @click="active=null"
-            @mouseover="active=null" >{{ $store.state.__t[title] }}</h4>
+            @mouseover="active=null" >{{ $store.state.__t[i18TitleKey] }}</h4>
         <div :class="overviewOnHover ? 'overview-on-hover' : 'credits-wrapper'">
             <template v-for="(credit, index) in credits">
                 <div :class="$store.state.cssClasses[columnClass] + ' credits'"
@@ -33,7 +33,7 @@
                         <li v-if="credit.job">{{ credit.job }}
                         </li>
                         <li v-if="credit.air_date">
-                            {{ $store.state.__t.air_date }}: {{ formatDate(credit.air_date) }}
+                            {{ $store.state.__t.air_date }}: {{ $store.getters.getFormattedDate(credit.air_date) }}
                         </li>
                         <li v-if="credit.episode_count">
                             {{ $store.state.__t.episode_count }}: {{ credit.episode_count }}
@@ -59,7 +59,7 @@ import {getExcerpt, getImageUrl} from '@/helpers/templating';
                 type: String,
                 default: 'multipleColumn'
             },
-            title: {
+            i18TitleKey: {
                 type: String,
                 default: null
             },

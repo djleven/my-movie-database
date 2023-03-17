@@ -1,4 +1,3 @@
-
 export const getTitleWithYear = (title, date) => {
     const year = new Date(date).getFullYear()
     if(year) {

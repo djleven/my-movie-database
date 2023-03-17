@@ -27,7 +27,7 @@ interface SectionComponentsInterface {
 interface StateInterface extends BaseStateInterface {
     contentLoaded: boolean,
     contentLoading: boolean,
-    content?: any,
+    content: any,
     credits?: any,
     activeTab: BaseTemplateSections,
     components: SectionComponentsInterface,
@@ -48,7 +48,12 @@ const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInter
     const myState: StateInterface = Object.assign({
         contentLoaded: false,
         contentLoading: false,
-        content: null,
+        content: {
+            credits: {
+                crew: [],
+                cast: []
+            },
+        },
         credits: null,
         components: object.components,
         activeTab: BaseTemplateSections.Overview,

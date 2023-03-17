@@ -3,20 +3,16 @@
               :sub-header="$store.state.content.name || $store.state.content.title"
               :class-list="type">
         <slot>
-            <template v-if="$store.state.type === 'person'">
-                <template v-for="(mediaType, index) in credits">
-                    <credits v-if="mediaType.length"
-                             :title="index + '_' + type"
-                             image-size="medium"
-                             :overview-on-hover="$store.state.global_conf.overviewOnHover"
-                             column-class="twoColumn"
-                             :credits="mediaType">
-                    </credits>
-                </template>
-            </template>
-            <credits v-else
-                     :credits="credits">
-            </credits>
+          <extended-credits
+              v-if="$store.state.type === 'person'"
+              :credits="credits"
+              :i18-title-key-suffix="type"
+              :overview-on-hover="$store.state.global_conf.overviewOnHover"
+          />
+            <credits
+                v-else
+                :credits="credits"
+            />
         </slot>
     </sections>
 </template>
@@ -51,7 +47,3 @@
         },
     }
 </script>
-
-<!--<style scoped lang="less">-->
-
-<!--</style>-->

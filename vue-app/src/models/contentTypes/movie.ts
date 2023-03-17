@@ -2,7 +2,7 @@ import AbstractEntity, {AppComponents, EntityComponents, I18EntityCollection} fr
 import {BaseTemplateSections} from "@/models/settings";
 
 const TypeComponents: EntityComponents = {
-    [BaseTemplateSections.Overview]: AppComponents.PersonOverview,
+    [BaseTemplateSections.Overview]: AppComponents.MovieOverview,
     [BaseTemplateSections.Section_2]: AppComponents.CastCrew,
     [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
     [BaseTemplateSections.Section_4]: AppComponents.MovieTrailer,

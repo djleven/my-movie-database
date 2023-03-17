@@ -1,7 +1,7 @@
 <template>
     <overview :main-meta="mainMeta"
-              :title="content.name"
-              :description="content.biography"
+              :title="content?.name"
+              :description="content?.biography"
               :links-meta="linksMeta">
     </overview>
 </template>

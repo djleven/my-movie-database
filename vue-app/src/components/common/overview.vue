@@ -76,8 +76,8 @@ import {getImageUrl} from '@/helpers/templating';
         },
         methods: {
             showMeta(field, object) {
-                if(this[object][field].hasOwnProperty('value')) {
-                    if(this[object][field].hasOwnProperty('showIf')) {
+                if(Object.hasOwn(this[object][field], 'value')) {
+                    if(Object.hasOwn(this[object][field], 'showIf')) {
 
                         return this[object][field].showIf
                     }

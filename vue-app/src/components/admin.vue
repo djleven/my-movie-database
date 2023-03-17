@@ -11,7 +11,7 @@
     </div>
     <div class="panel-body">
       <div v-for="(result, index) in results" :key="index"
-           class="col-xl-4 col-lg-6 col-md-6 col-sm-6 credits mmdb-search">
+           class="col-xl-4 col-lg-6 col-md-12 credits mmdb-search">
         <search-result
             :active="active === index"
             :result="result"
@@ -28,83 +28,78 @@
   </div>
 
 </template>
-<script>
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 import {searchAPI} from '@/helpers/resourceAPI';
+import {useDebounce} from '@/helpers/utils';
 
-export default {
-  data() {
-    return {
-      page: 1,
-      results: [],
-      total_pages: null,
-      active: null,
-      searched: false,
-      loading: false,
-      timeout: null,
-      debouncedInput: ''
+const page = ref(1)
+const results = ref([])
+const total_pages = ref(null)
+const active = ref(null)
+const searched = ref(false)
+const loading = ref(false)
+const searchInput = useDebounce('', 1000);
+
+const store = useStore();
+const id = computed(() => store.state.id);
+const type = computed(() => store.state.type);
+const components = computed(() => store.state.components);
+const debug = computed(() => store.state.global_conf.debug);
+const contentLoaded = computed(() => store.state.contentLoaded);
+
+watch(searchInput, (val) => {
+  if(val.length === 0) {
+    return resetForm()
+  }
+  fetchResults(val)
+});
+
+watch(contentLoaded, (newValue, oldValue) => {
+  if(newValue) {
+    resetForm(true)
+  }
+});
+async function fetchResults(val) {
+  try{
+    let query = await searchAPI(val, type.value)
+    const data = JSON.parse(query.parsedBody)
+    if (debug.value) {
+      console.log(data, 'response data')
     }
-  },
-  computed: {
-    searchInput: {
-      get() {
-        return this.debouncedInput
-      },
-      set(val) {
-        if (this.timeout) clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
-          this.debouncedInput = val
-        }, 600)
-      }
-    },
-    contentLoaded(){
-      return this.$store.state.contentLoaded
-    }
-  },
-  watch: {
-    searchInput(val) {
-      if(val.length === 0) {
-        this.searched = false
-        this.results = []
-        return
-      }
-      let query = searchAPI(val, this.$store.state.type)
-      query.then((response) => {
-        const data = JSON.parse(response)
-        const debug = this.$store.state.global_conf.debug
-        if (debug) {
-          console.log(data)
-        }
-        this.page = data.page
-        this.results = data.results
-        this.total_pages = data.total_pages
-        this.searched = true
-      })
-    },
-    contentLoaded(val){
-      if(val) {
-        this.resetForm()
-      }
-    }
-  },
-  methods: {
-    resetForm() {
-      this.results = []
-      this.searchInput = ''
-      this.searched = false
-    },
-    // contentLoadFinally() {
-    //   this.loading = false
-    // },
-    select (index) {
-      const id = this.results[index].id
-      // this.loading = true
-      document.getElementById('MovieDatabaseID').value = id;
-      this.$store.commit('setID', id)
-      this.$store.commit('setActive', 'overview')
-    },
-    setActive (index) {
-      this.active = index
-    }
-  },
+    page.value = data.page
+    results.value = data.results
+    total_pages.value = data.total_pages
+    searched.value = true
+  }
+  catch (e){
+    alert(e + 'wtf')
+    // TODO: Error logging and display check
+  }
+  finally {
+    // TODO: Is needed?
+  }
 }
+
+function resetForm(loadSuccess = false) {
+    results.value = []
+    searchInput.value = ''
+  if(loadSuccess) {
+    searched.value = false
+  }
+}
+
+function select (index: number) {
+  const id = results.value[index].id
+  if(id) {
+    document.getElementById('MovieDatabaseID').value = id;
+    store.commit('setID', id)
+    store.commit('setActive', 'overview')
+  }
+}
+function setActive (index) {
+  active.value = index
+}
+
 </script>
