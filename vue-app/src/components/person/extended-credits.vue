@@ -1,20 +1,24 @@
 <template>
-  <template v-for="(mediaType, index) in credits">
-    <credits v-if="mediaType.length"
-             :i18-title-key="getI18TitleKey(index)"
-             image-size="medium"
-             :overview-on-hover="overviewOnHover"
-             column-class="twoColumn"
-             :credits="mediaType">
-    </credits>
+  <template v-for="(mediaType, index) in credits" :key="index">
+    <credit-list
+        v-if="mediaType.length"
+        :i18-title-key="getI18TitleKey(index)"
+        image-size="medium"
+        :overview-on-hover="overviewOnHover"
+        column-class="twoColumn"
+        :credits="mediaType"
+    >
+    </credit-list>
   </template>
 </template>
 
 <script setup lang="ts">
+import {defineProps} from "vue"
+
 const props = defineProps({
   credits: {
     type: Array,
-    default: [] // TODO: substitute with type or interface
+    default: () => [] // TODO: substitute with type or interface
   },
   overviewOnHover: {
     type: Boolean,
