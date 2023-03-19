@@ -1,5 +1,5 @@
 <template>
-    <sections :show-header="showSubSections()"
+    <section-layout :show-header="showSubSections()"
               :header="$store.state.__t.summary"
               class-list="overview">
         <div>
@@ -46,7 +46,7 @@
                 </template>
             </div>
         </div>
-    </sections>
+    </section-layout>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <sections :header="getHeader"
+    <section-layout :header="getHeader"
               :sub-header="store.state.content.name || store.state.content.title"
               :class-list="templateType">
       <slot>
@@ -16,7 +16,7 @@
         />
       </slot>
 
-    </sections>
+    </section-layout>
 </template>
 
 <script setup lang="ts">

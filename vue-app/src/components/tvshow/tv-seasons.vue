@@ -1,5 +1,5 @@
 <template>
-    <sections :header="$store.state.__t.seasons"
+    <section-layout :header="$store.state.__t.seasons"
               :sub-header="$store.state.content.name"
               class-list="seasons">
         <credit-list :overview-on-hover="$store.state.global_conf.overviewOnHover"
@@ -7,5 +7,5 @@
                  column-class="twoColumn"
                  :credits="$store.state.content.seasons">
         </credit-list>
-    </sections>
+    </section-layout>
 </template>

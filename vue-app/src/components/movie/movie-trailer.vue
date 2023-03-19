@@ -1,5 +1,5 @@
 <template>
-    <sections :header="$store.state.__t.trailer"
+    <section-layout :header="$store.state.__t.trailer"
               :sub-header="$store.state.content?.title"
               class-list="trailer">
         <div class="mmdb-trailer-video">
@@ -8,7 +8,7 @@
                     allowfullscreen>
             </iframe>
         </div>
-    </sections>
+    </section-layout>
 </template>
 
 <script>
