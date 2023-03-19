@@ -19,8 +19,7 @@
 import { defineProps } from 'vue';
 import { useStore } from 'vuex';
 
-
-const props = defineProps({
+defineProps({
   showHeader: {
     type: Boolean,
     default: true

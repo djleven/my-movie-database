@@ -34,7 +34,7 @@ import {defineProps, computed} from "vue"
 import {useStore} from "vuex"
 import {SectionTemplates} from "@/models/templates"
 
-const props = defineProps({
+defineProps({
   sections: {
     type: SectionTemplates,
     required: true
