@@ -10,6 +10,7 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\MyMovieDatabase;
 use MyMovieDatabase\TemplateFiles;
 use MyMovieDatabase\CoreController;
 
@@ -103,7 +104,10 @@ trait TemplateVueTrait
 			if ( $firsTry ) {
 				$this->registerInstantiatingScriptWithWordPress( $content, false );
 			} else {
-				var_dump( 'errorororoorrr' );
+				MyMovieDatabase::writeToLog(
+					$content,
+					'Something went wrong registering plugin scripts with WordPress'
+				);
 			}
 		}
 	}

@@ -311,5 +311,26 @@ class MyMovieDatabase {
 
         return self::$instance;
     }
+
+    /**
+     * Log content to error log
+     *
+     * @since      2.0.2
+     * @param      mixed   $content
+     *
+     */
+    public static function writeToLog ( $content, $optional_msg = null )  {
+        $error_msg = MMDB_CAMEL_NAME . ' error';
+        if($optional_msg) {
+            $error_msg .= ': ' . $optional_msg . PHP_EOL;
+        }
+        if ( is_array( $content ) || is_object( $content ) ) {
+            $error_msg .= print_r( $content, true );
+        } else {
+            $error_msg .= $content;
+        }
+
+        error_log( $error_msg );
+    }
 }
 

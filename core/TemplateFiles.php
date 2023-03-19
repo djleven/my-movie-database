@@ -86,21 +86,5 @@ class TemplateFiles {
 			'my-movie-database',
 			MMDB_PLUGIN_DIR . 'languages'
 		);
-	}
-
-    /**
-     * Log content to error log
-     * TODO: Move this elsewhere for common use when other class needs to use it
-     *
-     * @since      2.0.2
-     * @param      mixed   $content
-     *
-     */
-    private static function writeToLog ( $content )  {
-        if ( is_array( $content ) || is_object( $content ) ) {
-            error_log( print_r( $content, true ) );
-        } else {
-            error_log( $content );
-        }
     }
 }
