@@ -29,7 +29,7 @@ interface StateInterface extends BaseStateInterface {
     contentLoading: boolean,
     content: any,
     credits?: any,
-    activeTab: BaseTemplateSections,
+    activeSection: BaseTemplateSections,
     components: SectionComponentsInterface,
     __t: any,
 }
@@ -56,7 +56,7 @@ const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInter
         },
         credits: null,
         components: object.components,
-        activeTab: BaseTemplateSections.Overview,
+        activeSection: BaseTemplateSections.Overview,
         __t: i18n
     }, conf)
 

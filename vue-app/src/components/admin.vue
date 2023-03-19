@@ -95,7 +95,7 @@ function select (index: number) {
   if(id) {
     document.getElementById('MovieDatabaseID').value = id;
     store.commit('setID', id)
-    store.commit('setActive', 'overview')
+    store.commit('setActiveSection')
   }
 }
 function setActive (index) {

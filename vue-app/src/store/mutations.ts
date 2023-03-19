@@ -1,4 +1,5 @@
-import {BaseTemplateSections, ContentId, ContentTypes} from "@/models/settings";
+import {BaseTemplateSections, ContentId} from "@/models/settings";
+
 const orderCredits = (credits, comparison, date = false, desc = true) => {
     if(Array.isArray(credits) && credits.length) {
         if(date) {
@@ -70,8 +71,11 @@ export default {
             crew: orderCredits(payload.crew, 'popularity', false, false)
         })
     },
-    setActive(state, activeTab: BaseTemplateSections) {
-        state.activeTab = activeTab
+    setActiveSection(state, activeSection?: BaseTemplateSections) {
+        if(!activeSection) {
+            activeSection = BaseTemplateSections.Overview
+        }
+        state.activeSection = activeSection
     },
     setID(state, id: ContentId) {
         state.id = id

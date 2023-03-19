@@ -8,21 +8,14 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
-import {BaseTemplateSections, ContentTypes} from "@/models/settings"
-
-type SectionTemplates  = {
-  [key in BaseTemplateSections]: {
-    showIf: boolean,
-    title: string,
-    component: string,
-  }
-}
+import {ContentTypes} from "@/models/settings"
+import {SectionTemplates} from "@/models/templates"
 
 const store = useStore();
 const id = computed(() => store.state.id);
 const type = computed(() => store.state.type);
 const components = computed(() => store.state.components);
-const template = computed(() => store.state.template);
+const template = computed(() => store.state.template + '-template');
 const showSettings = computed(() => store.state.showSettings);
 const translations = computed(() => store.state.__t);
 const content = computed(() => store.state.content);
@@ -32,22 +25,22 @@ const sections = computed<SectionTemplates>(() => {
     overview: {
       showIf: true,
       title: translations.value.overview,
-      component: components.value.overview
+      componentName: components.value.overview
     },
     section_2: {
       showIf: showSettings.value.section_2 && Boolean(content.value.credits.cast.length),
       title: translations.value.cast,
-      component: components.value.section_2
+      componentName: components.value.section_2
     },
     section_3: {
       showIf: showSettings.value.section_3 && Boolean(content.value.credits.crew.length),
       title: translations.value.crew,
-      component: components.value.section_3
+      componentName: components.value.section_3
     },
     section_4: {
       showIf: showSectionFour(),
       title: translations.value.section_4,
-      component: components.value.section_4
+      componentName: components.value.section_4
     }
   }
 });
