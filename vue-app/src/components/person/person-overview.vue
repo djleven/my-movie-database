@@ -1,61 +1,61 @@
 <template>
-    <overview :main-meta="mainMeta"
-              :title="content?.name"
-              :description="content?.biography"
-              :links-meta="linksMeta">
-    </overview>
+  <overview-section :main-meta="mainMeta"
+            :title="content?.name"
+            :description="content?.biography"
+            :links-meta="linksMeta">
+  </overview-section>
 </template>
-<script>
-    export default {
-        computed: {
-            content() {
-                return this.$store.state.content
-            },
-            mainMeta() {
-                return {
-                    known_for_department: {
-                        value: this.content?.known_for_department
-                    },
-                    also_known_as: {
-                        showIf: this.content?.also_known_as?.length,
-                        value: this.content?.also_known_as?.join(', ')
-                    },
-                    birthday: {
-                        showIf: this.content?.birthday,
-                        value: this.$store.getters.getFormattedDate(this.content?.birthday)
-                    },
-                    place_of_birth: {
-                        value: this.content?.place_of_birth
-                    },
-                    death_date: {
-                        showIf: this.content?.death_date,
-                        value: this.$store.getters.getFormattedDate(this.content?.death_date)
-                    },
-                    movie_cast: {
-                        value: this.$store.state.credits?.cast?.movie?.length
-                    },
-                    tv_cast: {
-                        value: this.$store.state.credits?.cast?.tv?.length
-                    },
-                    movie_crew: {
-                        value: this.$store.state.credits?.crew?.movie?.length
-                    },
-                    tv_crew: {
-                        value: this.$store.state.credits?.crew?.tv?.length
-                    }
-                }
-            },
-            linksMeta() {
-                return {
-                    imdb_profile: {
-                        showIf: this.content?.imdb_profile,
-                        value: 'https://www.imdb.com/name/' + this.content.imdb_id
-                    },
-                    homepage: {
-                        value: this.content?.homepage,
-                    }
-                }
-            }
-        }
+<script setup lang="ts">
+import { computed } from "vue"
+import { useStore } from "vuex"
+
+const store = useStore();
+const content = computed(() => store.state.content)
+const castCredits = computed(() => store.state.credits?.cast)
+const crewCredits = computed(() => store.state.credits?.crew)
+const mainMeta = computed(() => {
+  return {
+    known_for_department: {
+      value: content.value?.known_for_department
+    },
+    also_known_as: {
+      showIf: content.value?.also_known_as?.length,
+      value: content.value.also_known_as.join(', ')
+    },
+    birthday: {
+      showIf: content.value?.birthday,
+      value: store.getters.getFormattedDate(content.value.birthday)
+    },
+    place_of_birth: {
+      value: content.value?.place_of_birth
+    },
+    deathday: {
+      showIf: content.value?.deathday,
+      value: store.getters.getFormattedDate(content.value.deathday)
+    },
+    movie_cast: {
+      value: castCredits.value?.movie?.length
+    },
+    tv_cast: {
+      value: castCredits.value?.tv?.length
+    },
+    movie_crew: {
+      value: crewCredits.value?.movie?.length
+    },
+    tv_crew: {
+      value: crewCredits.value?.tv?.length
     }
+  }
+})
+const linksMeta = computed(() => {
+  return {
+    imdb_profile: {
+      showIf: content.value?.imdb_profile,
+      value: `https://www.imdb.com/name/'${content.value.imdb_id}`
+    },
+    homepage: {
+      value: content.value?.homepage,
+    }
+  }
+})
 </script>

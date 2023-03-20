@@ -11,6 +11,7 @@
                    :is-active="overviewOnHover && index === activeCredit"
                    :column-class="columnClass"
                    :image-size="imageSize"
+                   :has-set-active-events="overviewOnHover"
                    @set-active="setActiveCredit"
                />
             </template>
@@ -50,8 +51,6 @@ const store = useStore()
 const activeCredit = ref(null);
 
 function setActiveCredit(index) {
-  if(props.overviewOnHover) {
-    activeCredit.value = index
-  }
+  activeCredit.value = index
 }
 </script>

@@ -7,3 +7,13 @@ export type SectionTemplates  = {
         componentName: string,
     }
 }
+
+type ConditionalField  = {
+    showIf?: boolean,
+    value: string,
+}
+
+export type ConditionalFieldGroup  = {
+    [key: string]: ConditionalField
+}
+

@@ -66,12 +66,18 @@ const props = defineProps({
   imageSize: {
     type: String,
     default: 'small'
+  },
+  hasSetActiveEvents: {
+    type: Boolean,
+    default: false
   }
 })
 
 const emit = defineEmits(['setActive'])
 const setActive = () => {
-  emit('setActive', props.index)
+  if(props.hasSetActiveEvents) {
+    emit('setActive', props.index)
+  }
 }
 const store = useStore()
 const creditWrapper = ref(null)
