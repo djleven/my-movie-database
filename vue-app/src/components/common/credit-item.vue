@@ -21,7 +21,7 @@
            :src="imageSource"/>
     </div>
     <ul class="credits">
-      <li>{{ credit.title || credit.name }}</li>
+      <li>{{ title }}</li>
       <li v-if="credit.character">
         {{ store.state.__t.role }}: {{ credit.character }}
       </li>
@@ -38,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, defineEmits, computed, ref} from "vue"
-import {useStore} from "vuex"
-import {getExcerpt, getImageUrl} from '@/helpers/templating';
+import { computed, ref } from 'vue'
+import { useStore } from '@/store'
+import { getExcerpt, getImageUrl } from '@/helpers/templating'
 
 const props = defineProps({
   credit: {
@@ -83,6 +83,14 @@ const store = useStore()
 const creditWrapper = ref(null)
 const excerptLength = ref(350);
 const overviewExcerpt = computed(() => getExcerpt(props.credit.overview, excerptLength))
+const title = computed(() => {
+  const credit = props.credit
+  const title = credit.name ?? credit.title
+  if(credit.release_date) {
+    return `${title} (${new Date(credit.release_date).getFullYear()})`
+  }
+  return title
+})
 const imageSource = computed(() => {
   let size = props.imageSize
   let file =

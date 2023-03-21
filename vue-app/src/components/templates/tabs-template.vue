@@ -12,7 +12,7 @@
             </template>
         </ul>
         <template v-for="(section, index) in sections" :key="index">
-            <transition :name="$store.state.cssClasses.transitionEffect">
+            <transition :name="store.state.cssClasses.transitionEffect">
                 <template v-if="section.showIf">
                     <div v-show="activeSection === index"
                          class="tab-content mmdb-header">
@@ -30,13 +30,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import {defineProps, computed} from "vue"
-import {useStore} from "vuex"
-import {SectionTemplates} from "@/models/templates"
+import { computed, PropType } from 'vue'
+import { useStore } from '@/store'
+import { SectionTemplates } from '@/models/templates'
 
 defineProps({
   sections: {
-    type: SectionTemplates,
+    type: Object as PropType<SectionTemplates>,
     required: true
   }
 })
@@ -45,9 +45,8 @@ const store = useStore();
 const activeSection = computed(() => store.state.activeSection);
 
 function setActiveSection(newActiveTab) {
-  if(newActiveTab === activeSection.value) {
-    newActiveTab = -1
+  if(newActiveTab !== activeSection.value) {
+    store.commit('setActiveSection', newActiveTab)
   }
-  store.commit('setActiveSection', newActiveTab)
 }
 </script>

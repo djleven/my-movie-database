@@ -286,10 +286,8 @@ export const stateData = {
         section_3: "CastCrew",
         section_4: "MovieTrailer",
     },
-    content: contentState,
     contentLoaded: true,
     contentLoading: false,
-    credits: {cast: castState, crew: crewState},
     cssClasses: {
         bodyColor: "#f42253",
         headerColor: "#6cce37",
@@ -318,4 +316,12 @@ export const stateData = {
     template: "tabs",
     type: "movie",
     __t: i18State,
+}
+
+export const movieModuleData = {
+    content: contentState,
+    credits: {
+        cast: castState,
+        crew: crewState
+    },
 }

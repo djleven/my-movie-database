@@ -1,9 +1,11 @@
 import { createStore } from 'vuex'
 import { mount } from '@vue/test-utils'
-import { stateData } from '../../fixtures/personStateFixtures'
+
+import { key } from '@/store'
+import { stateData, personModuleData } from '../../fixtures/personStateFixtures'
 
 import PersonOverview from '@/components/person/person-overview.vue'
-import Overview from "@/components/common/overview-section.vue"
+import OverviewSection from "@/components/common/overview-section.vue"
 import SectionLayout from "@/components/common/section-layout.vue"
 
 describe('PersonOverview.vue: Render correct field data and labels in the html', () => {
@@ -13,7 +15,9 @@ describe('PersonOverview.vue: Render correct field data and labels in the html',
   beforeAll(() => {
     store = createStore({
       state() {
-        return stateData
+        return Object.assign(stateData, {
+          person: personModuleData
+        })
       },
       getters: {
         getFormattedDate() {
@@ -24,12 +28,12 @@ describe('PersonOverview.vue: Render correct field data and labels in the html',
 
     rootComponent = mount(PersonOverview, {
       global: {
-        components: {Overview, SectionLayout},
-        plugins: [store],
+        components: {OverviewSection, SectionLayout},
+        plugins: [[store, key]],
       }
     })
 
-    overviewComponent = rootComponent.findComponent(Overview)
+    overviewComponent = rootComponent.findComponent(OverviewSection)
     expect(overviewComponent.exists()).toBe(true)
   })
   it('renders the correct title', () => {

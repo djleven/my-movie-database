@@ -6,13 +6,13 @@
   </overview-section>
 </template>
 <script setup lang="ts">
-import { computed } from "vue"
-import { useStore } from "vuex"
+import { computed } from 'vue'
+import { useStore } from '@/store'
 
 const store = useStore();
-const content = computed(() => store.state.content)
-const castCredits = computed(() => store.state.credits?.cast)
-const crewCredits = computed(() => store.state.credits?.crew)
+const content = computed(() => store.state.person?.content)
+const castCredits = computed(() => store.state.person?.credits?.cast)
+const crewCredits = computed(() => store.state.person?.credits?.crew)
 const mainMeta = computed(() => {
   return {
     known_for_department: {
@@ -20,18 +20,18 @@ const mainMeta = computed(() => {
     },
     also_known_as: {
       showIf: content.value?.also_known_as?.length,
-      value: content.value.also_known_as.join(', ')
+      value: content.value?.also_known_as?.join(', ')
     },
     birthday: {
       showIf: content.value?.birthday,
-      value: store.getters.getFormattedDate(content.value.birthday)
+      value: store.getters.getFormattedDate(content.value?.birthday)
     },
     place_of_birth: {
       value: content.value?.place_of_birth
     },
     deathday: {
       showIf: content.value?.deathday,
-      value: store.getters.getFormattedDate(content.value.deathday)
+      value: store.getters.getFormattedDate(content.value?.deathday)
     },
     movie_cast: {
       value: castCredits.value?.movie?.length
@@ -50,8 +50,8 @@ const mainMeta = computed(() => {
 const linksMeta = computed(() => {
   return {
     imdb_profile: {
-      showIf: content.value?.imdb_profile,
-      value: `https://www.imdb.com/name/'${content.value.imdb_id}`
+      showIf: content.value?.imdb_id,
+      value: `https://www.imdb.com/name/'${content.value?.imdb_id}`
     },
     homepage: {
       value: content.value?.homepage,

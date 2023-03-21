@@ -30,9 +30,9 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { useStore } from 'vuex';
-import {searchAPI} from '@/helpers/resourceAPI';
-import {useDebounce} from '@/helpers/utils';
+import { useStore } from '@/store'
+import { searchAPI } from '@/helpers/resourceAPI';
+import { useDebounce } from '@/helpers/utils';
 
 const page = ref(1)
 const results = ref([])
@@ -56,7 +56,7 @@ watch(searchInput, (val) => {
   fetchResults(val)
 });
 
-watch(contentLoaded, (newValue, oldValue) => {
+watch(contentLoaded, (newValue) => {
   if(newValue) {
     resetForm(true)
   }
@@ -66,7 +66,7 @@ async function fetchResults(val) {
     let query = await searchAPI(val, type.value)
     const data = JSON.parse(query.parsedBody)
     if (debug.value) {
-      console.log(data, 'response data')
+      console.log(data, 'Search result response data')
     }
     page.value = data.page
     results.value = data.results
@@ -74,7 +74,7 @@ async function fetchResults(val) {
     searched.value = true
   }
   catch (e){
-    alert(e + 'wtf')
+    console.log(e)
     // TODO: Error logging and display check
   }
   finally {
@@ -91,9 +91,10 @@ function resetForm(loadSuccess = false) {
 }
 
 function select (index: number) {
-  const id = results.value[index].id
+  const id = results.value[index]?.['id']
   if(id) {
-    document.getElementById('MovieDatabaseID').value = id;
+    const inputElement = document.getElementById('MovieDatabaseID') as HTMLInputElement
+    inputElement.value = id;
     store.commit('setID', id)
     store.commit('setActiveSection')
   }

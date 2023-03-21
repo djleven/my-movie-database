@@ -1,5 +1,7 @@
-import AbstractEntity, {AppComponents, EntityComponents, I18EntityCollection} from './abstract-entity'
-import {BaseTemplateSections} from "@/models/settings";
+import AbstractEntity, { EntityComponents, I18EntityCollection } from '@/models/contentTypes/abstract-entity'
+import { BaseTemplateSections } from '@/models/settings'
+import { AppComponents } from '@/models/templates'
+import { MovieState } from '@/store/movie'
 
 const TypeComponents: EntityComponents = {
     [BaseTemplateSections.Overview]: AppComponents.MovieOverview,
@@ -38,5 +40,14 @@ export default class Movie extends AbstractEntity {
     }
     getDefaultTranslations(): I18EntityCollection  {
         return default__t
+    }
+    getInitialState(): MovieState {
+        return {
+            content: null,
+            credits: {
+                crew: [],
+                cast: []
+            }
+        }
     }
 }

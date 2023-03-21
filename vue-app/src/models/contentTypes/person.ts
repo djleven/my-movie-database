@@ -1,5 +1,8 @@
-import AbstractEntity, {EntityComponents, I18EntityCollection, AppComponents} from './abstract-entity'
-import {BaseTemplateSections} from "@/models/settings";
+import AbstractEntity, { EntityComponents, I18EntityCollection } from '@/models/contentTypes/abstract-entity'
+import { BaseTemplateSections } from '@/models/settings'
+import { AppComponents } from '@/models/templates'
+import { ScreenPlayTypes, PersonCreditsByScreenPlayType} from "@/models/credits";
+import { PersonState } from '@/store/person'
 
 const TypeComponents: EntityComponents = {
   [BaseTemplateSections.Overview]: AppComponents.PersonOverview,
@@ -32,6 +35,17 @@ const default__t: I18EntityCollection = {
   "no_description": "There is no description available"
 }
 
+const initialCreditsState: PersonCreditsByScreenPlayType = {
+  cast: {
+    [ScreenPlayTypes.Movie]: [],
+    [ScreenPlayTypes.Tv]: [],
+  },
+  crew: {
+    [ScreenPlayTypes.Movie]: [],
+    [ScreenPlayTypes.Tv]: [],
+  }
+}
+
 export default class Person extends AbstractEntity {
 
   getDefaultComponents(): EntityComponents {
@@ -39,5 +53,11 @@ export default class Person extends AbstractEntity {
   }
   getDefaultTranslations(): I18EntityCollection  {
     return default__t
+  }
+  getInitialState(): PersonState {
+    return {
+      content: null,
+      credits: initialCreditsState
+    }
   }
 }

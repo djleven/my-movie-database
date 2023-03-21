@@ -1,13 +1,8 @@
-import {BaseTemplateSections} from "@/models/settings";
-
-export enum AppComponents {
-    MovieOverview = 'MovieOverview',
-    TvOverview ='TvOverview',
-    PersonOverview = 'PersonOverview',
-    CastCrew = 'CastCrew',
-    MovieTrailer = 'MovieTrailer',
-    TvSeasons = 'TvSeasons',
-}
+import { BaseTemplateSections } from "@/models/settings";
+import { AppComponents } from "@/models/templates";
+import {MovieState} from "@/store/movie";
+import {TvShowState} from "@/store/tv";
+import {PersonState} from "@/store/person";
 
 export type EntityComponents = Partial<Record<BaseTemplateSections, AppComponents>>
 
@@ -16,9 +11,10 @@ export type I18EntityCollection = Record<string, string>
 export default abstract class AbstractEntity {
     public components: EntityComponents;
     public __t: I18EntityCollection;
+
     constructor (
         components: EntityComponents = {},
-        __t: I18EntityCollection = {}
+        __t: I18EntityCollection = {},
     ) {
         this.components = {
             ...this.getDefaultComponents(),
@@ -32,4 +28,5 @@ export default abstract class AbstractEntity {
 
     abstract getDefaultComponents(): EntityComponents
     abstract getDefaultTranslations(): I18EntityCollection
+    abstract getInitialState(): MovieState | TvShowState | PersonState
 }

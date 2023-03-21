@@ -2,7 +2,7 @@ export default {
     getFormattedDate: (state) => (date) => {
         const format = state.global_conf.date_format
         let locale = state.global_conf.locale.substring(0, 2)
-        let month = 'numeric';
+        let month: "numeric" | "2-digit" | "long" | "short" | "narrow" | undefined = 'numeric'
         if (!date) {
             return null
         }
@@ -24,5 +24,20 @@ export default {
                 timeZone: 'UTC',
             }
         );
+    },
+    contentHasCastCredits: (state, getters) => {
+        return getters[`${state.type}/contentHasCastCredits`]
+    },
+    contentHasCrewCredits: (state, getters) => {
+        return getters[`${state.type}/contentHasCrewCredits`]
+    },
+    hasSectionFour: (state, getters) => {
+        return getters[`${state.type}/hasSectionFour`]
+    },
+    getContentTitle: (state, getters)  => {
+        return getters[`${state.type}/getContentTitle`]
+    },
+    getImagePath: (state, getters)  => {
+        return getters[`${state.type}/getImagePath`]
     }
 }

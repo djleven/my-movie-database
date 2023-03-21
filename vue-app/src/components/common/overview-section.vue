@@ -10,12 +10,12 @@
       </h1>
       <div :class="store.state.cssClasses.twoColumn">
         <img class="mmdb-poster"
-             :src="getImage()"
-             ref="poster"
+             :src="getImage"
              :alt="`${title} image`"
+             ref="poster"
         />
       </div>
-      <div :class="`meta-wrapper ${store.state.cssClasses.twoColumn}`" :style="`height: ${metaWrapperHeight}`">
+      <div :class="`meta-wrapper ${store.state.cssClasses.twoColumn}`" ref="metaWrapper">
         <div class="mmdb-meta">
           <template v-for="(meta, index) in mainMeta" :key="index">
             <div v-if="showMeta(index, 'mainMeta')" :class="`mmodb-${index}`">
@@ -51,11 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, PropType, computed, ref} from "vue"
-import {useStore} from "vuex"
+import { PropType, computed, ref, onMounted } from 'vue'
+import { useStore } from '@/store'
 
-import {getImageUrl} from '@/helpers/templating';
-import {ConditionalFieldGroup} from "@/models/templates";
+import { getImageUrl } from '@/helpers/templating'
+import { ConditionalFieldGroup } from '@/models/templates'
 
 const props = defineProps({
   mainMeta: {
@@ -80,6 +80,7 @@ const props = defineProps({
 })
 const store = useStore();
 const poster = ref<HTMLImageElement | null>(null)
+const metaWrapper = ref<HTMLDivElement | null>(null)
 
 const showSettings = computed(() => store.state.showSettings)
 const showSubSections = computed(() => {
@@ -87,15 +88,22 @@ const showSubSections = computed(() => {
   return showSetting.section_2 || showSetting.section_3 || showSetting.section_4;
 })
 
-const metaWrapperHeight = computed(() => {
-  const imageHeight = poster.value?.offsetHeight;
+const getImage = computed(() => {
+  let size = 'large'
+  let file = store.getters.getImagePath
 
-  return imageHeight ?  imageHeight + 'px' : 'unset'
+  if (file) {
+    return getImageUrl(file, size)
+  }
+
+  return store.state.placeholder[size]
 })
 
 function showMeta(field, object) {
   const fieldGroupItem: ConditionalFieldGroup = props[object][field]
+  // @ts-ignore
   if(Object.hasOwn(fieldGroupItem, 'value')) {
+    // @ts-ignore
     if(Object.hasOwn(fieldGroupItem, 'showIf')) {
 
       return fieldGroupItem.showIf
@@ -106,17 +114,18 @@ function showMeta(field, object) {
 
   return false
 }
-
-function getImage() {
-  let size = 'large'
-  let file =
-      store.state.content?.poster_path || store.state.content?.profile_path
-
-  if (file) {
-    return getImageUrl(file, size)
-  }
-
-  return store.state.placeholder?.value?.[size]
+function setMetaWrapperHeight() {
+  setTimeout(() => {
+    let imageHeight = poster.value?.offsetHeight ?? 0
+    if(imageHeight > 50 && metaWrapper.value) {
+      metaWrapper.value.style.height = imageHeight + 'px'
+    } else {
+      setMetaWrapperHeight()
+    }
+  }, 400)
 }
 
+onMounted(() => {
+  setMetaWrapperHeight()
+})
 </script>

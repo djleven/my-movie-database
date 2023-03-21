@@ -11,7 +11,6 @@ export const crewState =  {
 export const contentState = {
     adult: false,
     also_known_as: ["John Cusak"],
-    length:1,
     biography: "John Paul Cusack (born June 28, 1966 - Height: 6' 2½\") is an American film actor and screenwriter. He has appeared in more than 50 films, including The Journey of Natty Gann, Say Anything..., Grosse Point Blank, Con Air, High Fidelity, and 2012. His father, Richard Cusack (1925–2003), was an actor, as are his siblings: Ann, Joan, Bill, and Susie. His father was also a documentary filmmaker, owned a film production company, and was a friend of activist Philip Berrigan. Cusack spent a year at New York University before dropping out, saying that he had \"too much fire in [his] belly\". Cusack is a fan of both the Chicago Cubs and the Chicago White Sox, for which, he says, he is \"in trouble there\". He has led the crowd in a performance of \"Take Me Out to the Ball Game\" at Wrigley Field. He has also been spotted at multiple Chicago Bears games, and attended many of the Stanley Cup Finals games in support of the Chicago Blackhawks. Cusack has trained in kickboxing for over 20 years, under former world kickboxing champion Benny Urquidez. He began training under Urquidez in preparation for his role in Say Anything... and currently holds the rank of a level 6 black belt in Urquidez's Ukidokan Kickboxing system.",
     birthday: "1966-06-28",
     credits: {cast: movieCastCredits.concat(tvCastCredits), crew:  movieCrewCredits.concat(tvCrewCredits)},
@@ -58,10 +57,8 @@ export const stateData = {
         section_2: "CastCrew",
         section_3: "CastCrew",
     },
-    content: contentState,
     contentLoaded: true,
     contentLoading: false,
-    credits: {cast: castState, crew: crewState},
     cssClasses: {
         bodyColor: "#f42253",
         headerColor: "#6cce37",
@@ -90,4 +87,12 @@ export const stateData = {
     template: "tabs",
     type: "person",
     __t: i18State,
+}
+
+export const personModuleData = {
+    content: contentState,
+    credits: {
+        cast: castState,
+        crew: crewState
+    },
 }

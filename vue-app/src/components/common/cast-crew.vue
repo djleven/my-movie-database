@@ -1,6 +1,6 @@
 <template>
     <section-layout :header="getHeader"
-              :sub-header="store.state.content.name || store.state.content.title"
+              :sub-header="store.getters.getContentTitle"
               :class-list="templateType">
       <slot>
         <extended-credits
@@ -20,10 +20,9 @@
 </template>
 
 <script setup lang="ts">
-
-import {defineProps, computed} from "vue"
-import {useStore} from "vuex"
-import {BaseTemplateSections, ContentTypes} from "@/models/settings"
+import { computed } from 'vue'
+import { useStore } from '@/store'
+import { BaseTemplateSections, ContentTypes } from '@/models/settings'
 
 const props = defineProps({
   section: {
@@ -39,7 +38,7 @@ const sectionTypeMap = {
 
 const store = useStore()
 const templateType: string = sectionTypeMap[props.section]
-const credits = computed(() => store.state.credits[templateType])
+const credits = computed(() => store.state[store.state.type]?.credits[templateType])
 const getHeader = computed(() => store.state.__t[templateType])
 
 </script>

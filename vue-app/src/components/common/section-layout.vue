@@ -16,8 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from '@/store'
 
 defineProps({
   showHeader: {

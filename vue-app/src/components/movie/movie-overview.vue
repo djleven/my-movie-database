@@ -8,33 +8,33 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
-import { useStore } from "vuex"
+import { computed } from 'vue'
+import { useStore } from '@/store'
 
-import {getPropertyAsCsvFromObjectArray, getTitleWithYear} from '@/helpers/templating';
+import { getPropertyAsCsvFromObjectArray, getTitleWithYear } from '@/helpers/templating'
 
 const store = useStore();
-const content = computed(() => store.state.content)
-const getTitle = computed(() => getTitleWithYear(content.value.title, content.value.release_date))
+const content = computed(() => store.state.movie?.content)
+const getTitle = computed(() => getTitleWithYear(content.value?.title, content.value?.release_date))
 const mainMeta = computed(() => {
   return {
     release_date: {
       showIf: content.value?.release_date,
-      value: store.getters.getFormattedDate(content.value.release_date)
+      value: store.getters.getFormattedDate(content.value?.release_date)
     },
     starring: {
-      showIf: store.state.credits?.cast,
+      showIf: store.state.movie?.credits?.cast,
       value: getPropertyAsCsvFromObjectArray(
-          store.state.credits?.cast?.slice(0, 3)
+          store.state.movie?.credits?.cast?.slice(0, 3)
       )
     },
     genres: {
       showIf: content.value?.genres,
-      value: getPropertyAsCsvFromObjectArray(content.value.genres)
+      value: getPropertyAsCsvFromObjectArray(content.value?.genres)
     },
     runtime: {
       showIf: content.value?.runtime,
-      value: content.value.runtime + ' ' + store.state.__t.min,
+      value: content.value?.runtime + ' ' + store.state.__t.min,
     },
     original_title: {
       value: content.value?.original_title,
@@ -49,8 +49,8 @@ const mainMeta = computed(() => {
 const linksMeta = computed(() => {
   return {
     imdb_profile: {
-      showIf: content.value?.imdb_profile,
-      value: 'https://www.imdb.com/name/' + content.value.imdb_id
+      showIf: content.value?.imdb_id,
+      value: 'https://www.imdb.com/name/' + content.value?.imdb_id
     },
     homepage: {
       value: content.value?.homepage,

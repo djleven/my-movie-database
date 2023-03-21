@@ -1,6 +1,12 @@
+import { InjectionKey } from 'vue'
+import { createStore, Store, useStore as baseUseStore } from 'vuex'
+
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
+import tvModule, { TvShowState } from '@/store/tv'
+import movieModule, { MovieState } from '@/store/movie'
+import personModule, { PersonState }  from '@/store/person'
 
 import Movie from '@/models/contentTypes/movie'
 import Tvshow from '@/models/contentTypes/tvshow'
@@ -24,48 +30,59 @@ interface SectionComponentsInterface {
     [BaseTemplateSections.Section_4]: string
 }
 
-interface StateInterface extends BaseStateInterface {
+export interface StateInterface extends BaseStateInterface {
+    error: string,
     contentLoaded: boolean,
     contentLoading: boolean,
-    content: any,
-    credits?: any,
     activeSection: BaseTemplateSections,
     components: SectionComponentsInterface,
     __t: any,
+    movie?: MovieState,
+    tvshow?: TvShowState,
+    person?: PersonState
 }
 
-const initiateStore = (conf: BaseStateInterface, i18n: any): { state: StateInterface, actions: any, mutations: any, getters: any } => {
+export const key: InjectionKey<Store<StateInterface>> = Symbol()
+
+export const initiateStore = (conf: BaseStateInterface, i18n?: any): Store<StateInterface> => {
     const type = conf.type
     let object
+    let moduleKey
     if(type === ContentTypes.Movie) {
        object = new Movie()
-    }else if(type === ContentTypes.TvShow) {
+    } else if(type === ContentTypes.TvShow) {
         object =  new Tvshow()
-    }else if(type === ContentTypes.Person) {
+    } else if(type === ContentTypes.Person) {
         object =  new Person()
     }
 
+    const moduleInitialState: MovieState | TvShowState | PersonState = object.getInitialState()
+    const moduleState = {
+        [type]: moduleInitialState
+    }
+
     const myState: StateInterface = Object.assign({
+        error: '',
         contentLoaded: false,
         contentLoading: false,
-        content: {
-            credits: {
-                crew: [],
-                cast: []
-            },
-        },
-        credits: null,
         components: object.components,
         activeSection: BaseTemplateSections.Overview,
-        __t: i18n
-    }, conf)
+        __t: i18n ?? object.__t
+    }, moduleState, conf)
 
-    return {
+    return createStore<StateInterface>({
+        modules: {
+            tvshow: tvModule,
+            movie: movieModule,
+            person: personModule
+        },
         state: myState,
         actions,
         getters,
         mutations
-    }
+    })
 }
 
-export default initiateStore
+export function useStore () {
+    return baseUseStore(key)
+}

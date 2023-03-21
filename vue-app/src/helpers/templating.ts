@@ -1,3 +1,5 @@
+import {CreditCollectionType} from "@/models/credits";
+
 export const getTitleWithYear = (title, date) => {
     const year = new Date(date).getFullYear()
     if(year) {
@@ -38,4 +40,25 @@ export const getImageUrl = (file, size) => {
         size = 'w300'
     }
     return images_uri + size + "/" + file;
+}
+
+export const orderCredits = (credits: CreditCollectionType, comparison: string, date = false, desc = true) => {
+    if(Array.isArray(credits) && credits.length) {
+        if(date) {
+            const unixReleaseDate = 'unixReleaseDate'
+            credits.map((credit) => {
+                credit[unixReleaseDate] = + new Date(credit[comparison])
+            })
+            comparison = unixReleaseDate
+        }
+        return credits.sort((a, b) => {
+            if(desc) {
+                return b[comparison] - a[comparison];
+            } else {
+                return a[comparison] - b[comparison];
+            }
+        });
+    }
+
+    return credits
 }

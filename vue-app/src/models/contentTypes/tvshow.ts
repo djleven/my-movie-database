@@ -1,5 +1,7 @@
-import AbstractEntity, {AppComponents, EntityComponents, I18EntityCollection} from './abstract-entity'
-import {BaseTemplateSections} from "@/models/settings";
+import AbstractEntity, { EntityComponents, I18EntityCollection } from '@/models/contentTypes/abstract-entity'
+import { BaseTemplateSections } from '@/models/settings'
+import { AppComponents } from '@/models/templates'
+import { TvShowState } from '@/store/tv'
 
 const TypeComponents: EntityComponents = {
     [BaseTemplateSections.Overview]: AppComponents.TvOverview,
@@ -40,5 +42,14 @@ export default class Tvshow extends AbstractEntity {
     }
     getDefaultTranslations(): I18EntityCollection  {
         return default__t
+    }
+    getInitialState(): TvShowState {
+        return {
+            content: null,
+            credits: {
+                crew: [],
+                cast: []
+            }
+        }
     }
 }

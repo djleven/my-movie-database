@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, ref} from "vue"
-import {useStore} from "vuex"
+import { ref } from 'vue'
+import { useStore } from '@/store'
 
 const props = defineProps({
   credits: {

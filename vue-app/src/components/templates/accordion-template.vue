@@ -27,13 +27,13 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, computed} from "vue"
-import {useStore} from "vuex"
-import {SectionTemplates} from "@/models/templates"
+import { computed, PropType } from 'vue'
+import { useStore } from '@/store'
+import { SectionTemplates } from '@/models/templates'
 
 defineProps({
   sections: {
-    type: SectionTemplates,
+    type: Object as PropType<SectionTemplates>,
     required: true
   }
 })

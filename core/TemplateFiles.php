@@ -22,11 +22,6 @@ class TemplateFiles {
     const TEMPLATES_FOLDER = 'mmdb_templates/';
     const ASSETS_PATH = self::TEMPLATES_FOLDER . self::ASSETS_FOLDER;
     const IMG_PATH = 'img';
-
-	/**
-	 * Number of parent directories to go up to assets folder level
-	 */
-	CONST LEVELS_UP_TO_ASSETS = 1;
 	CONST ASSETS_PUBLIC_PATH   = 'assets/';
     /**
      * Return the correct private template file path

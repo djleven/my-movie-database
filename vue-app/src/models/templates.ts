@@ -1,5 +1,14 @@
 import {BaseTemplateSections} from "@/models/settings";
 
+export enum AppComponents {
+    MovieOverview = 'MovieOverview',
+    TvOverview ='TvOverview',
+    PersonOverview = 'PersonOverview',
+    CastCrew = 'CastCrew',
+    MovieTrailer = 'MovieTrailer',
+    TvSeasons = 'TvSeasons',
+}
+
 export type SectionTemplates  = {
     [key in BaseTemplateSections]: {
         showIf: boolean,
