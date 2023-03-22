@@ -11,11 +11,11 @@
         <p class="bold center-text">TMDb ID: {{ result.id }}</p>
         <div v-if="getTextExcerpt">{{ getTextExcerpt }}</div>
         <div v-else-if="knownFor || result.known_for_department">
-          {{ $store.state.__t.known_for_department }}
+          {{ store.state.__t.known_for_department }}
           <span v-if="result.known_for_department">{{result.known_for_department}}</span>
           <div v-if="knownFor">{{ knownFor }}</div>
         </div>
-        <p v-else class="center-text">{{ $store.state.__t.no_description }}</p>
+        <p v-else class="center-text">{{ store.state.__t.no_description }}</p>
       </template>
     </div>
     <div v-if="active"
@@ -26,76 +26,67 @@
     <img :src="getImage" v-else/>
   </div>
 </template>
-<script>
-import {getExcerpt, getImageUrl, getTitleWithYear} from '@/helpers/templating';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useStore } from '@/store'
+import { getExcerpt, getImageUrl, getTitleWithYear } from '@/helpers/templating'
 
-export default {
-  emits: ['setActive', 'select'],
-  props: {
-    result: {
-      type: Object,
-      required: true
-    },
-    active: {
-      type: Boolean,
-      default: false
-    },
-    index: {
-      type: Number,
-      required: true
-    }
+const props = defineProps({
+  result: {
+    type: Object,
+    required: true
   },
-  computed: {
-    getTitle () {
-      const title = this.result.name || this.result.title
-
-      return getTitleWithYear(title, this.releaseDate)
-    },
-    getImage () {
-      const size = 'medium'
-      let file =
-          this.result.poster_path || this.result.profile_path
-      if(file) {
-        return getImageUrl(file, size)
-      }
-
-      return this.$store.state.placeholder[size]
-    },
-    getTextExcerpt () {
-
-      if(typeof this.result.overview !== 'undefined') {
-
-        return getExcerpt(this.result.overview, 350)
-      }
-      return null
-    },
-    knownFor () {
-      let known_for = this.result.known_for
-      if(known_for && known_for.length) {
-        return known_for.map((elem) => {
-          return elem.name || elem.title
-        }).join(", ")
-      }
-      return null
-    },
-    releaseDate () {
-
-      return this.result.release_date || this.result.first_air_date
-    },
-    bgImage () {
-      if(this.active) {
-        return 'background-image: url("' + this.getImage + '")'
-      }
-      return ''
-    },
+  active: {
+    type: Boolean,
+    default: false
   },
-  methods: {
-    select () {
-      this.$emit('select', this.index)
-    },
-    setActive () {
-      this.$emit('setActive', this.index)
-    }
-  },
+  index: {
+    type: Number,
+    required: true
+  }
+})
+
+const emit = defineEmits(['setActive', 'select'])
+
+const select = () => {
+  emit('select', props.index)
 }
+const setActive = () => {
+  emit('setActive', props.index)
+}
+
+const store = useStore();
+const releaseDate = computed(() => props.result.release_date || props.result.first_air_date)
+const getTitle = computed(() => {
+  const title = props.result.name || props.result.title
+
+  return getTitleWithYear(title, releaseDate)
+})
+
+const getImage = computed(() => {
+  const size = 'medium'
+  let file =
+      props.result.poster_path || props.result.profile_path
+  if (file) {
+    return getImageUrl(file, size)
+  }
+
+  return store.state.placeholder[size]
+})
+
+const getTextExcerpt = computed(() =>
+    props.result?.overview ? getExcerpt(props.result.overview, 350) : null
+)
+
+const knownFor = computed(() => {
+  let known_for = props.result.known_for
+  if(known_for && known_for.length) {
+    return known_for.map((elem) => {
+      return elem.name || elem.title
+    }).join(", ")
+  }
+  return null
+})
+
+const bgImage = computed(() => props.active ? `background-image: url("${getImage.value}")` : '')
 </script>

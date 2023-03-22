@@ -1,6 +1,9 @@
-import { getById } from "@/helpers/resourceAPI";
-import { ContentTypes } from "@/models/settings";
-import {PersonCredits, ScreenPlayCredits} from "@/models/credits";
+import { getById } from '@/helpers/resourceAPI'
+import { ContentTypes } from '@/models/settings'
+import { PersonCredits, ScreenPlayCredits } from '@/models/credits'
+import { MovieData } from '@/store/movie'
+import { PersonData } from '@/store/person'
+import { TvShowData } from '@/store/tv'
 
 export default {
     async loadContent({ commit, state, dispatch }) {
@@ -11,13 +14,19 @@ export default {
         commit('setContentLoaded', false)
 
         try {
+            let data
             const response = await getById({id, type})
-            const data = JSON.parse(response.parsedBody)
-            if (state.global_conf.debug) {
-                console.log(data, 'Content type response data')
+            if(response.parsedBody) {
+                data = JSON.parse(response.parsedBody)
+                if (state.global_conf.debug) {
+                    console.log(data, 'Content type response data')
+                }
+
+                dispatch('addContent', data)
             }
 
-            dispatch('addContent', data)
+            throw Error(`Error fetching ${type} results`)
+
         }
         catch(e){
             // TODO: better error handling and front-end notification
@@ -29,14 +38,14 @@ export default {
             commit('setContentLoading', false)
         }
     },
-    addContent({state, commit, dispatch}, data: any) {
+    addContent({state, commit, dispatch}, data: MovieData | PersonData | TvShowData) {
         try {
             const type = state.type
             let credits: ScreenPlayCredits | PersonCredits | null = null
 
-            if(type === ContentTypes.Person && data.combined_credits) {
+            if(type === ContentTypes.Person && 'combined_credits' in data) {
                 credits = data.combined_credits
-            } else if(data.credits) {
+            } else if('credits' in data) {
                 credits = data.credits
             } else {
                 console.log('Error: No credits found in response')

@@ -24,7 +24,7 @@
         <h4>No search results found</h4>
       </div>
     </div>
-    <index />
+    <index-page />
   </div>
 
 </template>
@@ -33,6 +33,10 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from '@/store'
 import { searchAPI } from '@/helpers/resourceAPI';
 import { useDebounce } from '@/helpers/utils';
+
+import PeopleSearchResponse from '@/models/searchTypes/person'
+import TvShowsSearchResponse from '@/models/searchTypes/tvshow'
+import MoviesSearchResponse from '@/models/searchTypes/movie'
 
 const page = ref(1)
 const results = ref([])
@@ -43,9 +47,7 @@ const loading = ref(false)
 const searchInput = useDebounce('', 1000);
 
 const store = useStore();
-const id = computed(() => store.state.id);
 const type = computed(() => store.state.type);
-const components = computed(() => store.state.components);
 const debug = computed(() => store.state.global_conf.debug);
 const contentLoaded = computed(() => store.state.contentLoaded);
 
@@ -64,22 +66,31 @@ watch(contentLoaded, (newValue) => {
 async function fetchResults(val) {
   try{
     let query = await searchAPI(val, type.value)
-    const data = JSON.parse(query.parsedBody)
-    if (debug.value) {
-      console.log(data, 'Search result response data')
+    let data: PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse
+    if(query.parsedBody) {
+      data = JSON.parse(query.parsedBody)
+
+      return setResults(data)
     }
-    page.value = data.page
-    results.value = data.results
-    total_pages.value = data.total_pages
-    searched.value = true
+   throw Error('Error fetching search results')
   }
-  catch (e){
+  catch(e){
     console.log(e)
     // TODO: Error logging and display check
   }
   finally {
     // TODO: Is needed?
   }
+}
+
+function setResults(data) {
+  if (debug.value) {
+    console.log(data, 'Search result response data')
+  }
+  page.value = data.page
+  results.value = data.results
+  total_pages.value = data.total_pages
+  searched.value = true
 }
 
 function resetForm(loadSuccess = false) {

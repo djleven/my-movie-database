@@ -12,6 +12,7 @@ import Movie from '@/models/contentTypes/movie'
 import Tvshow from '@/models/contentTypes/tvshow'
 import Person from '@/models/contentTypes/person'
 import { ContentId, ContentTypes, Templates, GlobalSettings, SectionShowSettings, TypeStylingSettings, PlaceholderURLs, BaseTemplateSections } from '@/models/settings'
+import { I18Entities } from '@/models/contentTypes/abstract-entity'
 
 interface BaseStateInterface {
     id: ContentId
@@ -36,7 +37,7 @@ export interface StateInterface extends BaseStateInterface {
     contentLoading: boolean,
     activeSection: BaseTemplateSections,
     components: SectionComponentsInterface,
-    __t: any,
+    __t: I18Entities,
     movie?: MovieState,
     tvshow?: TvShowState,
     person?: PersonState
@@ -44,10 +45,9 @@ export interface StateInterface extends BaseStateInterface {
 
 export const key: InjectionKey<Store<StateInterface>> = Symbol()
 
-export const initiateStore = (conf: BaseStateInterface, i18n?: any): Store<StateInterface> => {
+export const initiateStore = (conf: BaseStateInterface, i18n?: I18Entities): Store<StateInterface> => {
     const type = conf.type
     let object
-    let moduleKey
     if(type === ContentTypes.Movie) {
        object = new Movie()
     } else if(type === ContentTypes.TvShow) {

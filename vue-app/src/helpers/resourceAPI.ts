@@ -1,7 +1,7 @@
-import {ContentId, ContentTypes} from "@/models/settings";
+import { ContentId, ContentTypes } from '@/models/settings'
 
 const getEndpoint = '/wp-json/my-movie-db/v2/get-data'
-const generateQuery = (endpoint: string, options: {}) => {
+const generateQuery = (endpoint: string, options: Record<string, string>) => {
     let query = '';
     if (Object.keys(options).length > 0) {
         let option
@@ -41,14 +41,14 @@ async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
     }
 }
 
-export const getById = async ({id, type}: {id: ContentId, type: ContentTypes}): Promise<HttpResponse<any>>  => {
+export const getById = async ({id, type}: {id: ContentId, type: ContentTypes}): Promise<HttpResponse<string>>  => {
     return get(generateQuery(
         getEndpoint, {
         id: id,
         type: type
     }))
 }
-export const searchAPI = async (query: string, type: ContentTypes): Promise<HttpResponse<any>> => {
+export const searchAPI = async (query: string, type: ContentTypes): Promise<HttpResponse<string>> => {
     return get(generateQuery(
         getEndpoint, {
         query: query,
@@ -64,7 +64,7 @@ async function get<T>(
 
 async function post<T>(
     path: string,
-    body: any,
+    body: object,
     args: RequestInit = { method: "post", body: JSON.stringify(body) }
 ): Promise<HttpResponse<T>>  {
     return await http<T>(new Request(path, args));
@@ -72,7 +72,7 @@ async function post<T>(
 
 async function put<T>(
     path: string,
-    body: any,
+    body: object,
     args: RequestInit = { method: "put", body: JSON.stringify(body) }
 ): Promise<HttpResponse<T>> {
     return await http<T>(new Request(path, args));

@@ -1,4 +1,4 @@
-import AbstractEntity, { EntityComponents, I18EntityCollection } from '@/models/contentTypes/abstract-entity'
+import AbstractEntity, { EntityComponents } from '@/models/contentTypes/abstract-entity'
 import { BaseTemplateSections } from '@/models/settings'
 import { AppComponents } from '@/models/templates'
 import { ScreenPlayTypes, PersonCreditsByScreenPlayType} from "@/models/credits";
@@ -10,7 +10,34 @@ const TypeComponents: EntityComponents = {
   [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
 }
 
-const default__t: I18EntityCollection = {
+export type I18Person = {
+  overview: string,
+  view: string,
+  cast: string,
+  crew: string,
+  summary: string,
+  place_of_birth: string,
+  birthday: string,
+  birthplace: string,
+  death_date: string,
+  department: string,
+  known_for_department: string,
+  also_known_as: string,
+  movie_cast: string,
+  movie_crew: string,
+  tv_cast: string,
+  tv_crew: string,
+  tv_roles_full: string,
+  imdb_profile: string,
+  homepage: string,
+  role: string,
+  episode_count: string,
+  no_description: string,
+  section_4: string,
+  min: string,
+}
+
+const default__t: I18Person = {
   "overview": "Overview",
   "view": "View",
   "cast": "Cast",
@@ -32,7 +59,9 @@ const default__t: I18EntityCollection = {
   "homepage": "Website",
   "role": "Role",
   "episode_count": "Episodes",
-  "no_description": "There is no description available"
+  "no_description": "There is no description available",
+  "section_4": "",
+  "min": "min"
 }
 
 const initialCreditsState: PersonCreditsByScreenPlayType = {
@@ -51,7 +80,7 @@ export default class Person extends AbstractEntity {
   getDefaultComponents(): EntityComponents {
     return TypeComponents
   }
-  getDefaultTranslations(): I18EntityCollection  {
+  getDefaultTranslations(): I18Person  {
     return default__t
   }
   getInitialState(): PersonState {

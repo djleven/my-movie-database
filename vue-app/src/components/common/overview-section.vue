@@ -101,9 +101,8 @@ const getImage = computed(() => {
 
 function showMeta(field, object) {
   const fieldGroupItem: ConditionalFieldGroup = props[object][field]
-  // @ts-ignore
+  // TODO: Avoid using @ts-ignore for this one..
   if(Object.hasOwn(fieldGroupItem, 'value')) {
-    // @ts-ignore
     if(Object.hasOwn(fieldGroupItem, 'showIf')) {
 
       return fieldGroupItem.showIf

@@ -8,7 +8,7 @@
                <credit-item
                    :credit="credit"
                    :index="index"
-                   :is-active="overviewOnHover && index === activeCredit"
+                   :is-active="isActive(index)"
                    :column-class="columnClass"
                    :image-size="imageSize"
                    :has-set-active-events="overviewOnHover"
@@ -52,5 +52,9 @@ const activeCredit = ref(null);
 
 function setActiveCredit(index) {
   activeCredit.value = index
+}
+
+function isActive(index) {
+  return props.overviewOnHover && index === activeCredit.value
 }
 </script>

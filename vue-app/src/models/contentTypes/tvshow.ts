@@ -1,4 +1,4 @@
-import AbstractEntity, { EntityComponents, I18EntityCollection } from '@/models/contentTypes/abstract-entity'
+import AbstractEntity, { EntityComponents } from '@/models/contentTypes/abstract-entity'
 import { BaseTemplateSections } from '@/models/settings'
 import { AppComponents } from '@/models/templates'
 import { TvShowState } from '@/store/tv'
@@ -10,7 +10,32 @@ const TypeComponents: EntityComponents = {
     [BaseTemplateSections.Section_4]: AppComponents.TvSeasons,
 }
 
-const default__t: I18EntityCollection = {
+export type I18TvShow = {
+    overview: string,
+    view: string,
+    cast: string,
+    crew: string,
+    seasons: string,
+    summary: string,
+    genres: string,
+    created_by:   string,
+    starring: string,
+    number_of_episodes: string,
+    first_air_date: string,
+    last_air_date: string,
+    homepage: string,
+    episode_run_time: string,
+    networks: string,
+    production_companies: string,
+    min: string,
+    role: string,
+    section_4: string,
+    air_date: string,
+    episode_count: string,
+    no_description: string
+}
+
+const default__t: I18TvShow = {
     "overview": "Overview",
     "view": "View",
     "cast": "Cast",
@@ -40,7 +65,7 @@ export default class Tvshow extends AbstractEntity {
     getDefaultComponents(): EntityComponents {
         return TypeComponents
     }
-    getDefaultTranslations(): I18EntityCollection  {
+    getDefaultTranslations(): I18TvShow  {
         return default__t
     }
     getInitialState(): TvShowState {

@@ -14,7 +14,7 @@ interface YoutubeVideo {
     source: string,
     type: string
 }
-interface MovieData extends ScreenPlayData {
+export interface MovieData extends ScreenPlayData {
     belongs_to_collection: BelongsToCollection | null,
     budget: number,
     imdb_id: string | null,
@@ -27,7 +27,7 @@ interface MovieData extends ScreenPlayData {
     tagline: string | null,
     title: string,
     trailers: {
-        quicktime: any[],
+        quicktime: [],
         youtube: YoutubeVideo[],
     },
     video: boolean,

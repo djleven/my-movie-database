@@ -5,8 +5,7 @@ import {
     PersonCrewCredit,
     ScreenPlayTypes
 } from '@/models/credits'
-import { orderCredits} from '@/helpers/templating'
-import {ContentTypes} from "@/models/settings";
+import { orderCredits } from '@/helpers/templating'
 
 export interface PersonData {
     name: string,
@@ -16,7 +15,7 @@ export interface PersonData {
     also_known_as: string[],
     birthday: Date | null,
     place_of_birth: string,
-    credits: PersonCredits,
+    combined_credits: PersonCredits,
     deathday: Date | null,
     gender: 0 | 1 | 2 | 3,
     homepage: URL | null,
@@ -47,7 +46,7 @@ export interface PersonState {
 
 const filterCreditsByMediaType = (credits: PersonCastCredit[] | PersonCrewCredit[], filter: ScreenPlayTypes) => {
     // https://github.com/microsoft/TypeScript/issues/44373
-    return (credits as any[]).filter((credit: PersonCastCredit | PersonCrewCredit) => {
+    return (credits as []).filter((credit: PersonCastCredit | PersonCrewCredit) => {
         if(credit.media_type  === filter) {
             return credit
         }

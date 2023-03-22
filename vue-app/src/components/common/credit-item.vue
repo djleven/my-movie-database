@@ -81,7 +81,7 @@ const setActive = () => {
 }
 const store = useStore()
 const creditWrapper = ref(null)
-const excerptLength = ref(350);
+const excerptLength = 350
 const overviewExcerpt = computed(() => getExcerpt(props.credit.overview, excerptLength))
 const title = computed(() => {
   const credit = props.credit

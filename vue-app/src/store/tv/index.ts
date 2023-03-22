@@ -34,7 +34,7 @@ interface Episode {
     vote_count: number,
 }
 
-interface TvShowData extends ScreenPlayData {
+export interface TvShowData extends ScreenPlayData {
     created_by: CreatedByCredit[]
     episode_run_time: number[],
     first_air_date: Date,
