@@ -26,18 +26,18 @@ async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
             response.parsedBody = await response.json();
         } catch (ex) {
            // TODO: better error handling and front-end notification
-            throw new Error('An error has occurred');
+            return Promise.reject('An error has occurred')
         }
 
         if (!response.ok) {
             // TODO: better error handling and front-end notification
-            throw new Error(response.statusText);
+            return Promise.reject(response.statusText)
         }
         return response;
     }
     catch (e) {
         // TODO: better error handling and front-end notification
-        throw new Error('An error has occurred');
+        return Promise.reject(e)
     }
 }
 

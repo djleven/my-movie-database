@@ -64,22 +64,21 @@ watch(contentLoaded, (newValue) => {
   }
 });
 async function fetchResults(val) {
-  try{
-    let query = await searchAPI(val, type.value)
+  const errorMsg = `Error fetching search results for ${val}`
+  try {
     let data: PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse
-    if(query.parsedBody) {
-      data = JSON.parse(query.parsedBody)
+    let query = await searchAPI(val, type.value)
 
-      return setResults(data)
+    if(!query.parsedBody) {
+      throw Error(errorMsg)
     }
-   throw Error('Error fetching search results')
+    data = JSON.parse(query.parsedBody)
+
+    return setResults(data)
   }
   catch(e){
-    console.log(e)
-    // TODO: Error logging and display check
-  }
-  finally {
-    // TODO: Is needed?
+    console.error(e, errorMsg)
+    store.commit('setErrorMessage', errorMsg)
   }
 }
 

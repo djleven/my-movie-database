@@ -16,7 +16,7 @@ export default {
     setContentLoading(state,  status: boolean) {
         state.contentLoading = status
     },
-    setErrorMessage(state,  msg: string) {
+    setErrorMessage(state, msg: string) {
         state.error = msg
     },
 }

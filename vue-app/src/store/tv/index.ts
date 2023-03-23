@@ -104,7 +104,7 @@ export default {
     actions: {
         setContentLoaded({state, commit}) {
             if(state.content !== null) {
-                commit('setContentLoaded', true, { root: true });
+                return commit('setContentLoaded', true, { root: true });
             }
             commit('setErrorMessage', 'Failed to load TV Show data', { root: true });
         },

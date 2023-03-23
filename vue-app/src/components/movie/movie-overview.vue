@@ -50,7 +50,7 @@ const linksMeta = computed(() => {
   return {
     imdb_profile: {
       showIf: content.value?.imdb_id,
-      value: 'https://www.imdb.com/name/' + content.value?.imdb_id
+      value: `https://www.imdb.com/name/${content.value?.imdb_id}`
     },
     homepage: {
       value: content.value?.homepage,

@@ -9,6 +9,7 @@ export default {
     async loadContent({ commit, state, dispatch }) {
         const id = state.id
         const type = state.type
+        const errorMsg = `Error fetching ${type} results`
 
         commit('setContentLoading', true)
         commit('setContentLoaded', false)
@@ -16,31 +17,28 @@ export default {
         try {
             let data
             const response = await getById({id, type})
-            if(response.parsedBody) {
-                data = JSON.parse(response.parsedBody)
-                if (state.global_conf.debug) {
-                    console.log(data, 'Content type response data')
-                }
-
-                dispatch('addContent', data)
+            if(!response.parsedBody) {
+                throw Error(errorMsg)
             }
 
-            throw Error(`Error fetching ${type} results`)
+            data = JSON.parse(response.parsedBody)
+            if (state.global_conf.debug) {
+                console.log(data, 'Content type response data')
+            }
 
+            return dispatch('addContent', data)
         }
-        catch(e){
-            // TODO: better error handling and front-end notification
-            const msg = 'An error has occurred'
-            console.log(e,msg)
-            commit('setError', msg)
+        catch(e) {
+            console.error(e, errorMsg)
+            commit('setErrorMessage', errorMsg)
         }
         finally {
             commit('setContentLoading', false)
         }
     },
     addContent({state, commit, dispatch}, data: MovieData | PersonData | TvShowData) {
+        const type = state.type
         try {
-            const type = state.type
             let credits: ScreenPlayCredits | PersonCredits | null = null
 
             if(type === ContentTypes.Person && 'combined_credits' in data) {
@@ -48,8 +46,8 @@ export default {
             } else if('credits' in data) {
                 credits = data.credits
             } else {
-                console.log('Error: No credits found in response')
-                commit('setError', 'Error: No credits found in response')
+                console.error('Error: No credits found in response')
+                throw Error('Error: No credits found in response')
             }
 
             if(credits) {
@@ -59,10 +57,9 @@ export default {
             dispatch(`${type}/setContentLoaded`)
         }
         catch(e){
-            // TODO: better error handling and front-end notification
-            const msg = 'An error has occurred'
-            console.log(e,msg)
-            commit('setError', msg)
+            const msg = `An error occurred while loading the ${type} data`
+            console.error(msg)
+            commit('setErrorMessage', msg)
         }
         finally {
             commit('setContentLoading', false)
@@ -72,5 +69,4 @@ export default {
     setContentLoaded(state, status: boolean) {
         state.contentLoaded = status
     },
-
 }

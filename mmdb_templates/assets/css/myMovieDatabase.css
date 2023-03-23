@@ -366,3 +366,38 @@ _:-ms-lang(x), .mmdb-body .bg-image {
     height: 100%;
     max-height: 1080px;
 }
+
+.appModal {
+    box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.4);
+    left: calc(40%);
+    /*left: calc(50vw - 300px);*/
+    position: absolute;
+    z-index: 999;
+    width: 300px;
+    /*top: 20vh;*/
+    top: calc(40%);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.appModal .appModalTitle {
+    background-color: #eee;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 1.5em;
+}
+.appModal .appModalTitle .close {
+    line-height: 26px;
+    color: purple;
+    float: right;
+    border: none;
+}
+.appModal .appModalBody {
+    background-color: #fff;
+    text-align: left;
+    padding: 12px;
+}
+.appModal .appModalFooter {
+    background-color: #eee;
+    padding: 12px;
+    text-align: left;
+}
