@@ -15,8 +15,10 @@ use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 
 class ShortcodeContentType extends WpAbstractContentType {
 
-    public $header_color;
-    public $body_color;
+	public $header_color;
+	public $body_color;
+	public $header_font_color;
+	public $body_font_color;
     /**
      * The user input shortcode attributes
      * @since     2.0.0
@@ -49,8 +51,10 @@ class ShortcodeContentType extends WpAbstractContentType {
         $this->tmdb_id = $this->constructAttributes('id', '655');
         $this->template = $this->getTemplateSetting();
         $this->size = $this->getWidthSetting();
-        $this->header_color = $this->constructAttributes('header');
-        $this->body_color = $this->constructAttributes('body');
+	    $this->header_color = $this->constructAttributes('header');
+	    $this->body_color = $this->constructAttributes('body');
+	    $this->header_font_color = $this->constructAttributes('headerFontColor');
+	    $this->body_font_color = $this->constructAttributes('bodyFontColor');
     }
 
     /**
@@ -118,7 +122,22 @@ class ShortcodeContentType extends WpAbstractContentType {
         return parent::getHeaderColorSetting();
     }
 
-    /**
+	/**
+	 * Get the header font color setting for type object
+	 *
+	 * @since     3.0.0
+	 * @return    string
+	 */
+	protected function getHeaderFontColorSetting() {
+
+		if($this->header_font_color) {
+			return $this->header_font_color;
+
+		}
+		return parent::getHeaderFontColorSetting();
+	}
+
+	/**
      * Get the body color setting for type object
      *
      * @since     1.1.1
@@ -132,6 +151,21 @@ class ShortcodeContentType extends WpAbstractContentType {
         }
         return parent::getBodyColorSetting();
     }
+
+	/**
+	 * Get the body color setting for type object
+	 *
+	 * @since     3.0.0
+	 * @return    string
+	 */
+	protected function getBodyFontColorSetting() {
+
+		if($this->body_font_color) {
+			return $this->body_font_color;
+
+		}
+		return parent::getBodyFontColorSetting();
+	}
 
     /**
      * Associative array of visibility settings fot the data type sections

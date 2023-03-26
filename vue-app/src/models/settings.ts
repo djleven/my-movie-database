@@ -14,7 +14,7 @@ type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type HEX = `#${string}`;
 
-type Color = RGB | RGBA | HEX;
+export type Color = RGB | RGBA | HEX;
 
 export enum TransitionEffects {
     Fade = 'fade',
@@ -33,6 +33,8 @@ export interface TypeStylingSettings {
     twoColumn: string
     headerColor: Color
     bodyColor: Color
+    headerFontColor: Color
+    bodyFontColor: Color
     transitionEffect: TransitionEffects
 }
 

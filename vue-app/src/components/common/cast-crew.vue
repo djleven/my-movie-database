@@ -1,7 +1,7 @@
 <template>
     <section-layout :header="getHeader"
               :sub-header="store.getters.getContentTitle"
-              :class-list="templateType">
+              :class-list="headerClassList">
       <slot>
         <extended-credits
             v-if="store.state.type === ContentTypes.Person"
@@ -38,7 +38,7 @@ const sectionTypeMap = {
 
 const store = useStore()
 const templateType: string = sectionTypeMap[props.section]
+const headerClassList: string = `${store.state.type} credits ${templateType}`
 const credits = computed(() => store.state[store.state.type]?.credits[templateType])
 const getHeader = computed(() => store.state.__t[templateType])
-
 </script>

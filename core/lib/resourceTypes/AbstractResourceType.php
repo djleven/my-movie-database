@@ -26,7 +26,9 @@ abstract class AbstractResourceType {
     public $pos_setting_id;
     public $sections_setting_id;
     public $body_color_setting_id;
+    public $body_font_color_setting_id;
     public $header_color_setting_id;
+    public $header_font_color_setting_id;
     public $transition_effect_setting_id;
 
     const SECTION_OVERVIEW = 'overview_text';
@@ -53,7 +55,9 @@ abstract class AbstractResourceType {
         $this->pos_setting_id = $this->makeTypeSetting('pos');
         $this->sections_setting_id = $this->makeTypeSetting('sections');
         $this->body_color_setting_id = $this->makeTypeSetting('body_color');
+        $this->body_font_color_setting_id = $this->makeTypeSetting('body_font_color');
         $this->header_color_setting_id = $this->makeTypeSetting('header_color');
+        $this->header_font_color_setting_id = $this->makeTypeSetting('header_font_color');
         $this->transition_effect_setting_id = $this->makeTypeSetting('transition_effect');
     }
 

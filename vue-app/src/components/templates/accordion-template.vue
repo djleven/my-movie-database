@@ -5,16 +5,17 @@
                  class="panel panel-default">
                 <div class="panel-heading"
                      @click="setActiveSection(index)"
-                     :style="`background-color: ${store.state.cssClasses.headerColor};`">
+                     :style="headerStyling">
                     <h3 class="panel-title">
-                        <a :class="activeSection === index ? 'activeTab' : ''">
+                        <a :class="activeSection === index ? 'activeTab' : ''"
+                           :style="`color: ${cssClasses.headerFontColor}`"
+                        >
                             {{ section.title }}
                         </a>
                     </h3>
                 </div>
                 <transition :name="store.state.cssClasses.transitionEffect">
                     <div class="panel-body mmdb-body"
-                         :style="`background-color: ${store.state.cssClasses.bodyColor}`"
                          v-show="activeSection === index">
                         <component :is="section.componentName"
                                    :section="index">
@@ -30,6 +31,7 @@
 import { computed, PropType } from 'vue'
 import { useStore } from '@/store'
 import { SectionTemplates } from '@/models/templates'
+import {Color} from "@/models/settings";
 
 defineProps({
   sections: {
@@ -39,7 +41,11 @@ defineProps({
 })
 
 const store = useStore();
-const activeSection = computed(() => store.state.activeSection);
+const cssClasses = computed(() => store.state.cssClasses)
+const activeSection = computed(() => store.state.activeSection)
+const headerStyling = computed(() => {
+  return `background-color: ${cssClasses.value.headerColor}; border-bottom: 1px solid ${cssClasses.value.headerFontColor}`
+})
 
 function setActiveSection(newActiveTab) {
   if(newActiveTab === activeSection.value) {

@@ -8,281 +8,291 @@
  * @subpackage my-movie-database/mmdb_templates/assets/css
  */
 
-@media (min-width: 1200px) {
-    .mmdb-body .col-lg-1.credits:nth-child(12n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-lg-2.credits:nth-child(6n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-lg-3.credits:nth-child(4n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-lg-4.credits:nth-child(3n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-lg-6.credits:nth-child(odd) {
-        clear: left;
-    }
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-@media (min-width: 992px) and (max-width: 1199px) {
-    .mmdb-body .col-md-1.credits:nth-child(12n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-md-2.credits:nth-child(6n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-md-3.credits:nth-child(4n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-md-4.credits:nth-child(3n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-md-6.credits:nth-child(odd) {
-        clear: left;
-    }
+div.mmdb-content * {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+    max-width: 100%;
 }
-@media (min-width: 768px) and (max-width: 991px) {
-    .mmdb-body .col-sm-1.credits:nth-child(12n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-sm-2.credits:nth-child(6n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-sm-3.credits:nth-child(4n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-sm-4.credits:nth-child(3n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-sm-6.credits:nth-child(odd) {
-        clear: left;
-    }
-    .col-md-12.mmdb-body {
-        float: left;
-        width: 100%;
-    }
-}
-@media (max-width: 767px) {
-    .mmdb-body .col-xs-1.credits:nth-child(12n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-xs-2.credits:nth-child(6n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-xs-3.credits:nth-child(4n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-xs-4.credits:nth-child(3n+1) {
-        clear: left;
-    }
-    .mmdb-body .col-xs-6.credits:nth-child(odd) {
-        clear: left;
-    }
-}
-div[id^='mmdb-content'] a {
-    box-shadow: unset!important;
-    outline: 0!important;
-}
-div[id^='mmdb-content'] {
-    font-size: 15px;
-    padding: 35px 0;
-}
-.postbox div[id^='mmdb-content'] {
-    padding: 0;
-}
-@media (min-width: 768px) {
-    .meta-wrapper {
-        height: 480px;
-        position: relative;
-    }
-    .mmdb-meta,
-    .movie-role {
-        position: absolute;
-        top: 50%;
-        transform: translate(0, -50%)
-    }
-    .poster-img {
-        height: 278px;
-        overflow: hidden;
-    }
-}
-@media (max-width: 991px) {
-
-}
-@media (min-width: 992px) {
-
-}
-@media (min-width: 1200px) {
-    .mmdb-body .overview-on-hover .img-container .description {
-        font-size: 14px;
-        line-height: 18px;
-    }
-}
-@media (max-width: 1199px) {
-    .mmdb-body .overview-on-hover .img-container .description {
-        font-size: 12px;
-        line-height: 14px;
-    }
-}
-@media (max-width: 767px) {
-    .meta-wrapper {
-        height: unset!important;
-    }
-}
-.mmdb-desc {
-    text-align: left;
-    padding-top: 10px;
-}
-.movie-role-wrapper {
-    margin: 40px 0;
-}
-div[id^='mmdb-content'] .overview-text {
-    text-align: left;
-    margin-bottom: 20px;
-}
-div[id^='mmdb-content'] .credits p,
-div[id^='mmdb-content'] ul.credits {
-    font-size: 15px;
-    line-height: 14px;
-    padding: 0 0 10px
-}
-div[id^='mmdb-content'] .credits img {
-    margin-bottom: 13px;
-}
-div[id^='mmdb-content'] .credits li {
-    margin-bottom: 5px;
-}
-button.close.pull-right {
-    line-height: 0.2;
-    padding: 1em;
-}
-.modal-title.pull-left {
-    padding-top: 10px;
-}
-div[id^='mmdb-content'] ul {
+div.mmdb-content ul {
     list-style: none;
 }
-div[id^='mmdb-content'] ul li:first-child {
-    font-weight: bold;
-}
-div[id^='mmdb-content'] .nav-tabs > li > a, div[id^='mmdb-content'] .panel-title a {
-    text-decoration: none;
-}
-div[id^='mmdb-content'] .credits {
-    text-align: center;
-}
-div[id^='mmdb-content'] h3 {
-    color: white;
-    padding: 10px 15px;
-    margin: 1px 0 0;
-    font-size: 17px;
-}
-div[id^='mmdb-content'] h3 span{
-    font-size: 14px;
-    padding: 4px;
-}
-div[id^='mmdb-content'] h4 {
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
-div[id^='mmdb-content'] h1.entry-title {
-    text-align: center;
-    margin: 10px auto 30px;
-    font-size: 24px;
-}
-.mmdb-header-title {
-    text-align: left;
-}
-div[id^='mmdb-content'] article.type-post {
-    margin-top: 2em;
-}
-div[id^='mmdb-content'] .mmdb-body {
-    text-align: center;
-    padding: 30px 10px;
-}
 
-div[id^='mmdb-content'] .panel-default > .panel-heading + .panel-collapse > .panel-body,
-div[id^='mmdb-content']  .panel-default  {
-    border: none;
+div.mmdb-content .credits-wrapper, div.mmdb-content .mmdb-flex-container, div.mmdb-content .nav.nav-tabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
-
-div[id^='mmdb-content'] .panel-default > .panel-heading,
-div[id^='mmdb-content'] .nav-tabs > li  {
-    cursor: pointer;
-    text-align: left;
-}
-
-div[id^='mmdb-content'] .nav-tabs {
-    border-bottom: none;
-}
-.fa-toggle-off::before {
-    color: #fff
-}
-a.collapse-link.collapsed .fa-toggle-off::before {
-    content: "\f205";
-    color: #fff
-}
-a.collapse-link.collapsed .turnon {
-    display: block
-}
-.clearfix {
-    clear: both;
-}
-.modal-content iframe {
-    margin: 0 auto;
-    display: block;
-}
-img.mmdb-poster,
-.mmdb-meta {
-    padding-bottom: 30px;
-    line-height: 1.2;
-}
-.mmdb-meta div {
-    padding-bottom: 10px;
-}
-div[id^='mmdb-content'] h4.mmdb.modal-title {
-    margin-bottom: 0;
-}
-.mmdb-meta {
-    width: 100%;
-	padding:0 35px;
-}
-/*
-.meta-buttons {margin-top:20px;text-align: center;}*/
-
-div[id^='mmdb-content'] #myModal .modal-content {
-    margin-top: 15%
-}
-div[id^='mmdb-content'] .entry-footer.title-data {
-    border-bottom: unset;
-    border-top: unset;
-    margin-top: 0px;
-    padding: 1em 0 0.5em;
-}
-div[id^='mmdb-content'] .entry-footer.title-data .cat-links,
-.entry-footer.title-data .tags-links {
-    font-size: 1rem;
-    line-height: 0.5;
-    padding-left: 0;
-}
-div[id^='mmdb-content'] .entry-footer.title-data .cat-links a,
-.entry-footer.title-data .tags-links a {
-    box-shadow: unset;
-}
-@media (max-width: 499px) {
-    div[id^='mmdb-content'] .mmdb-header-title span {
-        display: none;
+@media (max-width: 575px) {
+    div.mmdb-content .credits-wrapper, div.mmdb-content .mmdb-flex-container, div.mmdb-content .nav.nav-tabs {
+        flex-direction: column;
     }
 }
-.center-text {
+
+@media (max-width: 767px) {
+    .mmdb-content{
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .mmdb-content{
+        font-size: 16px;
+    }
+}
+
+.mmdb-section {
+    width: 100%;
+}
+
+div.mmdb-content h1 {
+    font-size: 2em;
+}
+/*
+ Tab navigation
+ */
+
+/* Tabs template */
+div.mmdb-content .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+div.mmdb-content .nav-tabs {
+    border: none;
+}
+div.mmdb-content .nav-tabs > li {
+    /*float: none;*/
+    /*margin-bottom: -1px;*/
+}
+
+div.mmdb-content .nav > li {
+    position: relative;
+    display: block;
+}
+
+div.mmdb-content .nav-tabs > li > a {
+    margin-right: 2px;
+    font-size: 1.125em;
+    line-height: 1.5;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+div.mmdb-content .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+div.mmdb-content .nav-tabs > li.active > a, div.mmdb-content .nav-tabs > li.active > a:hover, div.mmdb-content .nav-tabs > li.active > a:focus {
+    border: none;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+div.mmdb-content .nav-tabs > li.active > a.active {
+    /* The tab navigation colors are inherited from the plugin color pattern settings; This is a way to override this*/
+    /*color: yellow!important;*/
+    /*background-color: black!important;*/
+}
+
+div.mmdb-content .nav-tabs > li.inactive > a.inactive {
+    /* The tab navigation colors are inherited from the plugin color pattern settings; This is a way to override this*/
+    /*color: black!important;*/
+    /*background-color: yellow!important;*/
+}
+
+div.mmdb-content .nav-tabs > li.inactive > a:hover, div.mmdb-content .nav-tabs > li.inactive > a:focus {
+    opacity: .6;
+}
+div.mmdb-content h3 {
+    padding: 10px 15px;
+    margin: 0;
+    font-size: 1.0625em;
+}
+
+/* Accordion template */
+div.mmdb-content .panel-title a {
+    text-decoration: none;
+}
+
+div.mmdb-content .panel-title {
+    cursor: pointer;
+}
+
+div.mmdb-content .panel-body {
+    padding: 0;
+}
+
+div.mmdb-content .panel-heading {
+    padding: 15px 0;
+}
+
+div.mmdb-content .pull-right {
+    float: right !important;
+}
+
+/*
+ Overview sections
+ */
+div.mmdb-content .mmdb-meta {
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    div.mmdb-content .mmdb-meta {
+        padding:0 0 0 20px
+    }
+}
+
+@media (max-width: 767px) {
+    div.mmdb-content .mmdb-meta {
+        padding-top: 40px
+    }
+}
+
+div.mmdb-content .mmdb-meta,  div.mmdb-content .credits.bg-image .img-container {
+    width: auto;
+}
+
+div.mmdb-content .mmdb-flex-container  {
+    text-align: center;
+    padding: 20px;
+}
+
+div.mmdb-content .entry-title {
+    text-align: center;
+    padding: 20px 0 40px;
+}
+
+div.mmdb-content .overview-text {
+    padding: 20px 0;
+    text-align: left;
+}
+
+div.mmdb-content .meta-wrapper, div.mmdb-content .credits.bg-image {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+}
+
+/*
+ Credits sections
+ */
+div.mmdb-content .credits-wrapper {
+    text-align: center;
+    padding: 40px 5px 20px;
+}
+
+div.mmdb-content .person-credits .credits-wrapper {
+    padding: 40px 5px 10px;
+}
+
+div.mmdb-content.movie .credits-wrapper, div.mmdb-content.tvshow .credits-wrapper {
+    row-gap: 40px;
+}
+
+div.mmdb-content.person .credits-wrapper {
+    row-gap: 20px;
+}
+
+div.mmdb-content .bg-image ul.credits {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
+
+div.mmdb-content ul.credits {
+    margin: 10px 0 0;
+}
+
+div.mmdb-content.person ul.credits {
+    height: 80px;
+    overflow: hidden;
+}
+
+div.mmdb-content ul.credits li {
+    font-size: .95em;
+    line-height: 1em;
+    padding: 0 0 5px
+}
+
+div.mmdb-content .img-circle {
+    border-radius: 50%;
+}
+
+/* Person credits */
+div.mmdb-content h4.movie_cast, div.mmdb-content h4.tv_cast, div.mmdb-content h4.movie_crew, div.mmdb-content h4.tv_crew {
+    font-size: 1.5em;
     text-align: center;
 }
+
+div.mmdb-content .person.credits .credit-list-wrapper:first-child {
+    padding: 40px 0 0
+}
+
+div.mmdb-content .person.credits .credit-list-wrapper:not(:first-child){
+    padding: 0;
+}
+
+/* Person credits and TvShow seasons (overview-on-hover) */
+
+div.mmdb-content  .overview-on-hover .img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+div.mmdb-content .person .credits .img-container img, div.mmdb-content .seasons .credits .img-container img {
+    object-fit: cover;
+    height: 278px;
+    width: 185px;
+}
+
+div.mmdb-content .overview-on-hover .credits.bg-image {
+    min-height: 320px
+}
+
+.mmdb-body .overview-on-hover .img-container .description {
+    padding: 30px 10px 0;
+}
+
+.mmdb-body .overview-on-hover .img-container .description {
+    font-size: 0.85rem;
+    line-height: 1.2rem;
+}
+
+.mmdb-body .bg-image {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: hsla(0,0%,100%,0.7);
+    background-blend-mode: overlay;
+    background-size: contain;
+    cursor: pointer;
+}
+/* IE and Edge hack  */
+
+_:-ms-lang(x), .mmdb-body .bg-image {
+    background-image: none!important;
+    background-color: hsla(0,0%,100%,0.2);
+}
+
 /*Transition effects*/
-.bounce-enter-active {
+div.mmdb-content .bounce-enter-active {
     animation: bounce-in .5s;
 }
-.bounce-leave-active {
+div.mmdb-content .bounce-leave-active {
     animation: bounce-in .5s reverse;
 }
 @keyframes bounce-in {
@@ -299,57 +309,19 @@ div[id^='mmdb-content'] .entry-footer.title-data .cat-links a,
         transform: scale(1);
     }
 }
-.fade-enter-active {
+div.mmdb-content .fade-enter-active {
     transition: opacity .3s;
 }
-.fade-leave-active {
+div.mmdb-content .fade-leave-active {
     transition: opacity .3s;
 }
 
-.fade-enter, .fade-leave-to  {
+div.mmdb-content .fade-enter, div.mmdb-content .fade-leave-to  {
     opacity: 0;
     background: inherit;
 }
-div[id^='mmdb-content'] .overview-on-hover .img-container {
-     height: 291px;
-}
-div[id^='mmdb-content'] .overview-on-hover .credits img {
-    object-fit: cover;
-    height: 278px;
-    width: 185px;
-}
-.mmdb-body .overview-on-hover .img-container .description {
-    text-align: left;
-    /*left: 0;*/
-    padding: 0 20px;
-    overflow: auto;
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -60%);
-}
-.mmdb-body .bg-image {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: hsla(0,0%,100%,0.7);
-    background-blend-mode: overlay;
-    background-size: contain;
-    cursor: pointer;
-}
-/* IE and Edge hack */
-_:-ms-lang(x), .mmdb-body .bg-image {
-    background-image: none!important;
-    background-color: hsla(0,0%,100%,0.2);
-}
 
-.mmdb-body img {
-    margin: auto;
-}
-.mmdb-body .credits {
-    margin: 5px auto;
-}
-.mmdb-body .credits.bg-image .img-container {
-    max-width: 350px;
-}
+/* Movie trailer section 4 */
 .mmdb-trailer-video {
     position: relative;
     padding-bottom: 56.25%;
@@ -367,7 +339,8 @@ _:-ms-lang(x), .mmdb-body .bg-image {
     max-height: 1080px;
 }
 
-.appModal {
+/* App popup info modal */
+div.mmdb-content .appModal {
     box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.4);
     left: calc(40%);
     /*left: calc(50vw - 300px);*/
@@ -379,25 +352,318 @@ _:-ms-lang(x), .mmdb-body .bg-image {
     border-radius: 5px;
     overflow: hidden;
 }
-.appModal .appModalTitle {
+div.mmdb-content .appModal .appModalTitle {
     background-color: #eee;
     text-align: left;
     padding: 8px 12px;
-    font-size: 1.5em;
+    font-size: 1.4em;
 }
-.appModal .appModalTitle .close {
+div.mmdb-content .appModal .appModalTitle .close {
     line-height: 26px;
     color: purple;
     float: right;
     border: none;
 }
-.appModal .appModalBody {
+div.mmdb-content .appModal .appModalBody {
     background-color: #fff;
     text-align: left;
     padding: 12px;
 }
-.appModal .appModalFooter {
+div.mmdb-content .appModal .appModalFooter {
     background-color: #eee;
     padding: 12px;
     text-align: left;
+}
+
+/*
+  App responsive breakpoint classes
+*/
+div.mmdb-content .col-all-12 {
+    width: 100%;
+}
+
+div.mmdb-content [class^='col-'] {
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+    min-height: 1px;
+}
+
+div.mmdb-content .col-xs-auto {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+div.mmdb-content .col-xs-2 {
+    flex: 0 0 auto;
+    width: 16.66666667%;
+}
+
+div.mmdb-content .col-xs-3 {
+    flex: 0 0 auto;
+    width: 25%;
+}
+
+div.mmdb-content .col-xs-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+}
+
+div.mmdb-content .col-xs-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+div.mmdb-content .col-xs-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+}
+
+div.mmdb-content .col-xs-9 {
+    flex: 0 0 auto;
+    width: 75%;
+}
+
+div.mmdb-content .col-xs-10 {
+    flex: 0 0 auto;
+    width: 83.33333333%;
+}
+
+div.mmdb-content .col-xs-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    div.mmdb-content .col-sm-auto {
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    div.mmdb-content .col-sm-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    div.mmdb-content .col-sm-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    div.mmdb-content .col-sm-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
+    div.mmdb-content .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    div.mmdb-content .col-sm-8 {
+        flex: 0 0 auto;
+        width: 66.66666667%;
+    }
+
+    div.mmdb-content .col-sm-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    div.mmdb-content .col-sm-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%;
+    }
+
+    div.mmdb-content .col-sm-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    div.mmdb-content .col-md-auto {
+        flex: 0 0 auto;
+        width: auto;
+    }
+    div.mmdb-content .col-md-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    div.mmdb-content .col-md-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    div.mmdb-content .col-md-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
+    div.mmdb-content .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    div.mmdb-content .col-md-8 {
+        flex: 0 0 auto;
+        width: 66.66666667%;
+    }
+
+    div.mmdb-content .col-md-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    div.mmdb-content .col-md-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%;
+    }
+
+    div.mmdb-content .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    div.mmdb-content .col-lg-auto {
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    div.mmdb-content .col-lg-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    div.mmdb-content .col-lg-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    div.mmdb-content .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
+    div.mmdb-content .col-lg-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    div.mmdb-content .col-lg-8 {
+        flex: 0 0 auto;
+        width: 66.66666667%;
+    }
+
+    div.mmdb-content .col-lg-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    div.mmdb-content .col-lg-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%;
+    }
+
+    div.mmdb-content .col-lg-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1280px) {
+    div.mmdb-content .col-xl-auto {
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    div.mmdb-content .col-xl-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    div.mmdb-content .col-xl-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    div.mmdb-content .col-xl-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
+    div.mmdb-content .col-xl-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    div.mmdb-content .col-xl-8 {
+        flex: 0 0 auto;
+        width: 66.66666667%;
+    }
+
+    div.mmdb-content .col-xl-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    div.mmdb-content .col-xl-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%;
+    }
+
+    div.mmdb-content .col-xl-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1536px) {
+    div.mmdb-content .col-2xl-auto {
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    div.mmdb-content .col-2xl-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    div.mmdb-content .col-2xl-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    div.mmdb-content .col-2xl-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
+    div.mmdb-content .col-2xl-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    div.mmdb-content .col-2xl-8 {
+        flex: 0 0 auto;
+        width: 66.66666667%;
+    }
+
+    div.mmdb-content .col-2xl-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+
+    div.mmdb-content .col-2xl-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%;
+    }
+
+    div.mmdb-content .col-2xl-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
 }

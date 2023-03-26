@@ -220,6 +220,14 @@ class Settings implements ActionHookSubscriberInterface {
                         'sanitize_callback' => 'sanitize_text_field',
                         'default' => '#265a88'
                     ),
+	                array(
+		                'name'    => $plugin_type->header_font_color_setting_id,
+		                'label'   => esc_html__( 'Header Font Color', MMDB_WP_NAME ),
+		                'desc'    => esc_html__( "Font color for the template header", MMDB_WP_NAME ),
+		                'type'    => 'color',
+		                'sanitize_callback' => 'sanitize_text_field',
+		                'default' => '#DCDCDC'
+	                ),
                     array(
                         'name'    => $plugin_type->body_color_setting_id,
                         'label'   => esc_html__( 'Body Color', MMDB_WP_NAME ),
@@ -228,7 +236,14 @@ class Settings implements ActionHookSubscriberInterface {
                         'sanitize_callback' => 'sanitize_text_field',
                         'default' => '#DCDCDC'
                     ),
-
+	                array(
+		                'name'    => $plugin_type->body_font_color_setting_id,
+		                'label'   => esc_html__( 'Body Font Color', MMDB_WP_NAME ),
+		                'desc'    => esc_html__( "Font color for the template content", MMDB_WP_NAME ),
+		                'type'    => 'color',
+		                'sanitize_callback' => 'sanitize_text_field',
+		                'default' => '#265a88'
+	                ),
                 )
             );
 

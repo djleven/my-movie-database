@@ -1,6 +1,6 @@
 <template>
-  <div class="mmdb-body mmdb-search white">
-    <div>
+  <div class="mmdb-body mmdb-search white mmdb-content">
+    <div class="mmdb-search-input">
       <div class="loader" v-if="loading">
         <div class="loaderInner">
         </div>
@@ -11,7 +11,7 @@
     </div>
     <div class="panel-body">
       <div v-for="(result, index) in results" :key="index"
-           class="col-xl-4 col-lg-6 col-md-12 credits mmdb-search">
+           class="col-2xl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 credits mmdb-search">
         <search-result
             :active="active === index"
             :result="result"

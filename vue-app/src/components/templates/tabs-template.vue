@@ -2,17 +2,19 @@
     <div class="mmdbTabs">
         <ul class="nav nav-tabs">
             <template v-for="(section, index) in sections" :key="index">
-                <li :class="activeSection === index ? 'active' : ''"
-                    v-if="section.showIf"
+                <li v-if="section.showIf"
+                    :class="toggleActiveClass(index)"
                     @click="setActiveSection(index)">
-                    <a :class="activeSection === index ? 'active activeTab' : ''">
-                        {{ section.title }}
+                    <a :class="toggleActiveClass(index)"
+                       :style="toggleActiveStyle(index)"
+                    >
+                      {{ section.title }}
                     </a>
                 </li>
             </template>
         </ul>
         <template v-for="(section, index) in sections" :key="index">
-            <transition :name="store.state.cssClasses.transitionEffect">
+            <transition :name="stylingConfig.transitionEffect">
                 <template v-if="section.showIf">
                     <div v-show="activeSection === index"
                          class="tab-content mmdb-header">
@@ -33,6 +35,7 @@
 import { computed, PropType } from 'vue'
 import { useStore } from '@/store'
 import { SectionTemplates } from '@/models/templates'
+import { setStyleColors } from '@/helpers/templating'
 
 defineProps({
   sections: {
@@ -43,10 +46,24 @@ defineProps({
 
 const store = useStore();
 const activeSection = computed(() => store.state.activeSection);
+const stylingConfig = computed(() => store.state.cssClasses);
 
 function setActiveSection(newActiveTab) {
   if(newActiveTab !== activeSection.value) {
     store.commit('setActiveSection', newActiveTab)
   }
+}
+
+function toggleActiveClass(index) {
+  return activeSection.value === index ? 'active' : 'inactive'
+}
+
+function toggleActiveStyle(index) {
+  const isActiveTab = activeSection.value === index
+  if(isActiveTab) {
+    return setStyleColors(stylingConfig.value.headerColor, stylingConfig.value.headerFontColor)
+  }
+  return setStyleColors(stylingConfig.value.bodyColor, stylingConfig.value.bodyFontColor)
+
 }
 </script>

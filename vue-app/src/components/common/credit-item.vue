@@ -21,18 +21,20 @@
            :src="imageSource"/>
     </div>
     <ul class="credits">
-      <li>{{ title }}</li>
-      <li v-if="credit.character">
-        {{ store.state.__t.role }}: {{ credit.character }}
-      </li>
-      <li v-if="credit.job">{{ credit.job }}
-      </li>
-      <li v-if="credit.air_date">
-        {{ store.state.__t.air_date }}: {{ store.getters.getFormattedDate(credit.air_date) }}
-      </li>
-      <li v-if="credit.episode_count">
-        {{ store.state.__t.episode_count }}: {{ credit.episode_count }}
-      </li>
+      <template v-if="showCreditDuringEvent || !showCreditDuringEvent && !isActive">
+        <li>{{ title }}</li>
+        <li v-if="credit.character">
+          {{ store.state.__t.role }}: {{ credit.character }}
+        </li>
+        <li v-if="credit.job">{{ credit.job }}
+        </li>
+        <li v-if="credit.air_date">
+          {{ store.state.__t.air_date }}: {{ store.getters.getFormattedDate(credit.air_date) }}
+        </li>
+        <li v-if="credit.episode_count">
+          {{ store.state.__t.episode_count }}: {{ credit.episode_count }}
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -68,6 +70,10 @@ const props = defineProps({
     default: 'small'
   },
   hasSetActiveEvents: {
+    type: Boolean,
+    default: false
+  },
+  showCreditDuringEvent: {
     type: Boolean,
     default: false
   }

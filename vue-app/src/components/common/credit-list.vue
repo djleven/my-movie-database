@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <div :class="wrapperClassList">
         <h4 v-if="i18TitleKey"
+            :class="i18TitleKey"
             @click="activeCredit=null"
             @mouseover="activeCredit=null" >{{ store.state.__t[i18TitleKey] }}</h4>
-        <div :class="overviewOnHover ? 'overview-on-hover' : 'credits-wrapper'">
+        <div :class="`credits-wrapper ${overviewOnHover ? 'overview-on-hover' : ''}`">
             <template v-for="(credit, index) in credits" :key="index">
                <credit-item
                    :credit="credit"
@@ -28,6 +29,10 @@ const props = defineProps({
   credits: {
     type: Array,
     required: true
+  },
+  wrapperClassList: {
+    type: String,
+    default: 'credit-list-wrapper'
   },
   columnClass: {
     type: String,

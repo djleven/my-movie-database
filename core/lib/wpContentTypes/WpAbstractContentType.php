@@ -94,6 +94,17 @@ abstract class WpAbstractContentType {
         return $this->getResourceTypeSetting( 'header_color', '#265a88');
     }
 
+	/**
+	 * Get the header font color setting for type object
+	 *
+	 * @since     3.0.0
+	 * @return    string
+	 */
+	protected function getHeaderFontColorSetting() {
+
+		return $this->getResourceTypeSetting( 'header_font_color', '#DCDCDC');
+	}
+
     /**
      * Get the body color setting for type object
      *
@@ -104,6 +115,17 @@ abstract class WpAbstractContentType {
 
         return $this->getResourceTypeSetting( 'body_color', '#DCDCDC');
     }
+
+	/**
+	 * Get the body color setting for type object
+	 *
+	 * @since     1.0.0
+	 * @return    string
+	 */
+	protected function getBodyFontColorSetting() {
+
+		return $this->getResourceTypeSetting( 'body_font_color', '#265a88');
+	}
 
     /**
      * Get the transition effect setting for type object
@@ -139,14 +161,14 @@ abstract class WpAbstractContentType {
         $post_setting	= $this->size;
 
         if ($post_setting === 'large') {
-            $css_class	= 'col-lg-3 col-md-3 col-sm-6';
+            $css_class	= 'col-lg-3 col-md-3 col-sm-6 col-xs-12';
         }
         elseif ($post_setting === 'medium') {
-            $css_class	= 'col-lg-3 col-md-4 col-sm-6';
+            $css_class	= 'col-lg-3 col-md-4 col-sm-6 col-xs-12';
         }
 
         elseif ($post_setting === 'small') {
-            $css_class	= 'col-lg-4 col-md-6 col-sm-6';
+            $css_class	= 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
         }
 
         return $css_class;
@@ -161,7 +183,7 @@ abstract class WpAbstractContentType {
      */
     protected function getTwoColumnStyle() {
 
-        $css_class	= 'col-lg-6 col-md-6 col-sm-6';
+        $css_class	= 'col-lg-6 col-md-6 col-sm-12';
 
         return $css_class;
     }

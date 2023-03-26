@@ -1,4 +1,5 @@
-import {CreditCollectionType} from "@/models/credits";
+import { CreditCollectionType } from '@/models/credits'
+import { Color } from '@/models/settings'
 
 export const getTitleWithYear = (title, date) => {
     const year = new Date(date).getFullYear()
@@ -62,3 +63,5 @@ export const orderCredits = (credits: CreditCollectionType, comparison: string, 
 
     return credits
 }
+
+export const setStyleColors = (bg: Color, font: Color) => `background-color: ${bg}; color: ${font};`

@@ -116,6 +116,8 @@ trait TemplateVueTrait
                 'twoColumn' => $this->getTwoColumnStyle(),
                 'headerColor' => $this->getHeaderColorSetting(),
                 'bodyColor' => $this->getBodyColorSetting(),
+                'headerFontColor' => $this->getHeaderFontColorSetting(),
+                'bodyFontColor' => $this->getBodyFontColorSetting(),
                 'transitionEffect' => $this->getTransitionEffectSetting(),
             ],
             'placeholder' => $mmdb_single_run_settings['placeholder_paths']
@@ -166,7 +168,7 @@ trait TemplateVueTrait
 
         $mountBase = $this->getVueMountPoint();
         $output =
-            '<div id="' . $mountBase . '-vue"> <div id="' . $mountBase . '"> </div></div>';
+            '<div class="mmdb-content ' . $this->data_type .'" id="' . $mountBase . '-vue"> <div id="' . $mountBase . '"> </div></div>';
 
         if($admin) {
             $output .= PHP_EOL;

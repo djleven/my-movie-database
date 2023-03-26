@@ -1,26 +1,30 @@
 .mmdb-body.mmdb-search.white {
-    background: #fff;
-    padding: 0 10px;
+
 }
-.mmdb-body.mmdb-search {
+
+.mmdb-body.mmdb-search.white .panel-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.mmdb-body .mmdb-search-input {
     text-align: center;
+    margin-bottom: 40px;
 }
 .mmdb-body.mmdb-search .info img, .mmdb-search .info .description {
-    max-height: 272px;
-    max-width: 196px;
-    object-fit: contain;
-    text-align: left;
+    display: block;
     margin: auto;
 }
 .mmdb-body.mmdb-search .info .description {
     font-size: 12px;
-    line-height: 16px;
+    line-height: 17px;
     overflow: auto;
+    max-width: 200px;
 }
 .mmdb-body.mmdb-search .info .title-container  {
-    height: 75px;
-    line-height: 75px;
-    padding: 0 4px;
+    text-align: center;
+    margin: auto;
 }
 .mmdb-body.mmdb-search .info .title-container h3 {
     color: #000;
@@ -62,9 +66,13 @@
 }
 .mmdb-search .button-primary {
     position: absolute;
-    bottom: 40px;
+    bottom: 35px;
     left: 0;
     right: 0;
     width: 120px;
     margin: auto;
+    text-align: center;
+}
+.center-text {
+    text-align: center;
 }

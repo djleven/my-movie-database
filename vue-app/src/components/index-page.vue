@@ -38,7 +38,7 @@ const sections = computed<SectionTemplates>(() => {
       componentName: components.value.section_3
     },
     section_4: {
-      showIf: store.getters.hasSectionFour,
+      showIf: showSettings.value.section_4 && store.getters.hasSectionFour,
       title: translations.value.section_4,
       componentName: components.value.section_4
     }
