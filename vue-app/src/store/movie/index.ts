@@ -70,6 +70,7 @@ export default {
         hasSectionFour: (state) => {
             return state.content?.trailers?.youtube?.length
         },
+        sectionFourLabelKey: () => 'trailer',
         getContentTitle: (state) => {
             return state.content?.title
         },

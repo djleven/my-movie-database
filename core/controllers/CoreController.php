@@ -77,9 +77,24 @@ class CoreController {
     private function setAdminResourceTypes() {
 
         $plugin_resource_types = [];
-        $plugin_resource_types[] = new MovieResourceType('movie', 'Movie', 'dashicons-video-alt');
-        $plugin_resource_types[] = new TvshowResourceType('tvshow', 'TvShow', 'dashicons-welcome-view-site');
-        $plugin_resource_types[] = new PersonResourceType('person', 'Person', 'dashicons-businessman');
+        $plugin_resource_types[] = new MovieResourceType(
+			'movie',
+			__('Movie', 'my-movie-database'),
+			__('Movies', 'my-movie-database'),
+			'dashicons-video-alt'
+        );
+        $plugin_resource_types[] = new TvshowResourceType(
+			'tvshow',
+			__('TvShow', 'my-movie-database'),
+			__('TvShows', 'my-movie-database'),
+			'dashicons-welcome-view-site'
+        );
+        $plugin_resource_types[] = new PersonResourceType(
+			'person',
+			__('Person', 'my-movie-database'),
+			__('Persons', 'my-movie-database'),
+			'dashicons-businessman'
+        );
 
         return $plugin_resource_types;
     }
@@ -150,22 +165,36 @@ class CoreController {
                 $names = [
                     'name' => $plugin_resource_type->data_type,
                     'singular' => $plugin_resource_type->data_type_label,
-                    'plural' => $plugin_resource_type->data_type_label . 's',
+                    'plural' => $plugin_resource_type->data_type_label_plural,
                     'slug' => $plugin_resource_type->data_type,
                 ];
 
                 $tax_names = [
                     'name' => $plugin_resource_type->data_type . '-category',
-                    'singular' => $plugin_resource_type->data_type_label . ' Category',
-                    'plural' => $plugin_resource_type->data_type_label . ' Categories',
                     'slug' => $plugin_resource_type->data_type . '-categories',
                 ];
 
+	            if($hierarchicalTaxonomy === 'yes') {
+		            $tax_names['singular'] =
+			            /* translators: Custom post type hierarchical taxonomy (category) name. Movie, TvShow or Person. '%s Category' */
+			            sprintf( __( '%s Category', 'my-movie-database' ), $plugin_resource_type->data_type_label );
+                    $tax_names['plural'] =
+	                    /* translators: Custom post type hierarchical taxonomy (category) plural name. Movie, TvShow or Person. '%s Categories' */
+	                    sprintf( __( '%s Categories', 'my-movie-database' ), $plugin_resource_type->data_type_label );
+	            } else {
+		            $tax_names['singular'] =
+			            /* translators: Custom post type non-hierarchical taxonomy (tag) name. Movie, TvShow or Person. '%s Tag' */
+			            sprintf(__('%s Tag', 'my-movie-database'), $plugin_resource_type->data_type_label);
+                    $tax_names['plural'] =
+	                    /* translators: Custom post type non-hierarchical taxonomy (tag) plural name. Movie, TvShow or Person. '%s Tags' */
+	                    sprintf(__('%s Tags', 'my-movie-database'), $plugin_resource_type->data_type_label);
+				}
+
                 $custom_taxonomy[$i] =
-                    new Taxonomy($tax_names, MMDB_WP_NAME, $tax_options);
+                    new Taxonomy($tax_names, $tax_options);
 
                 $custom_post_types[$i] =
-                    new PostType($names, MMDB_WP_NAME, $plugin_resource_type->type_menu_icon, [
+                    new PostType($names, $plugin_resource_type->type_menu_icon, [
                         'show_in_rest' => $useGutenberg,
                     ]);
                 $custom_post_types[$i]->taxonomy($custom_taxonomy[$i]->name);

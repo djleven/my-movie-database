@@ -266,11 +266,8 @@ div.mmdb-content .overview-on-hover .credits.bg-image {
 
 .mmdb-body .overview-on-hover .img-container .description {
     padding: 30px 10px 0;
-}
-
-.mmdb-body .overview-on-hover .img-container .description {
-    font-size: 0.85rem;
-    line-height: 1.2rem;
+    font-size: 0.85em;
+    line-height: 1.5em;
 }
 
 .mmdb-body .bg-image {

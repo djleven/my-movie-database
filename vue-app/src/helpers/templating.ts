@@ -65,3 +65,15 @@ export const orderCredits = (credits: CreditCollectionType, comparison: string, 
 }
 
 export const setStyleColors = (bg: Color, font: Color) => `background-color: ${bg}; color: ${font};`
+
+type PlaceholderImagesType = {
+    small: string,
+    medium: string,
+    large: string,
+}
+
+export const placeholderImages: PlaceholderImagesType = {
+    small: 'cinema100.png',
+    medium: 'cinema185.png',
+    large: 'cinema300.png',
+}

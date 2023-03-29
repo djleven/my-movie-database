@@ -3,7 +3,7 @@
         <h4 v-if="i18TitleKey"
             :class="i18TitleKey"
             @click="activeCredit=null"
-            @mouseover="activeCredit=null" >{{ store.state.__t[i18TitleKey] }}</h4>
+            @mouseover="activeCredit=null" >{{ $t(i18TitleKey) }}</h4>
         <div :class="`credits-wrapper ${overviewOnHover ? 'overview-on-hover' : ''}`">
             <template v-for="(credit, index) in credits" :key="index">
                <credit-item
@@ -22,9 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { useStore } from '@/store'
 
+const $t = inject('$t')
 const props = defineProps({
   credits: {
     type: Array,

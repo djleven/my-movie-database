@@ -315,7 +315,6 @@ export const stateData = {
     },
     template: "tabs",
     type: "movie",
-    __t: i18State,
 }
 
 export const movieModuleData = {

@@ -34,6 +34,9 @@ export default {
     hasSectionFour: (state, getters) => {
         return getters[`${state.type}/hasSectionFour`]
     },
+    sectionFourLabelKey: (state, getters) => {
+        return getters[`${state.type}/sectionFourLabelKey`]
+    },
     getContentTitle: (state, getters)  => {
         return getters[`${state.type}/getContentTitle`]
     },

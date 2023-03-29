@@ -97,6 +97,7 @@ export default {
             return Boolean(state.content.combined_credits.crew.length)
         },
         hasSectionFour: () => false,
+        sectionFourLabelKey: () => '',
         getContentTitle: (state) => {
             return state.content.name
         },

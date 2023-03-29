@@ -23,7 +23,7 @@ export enum TransitionEffects {
 
 export interface GlobalSettings {
     locale: string
-    debug: string
+    debug: boolean
     date_format: Color
     overviewOnHover: boolean
 }
@@ -50,10 +50,4 @@ export interface SectionShowSettings {
     [BaseTemplateSections.Section_2]: boolean
     [BaseTemplateSections.Section_3]: boolean
     [BaseTemplateSections.Section_4]: boolean
-}
-
-export type PlaceholderURLs = {
-    small: URL,
-    medium: URL,
-    large: URL,
 }

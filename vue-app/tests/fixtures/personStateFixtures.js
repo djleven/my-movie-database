@@ -86,7 +86,6 @@ export const stateData = {
     },
     template: "tabs",
     type: "person",
-    __t: i18State,
 }
 
 export const personModuleData = {

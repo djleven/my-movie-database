@@ -11,7 +11,7 @@
           {{ overviewExcerpt }}
         </template>
         <p v-else class="center-text">
-          {{ store.state.__t.no_description }}
+          {{ $t('no_description') }}
         </p>
 
       </div>
@@ -24,15 +24,15 @@
       <template v-if="showCreditDuringEvent || !showCreditDuringEvent && !isActive">
         <li>{{ title }}</li>
         <li v-if="credit.character">
-          {{ store.state.__t.role }}: {{ credit.character }}
+          {{ $t('role') }}: {{ credit.character }}
         </li>
         <li v-if="credit.job">{{ credit.job }}
         </li>
         <li v-if="credit.air_date">
-          {{ store.state.__t.air_date }}: {{ store.getters.getFormattedDate(credit.air_date) }}
+          {{ $t('first_air_date') }}: {{ store.getters.getFormattedDate(credit.air_date) }}
         </li>
         <li v-if="credit.episode_count">
-          {{ store.state.__t.episode_count }}: {{ credit.episode_count }}
+          {{ $tc('episode_count', credit.episode_count ) }}
         </li>
       </template>
     </ul>
@@ -40,10 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { useStore } from '@/store'
-import { getExcerpt, getImageUrl } from '@/helpers/templating'
+import { getExcerpt, getImageUrl, placeholderImages } from '@/helpers/templating'
 
+const $t = inject('$t')
+const $tc = inject('$tc')
 const props = defineProps({
   credit: {
     type: Object,
@@ -106,7 +108,7 @@ const imageSource = computed(() => {
     return getImageUrl(file, size)
   }
 
-  return store.state.placeholder[size]
+  return ref(require(`../../assets/img/${placeholderImages[size]}`)).value
 })
 const wrapperClasses = computed(() => {
   const activeClass = props.isActive ? 'bg-image' : ''

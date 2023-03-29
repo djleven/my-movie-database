@@ -94,6 +94,7 @@ export default {
         hasSectionFour: (state) => {
             return state.content?.seasons?.length
         },
+        sectionFourLabelKey: () => 'seasons',
         getContentTitle: (state) => {
             return state.content?.name
         },

@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import { mount } from '@vue/test-utils'
 
 import { key } from '@/store'
-import { stateData, movieModuleData } from '../../fixtures/movieStateFixtures'
+import { stateData, movieModuleData, i18State } from '../../fixtures/movieStateFixtures'
 
 import MovieOverview from '@/components/movie/movie-overview.vue'
 import OverviewSection from "@/components/common/overview-section.vue"
@@ -13,6 +13,7 @@ describe('MovieOverview.vue: Render correct field data and labels in the html', 
   let store
   let overviewComponent
   beforeAll(() => {
+
     store = createStore({
       state() {
         return Object.assign(stateData, {
@@ -30,7 +31,12 @@ describe('MovieOverview.vue: Render correct field data and labels in the html', 
       global: {
         components: {OverviewSection, SectionLayout},
         plugins: [[store, key]],
-      }
+        provide: {
+          $t(key) {
+            return i18State[key]
+          },
+        },
+      },
     })
 
     overviewComponent = rootComponent.findComponent(OverviewSection)

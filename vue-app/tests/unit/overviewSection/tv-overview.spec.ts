@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import { mount } from '@vue/test-utils'
-import { stateData, tvShowModuleData } from '../../fixtures/tvStateFixtures'
+import { stateData, tvShowModuleData, i18State } from '../../fixtures/tvStateFixtures'
 
 import { key } from '@/store'
 import TvOverview from '@/components/tvshow/tv-overview.vue'
@@ -30,6 +30,11 @@ describe('TvOverview.vue: Render correct field data and labels in the html', () 
       global: {
         components: {OverviewSection, SectionLayout},
         plugins: [[store, key]],
+        provide: {
+          $t(key) {
+            return i18State[key] ?? key
+          },
+        },
       }
     })
 

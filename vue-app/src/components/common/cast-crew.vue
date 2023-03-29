@@ -1,10 +1,10 @@
 <template>
-    <section-layout :header="getHeader"
+    <section-layout :header="$t(headerLabel())"
               :sub-header="store.getters.getContentTitle"
               :class-list="headerClassList">
       <slot>
         <extended-credits
-            v-if="store.state.type === ContentTypes.Person"
+            v-if="isPersonType"
             :credits="credits"
             :i18-title-key-suffix="templateType"
             :overview-on-hover="store.state.global_conf.overviewOnHover"
@@ -15,15 +15,16 @@
             :overview-on-hover="false"
         />
       </slot>
-
     </section-layout>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useStore } from '@/store'
 import { BaseTemplateSections, ContentTypes } from '@/models/settings'
 
+const $t = inject('$t')
+const $tc = inject('$tc')
 const props = defineProps({
   section: {
     type: String,
@@ -37,8 +38,10 @@ const sectionTypeMap = {
 }
 
 const store = useStore()
+const contentType = computed(() => store.state.type)
+const isPersonType:boolean = contentType.value === ContentTypes.Person
 const templateType: string = sectionTypeMap[props.section]
-const headerClassList: string = `${store.state.type} credits ${templateType}`
-const credits = computed(() => store.state[store.state.type]?.credits[templateType])
-const getHeader = computed(() => store.state.__t[templateType])
+const headerClassList: string = `${contentType.value} credits ${templateType}`
+const credits = computed(() => store.state[contentType.value]?.credits[templateType])
+const headerLabel = ():string => isPersonType ? `${ContentTypes.Person}.${templateType}` : templateType
 </script>

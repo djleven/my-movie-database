@@ -8,12 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useStore } from '@/store'
 
 import { getPropertyAsCsvFromObjectArray, getTitleWithYear } from '@/helpers/templating'
 
 const store = useStore();
+const $t = inject('$t')
 const content = computed(() => store.state.movie?.content)
 const getTitle = computed(() => getTitleWithYear(content.value?.title, content.value?.release_date))
 const mainMeta = computed(() => {
@@ -34,7 +35,7 @@ const mainMeta = computed(() => {
     },
     runtime: {
       showIf: content.value?.runtime,
-      value: content.value?.runtime + ' ' + store.state.__t.min,
+      value: content.value?.runtime + ' ' + $t('min'),
     },
     original_title: {
       value: content.value?.original_title,

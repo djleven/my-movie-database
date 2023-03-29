@@ -27,49 +27,6 @@ trait TemplateVueTrait
     }
 
     /**
-     * Create the template translation strings as a Javascript object
-     *
-     * @since      2.0.0
-     * @return     void
-     */
-    protected function localizeTemplateScript() {
-
-        global $wp_scripts;
-        $type = $this->data_type;
-        if ($type === 'movie' || $type === 'tvshow' || $type === 'person') {
-            $script_handle = MMDB_PLUGIN_ID . $type . '__t';
-            $existing_script = $wp_scripts->get_data(MMDB_NAME, 'data');
-            $jsonFile = TemplateFiles::getJavascriptI18nSetting($type);
-            if ($jsonFile) {
-                // check to see it has not already been registered
-                if (empty($existing_script) || strpos($existing_script, $script_handle) === false) {
-                    wp_localize_script(MMDB_NAME, $script_handle, $this->jsonToWordpressI18n($jsonFile));
-                }
-            }
-        }
-    }
-
-    /**
-     * Convert JSON key/value to WordPress I18n array
-     *
-     * Array to be used in wp_localize_script
-     *
-     * @since      2.0.0
-     * @param      string $json
-     * @return     array
-     */
-    protected function jsonToWordpressI18n($json) {
-        $array = [];
-        $json_data = json_decode($json, true);
-        if($json_data) {
-            foreach ($json_data as $key => $value) {
-                $array[$key] = __($value , MMDB_WP_NAME);
-            }
-        }
-        return $array;
-    }
-
-    /**
      * Setup and return the type view output
      *
      * @param     $admin
@@ -86,15 +43,10 @@ trait TemplateVueTrait
             $mmdb_single_run_settings = [
                 'global_conf' => [
                     'locale' => get_locale(),
-                    'debug' => CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0),
+                    'debug' => (bool) CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", false),
                     'date_format' => get_option( 'date_format' ),
                     'overviewOnHover' => (bool) CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true),
                 ],
-                'placeholder_paths' => [
-                    'small' => TemplateFiles::getSmallImagePlaceholder(),
-                    'medium' => TemplateFiles::getImagePlaceholder(),
-                    'large' => TemplateFiles::getLargeImagePlaceholder(),
-                ]
             ];
         } elseif (in_array($uniqueID, $mmdbID_processed)) {
             return false;
@@ -120,7 +72,6 @@ trait TemplateVueTrait
                 'bodyFontColor' => $this->getBodyFontColorSetting(),
                 'transitionEffect' => $this->getTransitionEffectSetting(),
             ],
-            'placeholder' => $mmdb_single_run_settings['placeholder_paths']
         ];
 
         $myVueState = json_encode($myVueState);
@@ -129,7 +80,6 @@ trait TemplateVueTrait
                  MyMovieDb["app.umd"].default(
                    "#' . $this->getVueMountPoint() . '",
                    '. $myVueState . ',
-                   ' . MMDB_PLUGIN_ID . $this->data_type . '__t' . ',
                    ' . $admin . '
                 )';
 
@@ -138,7 +88,7 @@ trait TemplateVueTrait
         $mmdbID_processed[] = $uniqueID;
     }
 	protected function registerInstantiatingScriptWithWorpdress($content, $firsTry = true) {
-		$hasInstantiatingScriptBeenAdded = wp_add_inline_script( MMDB_NAME, $content );
+		$hasInstantiatingScriptBeenAdded = wp_add_inline_script( TemplateFiles::PLUGIN_JS_LIB_FILE, $content );
 		if ( ! $hasInstantiatingScriptBeenAdded ) {
 			TemplateFiles::enqueuePluginLibrary();
 			if ( $firsTry ) {
@@ -164,7 +114,6 @@ trait TemplateVueTrait
         }
 
         $this->createVueInstance($admin);
-	    $this->localizeTemplateScript();
 
         $mountBase = $this->getVueMountPoint();
         $output =

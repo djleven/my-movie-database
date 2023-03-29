@@ -33,13 +33,12 @@ class PostType extends PostTypeEntityAbstract
     /**
      * Create a PostType
      * @param mixed $names          A string for the name, or an array of names
-     * @param string $i18nTxtDomain The wp text domain to use for i18n
      * @param string $icon          A dashicon class for the menu icon
      * @param array $options        The options for the PostType
      */
-    public function __construct($names, $i18nTxtDomain, $icon = null, $options = [])
+    public function __construct($names, $icon = null, $options = [])
     {
-        parent::__construct($names, $i18nTxtDomain, $options);
+        parent::__construct($names, $options);
 
         $this->columns()->sortable( [ 'author' => true ] );
 
@@ -89,7 +88,7 @@ class PostType extends PostTypeEntityAbstract
      */
     protected function setTaxonomy($tax_names)
     {
-        $this->postTypeTaxonomy = new Taxonomy($tax_names, $this->i18nTxtDomain);
+        $this->postTypeTaxonomy = new Taxonomy($tax_names);
         $this->taxonomy($this->postTypeTaxonomy->name);
     }
 
@@ -165,11 +164,15 @@ class PostType extends PostTypeEntityAbstract
         $common_labels = parent::createLabels();
 
         return array_merge($common_labels, [
-            'view_items' =>  __('View') . ' - ' . $this->plural_i18n,
-            'new_item' =>  __('New') . ' - ' . $this->singular_i18n,
-            'add_new' => __('Add New', $this->i18nTxtDomain),
+            'add_new_item' => __('Add New') . ' - ' . $this->singular,
+            'edit_item' => __('Edit') . ' - ' . $this->singular,
+            'view_item' =>  __('View') . ' - ' . $this->singular,
+            'search_items' => __('Search') . ' - ' . $this->plural,
+            'view_items' =>  __('View') . ' - ' . $this->plural,
+            'new_item' =>  __('New') . ' - ' . $this->singular,
             'not_found_in_trash' =>
-                __('No ' . $this->plural .' found', $this->i18nTxtDomain) . ' ' . __('in Trash', $this->i18nTxtDomain),
+			/* translators: Custom post type taxonomy (category or tag) plural name. Movies, tvShows or persons. 'No %s found in Trash' */
+				sprintf(__('No %s found in Trash','my-movie-database'), $this->plural),
         ]);
     }
 

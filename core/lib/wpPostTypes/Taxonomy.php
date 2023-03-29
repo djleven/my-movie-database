@@ -108,24 +108,4 @@ class Taxonomy extends PostTypeEntityAbstract
         // apply overrides
         return array_replace($options, $this->options);
     }
-
-    /**
-     * Create labels for the Taxonomy
-     * @return array
-     */
-    public function createLabels()
-    {
-        // default labels
-        $common_labels = parent::createLabels();
-
-       return array_merge($common_labels, [
-            'update_item' => __('Update') . ' - ' . __($this->singular, MMDB_WP_NAME),
-            'new_item_name' => __('New') . ' ' .  __('Name') . ' - ' . __($this->singular, MMDB_WP_NAME),
-            'parent_item' => __('Parent'). ' - ' . __($this->singular, MMDB_WP_NAME),
-
-            'popular_items' => __('Popular ' . $this->plural, MMDB_WP_NAME),
-            'separate_items_with_commas' => __('Separate ' . $this->plural . ' with commas', MMDB_WP_NAME),
-            'add_or_remove_items' => __('Add or remove') . ' ' . $this->plural,
-        ]);
-    }
 }

@@ -31,24 +31,6 @@ abstract class PostTypeEntityAbstract
     public $plural;
 
     /**
-     * The wp text domain to use for translation
-     * @var string
-     */
-    public $i18nTxtDomain;
-
-    /**
-     * The localised singular name for the PostTypeEntity
-     * @var string
-     */
-    public $singular_i18n;
-
-    /**
-     * The localised plural name for the PostTypeEntity
-     * @var string
-     */
-    public $plural_i18n;
-
-    /**
      * The slug for the PostTypeEntity
      * @var string
      */
@@ -69,12 +51,10 @@ abstract class PostTypeEntityAbstract
     /**
      * Create a PostTypeEntity
      * @param mixed $names           A string for the name, or an array of names
-     * @param string $i18nTxtDomain  The wp text domain to use for i18n
      * @param array $options         The options for the PostTypeEntity
      */
-    public function __construct($names, $i18nTxtDomain, $options = [])
+    public function __construct($names, $options = [])
     {
-        $this->i18nTxtDomain = $i18nTxtDomain;
         $this->options = $options;
         $this->setNames($names);
     }
@@ -117,21 +97,9 @@ abstract class PostTypeEntityAbstract
     public function registerPostTypeEntity()
     {
         if (!$this->isPostTypeEntityRegistered()) {
-            $this->setI18nBaseLabels();
             // register the Taxonomy with WordPress
             $this->wordpressRegistration($this->createOptions());
         }
-    }
-
-    /**
-     * Set the translated base labels
-     *
-     * @return void
-     */
-    public function setI18nBaseLabels()
-    {
-        $this->singular_i18n = __($this->singular, $this->i18nTxtDomain);
-        $this->plural_i18n   = __($this->plural, $this->i18nTxtDomain);
     }
 
     /**
@@ -234,16 +202,9 @@ abstract class PostTypeEntityAbstract
     {
         // default labels
         return [
-            'name' => $this->singular_i18n,
-            'singular_name' => $this->singular_i18n,
-            'menu_name' => $this->plural_i18n,
-            'all_items' => __('All ' . $this->plural, $this->i18nTxtDomain),
-            'add_new_item' => __('Add New', $this->i18nTxtDomain) . ' - ' . $this->singular_i18n,
-            'edit_item' => __('Edit') . ' - ' . $this->singular_i18n,
-            'view_item' =>  __('View') . ' - ' . $this->singular_i18n,
-            'search_items' => __('Search') . ' - ' . $this->plural_i18n,
-            'not_found' => __('No ' . $this->plural .' found', $this->i18nTxtDomain),
-            'parent_item_colon' => __('Parent'). ' - ' . $this->singular_i18n. ':',
+            'name' => $this->plural,
+            'singular_name' => $this->singular,
+            'menu_name' => $this->plural,
         ];
     }
 

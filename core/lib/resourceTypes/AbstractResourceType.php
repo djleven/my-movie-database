@@ -16,9 +16,9 @@ namespace MyMovieDatabase\Lib\ResourceTypes;
 use MyMovieDatabase\CoreController;
 
 abstract class AbstractResourceType {
-
     public $data_type;
-    public $data_type_label;
+	public $data_type_label;
+	public $data_type_label_plural;
     public $type_menu_icon;
     public $type_setting_id;
     public $tmpl_setting_id;
@@ -36,6 +36,7 @@ abstract class AbstractResourceType {
     const SECTION_3 = 'section_3';
     const SECTION_4 = 'section_4';
 
+
     /**
      * Initialize the class and set its properties.
      *
@@ -44,9 +45,10 @@ abstract class AbstractResourceType {
      * @param      string    $data_type_label       The data type label.
      * @param      string    $type_menu_icon  		The admin menu icon of this type.
      */
-    public function __construct($data_type, $data_type_label= null, $type_menu_icon = null) {
+    public function __construct($data_type, $data_type_label, $data_type_label_plural, $type_menu_icon = null) {
 
         $this->data_type_label = $data_type_label;
+        $this->data_type_label_plural = $data_type_label_plural;
         $this->data_type = $data_type;
         $this->type_menu_icon = $type_menu_icon;
         $this->type_setting_id = self::makeTypeSettingGroupId($this->data_type);
@@ -112,5 +114,15 @@ abstract class AbstractResourceType {
             static::SECTION_4
         ];
     }
+
+
+	public function getSectionLabels($sectionLabels) {
+
+		return array_merge([
+			static::SECTION_OVERVIEW  => __( 'Overview Text', 'my-movie-database' ),
+			static::SECTION_2   	  => __( 'Cast', 'my-movie-database' ),
+			static::SECTION_3   	  => __( 'Crew', 'my-movie-database' )
+		], $sectionLabels);
+	}
 }
 

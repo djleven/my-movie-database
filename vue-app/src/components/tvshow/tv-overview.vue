@@ -8,12 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useStore } from '@/store'
 
-import {getPropertyAsCsvFromObjectArray, getTitleWithYear} from '@/helpers/templating'
+import { getPropertyAsCsvFromObjectArray, getTitleWithYear } from '@/helpers/templating'
 
-const store = useStore();
+const store = useStore()
+const $t = inject('$t')
+
 const content = computed(() => store.state.tvshow?.content)
 const castCredits = computed(() => store.state.tvshow?.credits?.cast)
 const getTitle = computed(() => getTitleWithYear(content.value?.name, content.value?.first_air_date))
@@ -30,6 +32,7 @@ const mainMeta = computed(() => {
       value: getPropertyAsCsvFromObjectArray(castCredits.value?.slice(0, 3))
     },
     number_of_episodes: {
+      label: `${$t('episodes')} / ${$t('seasons')}`,
       showIf: content.value?.number_of_episodes && content.value?.number_of_seasons,
       value: `${content.value?.number_of_episodes} / ${content.value?.number_of_seasons}`
     },
@@ -43,7 +46,7 @@ const mainMeta = computed(() => {
     },
     episode_run_time: {
       showIf: content.value?.episode_run_time?.length,
-      value: `${content.value?.episode_run_time[0]} ${store.state.__t.min}`
+      value: `${content.value?.episode_run_time[0]} ${$t('min')}`
     }
   }
 })

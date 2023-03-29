@@ -1,5 +1,5 @@
 <template>
-    <section-layout :header="store.state.__t.trailer"
+    <section-layout :header="$t('trailer')"
               :sub-header="store.state.movie?.content?.title"
               class-list="trailer">
         <div class="mmdb-trailer-video">
@@ -12,7 +12,10 @@
 </template>
 
 <script setup lang="ts">
+import { inject } from 'vue'
 import { useStore } from '@/store'
+
+const $t = inject('$t')
 const store = useStore();
 
 const youtubeUrl = 'https://www.youtube-nocookie.com/embed/'

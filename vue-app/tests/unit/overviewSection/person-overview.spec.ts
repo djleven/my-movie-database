@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import { mount } from '@vue/test-utils'
 
 import { key } from '@/store'
-import { stateData, personModuleData } from '../../fixtures/personStateFixtures'
+import { stateData, personModuleData, i18State } from '../../fixtures/personStateFixtures'
 
 import PersonOverview from '@/components/person/person-overview.vue'
 import OverviewSection from "@/components/common/overview-section.vue"
@@ -30,6 +30,11 @@ describe('PersonOverview.vue: Render correct field data and labels in the html',
       global: {
         components: {OverviewSection, SectionLayout},
         plugins: [[store, key]],
+        provide: {
+          $t(key) {
+            return i18State[key]
+          },
+        },
       }
     })
 

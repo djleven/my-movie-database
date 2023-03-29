@@ -21,11 +21,10 @@ class PersonResourceType extends AbstractResourceType {
      */
     public function setHideSectionsSetting() {
 
-        return [
-            static::SECTION_OVERVIEW  => __( 'Overview Text', MMDB_WP_NAME ),
-            static::SECTION_2   	  => __( 'Cast Credits', MMDB_WP_NAME ),
-            static::SECTION_3   	  => __( 'Crew Credits', MMDB_WP_NAME ),
-        ];
-    }
+	    return $this->getSectionLabels([
+		    static::SECTION_2   	  => __( 'Cast Credits', 'my-movie-database' ),
+		    static::SECTION_3   	  => __( 'Crew Credits', 'my-movie-database' ),
+	    ]);
+	}
 }
 

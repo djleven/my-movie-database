@@ -3,6 +3,7 @@
  * The class responsible for finding template file paths and related functionality
  *
  * Looks for the files in default wordpress theme first and falls back to plugin's version if unavailable
+ * UPDATE: As of v3.0.0, the latter only applied to css files
  *
  * @link       https://e-leven.net/
  * @since      1.1.0
@@ -15,107 +16,34 @@ namespace MyMovieDatabase;
 
 class TemplateFiles {
 
-    const SMALL_PLACEHOLDER = 'cinema';
-    const MEDIUM_PLACEHOLDER = 'cinema185';
-    const LARGE_PLACEHOLDER = 'cinema300';
-    const ASSETS_FOLDER = 'assets/';
-    const TEMPLATES_FOLDER = 'mmdb_templates/';
-    const ASSETS_PATH = self::TEMPLATES_FOLDER . self::ASSETS_FOLDER;
-    const IMG_PATH = 'img';
 	CONST ASSETS_PUBLIC_PATH   = 'assets/';
-    /**
-     * Return the correct private template file path
-     * Check if file exists in the theme folder, if not load the plugin template file
-     *
-     * @since    1.0.0
-     * @param      string   $path       The relative to the plugin's templates folder path
-     * @param      string   $filename   The full filename (with extension)
-     * @return     string
-     */
-    public static function getPrivateFile($path, $filename) {
-        $filePath = self::TEMPLATES_FOLDER . $path . '/' . $filename;
-
-        if ($theme_file = locate_template([$filePath])) {
-            $file = $theme_file;
-        }
-        else {
-            $file = plugins_url( $filePath, dirname(__FILE__) );
-        }
-        self::validateFileExists($file);
-
-        return $file;
-    }
+	CONST ASSETS_PUBLIC_JS_PATH = self::ASSETS_PUBLIC_PATH . 'js/';
+	CONST PLUGIN_JS_LIB_FILE   = 'app.umd.js';
 
     /**
-     * Return the correct public template file url ( for css, js, placeholder img, etc)
+     * Return the correct assets (public) file url ( now used only for css)
      * Check if file exists in the theme folder, if not load the plugin template file
      *
      * @since      1.0.8
-     * @param      string        $file_name  The file name.
-     * @param      string        $path       The file folder path.
-     * @param      null | string $ext        The file extension - if null defaults to folder path $path
-     * @param      bool          $assets     Whether to prefix the assets folder in path
+     * @param      string        $path       Folder and file name relative to assets folder.
      * @return     string
      */
-    public static function getPublicFile($file_name, $path, $ext = null, $assets = true) {
+	public static function getPublicFile($path) {
+		$path = self::ASSETS_PUBLIC_PATH . $path;
 
-        if(!$ext) {$ext = $path;}
-        if($assets) {
-            $folder = self::ASSETS_PATH;
-        } else {
-            $folder = self::TEMPLATES_FOLDER;
-        }
-        if($path === '') {
-            $path =  $folder . $file_name . '.' . $ext;
-        } else {
-            $path =  $folder . $path . '/' . $file_name . '.' . $ext;
-        }
+		if (locate_template(array($path))) {
+			return get_theme_file_uri('/' . $path);
+		}
 
-        if (locate_template(array($path))) {
-            $file = get_theme_file_uri('/' . $path);
-        }
-        else {
-            $file = plugin_dir_url( dirname(__FILE__)) . $path;
-        }
-        self::validateFileExists($file, $path);
+		return plugin_dir_url( dirname(__FILE__)) . $path;
+	}
 
-        return $file;
-    }
+	public static function getPublicStylesheet($fileName) {
 
-    /**
-     * Validate a file exists
-     *
-     * @since      2.0.0
-     * @param      string   $file   The file full path.
-     * @param      string   $type   The file folder path and/or type/extension.
-     * @return     void
-     */
-    private static function validateFileExists($file, $type = '') {
+		$path = 'css/' . $fileName . '.css';
 
-        try{
-            $openFile = @fopen($file,'r');
-            if( !$openFile ) {
-                throw new \Exception(
-                    "File Read Error: The My Movie Database $type file $file could not be found",
-                    404
-                );
-            }
-        }
-        catch( \Exception $e ) {
-            if(defined('WP_DEBUG_DISPLAY') &&
-                WP_DEBUG && WP_DEBUG_DISPLAY &&
-                CoreController::getMmdbOption(
-                "mmdb_debug",
-                "mmdb_opt_advanced",
-                0)
-            ) {
-                echo $e->getMessage();
-            }
-            self::writeToLog($e->getMessage());
-            return;
-        }
-
-    }
+		return self::getPublicFile($path);
+	}
 
     /**
      * Register the JavaScript and CSS for both public-facing and admin sides of the site.
@@ -127,34 +55,19 @@ class TemplateFiles {
     public static function enqueueCommonFiles($activeScreen) {
         $css_file =
             CoreController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
-        $bootstrap =
-            CoreController::getMmdbOption('mmdb_bootstrap', MMDB_ADVANCED_OPTION_GROUP, 'yes');
 
         // To load only on mmdb active post type pages.
         if($activeScreen) {
 			self::enqueuePluginLibrary();
-	        /** WP and mmdb and config */
-	        wp_add_inline_script(
-		        MMDB_NAME,
-		        TemplateFiles::buildJSConfigFileContent(),
-		        'before'
-	        );
-
             if( $css_file === 'yes') {
                 $css_file = 'all';
             }
-            if ($bootstrap === 'yes') {
-                $bootstrap = 'all';
-            }
         }
-        if ($bootstrap === 'all'){
-            wp_enqueue_style(
-                'bootstrap', TemplateFiles::getPublicFile('bootstrap', 'css'), [], '3.3.7' );
-        }
+
         if( $css_file === 'all') {
 
             wp_enqueue_style(
-                MMDB_NAME, TemplateFiles::getPublicFile(MMDB_CAMEL_NAME, 'css'), [], '2.0.0', 'all' );
+                MMDB_NAME, TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME), [], '2.3.0', 'all' );
         }
         // Load for all wp pages below.
     }
@@ -166,106 +79,14 @@ class TemplateFiles {
 	 * @return     void
 	 */
 	public static function enqueuePluginLibrary() {
-		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_PATH . 'app.umd.js';
-		wp_enqueue_script( MMDB_NAME, $mmdb_js_file, [],0.1, true);
+		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_JS_PATH . self::PLUGIN_JS_LIB_FILE;
+		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],0.4, true);
+		wp_set_script_translations(
+			self::PLUGIN_JS_LIB_FILE,
+			'my-movie-database',
+			MMDB_PLUGIN_DIR . 'languages'
+		);
 	}
-    /**
-     * Get the contents of a template file
-     *
-     * @since      2.0.0
-     * @param      string $path
-     * @param      string $filename
-     * @return     string | null
-     */
-    public static function getJsonFileContents($path, $filename) {
-        return file_get_contents(self::getPrivateFile($path, $filename));
-
-//        $request  = wp_remote_get( self::getPrivateFile($path, $filename));
-//        $response = wp_remote_retrieve_body( $request );
-//        if (
-//            'OK' !== wp_remote_retrieve_response_message( $response )
-//            OR 200 !== wp_remote_retrieve_response_code( $response )
-//        ) {
-//            return wp_send_json_error( $response );
-//        }
-//
-//
-//
-//        return wp_send_json_success( $response );
-    }
-
-    /**
-     * Get the contents of a I18n Javascript settings file
-     *
-     * @since      2.0.0
-     * @param      string $type
-     * @return     string | null
-     */
-    public static function getJavascriptI18nSetting($type) {
-        return self::getJsonFileContents('settings/i18nForJavascript', 'jsI18n-' . $type . '.json');
-    }
-
-    /**
-     * Get the image placeholder url.
-     *
-     * @since      2.0.0
-     * @param      string $placeholderSize
-     * @param      string $type
-     * @param      string $ext
-     * @return     string
-     */
-    public static function getImagePlaceholder(
-        $placeholderSize = 'medium',
-        $type = self::IMG_PATH,
-        $ext = 'png'
-    ) {
-
-        return self::getPublicFile(self::getPlaceholderImage($placeholderSize), $type, $ext);
-    }
-    /**
-     * Get the small image placeholder url.
-     *
-     * @since      2.0.0
-     * @param      string $type
-     * @param      string $ext
-     * @return     string
-     */
-    public static function getSmallImagePlaceholder($type = self::IMG_PATH, $ext = 'png') {
-
-        return self::getImagePlaceholder('small', $type, $ext);
-    }
-    /**
-     * Get the large image placeholder url.
-     *
-     * @since      2.0.0
-     * @param      string $type
-     * @param      string $ext
-     * @return     string
-     */
-    public static function getLargeImagePlaceholder($type = self::IMG_PATH, $ext = 'png') {
-
-        return self::getImagePlaceholder('large', $type, $ext);
-    }
-
-    /**
-     * Get the image placeholder file based on size.
-     *
-     * @since      1.0.0
-     * @param      string $placeholderSize
-     * @return     string
-     */
-    public static function getPlaceholderImage($placeholderSize) {
-
-        if ($placeholderSize === 'small') {
-            return self::SMALL_PLACEHOLDER;
-        } else if($placeholderSize === 'medium') {
-            return self::MEDIUM_PLACEHOLDER;
-        } else if($placeholderSize === 'large') {
-            return self::LARGE_PLACEHOLDER;
-        } else {
-            return self::SMALL_PLACEHOLDER;
-        }
-    }
 
     /**
      * Log content to error log
@@ -281,15 +102,5 @@ class TemplateFiles {
         } else {
             error_log( $content );
         }
-    }
-
-    protected static function  buildJSConfigFileContent() {
-        return '
-            var mmdb_conf = {
-               locale: "' . get_locale() . '",
-               debug: ' . CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", 0) . ',
-               date_format: "' . get_option( 'date_format' ) . '",
-               overviewOnHover: ' . CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true) .'
-            }';
     }
 }

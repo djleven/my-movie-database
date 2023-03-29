@@ -21,11 +21,8 @@ class MovieResourceType extends AbstractResourceType {
      */
     public function setHideSectionsSetting() {
 
-        return [
-            static::SECTION_OVERVIEW  => __( 'Overview Text', MMDB_WP_NAME ),
-            static::SECTION_2   	  => __( 'Cast', MMDB_WP_NAME ),
-            static::SECTION_3   	  => __( 'Crew', MMDB_WP_NAME ),
-            static::SECTION_4   	  => __( 'Trailer', MMDB_WP_NAME )
-        ];
+	    return $this->getSectionLabels([
+		    static::SECTION_4   	  => __( 'Trailer', 'my-movie-database' ),
+	    ]);
     }
 }

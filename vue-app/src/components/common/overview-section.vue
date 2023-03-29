@@ -1,7 +1,7 @@
 <template>
   <section-layout
       :show-header="showSubSections"
-      :header="store.state.__t.summary"
+      :header="$t('summary')"
       class-list="overview"
   >
     <div class="mmdb-flex-container">
@@ -18,7 +18,7 @@
         <div class="mmdb-meta">
           <template v-for="(meta, index) in mainMeta" :key="index">
             <div v-if="showMeta(index, 'mainMeta')" :class="`mmodb-${index}`">
-              <strong>{{ store.state.__t[index] }}:</strong>
+              <strong>{{ meta.label ?? $t(index) }}:</strong>
               {{ meta.value }}
             </div>
           </template>
@@ -26,7 +26,7 @@
           <template v-for="(meta, index) in linksMeta" :key="index">
             <div v-if="showMeta(index, 'linksMeta')" :class="`mmodb-${index}`">
               <a target="_blank" :href="meta.value">
-                <strong>{{ store.state.__t[index] }}</strong>
+                <strong>{{ $t(index) }}</strong>
               </a>
             </div>
           </template>
@@ -40,7 +40,7 @@
       <div class="col-md-12">
         <template v-for="(meta, index) in bottomMeta" :key="index">
           <div v-if="showMeta(index, 'bottomMeta')" :class="`mmodb-${index}`">
-            <strong>{{ store.state.__t[index] }}:</strong>
+            <strong>{{ $t(index) }}:</strong>
             {{ meta.value }}
           </div>
         </template>
@@ -50,12 +50,13 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from 'vue'
+import { PropType, computed, ref, inject } from 'vue'
 import { useStore } from '@/store'
 
-import { getImageUrl } from '@/helpers/templating'
+import { getImageUrl, placeholderImages } from '@/helpers/templating'
 import { ConditionalFieldGroup } from '@/models/templates'
 
+const $t = inject('$t')
 const props = defineProps({
   mainMeta: {
     type: Object as PropType<ConditionalFieldGroup>,
@@ -92,7 +93,7 @@ const getImage = computed(() => {
     return getImageUrl(file, size)
   }
 
-  return store.state.placeholder[size]
+  return ref(require(`../../assets/img/${placeholderImages[size]}`)).value
 })
 
 function showMeta(field, object) {

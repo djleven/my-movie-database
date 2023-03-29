@@ -11,11 +11,11 @@
         <p class="bold center-text">TMDb ID: {{ result.id }}</p>
         <div v-if="getTextExcerpt">{{ getTextExcerpt }}</div>
         <div v-else-if="knownFor || result.known_for_department">
-          {{ store.state.__t.known_for_department }}
+          {{ $t('known_for_department') }}
           <span v-if="result.known_for_department">{{result.known_for_department}}</span>
           <div v-if="knownFor">{{ knownFor }}</div>
         </div>
-        <p v-else class="center-text">{{ store.state.__t.no_description }}</p>
+        <p v-else class="center-text">{{ $t('no_description') }}</p>
       </template>
     </div>
     <div v-if="active"
@@ -27,10 +27,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { useStore } from '@/store'
-import { getExcerpt, getImageUrl, getTitleWithYear } from '@/helpers/templating'
+import { getExcerpt, getImageUrl, getTitleWithYear, placeholderImages } from '@/helpers/templating'
 
+const $t = inject('$t')
 const props = defineProps({
   result: {
     type: Object,
@@ -71,7 +72,7 @@ const getImage = computed(() => {
     return getImageUrl(file, size)
   }
 
-  return store.state.placeholder[size]
+  return ref(require(`../../assets/img/${placeholderImages[size]}`)).value
 })
 
 const getTextExcerpt = computed(() =>

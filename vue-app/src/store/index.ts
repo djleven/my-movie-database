@@ -11,8 +11,7 @@ import personModule, { PersonState }  from '@/store/person'
 import Movie from '@/models/contentTypes/movie'
 import Tvshow from '@/models/contentTypes/tvshow'
 import Person from '@/models/contentTypes/person'
-import { ContentId, ContentTypes, Templates, GlobalSettings, SectionShowSettings, TypeStylingSettings, PlaceholderURLs, BaseTemplateSections } from '@/models/settings'
-import { I18Entities } from '@/models/contentTypes/abstract-entity'
+import { ContentId, ContentTypes, Templates, GlobalSettings, SectionShowSettings, TypeStylingSettings, BaseTemplateSections } from '@/models/settings'
 
 interface BaseStateInterface {
     id: ContentId
@@ -21,7 +20,6 @@ interface BaseStateInterface {
     global_conf: GlobalSettings
     showSettings: SectionShowSettings
     cssClasses: TypeStylingSettings
-    placeholder: PlaceholderURLs
 }
 
 interface SectionComponentsInterface {
@@ -37,7 +35,6 @@ export interface StateInterface extends BaseStateInterface {
     contentLoading: boolean,
     activeSection: BaseTemplateSections,
     components: SectionComponentsInterface,
-    __t: I18Entities,
     movie?: MovieState,
     tvshow?: TvShowState,
     person?: PersonState
@@ -45,7 +42,7 @@ export interface StateInterface extends BaseStateInterface {
 
 export const key: InjectionKey<Store<StateInterface>> = Symbol()
 
-export const initiateStore = (conf: BaseStateInterface, i18n?: I18Entities): Store<StateInterface> => {
+export const initiateStore = (conf: BaseStateInterface): Store<StateInterface> => {
     const type = conf.type
     let object
     if(type === ContentTypes.Movie) {
@@ -67,7 +64,6 @@ export const initiateStore = (conf: BaseStateInterface, i18n?: I18Entities): Sto
         contentLoading: false,
         components: object.components,
         activeSection: BaseTemplateSections.Overview,
-        __t: i18n ?? object.__t
     }, moduleState, conf)
 
     return createStore<StateInterface>({

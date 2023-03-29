@@ -252,6 +252,7 @@ export const i18State = {
     cast: "Cast",
     crew: "Crew",
     seasons: "Seasons",
+    episodes: "Episodes",
     summary: "Summary",
     genres: "Genres",
     created_by: "Created by",
@@ -307,7 +308,6 @@ export const stateData = {
     },
     template: "tabs",
     type: "tvshow",
-    __t: i18State,
 }
 
 export const tvShowModuleData = {

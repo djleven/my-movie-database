@@ -218,7 +218,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
         $isAdminEditPostPage = $this->isAdminEditPostPage();
         if($isAdminEditPostPage) {
             wp_enqueue_style(
-                MMDB_NAME . 'Admin', TemplateFiles::getPublicFile(MMDB_CAMEL_NAME . 'Admin', 'css'), [], '1.0.0', 'all' );
+                MMDB_NAME . 'Admin', TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME . 'Admin'), [], '1.0.0', 'all' );
         }
         TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
     }
