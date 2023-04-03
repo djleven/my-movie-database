@@ -138,8 +138,8 @@ class CoreController {
         $custom_taxonomy = [];
         $tax_options = [];
         $i = 0;
-        $useGutenberg = self::getMmdbOption(
-            'mmdb_gutenberg_post_type',
+        $disableGutenberg = self::getMmdbOption(
+            'mmdb_disable_gutenberg_post_type',
             MMDB_ADVANCED_OPTION_GROUP,
             false
         );
@@ -195,7 +195,7 @@ class CoreController {
 
                 $custom_post_types[$i] =
                     new PostType($names, $plugin_resource_type->type_menu_icon, [
-                        'show_in_rest' => $useGutenberg,
+                        'show_in_rest' => !$disableGutenberg,
                     ]);
                 $custom_post_types[$i]->taxonomy($custom_taxonomy[$i]->name);
                 $custom_post_types[$i]->columns()->sortable( [ 'taxonomy-' . $custom_taxonomy[$i]->name => true ] );

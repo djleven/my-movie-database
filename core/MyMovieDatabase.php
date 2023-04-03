@@ -116,6 +116,12 @@ class MyMovieDatabase {
      * @access   private
      */
     private function loadCommonDependencies() {
+
+        /**
+         * A class responsible for hosting global constants and keeping track of core WP i18n strings used.
+         */
+        require_once self::MMDB_INC_DIR . 'Constants.php';
+
         /**
          * The class and interfaces responsible for registering the plugin's wordpress plugin API hooks.
          */

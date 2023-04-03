@@ -30,7 +30,7 @@ trait TemplateVueTrait
      * Setup and return the type view output
      *
      * @param     $admin
-     * @return    string  $output           The generated html of the template view
+     * @return    void  $output           The generated html of the template view
      * @since     1.0.0
      */
     public function createVueInstance($admin) {
@@ -49,7 +49,7 @@ trait TemplateVueTrait
                 ],
             ];
         } elseif (in_array($uniqueID, $mmdbID_processed)) {
-            return false;
+            return;
         }
 
         $mmdbID = $this->tmdb_id;
@@ -83,22 +83,30 @@ trait TemplateVueTrait
                    ' . $admin . '
                 )';
 
-        $this->registerInstantiatingScriptWithWorpdress($myVue);
+        $this->registerInstantiatingScriptWithWordPress($myVue);
 
         $mmdbID_processed[] = $uniqueID;
     }
-	protected function registerInstantiatingScriptWithWorpdress($content, $firsTry = true) {
+
+    /**
+     * Make sure the script has been registered with WordPress, if not, do so now.
+     *
+     * @param $content
+     * @param bool $firsTry
+     *
+     * @since     3.0.0
+     */
+    protected function registerInstantiatingScriptWithWordPress($content, $firsTry = true) {
 		$hasInstantiatingScriptBeenAdded = wp_add_inline_script( TemplateFiles::PLUGIN_JS_LIB_FILE, $content );
 		if ( ! $hasInstantiatingScriptBeenAdded ) {
 			TemplateFiles::enqueuePluginLibrary();
 			if ( $firsTry ) {
-				$this->registerInstantiatingScriptWithWorpdress( $content, false );
+				$this->registerInstantiatingScriptWithWordPress( $content, false );
 			} else {
 				var_dump( 'errorororoorrr' );
 			}
 		}
 	}
-
 
     /**
      * Setup and return the type view output

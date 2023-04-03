@@ -55,7 +55,7 @@ watch(id, () => {
 })
 
 function loadContent() {
-  if (id.value && Number(id.value) !== 0) {
+  if (!store.state.contentLoaded && id.value && Number(id.value) !== 0) {
     store.dispatch('loadContent')
   }
 }

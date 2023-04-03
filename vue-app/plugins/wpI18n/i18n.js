@@ -1,14 +1,19 @@
 // import { __, _x, _n, sprintf  } from '@wordpress/i18n'
 const { __, _x, _n, sprintf  } = wp.i18n
+
+const i18nCoreOverview = 'Overview'
+const i18nCoreView = 'View'
+const i18nCoreWebsite= 'Website'
+
 export default {
 // I18nCommon
-    overview: __('Overview'),
-    view: __('View'),
+    overview: __(i18nCoreOverview),
+    view: __(i18nCoreView),
     cast: __('Cast', 'my-movie-database'),
     crew: __('Crew', 'my-movie-database'),
     summary: __('Summary', 'my-movie-database'),
     role: __('Role', 'my-movie-database'),
-    homepage: __('Website'),
+    homepage: __(i18nCoreWebsite),
     no_description: __('There is no description available', 'my-movie-database'),
     imdb_profile: __('IMDb Profile', 'my-movie-database'),
 // I18nPerson
