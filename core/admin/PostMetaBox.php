@@ -14,6 +14,7 @@ namespace MyMovieDatabase\Admin;
 use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType;
+use MyMovieDatabase\Constants;
 
 class PostMetaBox implements ActionHookSubscriberInterface {
 
@@ -68,7 +69,7 @@ class PostMetaBox implements ActionHookSubscriberInterface {
             //limit meta box to active post types
             if (in_array($post_type, $active_post_type)) {
                 add_meta_box('cs-meta',
-                    esc_html__(WpPostContentType::postToMovieType($post_type), 'my-movie-database'),
+                    esc_html__(WpPostContentType::postToMovieType($post_type, true), 'my-movie-database'),
                     array($this, "mmdb_id_class_meta_box"),
                     $post_type,
                     'normal',
@@ -83,15 +84,15 @@ class PostMetaBox implements ActionHookSubscriberInterface {
      * Prepare the meta box html content
      *
      * @since     0.7.0
-     * @param 	  object WP_Post 	$post	 The post object.
-     * @param 	  object WP_Post 	$args	 The $callback_args array.
+     * @param 	  object $post WP_Post 	 The post object.
+     * @param 	  object $args WP_Post 	 The $callback_args array.
      */
     public function mmdb_id_class_meta_box($post, $args) {
         // Add a nonce field to be checked later on.
         wp_nonce_field('mmdb_class_nonce_check', 'mmdb_class_nonce_check_value');
         $mmdb_type = new WpAdminPostContentType($post->post_type, $post->ID);
 
-        echo '<div><h3 class="center-text">' . __("Search Database", "my-movie-db") . '</h3></div>';
+        echo '<div><h3 class="center-text">' . __(Constants::I18n_CORE_SEARCH) . '</h3></div>';
         echo $mmdb_type->templateViewOutput();
     }
 

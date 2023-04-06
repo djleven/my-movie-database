@@ -23,6 +23,7 @@ abstract class AbstractResourceType {
     public $type_setting_id;
     public $tmpl_setting_id;
     public $width_setting_id;
+    public $custom_width_setting_id;
     public $pos_setting_id;
     public $sections_setting_id;
     public $body_color_setting_id;
@@ -54,6 +55,7 @@ abstract class AbstractResourceType {
         $this->type_setting_id = self::makeTypeSettingGroupId($this->data_type);
         $this->tmpl_setting_id = $this->makeTypeSetting('tmpl');
         $this->width_setting_id = $this->makeTypeSetting('width');
+        $this->custom_width_setting_id = $this->makeTypeSetting('custom_width');
         $this->pos_setting_id = $this->makeTypeSetting('pos');
         $this->sections_setting_id = $this->makeTypeSetting('sections');
         $this->body_color_setting_id = $this->makeTypeSetting('body_color');

@@ -53,8 +53,8 @@ class ShortcodeContentType extends WpAbstractContentType {
         $this->size = $this->getWidthSetting();
 	    $this->header_color = $this->constructAttributes('header');
 	    $this->body_color = $this->constructAttributes('body');
-	    $this->header_font_color = $this->constructAttributes('headerFontColor');
-	    $this->body_font_color = $this->constructAttributes('bodyFontColor');
+	    $this->header_font_color = $this->constructAttributes('header_font_color');
+	    $this->body_font_color = $this->constructAttributes('body_font_color');
     }
 
     /**

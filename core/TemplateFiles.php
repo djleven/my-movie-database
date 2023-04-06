@@ -79,7 +79,7 @@ class TemplateFiles {
 	 * @return     void
 	 */
 	public static function enqueuePluginLibrary() {
-		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_JS_PATH . self::PLUGIN_JS_LIB_FILE;
+		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_JS_PATH . 'app/' . self::PLUGIN_JS_LIB_FILE;
 		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],0.4, true);
 		wp_set_script_translations(
 			self::PLUGIN_JS_LIB_FILE,

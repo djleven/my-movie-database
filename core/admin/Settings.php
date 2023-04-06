@@ -13,8 +13,11 @@ namespace MyMovieDatabase\Admin;
 
 use MyMovieDatabase\Constants;
 use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\TemplateFiles;
 
 class Settings implements ActionHookSubscriberInterface {
+
+    const SETTINGS_JS_FILE = 'admin-settings.js';
 
     private $settings_api;
     private $plugin_resource_types;
@@ -43,7 +46,18 @@ class Settings implements ActionHookSubscriberInterface {
         return [
             'admin_init'   => 'admin_init',
             'admin_menu'   => 'admin_menu',
+            'admin_enqueue_scripts' =>  'enqueue_settings_script'
         ];
+    }
+
+    /**
+     * Enqueue settings script
+     *
+     * @since   3.0.0
+     */
+    public function enqueue_settings_script() {
+        $admin_js_file = MMDB_PLUGIN_URL . TemplateFiles::ASSETS_PUBLIC_JS_PATH . self::SETTINGS_JS_FILE;
+        wp_enqueue_script( 'mmodb-admin-settings', $admin_js_file, ['jquery'],0.1, true);
     }
 
     /**
@@ -202,15 +216,23 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->width_setting_id,
-                        'label'   => __( Constants::I18n_CORE_WIDTH ),
-                        'desc'    => esc_html__( 'Select the responsive widths to use. Full-width if you have a no sidebar layout, one-sidebar if you have, well, one sidebar(!), etc', 'my-movie-database' ),
+                        'label'   => esc_html__( 'Responsive Column Widths', 'my-movie-database'),
+                        'desc'    => esc_html__( 'Select the responsive widths to use on crew and cast multi column sections. Choose between available presets or provide your own custom class(es)', 'my-movie-database' ),
                         'type'    => 'select',
                         'default' => 'large',
                         'options' => array(
-                            'large' => esc_html__( 'Full-width', 'my-movie-database' ),
-                            'medium' => esc_html__( 'One sidebar', 'my-movie-database' ),
-                            'small' => esc_html__( 'Two sidebars', 'my-movie-database' ),
+                            'large' => __( Constants::I18n_CORE_LARGE),
+                            'medium' => __( Constants::I18n_CORE_MEDIUM),
+                            'small' => __( Constants::I18n_CORE_SMALL),
+                            'custom' => esc_html__( 'Custom class', 'my-movie-database' ),
                         )
+                    ),
+                    array(
+                        'name'    => $plugin_type->custom_width_setting_id,
+                        'label'   => esc_html__( 'Custom Column Class(es)', 'my-movie-database'),
+                        'desc'    => esc_html__( 'Type one or more class names to apply. Multiple classes must be separated by a space.', 'my-movie-database' ),
+                        'type'    => 'text',
+                        'sanitize_callback' => [$this, 'sanitize_html_class_list'],
                     ),
                     array(
                         'name'    => $plugin_type->transition_effect_setting_id,
@@ -516,6 +538,31 @@ class Settings implements ActionHookSubscriberInterface {
         ];
     }
 
+
+    function sanitize_html_class_list( $classname, $fallback = '' ) {
+        // Strip out any percent-encoded characters.
+        $sanitized = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $classname );
+
+        // Limit to A-Z, a-z, 0-9, '_', '-'.
+        $sanitized = preg_replace( '/[^A-Za-z0-9\s_-]/', '', $sanitized );
+
+        // Remove non-single empty spaces and classes that start with a numeric value
+        $arrayOfClasses = preg_split( '/\s/', $sanitized);
+        $sanitized = '';
+        foreach ($arrayOfClasses as $class) {
+            if($class === '' || ctype_digit($class[0])) {
+                continue;
+            }
+            $sanitized .= $class . '&nbsp;';
+        }
+
+        if ( '' === $sanitized && $fallback ) {
+            return $this->sanitize_html_class_list( $fallback );
+        }
+
+        return $sanitized;
+    }
+
     /**
      * Make plugin option page
      *
@@ -544,6 +591,9 @@ class Settings implements ActionHookSubscriberInterface {
             }
             .mmdb-row .mmdb-header-boxes span {
                 padding-right: 5px;
+            }
+            tr[class$='_custom_width'] {
+                display: none;
             }
         </style>
         <div class="mmdb_admin_header">

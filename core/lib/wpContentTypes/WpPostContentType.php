@@ -85,14 +85,20 @@ class WpPostContentType extends WpAbstractContentType {
      * @param      string $type     The wp post type.
      * @return     string
      */
-    public static function postToMovieType($type) {
+    public static function postToMovieType($type, $capitalise = false) {
 
-        if ($type == 'post') {
-            return 'movie';
+        if ($type === 'post') {
+            $type = 'movie';
         }
-        else {
-            return $type;
+
+        if($capitalise) {
+            if ($type === 'tvshow') {
+                return 'TvShow';
+            }
+            return ucfirst($type);
         }
+
+        return $type;
     }
 
 }

@@ -21,7 +21,6 @@ abstract class WpAbstractContentType {
     public $tmdb_id;
     public $template;
     public $size;
-    public $components;
 
     /**
      * The tmdb post meta identifier
@@ -29,13 +28,6 @@ abstract class WpAbstractContentType {
      * @since     2.0.0
      */
     const MMDB_POST_META_ID = 'MovieDatabaseID';
-
-    /**
-     * The mmdb_template's root folder for the vue components
-     *
-     * @since     2.0.0
-     */
-    const COMPONENTS_ROOT_FOLDER = 'components/';
 
     /**
      * Get unique content type ID
@@ -147,6 +139,17 @@ abstract class WpAbstractContentType {
     protected function getWidthSetting() {
 
         return $this->getResourceTypeSetting( 'width', 'medium');
+	}
+
+    /**
+     * Get the custom width setting for type object
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    protected function getCustomWidthSetting() {
+
+        return $this->getResourceTypeSetting( 'custom_width', '');
     }
 
     /**
@@ -169,6 +172,10 @@ abstract class WpAbstractContentType {
 
         elseif ($post_setting === 'small') {
             $css_class	= 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
+        }
+
+        elseif ($post_setting === 'custom') {
+            $css_class	= $this->getCustomWidthSetting();
         }
 
         return $css_class;
