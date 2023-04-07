@@ -12,11 +12,15 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Lib\PostTypes\PostType;
-use MyMovieDatabase\Lib\PostTypes\Taxonomy;
+
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 use MyMovieDatabase\Lib\ResourceAPI\GetResourcesEndpoint;
+
+// docs
+use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
+use MyMovieDatabase\Lib\ResourceAPI\AbstractEndpoint;
 
 class CoreController {
 
@@ -24,16 +28,31 @@ class CoreController {
      * The resource (data) types made available in the plugin.
      *
      * @since     1.0.0
-     * @return    array
+     * @var    AbstractResourceType[]
      */
     public $available_resource_types;
+
     /**
      * Active post types as per admin user settings.
      *
      * @since     1.0.0
-     * @return    array
+     * @var    array
      */
     public $active_post_types;
+
+    /**
+     * The plugin custom post types
+     * @var PostType[]
+     */
+    public $post_types = [];
+
+    /**
+     * Plugin API endpoints.
+     *
+     * @var AbstractEndpoint[]
+     * @since     3.0.0
+     */
+    public $endpoints;
 
     /**
      * Initialize the class:
@@ -42,11 +61,10 @@ class CoreController {
      * @since      1.0.0
      */
     public function __construct() {
-
         $this->available_resource_types = $this->setAdminResourceTypes();
         $this->active_post_types = $this->getActivePostTypes();
-        $this->registerCustomPostTypes();
-        $this->registerEndpoints();
+        $this->setCustomPostTypes();
+        $this->setEndpoints();
     }
 
     /**
@@ -76,27 +94,11 @@ class CoreController {
      */
     private function setAdminResourceTypes() {
 
-        $plugin_resource_types = [];
-        $plugin_resource_types[] = new MovieResourceType(
-			'movie',
-			__('Movie', 'my-movie-database'),
-			__('Movies', 'my-movie-database'),
-			'dashicons-video-alt'
-        );
-        $plugin_resource_types[] = new TvshowResourceType(
-			'tvshow',
-			__('TvShow', 'my-movie-database'),
-			__('TvShows', 'my-movie-database'),
-			'dashicons-welcome-view-site'
-        );
-        $plugin_resource_types[] = new PersonResourceType(
-			'person',
-			__('Person', 'my-movie-database'),
-			__('Persons', 'my-movie-database'),
-			'dashicons-businessman'
-        );
-
-        return $plugin_resource_types;
+        return [
+            new MovieResourceType(),
+            new TvshowResourceType(),
+            new PersonResourceType()
+        ];
     }
 
     /**
@@ -127,17 +129,13 @@ class CoreController {
     }
 
     /**
-     * Register / create custom post types and related taxonomy
+     * Create custom post types and related taxonomy
      *
      * @since     1.0.0
      */
-    private function registerCustomPostTypes() {
+    private function setCustomPostTypes() {
 
-        $plugin_resource_types = $this->available_resource_types;
-        $custom_post_types = [];
-        $custom_taxonomy = [];
         $tax_options = [];
-        $i = 0;
         $disableGutenberg = self::getMmdbOption(
             'mmdb_disable_gutenberg_post_type',
             MMDB_ADVANCED_OPTION_GROUP,
@@ -159,7 +157,7 @@ class CoreController {
             ];
         }
 
-        foreach($plugin_resource_types as $plugin_resource_type) {
+        foreach($this->available_resource_types as $plugin_resource_type) {
             if ($plugin_resource_type->getPostTypeSetting() == $plugin_resource_type->data_type) {
 
                 $names = [
@@ -190,41 +188,32 @@ class CoreController {
 	                    sprintf(__('%s Tags', 'my-movie-database'), $plugin_resource_type->data_type_label);
 				}
 
-                $custom_taxonomy[$i] =
-                    new Taxonomy($tax_names, $tax_options);
-
-                $custom_post_types[$i] =
+                $custom_post_type =
                     new PostType($names, $plugin_resource_type->type_menu_icon, [
                         'show_in_rest' => !$disableGutenberg,
                     ]);
-                $custom_post_types[$i]->taxonomy($custom_taxonomy[$i]->name);
-                $custom_post_types[$i]->columns()->sortable( [ 'taxonomy-' . $custom_taxonomy[$i]->name => true ] );
+                $custom_post_type->setTaxonomy($tax_names, $tax_options);
 
                 if($wpCategoriesOption !== 'no') {
-                    $custom_post_types[$i]->taxonomy(['category', 'post_tag']);
-                    $custom_post_types[$i]->columns()->sortable( ['categories' => true, 'tags' => true ] );
+                    $custom_post_type->assignTaxonomyToPostType(['category', 'post_tag']);
                 }
 
-                $custom_taxonomy[$i]->registerActions();
-                $custom_post_types[$i]->registerActions();
-
-                $i++;
-
+                $this->post_types[] = $custom_post_type;
             }
         }
-        return;
     }
 
     /**
-     * Register plugin Endpoints with WP API
+     * Set plugin core endpoints
      *
      * @since     2.1.0
      * @return void
      */
-    private function registerEndpoints() {
+    private function setEndpoints() {
 
-        new GetResourcesEndpoint();
+        $this->endpoints = [
+            new GetResourcesEndpoint()
+        ];
     }
-
 }
 

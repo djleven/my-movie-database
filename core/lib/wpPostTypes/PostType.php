@@ -13,13 +13,13 @@ namespace MyMovieDatabase\Lib\PostTypes;
 class PostType extends PostTypeEntityAbstract
 {
     /**
-     * Taxonomies for the PostType
+     * Taxonomies associated to the PostType
      * @var array
      */
     public $taxonomies = [];
 
     /**
-     * Taxonomies for the PostType
+     * The PostType taxonomy
      * @var array
      */
     public $postTypeTaxonomy;
@@ -32,6 +32,7 @@ class PostType extends PostTypeEntityAbstract
 
     /**
      * Create a PostType
+     *
      * @param mixed $names          A string for the name, or an array of names
      * @param string $icon          A dashicon class for the menu icon
      * @param array $options        The options for the PostType
@@ -39,8 +40,6 @@ class PostType extends PostTypeEntityAbstract
     public function __construct($names, $icon = null, $options = [])
     {
         parent::__construct($names, $options);
-
-        $this->columns()->sortable( [ 'author' => true ] );
 
         if($icon) {
             $this->icon = $icon;
@@ -64,41 +63,27 @@ class PostType extends PostTypeEntityAbstract
     }
 
     /**
-     * Register the PostType to WordPress
+     * Create and add a Taxonomy to the PostType
+     *
+     * @param mixed $tax_names A string for the taxonomy name, or an array of names
+     * @param array $options The options for the Taxonomy
      *
      * @return void
      */
-    public function registerActions()
+    public function setTaxonomy( $tax_names, $options = [] )
     {
-        // register the PostType
-        add_action('init', [$this, 'registerPostTypeEntity']);
-
-        // register Taxonomies to the PostType
-        add_action('init', [$this, 'registerTaxonomies']);
-
-        $this->registerColumns();
+        $this->postTypeTaxonomy = new Taxonomy( $tax_names, $options );
+        $this->assignTaxonomyToPostType( $this->postTypeTaxonomy->name );
     }
 
     /**
-     * Set the names for the PostType
+     * Assign a Taxonomy to the PostType
      *
-     * @param  mixed $tax_names A string for the taxonomy name, or an array of names
-     *
-     * @return void
-     */
-    protected function setTaxonomy($tax_names)
-    {
-        $this->postTypeTaxonomy = new Taxonomy($tax_names);
-        $this->taxonomy($this->postTypeTaxonomy->name);
-    }
-
-    /**
-     * Add a Taxonomy to the PostType
-     * @param  mixed $taxonomies The Taxonomy name(s) to add
+     * @param mixed $taxonomies The Taxonomy name(s) to add
      *
      * @return void
      */
-    public function taxonomy($taxonomies)
+    public function assignTaxonomyToPostType( $taxonomies )
     {
         $taxonomies = is_string($taxonomies) ? [$taxonomies] : $taxonomies;
 
@@ -123,7 +108,7 @@ class PostType extends PostTypeEntityAbstract
             'has_archive'        => true,
             'hierarchical'       => true,
             'show_in_rest'       => false,
-            "supports" => [
+            "supports"           => [
                 "title",
                 "editor",
                 "author",
@@ -137,7 +122,7 @@ class PostType extends PostTypeEntityAbstract
                 "publicize",
                 'wpcom-markdown'
             ],
-            'rewrite' => [
+            'rewrite'            => [
                 'slug' => $this->slug,
             ]
         ];
@@ -145,7 +130,7 @@ class PostType extends PostTypeEntityAbstract
         $options['labels'] = $this->createLabels();
 
         // set the menu icon
-        if (!isset($options['menu_icon']) && isset($this->icon)) {
+        if (!isset($options['menu_icon']) && isset($this->icon) ) {
             $options['menu_icon'] = $this->icon;
         }
 
@@ -163,62 +148,29 @@ class PostType extends PostTypeEntityAbstract
         // default labels
         $common_labels = parent::createLabels();
 
-        return array_merge($common_labels, [
-            'add_new_item' => __('Add New') . ' - ' . $this->singular,
-            'edit_item' => __('Edit') . ' - ' . $this->singular,
-            'view_item' =>  __('View') . ' - ' . $this->singular,
-            'search_items' => __('Search') . ' - ' . $this->plural,
-            'view_items' =>  __('View') . ' - ' . $this->plural,
-            'new_item' =>  __('New') . ' - ' . $this->singular,
+        return array_merge( $common_labels, [
+            'add_new_item'       => __( 'Add New' ) . ' - ' . $this->singular,
+            'edit_item'          => __( 'Edit' ) . ' - ' . $this->singular,
+            'view_item'          => __( 'View' ) . ' - ' . $this->singular,
+            'search_items'       => __( 'Search' ) . ' - ' . $this->plural,
+            'view_items'         => __( 'View' ) . ' - ' . $this->plural,
+            'new_item'           => __( 'New' ) . ' - ' . $this->singular,
             'not_found_in_trash' =>
-			/* translators: Custom post type taxonomy (category or tag) plural name. Movies, tvShows or persons. 'No %s found in Trash' */
-				sprintf(__('No %s found in Trash','my-movie-database'), $this->plural),
-        ]);
+            /* translators: Custom post type taxonomy (category or tag) plural name. Movies, tvShows or persons. 'No %s found in Trash' */
+                sprintf( __( 'No %s found in Trash', 'my-movie-database' ), $this->plural ),
+        ] );
     }
 
     /**
      * Register Taxonomies to the PostType
      * @return void
      */
-    public function registerTaxonomies()
+    public function registerTaxonomyToPostType()
     {
         if (!empty($this->taxonomies)) {
             foreach ($this->taxonomies as $taxonomy) {
                 register_taxonomy_for_object_type($taxonomy, $this->name);
             }
-        }
-    }
-
-    /**
-     * Set query to sort custom columns
-     * @param  \WP_Query $query
-     */
-    public function sortSortableColumns($query)
-    {
-        // don't modify the query if we're not in the post type admin
-        if (!is_admin() || !($query instanceof \WP_Query) || $query->get('post_type') !== $this->name) {
-            return;
-        }
-
-        $orderby = $query->get('orderby');
-
-        // if the sorting a custom column
-        if ($this->columns()->isSortable($orderby)) {
-            // get the custom column options
-            $meta = $this->columns()->sortableMeta($orderby);
-
-            // determine type of ordering
-            if (is_string($meta)) {
-                $meta_key = $meta;
-                $meta_value = 'meta_value';
-            } else {
-                $meta_key = $meta[0];
-                $meta_value = 'meta_value_num';
-            }
-
-            // set the custom order
-            $query->set('meta_key', $meta_key);
-            $query->set('orderby', $meta_value);
         }
     }
 }

@@ -16,22 +16,7 @@ class Taxonomy extends PostTypeEntityAbstract
      * PostTypes to register the Taxonomy to
      * @var array
      */
-    public $posttypes = [];
-
-    /**
-     * Register the Taxonomy to WordPress
-     *
-     * @return void
-     */
-    public function registerActions()
-    {
-        // register the taxonomy, set priority to 9
-        // so taxonomies are registered before PostTypes
-        add_action('init', [$this, 'registerPostTypeEntity'], 9);
-
-        // assign taxonomy to post type objects
-        add_action('init', [$this, 'registerTaxonomyToObjects']);
-    }
+    public $postTypes = [];
 
     /**
      * Is the PostTypeEntity registered
@@ -58,15 +43,15 @@ class Taxonomy extends PostTypeEntityAbstract
     /**
      * Assign a PostType to register the Taxonomy to
      *
-     * @param  mixed $posttypes
+     * @param  mixed $postTypes
      * @return $this
      */
-    public function posttype($posttypes)
+    public function assignPostTypeToTaxonomy($postTypes)
     {
-        $posttypes = is_string($posttypes) ? [$posttypes] : $posttypes;
+        $postTypes = is_string($postTypes) ? [$postTypes] : $postTypes;
 
-        foreach ($posttypes as $posttype) {
-            $this->posttypes[] = $posttype;
+        foreach ($postTypes as $postType) {
+            $this->postTypes[] = $postType;
         }
 
         return $this;
@@ -77,12 +62,12 @@ class Taxonomy extends PostTypeEntityAbstract
      *
      * @return void
      */
-    public function registerTaxonomyToObjects()
+    public function registerTaxonomyToPostType()
     {
         // register Taxonomy to each of the PostTypes assigned
-        if (!empty($this->posttypes)) {
-            foreach ($this->posttypes as $posttype) {
-                register_taxonomy_for_object_type($this->name, $posttype);
+        if (!empty($this->postTypes)) {
+            foreach ($this->postTypes as $postType) {
+                register_taxonomy_for_object_type($this->name, $postType);
             }
         }
     }

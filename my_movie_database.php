@@ -32,5 +32,6 @@ define( 'MMDB_ADVANCED_OPTION_GROUP', MMDB_PLUGIN_ID . '_opt_advanced' );
  * The core plugin entry class
  */
 include_once plugin_dir_path( __FILE__ ) . 'core/MyMovieDatabase.php';
+include_once plugin_dir_path( __FILE__ ) . 'core/FileLoader.php';
 
 MyMovieDatabase\MyMovieDatabase::getInstance();

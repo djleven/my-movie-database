@@ -73,12 +73,6 @@ class MyMovieDatabase {
      */
     protected $publicController = null;
 
-    const MMDB_INC_DIR = MMDB_PLUGIN_DIR . 'core/';
-    const MMDB_CONTROLLERS_DIR = self::MMDB_INC_DIR . 'controllers/';
-    const MMDB_LIB_DIR = self::MMDB_INC_DIR . 'lib/';
-    const MMDB_ADMIN_DIR = self::MMDB_INC_DIR . 'admin/';
-    const MMDB_VENDOR_DIR = self::MMDB_INC_DIR . 'vendor/';
-
     /**
      * Initialise the plugin.
      *
@@ -110,134 +104,23 @@ class MyMovieDatabase {
     }
 
     /**
-     * Load the required common dependencies for this plugin.
+     * Instantiate the core controllers.
      *
-     * @since    2.0.2
+     * @since    3.0.0
      * @access   private
      */
-    private function loadCommonDependencies() {
+    private function runCore() {
+        $this->coreController = new CoreController();
+        foreach ($this->coreController->post_types as $post_type)  {
+            // Taxonomies must be registered before PostTypes
+            $this->manager->register($post_type->postTypeTaxonomy);
+            $this->manager->register($post_type);
+        }
 
-        /**
-         * A class responsible for hosting global constants and keeping track of core WP i18n strings used.
-         */
-        require_once self::MMDB_INC_DIR . 'Constants.php';
+        foreach ($this->coreController->endpoints as $endpoint)  {
+            $this->manager->register($endpoint);
+        }
 
-        /**
-         * The class and interfaces responsible for registering the plugin's wordpress plugin API hooks.
-         */
-        require_once 'PluginAPIInterfaces.php';
-        require_once 'PluginAPIManager.php';
-
-        /**
-         * The class responsible for defining (shared) core controller functions.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'CoreController.php';
-
-        /**
-         * The abstract superclass responsible for the mmdb resource (data) types.
-         */
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/AbstractResourceType.php';
-
-        /**
-         * The concrete subclasses responsible for the mmdb admin, tvshow and person resource (data) types
-         */
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/MovieResourceType.php';
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/TvshowResourceType.php';
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/PersonResourceType.php';
-
-        /**
-         * A class for creating Wordpress custom post types and custom taxonomies.
-         */
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Columns.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostTypeEntityAbstract.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostType.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Taxonomy.php';
-
-        /**
-         * A class responsible for handling plugin template files.
-         */
-        require_once self::MMDB_INC_DIR . 'TemplateFiles.php';
-
-        /**
-         * The abstract superclass responsible for the mmdb view types and accompanying trait for Vuejs.
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/TemplateVueTrait.php';
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAbstractContentType.php';
-
-        /**
-         * The concrete subclass responsible for the mmdb post view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpPostContentType.php';
-
-        /**
-         * The plugin API endpoint classes
-         */
-        require_once self::MMDB_LIB_DIR . 'resourceAPI/RegisterEndpoint.php';
-        require_once self::MMDB_LIB_DIR . 'resourceAPI/GetResourcesEndpoint.php';
-        require_once self::MMDB_LIB_DIR . 'resourceAPI/BuildRequest.php';
-    }
-
-    /**
-     * Load the required admin side dependencies for this plugin.
-     *
-     * @since    2.0.2
-     * @access   private
-     */
-    private function loadAdminDependencies() {
-        /**
-         * A Wordpress Settings API wrapper class (by Tareq Hasan).
-         */
-        require_once self::MMDB_VENDOR_DIR . 'WpSettingsApi.php';
-
-        /**
-         * The class responsible for configuring the plugin's admin settings (using the above wrapper class).
-         */
-        require_once self::MMDB_ADMIN_DIR . 'Settings.php';
-
-        /**
-         * The class responsible for orchestrating the plugin's state activation changes.
-         */
-        require_once self::MMDB_ADMIN_DIR . 'ActivationStateChanges.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the admin area.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'AdminController.php';
-
-        /**
-         * A class responsible for customising wordpress post type to accommodate movies
-         */
-        require_once self::MMDB_ADMIN_DIR . 'EditPostType.php';
-
-        /**
-         * The class responsible for the plugin post meta box in the admin area.
-         */
-        require_once self::MMDB_ADMIN_DIR . 'PostMetaBox.php';
-
-        /**
-         * The concrete subclass responsible for the mmdb admin content view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAdminPostContentType.php';
-    }
-
-    /**
-     * Load the required public facing side dependencies for this plugin.
-     *
-     * @since    2.0.2
-     * @access   private
-     */
-    private function loadPublicDependencies() {
-
-        /**
-         * The class responsible for orchestrating actions that occur in the public-facing
-         * side of the site.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'PublicController.php';
-
-        /**
-         * The concrete subclass responsible for the shortcode view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpShortcodeContentType.php';
     }
 
     /**
@@ -247,7 +130,7 @@ class MyMovieDatabase {
      * @access   private
      */
     private function runAdmin() {
-        $this->loadAdminDependencies();
+        FileLoader::loadAdminDependencies();
         $this->adminController = new AdminController(
             $this->coreController->available_resource_types,
             $this->coreController->active_post_types
@@ -272,11 +155,10 @@ class MyMovieDatabase {
      * @access   private
      */
     private function runPublic() {
-        $this->loadPublicDependencies();
+        FileLoader::loadPublicDependencies();
         $this->publicController = new PublicController($this->coreController->active_post_types);
         $this->manager->register($this->publicController);
     }
-
 
     /**
      * Load the dependencies and instantiate the core controllers.
@@ -285,11 +167,9 @@ class MyMovieDatabase {
      * @access   private
      */
     private function run() {
-        $this->loadCommonDependencies();
+        FileLoader::loadCommonDependencies();
         $this->manager = new PluginAPIManager();
-        $this->coreController = new CoreController();
-
-//        $manager->register($this->coreController);
+        $this->runCore();
 
         if (is_admin()) {
             $this->runAdmin();

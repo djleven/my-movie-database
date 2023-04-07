@@ -2,6 +2,8 @@
 
 namespace MyMovieDatabase\Lib\PostTypes;
 
+use MyMovieDatabase\ActionHookSubscriberInterface;
+
 /**
  * PostTypeEntity
  *
@@ -10,7 +12,7 @@ namespace MyMovieDatabase\Lib\PostTypes;
  * An adaptation based on the work of jjgrainger's PostTypes
  * @link    https://github.com/jjgrainger/PostTypes/
  */
-abstract class PostTypeEntityAbstract
+abstract class PostTypeEntityAbstract implements ActionHookSubscriberInterface
 {
     /**
      * The name for the PostTypeEntity
@@ -38,15 +40,9 @@ abstract class PostTypeEntityAbstract
 
     /**
      * The options for the PostTypeEntity
-     * @var string
+     * @var array
      */
     public $options;
-
-    /**
-     * The column manager for the PostTypeEntity
-     * @var mixed
-     */
-    public $columns;
 
     /**
      * Create a PostTypeEntity
@@ -67,13 +63,6 @@ abstract class PostTypeEntityAbstract
     abstract protected function createOptions();
 
     /**
-     * Register the PostTypeEntity WordPress actions
-     *
-     * @return void
-     */
-    abstract public function registerActions();
-
-    /**
      * Register the PostTypeEntity to WordPress
      *
      * @param $options
@@ -83,6 +72,16 @@ abstract class PostTypeEntityAbstract
     abstract protected function wordpressRegistration($options);
 
     /**
+     * Associates an already registered taxonomy to a post type.
+     * Wrapper class for WP register_taxonomy_for_object_type
+     *
+     * Both children classes have this functionality built-in
+     *
+     * @return bool
+     */
+    abstract protected function registerTaxonomyToPostType();
+
+    /**
      * Is the PostTypeEntity registered
      *
      * @return bool
@@ -90,31 +89,29 @@ abstract class PostTypeEntityAbstract
     abstract protected function isPostTypeEntityRegistered();
 
     /**
-     * Register the PostTypeEntity
+     * Register the PostTypeEntity related actions
+     *
+     * @since    3.0.0
+     * @return array
+     */
+    public function getActions()
+    {
+        return [
+            'init' => 'register_post_type_entity',
+        ];
+    }
+
+    /**
+     * Callback to Register the PostTypeEntity with WordPress
      *
      * @return void
      */
-    public function registerPostTypeEntity()
+    public function register_post_type_entity()
     {
         if (!$this->isPostTypeEntityRegistered()) {
             // register the Taxonomy with WordPress
             $this->wordpressRegistration($this->createOptions());
-        }
-    }
-
-    /**
-     * Register the Column related actions
-     *
-     * @return void
-     */
-    public function registerColumns()
-    {
-        if (isset($this->columns)) {
-            // set custom sortable columns
-            add_filter("manage_edit-{$this->name}_sortable_columns", [$this, 'setSortableColumns']);
-
-            // run action that sorts columns on request
-            add_action('parse_term_query', [$this, 'sortSortableColumns']);
+            $this->registerTaxonomyToPostType();
         }
     }
 
@@ -134,20 +131,6 @@ abstract class PostTypeEntityAbstract
 
         // create names for the PostTypeEntity
         $this->createNames($names);
-    }
-
-    /**
-     * Get the Column Manager for the PostTypeEntity
-     *
-     * @return Columns
-     */
-    public function columns()
-    {
-        if (!isset($this->columns)) {
-            $this->columns = new Columns;
-        }
-
-        return $this->columns;
     }
 
     /**
@@ -188,7 +171,7 @@ abstract class PostTypeEntityAbstract
                 $name = $this->singular . 's';
             }
 
-            // asign the name to the PostTypeEntity property
+            // assign the name to the PostTypeEntity property
             $this->$key = $name;
         }
     }
@@ -206,21 +189,5 @@ abstract class PostTypeEntityAbstract
             'singular_name' => $this->singular,
             'menu_name' => $this->plural,
         ];
-    }
-
-    /**
-     * Make custom columns sortable
-     *
-     * @param array $columns Default WordPress sortable columns
-     *
-     * @return array
-     */
-    public function setSortableColumns($columns)
-    {
-        if (!empty($this->columns()->sortable)) {
-            $columns = array_merge($columns, $this->columns()->sortable);
-        }
-
-        return $columns;
     }
 }

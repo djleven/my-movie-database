@@ -17,7 +17,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
-class GetResourcesEndpoint extends RegisterEndpoint {
+class GetResourcesEndpoint extends AbstractEndpoint {
 
     const MMDB_GET_DATA_WP_API_ENDPOINT = '/get-data';
     const MMDB_TRANSIENT_ID = 'mmodb_';

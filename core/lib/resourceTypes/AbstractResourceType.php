@@ -44,6 +44,7 @@ abstract class AbstractResourceType {
      * @since    1.0.0
      * @param      string    $data_type       		The data type.
      * @param      string    $data_type_label       The data type label.
+     * @param      string    $data_type_label_plural The data type plural label.
      * @param      string    $type_menu_icon  		The admin menu icon of this type.
      */
     public function __construct($data_type, $data_type_label, $data_type_label_plural, $type_menu_icon = null) {

@@ -13,7 +13,31 @@ namespace MyMovieDatabase\Lib\ResourceTypes;
 
 class MovieResourceType extends AbstractResourceType {
 
-    /**
+	const DATA_TYPE_NAME = 'movie';
+	const DATA_TYPE_DEFAULT_ICON = 'dashicons-video-alt';
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    3.0.0
+	 * @param      string    $data_type_label       The data type label.
+	 * @param      string    $data_type_label_plural The data type plural label.
+	 * @param      string    $type_menu_icon  		The admin menu icon of this type.
+	 */
+	public function __construct(
+		$data_type_label = '',
+		$data_type_label_plural = '',
+		$type_menu_icon = self::DATA_TYPE_DEFAULT_ICON
+	) {
+
+		parent::__construct(
+			static::DATA_TYPE_NAME,
+			$data_type_label ? $data_type_label : __('Movie', 'my-movie-database'),
+			$data_type_label_plural ? $data_type_label_plural : __('Movies', 'my-movie-database'),
+			$type_menu_icon
+		);
+	}
+		/**
      * Set the hidden sections labels
      *
      * @since     1.0.2

@@ -13,7 +13,9 @@
  */
 namespace MyMovieDatabase\Lib\ResourceAPI;
 
-abstract class RegisterEndpoint {
+use MyMovieDatabase\ActionHookSubscriberInterface;
+
+abstract class AbstractEndpoint implements ActionHookSubscriberInterface {
 
     const MMDB_WP_API_NAMESPACE = 'my-movie-db';
     const MMDB_WP_API_VERSION = '/v2';
@@ -47,16 +49,21 @@ abstract class RegisterEndpoint {
     public function __construct($show_in_index = true, $require_log_in = false) {
         $this->show_in_index = $show_in_index;
         $this->require_log_in = $require_log_in;
-        $this->registerEndpointAction();
     }
 
     /**
-     * Add action to register the endpoint with WordPress API
+     * Get the action hooks related to registering endpoints with the WordPress API
      *
-     * @since        2.1.0
+     * Enqueue scripts
+     *
+     * @since    2.5.0
+     * @access   public
      */
-    protected function registerEndpointAction() {
-        add_action('rest_api_init', array($this, 'register_endpoint_callback'));
+    public function getActions()
+    {
+        return [
+            'rest_api_init' => 'register_endpoint_callback',
+        ];
     }
 
     /**

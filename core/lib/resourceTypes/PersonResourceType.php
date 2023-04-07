@@ -13,7 +13,31 @@ namespace MyMovieDatabase\Lib\ResourceTypes;
 
 class PersonResourceType extends AbstractResourceType {
 
-    /**
+	const DATA_TYPE_NAME = 'person';
+	const DATA_TYPE_DEFAULT_ICON = 'dashicons-businessman';
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    3.0.0
+	 * @param      string    $data_type_label       The data type label.
+	 * @param      string    $data_type_label_plural The data type plural label.
+	 * @param      string    $type_menu_icon  		The admin menu icon of this type.
+	 */
+	public function __construct(
+		$data_type_label = '',
+		$data_type_label_plural = '',
+		$type_menu_icon = self::DATA_TYPE_DEFAULT_ICON
+	) {
+		parent::__construct(
+			static::DATA_TYPE_NAME,
+			$data_type_label ? $data_type_label : __('Person', 'my-movie-database'),
+			$data_type_label_plural ? $data_type_label_plural : __('Persons', 'my-movie-database'),
+			$type_menu_icon
+		);
+	}
+
+	/**
      * Set the hidden sections labels
      *
      * @since     1.0.2
