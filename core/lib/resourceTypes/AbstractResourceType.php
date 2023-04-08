@@ -37,6 +37,8 @@ abstract class AbstractResourceType {
     const SECTION_3 = 'section_3';
     const SECTION_4 = 'section_4';
 
+    abstract public static function getI18nDefaultLabel();
+    abstract public static function getI18nDefaultPluralLabel();
 
     /**
      * Initialize the class and set its properties.
@@ -47,10 +49,16 @@ abstract class AbstractResourceType {
      * @param      string    $data_type_label_plural The data type plural label.
      * @param      string    $type_menu_icon  		The admin menu icon of this type.
      */
-    public function __construct($data_type, $data_type_label, $data_type_label_plural, $type_menu_icon = null) {
-
-        $this->data_type_label = $data_type_label;
-        $this->data_type_label_plural = $data_type_label_plural;
+    public function __construct(
+        $data_type,
+        $data_type_label = null,
+        $data_type_label_plural = null,
+        $type_menu_icon = null
+    ) {
+        $this->data_type_label =
+            $data_type_label ? $data_type_label : static::getI18nDefaultLabel();;
+        $this->data_type_label_plural =
+            $data_type_label_plural ? $data_type_label_plural : static::getI18nDefaultPluralLabel();
         $this->data_type = $data_type;
         $this->type_menu_icon = $type_menu_icon;
         $this->type_setting_id = self::makeTypeSettingGroupId($this->data_type);
@@ -119,6 +127,14 @@ abstract class AbstractResourceType {
     }
 
 
+    /**
+     * Set the hidden sections labels
+     *
+     * @since     1.0.2
+     * added to abstract in 3.0.0
+     *
+     * @return    array
+     */
 	public function getSectionLabels($sectionLabels) {
 
 		return array_merge([

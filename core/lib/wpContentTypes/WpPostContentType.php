@@ -12,6 +12,10 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
 class WpPostContentType extends WpAbstractContentType {
 
     public $post_id;
@@ -66,14 +70,10 @@ class WpPostContentType extends WpAbstractContentType {
         $mmdb_content = $this->templateViewOutput();
         $position = $this->getPositionSetting();
         if ($position == 'after') {
-            $new_content = $content;
-            $new_content.= $mmdb_content;
+            return $content . $mmdb_content;
         }
-        else {
-            $new_content = $mmdb_content;
-            $new_content.= $content;
-        }
-        return $new_content;
+
+        return $mmdb_content . $content;
     }
 
     /**
@@ -85,21 +85,13 @@ class WpPostContentType extends WpAbstractContentType {
      * @param      string $type     The wp post type.
      * @return     string
      */
-    public static function postToMovieType($type, $capitalise = false) {
+    public static function postToMovieType($type) {
 
         if ($type === 'post') {
-            $type = 'movie';
-        }
-
-        if($capitalise) {
-            if ($type === 'tvshow') {
-                return 'TvShow';
-            }
-            return ucfirst($type);
+            return MovieResourceType::DATA_TYPE_NAME;
         }
 
         return $type;
     }
-
 }
 

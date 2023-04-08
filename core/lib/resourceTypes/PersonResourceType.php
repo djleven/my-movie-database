@@ -25,15 +25,12 @@ class PersonResourceType extends AbstractResourceType {
 	 * @param      string    $type_menu_icon  		The admin menu icon of this type.
 	 */
 	public function __construct(
-		$data_type_label = '',
-		$data_type_label_plural = '',
+        $data_type_label = null,
+        $data_type_label_plural = null,
 		$type_menu_icon = self::DATA_TYPE_DEFAULT_ICON
 	) {
 		parent::__construct(
-			static::DATA_TYPE_NAME,
-			$data_type_label ? $data_type_label : __('Person', 'my-movie-database'),
-			$data_type_label_plural ? $data_type_label_plural : __('Persons', 'my-movie-database'),
-			$type_menu_icon
+            static::DATA_TYPE_NAME, $data_type_label, $data_type_label_plural, $type_menu_icon
 		);
 	}
 
@@ -50,5 +47,21 @@ class PersonResourceType extends AbstractResourceType {
 		    static::SECTION_3   	  => __( 'Crew Credits', 'my-movie-database' ),
 	    ]);
 	}
+
+    public static function getI18nDefaultLabel() {
+
+        return __('Person', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated plural label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public static function getI18nDefaultPluralLabel() {
+
+        return __('People', 'my-movie-database');
+    }
 }
 

@@ -2,6 +2,8 @@
 
 namespace MyMovieDatabase\Lib\PostTypes;
 
+use MyMovieDatabase\Constants;
+
 /**
  * PostTypes
  *
@@ -141,23 +143,51 @@ class PostType extends PostTypeEntityAbstract
     /**
      * Create the labels for the PostType
      *
+     * Note about WP get_default_labels() (at wp-app/wp-includes/class-wp-post-type.php)
+     * WordPress seems to use the Page instead of Post type translations for (undefined) custom post type labels
+     *
+     * So defining most of them here explicitly because we want the 'post' label defaults
+     *
      * @return array
      */
     protected function createLabels()
     {
         // default labels
         $common_labels = parent::createLabels();
+        $labels = Constants::I18n_CORE_POST_TYPE_LABELS;
 
         return array_merge( $common_labels, [
-            'add_new_item'       => __( 'Add New' ) . ' - ' . $this->singular,
-            'edit_item'          => __( 'Edit' ) . ' - ' . $this->singular,
-            'view_item'          => __( 'View' ) . ' - ' . $this->singular,
-            'search_items'       => __( 'Search' ) . ' - ' . $this->plural,
-            'view_items'         => __( 'View' ) . ' - ' . $this->plural,
-            'new_item'           => __( 'New' ) . ' - ' . $this->singular,
-            'not_found_in_trash' =>
-            /* translators: Custom post type taxonomy (category or tag) plural name. Movies, tvShows or persons. 'No %s found in Trash' */
-                sprintf( __( 'No %s found in Trash', 'my-movie-database' ), $this->plural ),
+            'add_new'                  => _x( $labels['Add New'], 'post'),
+            'not_found'                => __( $labels['No posts found.']),
+            'not_found_in_trash'       => __( $labels['No posts found in Trash.']),
+            'add_new_item'             => __( $labels['Add New Post']),
+            'edit_item'                => __( $labels['Edit Post']),
+            'new_item'                 => __( $labels['New Post']),
+            'view_item'                => __( $labels['View Post']),
+            'view_items'               => __( $labels['View Posts']),
+            'search_items'             => __( $labels['Search Posts']),
+            'archives'                 => __( $labels['Post Archives']),
+            'attributes'               => __( $labels['Post Attributes']),
+            'insert_into_item'         => __( $labels['Insert into post']),
+            'uploaded_to_this_item'    => __( $labels['Uploaded to this post']),
+            'featured_image'           => _x( $labels['Featured image'], 'post' ),
+            'set_featured_image'       => _x( $labels['Set featured image'], 'post' ),
+            'remove_featured_image'    => _x( $labels['Remove featured image'], 'post' ),
+            'use_featured_image'       => _x( $labels['Use as featured image'], 'post' ),
+            'filter_items_list'        => __( $labels['Filter posts list']),
+            'items_list_navigation'    => __( $labels['Posts list navigation']),
+            'items_list'               => __( $labels['Posts list']),
+            'item_published'           => __( $labels['Post published.']),
+            'item_published_privately' => __( $labels['Post published privately.']),
+            'item_reverted_to_draft'   => __( $labels['Post reverted to draft.']),
+            'item_scheduled'           => __( $labels['Post scheduled.']),
+            'item_updated'             => __( $labels['Post updated.']),
+            'item_link'                => array(
+                _x( $labels['Post Link'], 'navigation link block title' ),
+            ),
+            'item_link_description'    => array(
+                _x( $labels['A link to a post.'], 'navigation link block description' ),
+            ),
         ] );
     }
 

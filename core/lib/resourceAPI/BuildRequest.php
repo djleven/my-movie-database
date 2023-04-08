@@ -13,6 +13,9 @@
  */
 namespace MyMovieDatabase\Lib\ResourceAPI;
 
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 use Exception;
 
 class BuildRequest
@@ -99,9 +102,9 @@ class BuildRequest
     protected function getSingleRequestParams(){
 
         $credit_uri = [
-            'movie' => 'credits,trailers',
-            'person' => 'combined_credits',
-            'tvshow' => 'credits'
+            MovieResourceType::DATA_TYPE_NAME => 'credits,trailers',
+            PersonResourceType::DATA_TYPE_NAME => 'combined_credits',
+            TvshowResourceType::DATA_TYPE_NAME => 'credits'
         ];
 
        $this->uri = $this->resourceTypeUri($this->data['type']) . '/' . $this->data['id'];
@@ -137,10 +140,10 @@ class BuildRequest
      */
     protected function resourceTypeUri($type) {
         switch ($type) {
-            case 'movie':
-            case 'person':
+            case MovieResourceType::DATA_TYPE_NAME :
+            case PersonResourceType::DATA_TYPE_NAME:
                 return $type;
-            case 'tvshow':
+            case TvshowResourceType::DATA_TYPE_NAME:
                 return 'tv';
             default:
                  throw new Exception('Invalid resource type specified');

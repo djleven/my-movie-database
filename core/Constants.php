@@ -11,6 +11,10 @@
  */
 namespace MyMovieDatabase;
 
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
 class Constants {
 
     /**
@@ -24,11 +28,14 @@ class Constants {
      * arguments, it seems to me that there are also some valid reasons to do so.
      *
      * The current use of core translation strings by this plugin is 99% for the WordPress backend;
-     * The custom post type screens and the plugin settings. One reason for going down this path relates to the custom
-     * post types. Further info to come below.
+     * The custom post type screens and the plugin settings.
      *
      * The translations used have been carefully selected, considering their context to minimise errors in some locales,
      * as well as the sources of these strings to ensure availability and relative stability.
+     *
+     * Obviously it's really nice not to have to translate some basic strings like 'Yes/No', 'Enabled/Disabled' again
+     * and again, especially for simple plugin settings.
+     * Another reason for going down this path relates to the custom post types. See info below.
      */
 
     /*
@@ -50,6 +57,9 @@ class Constants {
     /* wp-includes/admin-bar.php */
     const I18n_CORE_DOCUMENTATION = 'Documentation';
     const I18n_CORE_SUPPORT = 'Support';
+
+    /* wp-includes/media-template.php */
+    const I18n_CORE_ADVANCED_OPTIONS = 'Advanced Options';
 
     /*
      * wp-includes/blocks/categories.php
@@ -109,4 +119,64 @@ class Constants {
     const I18n_CORE_LARGE = 'Large';
     const I18n_CORE_MEDIUM = 'Medium';
     const I18n_CORE_SMALL = 'Small';
+
+    /**
+     * Custom post type creation
+     *
+     * WordPress seems to use the Page instead of Post type translations (default labels) for custom post type labels
+     * that have not been defined during their creation. In other words, the default labels fallback to
+     * 'pages' instead of 'posts'.
+     *
+     * So when creating a custom post type we're explicitly defining (almost) all  of them (because we want 'posts').
+     * In the context of the purpose of this file (the bad practise), I really could not bear to see
+     * the below included in this plugin's POT file.
+     *
+     * These come from WP get_default_labels() (at wp-app/wp-includes/class-wp-post-type.php)
+     */
+    const I18n_CORE_POST_TYPE_LABELS = [
+        'Add New'                      => 'Add New',
+        'No posts found.'              => 'No posts found.',
+        'No posts found in Trash.'     => 'No posts found in Trash.',
+        'Add New Post'                 => 'Add New Post',
+        'Edit Post'                    => 'Edit Post',
+        'New Post'                     => 'New Post',
+        'View Post'                    => 'View Post',
+        'View Posts'                   => 'View Posts',
+        'Search Posts'                 => 'Search Posts',
+        'Post Archives'                => 'Post Archives',
+        'Post Attributes'              => 'Post Attributes',
+        'Insert into post'             => 'Insert into post',
+        'Uploaded to this post'        => 'Uploaded to this post',
+        'Featured image'               => 'Featured image',
+        'Set featured image'           => 'Set featured image',
+        'Remove featured image'        => 'Remove featured image',
+        'Use as featured image'        => 'Use as featured image',
+        'Filter posts list'            => 'Filter posts list',
+        'Posts list navigation'        => 'Posts list navigation',
+        'Posts list'                   => 'Posts list',
+        'Post published.'              => 'Post published.',
+        'Post published privately.'    => 'Post published privately.',
+        'Post reverted to draft.'      => 'Post reverted to draft.',
+        'Post scheduled.'              => 'Post scheduled.',
+        'Post updated.'                => 'Post updated.',
+        'Post Link'                    => 'Post Link',
+        'A link to a post.'            => 'A link to a post.',
+    ];
+
+    public static function getTypeLabel($type) {
+
+        if ($type === MovieResourceType::DATA_TYPE_NAME) {
+            return MovieResourceType::getI18nDefaultLabel();
+        }
+
+        if ($type === TvshowResourceType::DATA_TYPE_NAME) {
+            return TvshowResourceType::getI18nDefaultLabel();
+        }
+
+        if ($type === PersonResourceType::DATA_TYPE_NAME) {
+            return PersonResourceType::getI18nDefaultLabel();
+        }
+
+        return $type;
+    }
 }

@@ -69,7 +69,7 @@ class PostMetaBox implements ActionHookSubscriberInterface {
             //limit meta box to active post types
             if (in_array($post_type, $active_post_type)) {
                 add_meta_box('cs-meta',
-                    esc_html__(WpPostContentType::postToMovieType($post_type, true), 'my-movie-database'),
+                    Constants::getTypeLabel(WpPostContentType::postToMovieType($post_type)),
                     array($this, "mmdb_id_class_meta_box"),
                     $post_type,
                     'normal',

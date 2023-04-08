@@ -12,6 +12,7 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
 class ShortcodeContentType extends WpAbstractContentType {
 
@@ -47,7 +48,7 @@ class ShortcodeContentType extends WpAbstractContentType {
 
     public function __construct($attributes) {
         $this->attributes = $attributes;
-        $this->data_type = $this->constructAttributes('type', 'movie');
+        $this->data_type = $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME);
         $this->tmdb_id = $this->constructAttributes('id', '655');
         $this->template = $this->getTemplateSetting();
         $this->size = $this->getWidthSetting();

@@ -17,6 +17,7 @@ namespace MyMovieDatabase\Admin;
 use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\FilterHookSubscriberInterface;
 use MyMovieDatabase\CoreController;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\TemplateFiles;
 
 class AdminController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
@@ -122,8 +123,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
 
     private function setAdminSettings() {
 
-        $settings = new Settings($this->available_resource_types);
-        $this->settings = $settings;
+        $this->settings = new Settings($this->available_resource_types);
     }
 
     /**
@@ -134,7 +134,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
      */
     private function hasEditWpPostsSetting() {
 
-        return CoreController::getMmdbOption('mmdb_movie_post_type', MMDB_ADVANCED_OPTION_GROUP, 'movie') == 'posts_custom';
+        return CoreController::getMmdbOption('mmdb_movie_post_type', MMDB_ADVANCED_OPTION_GROUP,  MovieResourceType::DATA_TYPE_NAME) == 'posts_custom';
     }
 
     /**
@@ -146,8 +146,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
 
         if($this->hasEditWpPostsSetting()){
 
-            $edit_post_type = new EditPostType('Movie', 'movie', 'Movies');
-            $this->edit_post_type = $edit_post_type;
+            $this->edit_post_type = new EditPostType();
         }
     }
 
@@ -180,8 +179,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
      */
     private function setPostMetaBoxes() {
 
-        $post_meta_box = new PostMetaBox($this->active_post_types);
-        $this->post_meta_box = $post_meta_box;
+        $this->post_meta_box = new PostMetaBox($this->active_post_types);;
     }
 
     /**

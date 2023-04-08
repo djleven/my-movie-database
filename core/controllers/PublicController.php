@@ -17,6 +17,10 @@ namespace MyMovieDatabase;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
 
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
 class PublicController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface, ShortcodeHookSubscriberInterface {
 
     const MMDB_SHORTCODE = 'my_movie_db';
@@ -235,9 +239,9 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
                     [
                         'nav_menu_item',
                         'post',
-                        'movie',
-                        'tvshow',
-                        'person'
+                        MovieResourceType::DATA_TYPE_NAME,
+                        TvshowResourceType::DATA_TYPE_NAME,
+                        PersonResourceType::DATA_TYPE_NAME
                     ];
             }
             $query->set('post_type',$post_type);

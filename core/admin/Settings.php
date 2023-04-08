@@ -14,6 +14,9 @@ namespace MyMovieDatabase\Admin;
 use MyMovieDatabase\Constants;
 use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\TemplateFiles;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
 class Settings implements ActionHookSubscriberInterface {
 
@@ -104,25 +107,6 @@ class Settings implements ActionHookSubscriberInterface {
     }
 
     /**
-     * Get/set the settings sections that go before the TMDB data type views (ex: Basic settings)
-     *
-     * @since    1.0.0
-     * @return   array   'before' settings sections
-     */
-
-    /**
-    private function getBeforeTypesSections() {
-
-    $sections[] =
-    array(
-    'id'    => 'mmdb_opt_basic',
-    'title' => esc_html__( 'Basic Settings', 'my-movie-database' )
-    );
-    return $sections;
-    }
-     */
-
-    /**
      * Get/set the settings sections that go after the TMDB data type views (ex: Advanced settings)
      *
      * @since    1.0.0
@@ -132,7 +116,7 @@ class Settings implements ActionHookSubscriberInterface {
 
         return [[
                 'id'    => MMDB_ADVANCED_OPTION_GROUP,
-                'title' => esc_html__( 'Advanced Options' )
+                'title' => esc_html__( Constants::I18n_CORE_ADVANCED_OPTIONS )
             ]];
     }
 
@@ -147,7 +131,6 @@ class Settings implements ActionHookSubscriberInterface {
     private function getSettingsSections() {
 
         return array_merge(
-//            $this->getBeforeTypesSections(),
             $this->getTypeSections(),
             $this->getAfterTypesSections()
         );
@@ -277,19 +260,6 @@ class Settings implements ActionHookSubscriberInterface {
     }
 
     /**
-     * Get/set the settings fields that go after the TMDB data type views (ex: Advanced settings fields)
-     *
-     * @since    1.0.0
-     * @return   array   'after' settings fields
-     */
-
-    /**
-    private function getBeforeTypeSectionsFields() {
-
-    }
-     */
-
-    /**
      * Get the label for the "enable plugin'/s custom post type section" setting
      *
      * @param string $type
@@ -336,7 +306,7 @@ class Settings implements ActionHookSubscriberInterface {
         }
         return $no_msg . '. '
                . sprintf(
-                   esc_html__('I only want to use "%s" with shortcodes and / or Gutenburg Blocks (or not at all)', 'my-movie-database' ),
+                   esc_html__('I only want to use "%s" with shortcodes and / or Gutenberg Blocks (or not at all)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
                );
     }
@@ -349,15 +319,19 @@ class Settings implements ActionHookSubscriberInterface {
      */
     private function getAfterTypeSectionsFields() {
 
+        $movies_label = MovieResourceType::getI18nDefaultPluralLabel();
+        $tv_shows_label = TvshowResourceType::getI18nDefaultPluralLabel();
+        $people_label = PersonResourceType::getI18nDefaultPluralLabel();
+
         return [
             MMDB_ADVANCED_OPTION_GROUP => array(
                 array(
                     'name'    => 'mmdb_movie_post_type',
-                    'label'   => $this->getEnableSectionLabel('Movies'),
+                    'label'   => $this->getEnableSectionLabel($movies_label),
                     'type'    => 'radio',
                     'default' => 'movie',
                     'options' => array(
-                        'movie'  => $this->getEnableSectionYesOptionLabel('Movies'),
+                        'movie'  => $this->getEnableSectionYesOptionLabel($movies_label),
                         'posts_custom' => esc_html__( 'No, use Posts but change the "Posts" menu label to "Movies"', 'my-movie-database' ),
                         'posts'  => esc_html__( 'No, use Posts and leave them as they are', 'my-movie-database' ),
                         'no_post'  => $this->getEnableSectionNoOptionLabel(
@@ -368,22 +342,22 @@ class Settings implements ActionHookSubscriberInterface {
                 ),
                 array(
                     'name'    => 'mmdb_tvshow_post_type',
-                    'label'   => $this->getEnableSectionLabel('TvShows'),
+                    'label'   => $this->getEnableSectionLabel($tv_shows_label),
                     'type'    => 'radio',
                     'default' => 'tvshow',
                     'options' => array(
-                        'tvshow'  => $this->getEnableSectionYesOptionLabel('TvShows'),
-                        'no_post'  => $this->getEnableSectionNoOptionLabel('TvShows'),
+                        'tvshow'  => $this->getEnableSectionYesOptionLabel($tv_shows_label),
+                        'no_post'  => $this->getEnableSectionNoOptionLabel($tv_shows_label),
                     )
                 ),
                 array(
                     'name'    => 'mmdb_person_post_type',
-                    'label'   => $this->getEnableSectionLabel('Persons'),
+                    'label'   => $this->getEnableSectionLabel($people_label),
                     'type'    => 'radio',
                     'default' => 'person',
                     'options' => array(
-                        'person'  => $this->getEnableSectionYesOptionLabel('Persons'),
-                        'no_post' => $this->getEnableSectionNoOptionLabel('Persons'),
+                        'person'  => $this->getEnableSectionYesOptionLabel($people_label),
+                        'no_post' => $this->getEnableSectionNoOptionLabel($people_label),
                     )
                 ),
                 array(
@@ -468,7 +442,6 @@ class Settings implements ActionHookSubscriberInterface {
     private function getSettingsFields() {
 
         return array_merge(
-//                $this->getBeforeTypeSectionsFields(),
                 $this->getTypeSectionFields(),
                 $this->getAfterTypeSectionsFields()
         );
