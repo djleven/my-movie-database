@@ -18,7 +18,7 @@ class TemplateFiles {
 
 	CONST ASSETS_PUBLIC_PATH   = 'assets/';
 	CONST ASSETS_PUBLIC_JS_PATH = self::ASSETS_PUBLIC_PATH . 'js/';
-	CONST PLUGIN_JS_LIB_FILE   = 'app.umd.js';
+	CONST PLUGIN_JS_LIB_FILE   = 'app.umd';
 
     /**
      * Return the correct assets (public) file url ( now used only for css)
@@ -38,12 +38,32 @@ class TemplateFiles {
 		return plugin_dir_url( dirname(__FILE__)) . $path;
 	}
 
+    /**
+     * Return the correct css file url to enqueue (can be overridden by theme folder)
+     *
+     * @since      3.0.0
+     * @param      string        $fileName       The file name without extension.
+     * @return     string
+     */
 	public static function getPublicStylesheet($fileName) {
 
 		$path = 'css/' . $fileName . '.css';
 
 		return self::getPublicFile($path);
 	}
+
+    /**
+     * Return the js file url to enqueue (can NOT be overridden by theme folder)
+     *
+     * @since      3.0.0
+     * @param      string        $fileName         The file name without extension.
+     * @param      string        $filePrependPath  The path to add right before the file.
+     * @return     string
+     */
+    public static function getJsFilePath($fileName, $filePrependPath = '') {
+
+        return MMDB_PLUGIN_URL . TemplateFiles::ASSETS_PUBLIC_JS_PATH . $filePrependPath . $fileName . '.js';
+    }
 
     /**
      * Register the JavaScript and CSS for both public-facing and admin sides of the site.
@@ -79,7 +99,7 @@ class TemplateFiles {
 	 * @return     void
 	 */
 	public static function enqueuePluginLibrary() {
-		$mmdb_js_file = MMDB_PLUGIN_URL . self::ASSETS_PUBLIC_JS_PATH . 'app/' . self::PLUGIN_JS_LIB_FILE;
+		$mmdb_js_file = TemplateFiles::getJsFilePath(self::PLUGIN_JS_LIB_FILE, 'app/');
 		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],0.4, true);
 		wp_set_script_translations(
 			self::PLUGIN_JS_LIB_FILE,

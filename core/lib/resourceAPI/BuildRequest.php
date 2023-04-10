@@ -80,7 +80,7 @@ class BuildRequest
     /**
      * Generate remote API endpoint request url
      *
-     * @return  string
+     * @return  void
      * @throws  Exception
      * @since   2.1.0
      */
@@ -136,9 +136,8 @@ class BuildRequest
      *
      * @param   string $type
      * @return  string
-     * @throws  Exception
      */
-    protected function resourceTypeUri($type) {
+    protected static function resourceTypeUri($type) {
         switch ($type) {
             case MovieResourceType::DATA_TYPE_NAME :
             case PersonResourceType::DATA_TYPE_NAME:
@@ -146,7 +145,7 @@ class BuildRequest
             case TvshowResourceType::DATA_TYPE_NAME:
                 return 'tv';
             default:
-                 throw new Exception('Invalid resource type specified');
+                return $type;;
         }
     }
 
@@ -159,5 +158,20 @@ class BuildRequest
     public function getRequestURL()
     {
         return $this->base_url . $this->uri . '?' . http_build_query($this->options);
+    }
+
+    /**
+     * Generate the TMDd website URL fort a resource
+     *
+     * @param string $data_type The data type.
+     * @param string $data_id The data id.
+     *
+     * @return  string
+     * @since   3.0.0
+     */
+    public static function getTMDBLink($data_type, $data_id)
+    {
+        $site_URL = 'https://www.themoviedb.org/';
+        return $site_URL . static::resourceTypeUri($data_type) . '/' . $data_id;
     }
 }

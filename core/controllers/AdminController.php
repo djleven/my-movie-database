@@ -66,6 +66,14 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
     public $post_meta_box;
 
     /**
+     * The screen of current WordPress request
+     *
+     * @since     3.0.0
+     * @var       \WP_Screen|null
+     */
+    public $current_screen;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since      1.0.0
@@ -151,6 +159,30 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
     }
 
     /**
+     * Set the screen of current WordPress request
+     *
+     * @since     3.0.0
+     * @return    \WP_Screen|null
+     */
+    protected function getCurrentScreen() {
+
+        return $this->current_screen = $this->current_screen ?: get_current_screen();
+    }
+
+    /**
+     * Determine if we are on the plugin settings page
+     *
+     * @since     3.0.0
+     * @return    boolean
+     */
+    private function isAdminSettingsPage() {
+        $screen = $this->getCurrentScreen();
+        $screen_id  = 'settings_page_mmdb_settings';
+
+        return $screen->id === $screen_id;
+    }
+
+    /**
      * Determine if we are on a mmdb active post type (edit or new post) screen
      *
      * @since     1.0.0
@@ -159,7 +191,7 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
     private function isAdminEditPostPage() {
 
         $result = false;
-        $screen = get_current_screen();
+        $screen = $this->getCurrentScreen();
         $post_base = $screen->base;
         $post_idtype = $screen->id;
         foreach ($this->active_post_types as $active_post_type) {
@@ -215,10 +247,15 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
 
         $isAdminEditPostPage = $this->isAdminEditPostPage();
         if($isAdminEditPostPage) {
+            $edit_js_file = 'admin-edit';
             wp_enqueue_style(
                 MMDB_NAME . 'Admin', TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME . 'Admin'), [], '1.0.0', 'all' );
+            wp_enqueue_script( 'mmodb-admin-edit',  TemplateFiles::getJsFilePath($edit_js_file), ['jquery'],0.1, true);
+        }
+        elseif($this->isAdminSettingsPage() ) {
+            $settings_js_file = 'admin-settings';
+            wp_enqueue_script( 'mmodb-admin-settings', TemplateFiles::getJsFilePath($settings_js_file), ['jquery'],0.1, true);
         }
         TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
     }
 }
-

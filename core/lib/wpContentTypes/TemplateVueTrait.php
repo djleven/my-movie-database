@@ -128,14 +128,7 @@ trait TemplateVueTrait
         $this->createVueInstance($admin);
 
         $mountBase = $this->getVueMountPoint();
-        $output =
+        return
             '<div class="mmdb-content ' . $this->data_type .'" id="' . $mountBase . '-vue"> <div id="' . $mountBase . '"> </div></div>';
-
-        if($admin) {
-            $output .= PHP_EOL;
-            $output .= '<input type="hidden" name="' . self::MMDB_POST_META_ID . '" id="' . self::MMDB_POST_META_ID . '" value="'. $this->tmdb_id .'"/>';
-        }
-
-        return $output;
     }
 }

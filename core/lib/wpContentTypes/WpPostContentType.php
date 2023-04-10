@@ -13,8 +13,6 @@
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
-use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
-use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
 class WpPostContentType extends WpAbstractContentType {
 

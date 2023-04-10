@@ -105,6 +105,8 @@ function select (index: number) {
   if(id) {
     const inputElement = document.getElementById('MovieDatabaseID') as HTMLInputElement
     inputElement.value = id;
+    inputElement.dispatchEvent(new Event('change'));
+    store.commit('setContentLoaded', false)
     store.commit('setID', id)
     store.commit('setActiveSection')
   }

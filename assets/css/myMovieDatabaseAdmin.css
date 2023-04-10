@@ -1,10 +1,6 @@
-.mmdb-body.mmdb-search.white {
-
-}
-
-.mmdb-body.mmdb-search.white .panel-body {
+.mmdb-body.mmdb-search .panel-body {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -12,6 +8,11 @@
     text-align: center;
     margin-bottom: 40px;
 }
+
+.mmdb-body .mmdb-search-input input {
+    padding: 3px 10px;
+}
+
 .mmdb-body.mmdb-search .info img, .mmdb-search .info .description {
     display: block;
     margin: auto;
@@ -75,4 +76,19 @@
 }
 .center-text {
     text-align: center;
+}
+
+.mmdb-after-content {
+    padding: 20px 10px 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.mmdb-after-content > div {
+    display: flex;
+    align-items: center;
+}
+.mmdb-after-content > div > span {
+    padding-right: 10px;
 }

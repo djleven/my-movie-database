@@ -20,8 +20,6 @@ use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
 class Settings implements ActionHookSubscriberInterface {
 
-    const SETTINGS_JS_FILE = 'admin-settings.js';
-
     private $settings_api;
     private $plugin_resource_types;
 
@@ -49,18 +47,7 @@ class Settings implements ActionHookSubscriberInterface {
         return [
             'admin_init'   => 'admin_init',
             'admin_menu'   => 'admin_menu',
-            'admin_enqueue_scripts' =>  'enqueue_settings_script'
         ];
-    }
-
-    /**
-     * Enqueue settings script
-     *
-     * @since   3.0.0
-     */
-    public function enqueue_settings_script() {
-        $admin_js_file = MMDB_PLUGIN_URL . TemplateFiles::ASSETS_PUBLIC_JS_PATH . self::SETTINGS_JS_FILE;
-        wp_enqueue_script( 'mmodb-admin-settings', $admin_js_file, ['jquery'],0.1, true);
     }
 
     /**

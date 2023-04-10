@@ -17,10 +17,11 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+use MyMovieDatabase\Admin\CacheManager;
+
 class GetResourcesEndpoint extends AbstractEndpoint {
 
     const MMDB_GET_DATA_WP_API_ENDPOINT = '/get-data';
-    const MMDB_TRANSIENT_ID = 'mmodb_';
 
     /**
      * Action callback to register the get data endpoint with WP API
@@ -72,8 +73,9 @@ class GetResourcesEndpoint extends AbstractEndpoint {
 
         //  Check if cached version exists
         if(isset($data['id'])) {
-            $transient_key = self::MMDB_TRANSIENT_ID . $data['type'] . '_' . $data['id'] . '_' .substr(get_locale(),0,2);
-            $transient_data = get_transient($transient_key);
+
+            $cache_manager = new CacheManager($data['type'], $data['id']);
+            $transient_data = $cache_manager->getCachedData();
             if (!($transient_data === false)) {
                 return $transient_data;
             }
@@ -96,9 +98,9 @@ class GetResourcesEndpoint extends AbstractEndpoint {
         $response_data = $this->processResponseData($response_data);
 
         $response = new WP_REST_Response($response_data, 200);
-        if(isset($transient_key)) {
+        if(isset($cache_manager)) {
             // Store response in database for a month
-            set_transient($transient_key, $response_data, MONTH_IN_SECONDS);
+            $cache_manager->setCacheData($response_data);
         }
         return $response;
     }

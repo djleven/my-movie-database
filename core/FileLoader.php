@@ -78,6 +78,11 @@ class FileLoader {
         require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpPostContentType.php';
 
         /**
+         * The class responsible for the plugin's cache management.
+         */
+        require_once self::MMDB_ADMIN_DIR . 'CacheManager.php';
+
+        /**
          * The plugin API endpoint classes
          */
         require_once self::MMDB_LIB_DIR . 'resourceAPI/AbstractEndpoint.php';
