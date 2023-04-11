@@ -80,7 +80,7 @@ class CoreController {
 
         $options = get_option($section);
 
-        if (isset($options[$option])) {
+        if (isset($options[$option]) && $options[$option] !== '') {
             return $options[$option];
         }
         return $default;
@@ -210,7 +210,6 @@ class CoreController {
      * @return void
      */
     private function setEndpoints() {
-
         $this->endpoints = [
             new GetResourcesEndpoint()
         ];

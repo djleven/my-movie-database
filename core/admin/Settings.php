@@ -13,7 +13,6 @@ namespace MyMovieDatabase\Admin;
 
 use MyMovieDatabase\Constants;
 use MyMovieDatabase\ActionHookSubscriberInterface;
-use MyMovieDatabase\TemplateFiles;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
@@ -391,6 +390,13 @@ class Settings implements ActionHookSubscriberInterface {
                         'all'  => esc_html__( 'Yes, but load it for all wp pages (for use with archive, etc)', 'my-movie-database' ),
                         'no' => __(Constants::I18n_CORE_NO),
                     )
+                ),
+                array(
+                    'name'    => 'mmdb_tmdb_api_key',
+                    'label'   => sprintf(esc_html__( '%s API key', 'my-movie-database'), 'TMDb'),
+                    'desc'    => sprintf(esc_html__( 'Enter your %s API key.', 'my-movie-database' ), 'TMDb'),
+                    'type'    => 'password',
+                    'sanitize_callback' => 'sanitize_key',
                 ),
                 array(
                     'name'    => 'mmdb_disable_gutenberg_post_type',

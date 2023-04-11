@@ -29,14 +29,6 @@ class BuildRequest
     protected $base_url = 'https://api.themoviedb.org/3/';
 
     /**
-     * The request API key
-     *
-     * @since 2.1.0
-     * @var string
-     */
-    protected $api_key = "c8df48be0b9d3f1ed59ee365855e663a";
-
-    /**
      * The request data
      *
      * @since 2.1.0
@@ -65,13 +57,14 @@ class BuildRequest
      *
      * @param  array $data
      * @param  string $language
+     * @param  string $api_key
      * @throws Exception
      */
-    public function __construct($data, $language)
+    public function __construct($data, $language, $api_key)
     {
         $this->data = $data;
         $this->options = [
-            'api_key' => $this->api_key,
+            'api_key' => $api_key,
             'language' => $language,
         ];
         $this->generateGETRequestURL();

@@ -195,11 +195,20 @@ class MyMovieDatabase {
     /**
      * Log content to error log
      *
+     * Enabled when WP_DEBUG_LOG  and WP_DEBUG_LOG are set to true
+     * Can be disabled via the mmodb_debug_log filter.
+     *
      * @since      2.0.2
      * @param      mixed   $content
      *
      */
     public static function writeToLog ( $content, $optional_msg = null )  {
+        if ( !apply_filters(
+            'mmodb_debug_log',
+            defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG
+        )) {
+            return;
+        }
         $error_msg = MMDB_CAMEL_NAME . ' error';
         if($optional_msg) {
             $error_msg .= ': ' . $optional_msg . PHP_EOL;

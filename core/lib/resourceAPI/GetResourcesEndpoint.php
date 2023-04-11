@@ -13,6 +13,8 @@
  */
 namespace MyMovieDatabase\Lib\ResourceAPI;
 
+use MyMovieDatabase\CoreController;
+use MyMovieDatabase\MyMovieDatabase;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -22,6 +24,7 @@ use MyMovieDatabase\Admin\CacheManager;
 class GetResourcesEndpoint extends AbstractEndpoint {
 
     const MMDB_GET_DATA_WP_API_ENDPOINT = '/get-data';
+
 
     /**
      * Action callback to register the get data endpoint with WP API
@@ -42,19 +45,22 @@ class GetResourcesEndpoint extends AbstractEndpoint {
      * @since     2.1.0
      *
      * @param  $data
-     * @return array | WP_Error
+     * @return array
      */
     public function getDataFromRemoteAPI($data) {
 
         try {
-            $request = new BuildRequest($data, substr(get_locale(), 0, 2));
+            $plugin_api_key = "c8df48be0b9d3f1ed59ee365855e663a";
+            $api_key =
+                CoreController::getMmdbOption('mmdb_tmdb_api_key', MMDB_ADVANCED_OPTION_GROUP, $plugin_api_key);
+            $request = new BuildRequest($data, substr(get_locale(), 0, 2), $api_key);
+            return wp_remote_get(
+                $request->getRequestURL(),
+                ['timeout' => 30]
+            );
         } catch (\Exception $e) {
-            return new WP_Error($e->getCode(), $e->getMessage(), $data);
+            MyMovieDatabase::writeToLog($data, 'Error code: ' . $e->getCode() . 'Error Msg: ' .  $e->getMessage());
         }
-        return wp_remote_get(
-            $request->getRequestURL(),
-            ['timeout' => 30]
-        );
     }
     /**
      * Get the resource data
@@ -65,7 +71,7 @@ class GetResourcesEndpoint extends AbstractEndpoint {
      * @since     2.1.0
      *
      * @param   WP_REST_Request $request
-     * @return   WP_Error | WP_REST_Response
+     * @return   bool | WP_REST_Response
      */
     public function get_resource_data(WP_REST_Request $request) {
 
@@ -80,19 +86,28 @@ class GetResourcesEndpoint extends AbstractEndpoint {
                 return $transient_data;
             }
         } elseif(!isset($data['query'])) {
-            return new WP_Error('', "Invalid params provided: Either 'id or 'query' must be set.", $data);
+            MyMovieDatabase::writeToLog($data, "Invalid params provided: Either 'id or 'query' must be set.");
+            return false;
         }
 
         // HTTP request to get data since no transient version exists
         $response = $this->getDataFromRemoteAPI($data);
+        $response_status = wp_remote_retrieve_response_code($response);
+        if($response_status >= '300') {
+            MyMovieDatabase::writeToLog($response, 'There was a problem fetching data: Request status: ' . $response_status);
+            return false;
+        }
+
         $response_data = wp_remote_retrieve_body($response);
+        if(wp_remote_retrieve_response_code($response))
         if (empty($response_data) || (is_wp_error($response))) {
             $error_message = 'An error has occurred. Failed to fetch resource data.';
             if (is_wp_error($response)) {
                 $error_message =$response->get_error_message();
             }
-//            $this->logEndpointErrors($error_message, 'EndpointController:get_resource_data');
-            return new WP_Error('', $error_message , $response);
+
+            MyMovieDatabase::writeToLog($response, $error_message);
+            return false;
         }
 
         $response_data = $this->processResponseData($response_data);
