@@ -349,7 +349,7 @@ class Settings implements ActionHookSubscriberInterface {
                 array(
                     'name'    => 'mmdb_hierarchical_taxonomy',
                     'label'   => __( Constants::I18n_CORE_CATEGORIES ) . ' / ' . __( Constants::I18n_CORE_TAGS ) ,
-                    'desc' => __( Constants::I18n_CORE_CATEGORIES_TAGS_DESC ),
+                    'desc' => esc_html__( 'Select the type of taxonomy to be created for each enabled post type section.', 'my-movie-database' ) . PHP_EOL . __( Constants::I18n_CORE_CATEGORIES_TAGS_DESC ),
                     'type'    => 'radio',
                     'default' => 'yes',
                     'options' => array(
@@ -454,17 +454,18 @@ class Settings implements ActionHookSubscriberInterface {
         return [
             [
                 'title' => esc_html__( 'Get Help',  'my-movie-database' ),
+                'span_class' => 'dashicons-sos',
                 'rows' => [
                     [
                         'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
                         'span_class' => 'dashicons-editor-help',
-                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/how-to-use-the-mmdb-plugin/',
+                        'url' => 'https://mymoviedb.org/how-to-use-the-mmdb-plugin/',
                         'url-text' => esc_html__( 'How to use the plugin.',  'my-movie-database' )
                     ],
                     [
                         'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
-                        'span_class' => 'dashicons-admin-tools',
-                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/',
+                        'span_class' => 'dashicons-admin-settings',
+                        'url' => 'https://mymoviedb.org/plugin-configuration-mmdb-options-page/',
                         'url-text' => esc_html__( 'Configuration options',  'my-movie-database' )
                     ],
                     [
@@ -478,6 +479,7 @@ class Settings implements ActionHookSubscriberInterface {
             ],
             [
                 'title' => esc_html__( 'Offer Help',  'my-movie-database' ) . ' - ' . esc_html__( 'Contribute',  'my-movie-database' ),
+                'span_class' => 'dashicons-groups',
                 'rows' => [
                     [
                         'title' => esc_html__( 'Review', 'my-movie-database' ),
@@ -493,17 +495,42 @@ class Settings implements ActionHookSubscriberInterface {
                         'url-text' => esc_html__( 'Help translate the plugin in your language.',  'my-movie-database' )
                     ],
                     [
-                        'title' => esc_html__( 'Donate',  'my-movie-database' ),
-                        'span_class' => 'dashicons-buddicons-community',
-                        'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6',
-                        'text' => esc_html__( 'Or if you prefer, maybe',  'my-movie-database'  ),
-                        'url-text' => esc_html__( 'buy us a beer?',  'my-movie-database'  )
+                        'title' => esc_html__( 'Give feedback',  'my-movie-database' ),
+                        'span_class' => 'dashicons-testimonial',
+                        'url' => 'https://docs.google.com/forms/d/1BTZZqUn1DB84bUtmpU0tW1qABbngOapBuwMrYZfI8cM',
+                        'text' => esc_html__( 'We\'ll love you for it!',  'my-movie-database'  ),
+                        'url-text' => esc_html__( 'Fill out a brief survey.',  'my-movie-database'  )
+                    ],
+                ]
+            ],
+            [
+                'title' => esc_html__( 'Connect',  'my-movie-database' ),
+                'span_class' => 'dashicons-universal-access',
+                'rows' => [
+                    [
+                        'title' => esc_html__( 'Newsletter', 'my-movie-database' ),
+                        'span_class' => 'dashicons-email-alt',
+                        'url' => 'https://mymoviedb.org/join-our-mailing-list/',
+                        'text' => esc_html__( 'Stay in the loop!',  'my-movie-database' ),
+                        'url-text' => esc_html__( 'Join our mailing list.',  'my-movie-database' ),
+                    ],
+                    [
+                        'title' => esc_html__( 'Showcase', 'my-movie-database' ),
+                        'span_class' => 'dashicons-superhero',
+                        'url' => 'https://docs.google.com/forms/d/1PhyunzFStFevWS5EDHBTxYX8SyytCuGw1I4kUMDq5r4',
+                        'url-text' => esc_html__( 'Add your website to our site showcase.',  'my-movie-database' )
+                    ],
+                    [
+                        'title' => esc_html__( 'Development',  'my-movie-database' ),
+                        'span_class' => 'dashicons-admin-tools',
+                        'url' => 'mailto:info@e-leven.net',
+                        'text' => esc_html__( 'Need a special feature?',  'my-movie-database'  ),
+                        'url-text' => esc_html__( 'Contact us',  'my-movie-database'  )
                     ],
                 ]
             ]
         ];
     }
-
 
     function sanitize_html_class_list( $classname, $fallback = '' ) {
         // Strip out any percent-encoded characters.
@@ -550,14 +577,18 @@ class Settings implements ActionHookSubscriberInterface {
             }
             .mmdb-row {
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-evenly;
                 flex-wrap: wrap;
-                max-width: 1200px;
-                padding: 0 10px 30px;
+                max-width: 1600px;
+                padding: 0 30px;
             }
-            .mmdb-row .mmdb-header-boxes span {
+            .mmdb-row .mmdb-header-boxes li > span {
                 padding-right: 5px;
             }
+            .mmdb-row .mmdb-header-boxes h3 > span {
+                padding-left: 5px;
+            }
+
             tr[class$='_custom_width'] {
                 display: none;
             }
@@ -569,7 +600,7 @@ class Settings implements ActionHookSubscriberInterface {
         <div class="mmdb-row">
             <?php foreach($this->getHeaderInfo() as $info) :?>
             <div class="mmdb-header-boxes">
-                <h3><?php echo $info['title']?></h3>
+                <h3><?php echo $info['title']?><span class="dashicons <?php echo $info['span_class']?>"></span></h3>
                 <ul>
                     <?php foreach($info['rows'] as $row) :?>
                     <li>

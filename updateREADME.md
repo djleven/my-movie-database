@@ -2,6 +2,6 @@
 README=README.md
 README_TXT=readme.txt
 
-rm ${README}
+rm ${README_TXT}
 
-cp ${README_TXT} ${README}
+cp ${README} ${README_TXT}
