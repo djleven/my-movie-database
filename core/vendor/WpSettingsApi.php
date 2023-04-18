@@ -538,7 +538,7 @@ class WeDevs_Settings_API {
                         if ( isset( $this->settings_fields[ $form['id'] ] ) ):
                         ?>
                         <div style="padding-left: 10px">
-                            <?php submit_button(); ?>
+                            <?php submit_button($text = null, $type = 'primary', $name = 'submit-' . $form['id']); ?>
                         </div>
                         <?php endif; ?>
                     </form>

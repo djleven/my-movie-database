@@ -31,8 +31,9 @@ class TemplateFiles {
 	public static function getPublicFile($path) {
 		$path = self::ASSETS_PUBLIC_PATH . $path;
 
-		if (locate_template(array($path))) {
-			return get_theme_file_uri('/' . $path);
+		$theme_path = MMDB_WP_NAME . '/' . $path;
+		if (locate_template(array($theme_path))) {
+			return get_theme_file_uri('/' . $theme_path);
 		}
 
 		return plugin_dir_url( dirname(__FILE__)) . $path;
