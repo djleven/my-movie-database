@@ -16,6 +16,7 @@ use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+use MyMovieDatabase\Lib\Validators;
 
 class Settings implements ActionHookSubscriberInterface {
 
@@ -201,7 +202,7 @@ class Settings implements ActionHookSubscriberInterface {
                         'label'   => esc_html__( 'Custom Column Class(es)', 'my-movie-database'),
                         'desc'    => esc_html__( 'Type one or more class names to apply. Multiple classes must be separated by a space.', 'my-movie-database' ),
                         'type'    => 'text',
-                        'sanitize_callback' => [$this, 'sanitize_html_class_list'],
+                        'sanitize_callback' => [new Validators(), 'sanitize_html_class_list'],
                     ),
                     array(
                         'name'    => $plugin_type->transition_effect_setting_id,
@@ -530,30 +531,6 @@ class Settings implements ActionHookSubscriberInterface {
                 ]
             ]
         ];
-    }
-
-    function sanitize_html_class_list( $classname, $fallback = '' ) {
-        // Strip out any percent-encoded characters.
-        $sanitized = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $classname );
-
-        // Limit to A-Z, a-z, 0-9, '_', '-'.
-        $sanitized = preg_replace( '/[^A-Za-z0-9\s_-]/', '', $sanitized );
-
-        // Remove non-single empty spaces and classes that start with a numeric value
-        $arrayOfClasses = preg_split( '/\s/', $sanitized);
-        $sanitized = '';
-        foreach ($arrayOfClasses as $class) {
-            if($class === '' || ctype_digit($class[0])) {
-                continue;
-            }
-            $sanitized .= $class . '&nbsp;';
-        }
-
-        if ( '' === $sanitized && $fallback ) {
-            return $this->sanitize_html_class_list( $fallback );
-        }
-
-        return $sanitized;
     }
 
     /**

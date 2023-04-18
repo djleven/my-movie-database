@@ -13,6 +13,7 @@
 namespace MyMovieDatabase\Lib\WpContentTypes;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\Validators;
 
 class ShortcodeContentType extends WpAbstractContentType {
 
@@ -27,6 +28,7 @@ class ShortcodeContentType extends WpAbstractContentType {
      */
     public $attributes;
 
+    public $custom_width;
     /**
      * Initialize the class and set its properties.
      *
@@ -51,6 +53,7 @@ class ShortcodeContentType extends WpAbstractContentType {
         $this->data_type = $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME);
         $this->tmdb_id = $this->constructAttributes('id', '655');
         $this->template = $this->getTemplateSetting();
+        $this->custom_width = $this->getCustomWidthSetting();
         $this->size = $this->getWidthSetting();
 	    $this->header_color = $this->constructAttributes('header');
 	    $this->body_color = $this->constructAttributes('body');
@@ -99,6 +102,10 @@ class ShortcodeContentType extends WpAbstractContentType {
      */
     protected function getWidthSetting() {
 
+        if($this->custom_width) {
+            return 'custom';
+        }
+
         $setting = $this->constructAttributes('size');
         if(isset($setting)) {
 
@@ -106,6 +113,21 @@ class ShortcodeContentType extends WpAbstractContentType {
         }
 
         return parent::getWidthSetting();
+    }
+
+    /**
+     * Get the custom width setting for type object
+     *
+     * @since     3.0.0
+     * @return    string | null
+     */
+    protected function getCustomWidthSetting() {
+
+        $value = $this->constructAttributes('custom_width');
+        if ( $value ) {
+            $value = Validators::sanitize_html_class_list($value, null, ' ');
+        }
+        return $value;
     }
 
     /**
