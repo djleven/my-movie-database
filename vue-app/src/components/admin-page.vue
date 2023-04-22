@@ -5,8 +5,8 @@
         <div class="loaderInner">
         </div>
       </div>
-      <input type="text"
-             v-model="searchInput"
+      <debounced-input
+          @output="fetchResults"
       />
     </div>
     <div :class="`credits-wrapper rectangular overview-on-hover`">
@@ -29,7 +29,6 @@
 import { computed, ref, watch } from 'vue';
 import { useStore } from '@/store'
 import { searchAPI } from '@/helpers/resourceAPI';
-import { useDebounce } from '@/helpers/utils';
 
 import PeopleSearchResponse from '@/models/searchTypes/person'
 import TvShowsSearchResponse from '@/models/searchTypes/tvshow'
@@ -41,19 +40,11 @@ const total_pages = ref(null)
 const active = ref(null)
 const searched = ref(false)
 const loading = ref(false)
-const searchInput = useDebounce('', 1000);
 
 const store = useStore();
 const type = computed(() => store.state.type);
 const debug = computed(() => store.state.global_conf.debug);
 const contentLoaded = computed(() => store.state.contentLoaded);
-
-watch(searchInput, (val) => {
-  if(val.length === 0) {
-    return resetForm()
-  }
-  fetchResults(val)
-});
 
 watch(contentLoaded, (newValue) => {
   if(newValue) {
@@ -91,7 +82,6 @@ function setResults(data) {
 
 function resetForm(loadSuccess = false) {
     results.value = []
-    // searchInput.value = ''
   if(loadSuccess) {
     searched.value = false
   }
