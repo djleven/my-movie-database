@@ -8,13 +8,13 @@
                      :style="headerStyling">
                     <h3 class="panel-title">
                         <a :class="activeSection === index ? 'activeTab' : ''"
-                           :style="`color: ${cssClasses.headerFontColor}`"
+                           :style="`color: ${styling.headerFontColor}`"
                         >
                             {{ section.title }}
                         </a>
                     </h3>
                 </div>
-                <transition :name="store.state.cssClasses.transitionEffect">
+                <transition :name="store.state.styling.transitionEffect">
                     <div class="panel-body mmdb-body"
                          v-show="activeSection === index">
                         <component :is="section.componentName"
@@ -41,10 +41,10 @@ defineProps({
 })
 
 const store = useStore();
-const cssClasses = computed(() => store.state.cssClasses)
+const styling = computed(() => store.state.styling)
 const activeSection = computed(() => store.state.activeSection)
 const headerStyling = computed(() => {
-  return `background-color: ${cssClasses.value.headerColor}; border-bottom: 1px solid ${cssClasses.value.headerFontColor}`
+  return `background-color: ${styling.value.headerColor}; border-bottom: 1px solid ${styling.value.headerFontColor}`
 })
 
 function setActiveSection(newActiveTab) {

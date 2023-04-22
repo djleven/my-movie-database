@@ -31,18 +31,6 @@ const tidyExcerpt = (text, maxLen, separator = ' ') => {
     return text.substr(0, text.lastIndexOf(separator, maxLen));
 }
 
-export const getImageUrl = (file, size) => {
-    const images_uri = "https://image.tmdb.org/t/p/"
-    if(size === 'small'){
-        size = 'w132_and_h132_bestv2'
-    } else if(size === 'medium'){
-        size = 'w185'
-    } else if(size === 'large'){
-        size = 'w300'
-    }
-    return images_uri + size + "/" + file;
-}
-
 export const orderCredits = (credits: CreditCollectionType, comparison: string, date = false, desc = true) => {
     if(Array.isArray(credits) && credits.length) {
         if(date) {
@@ -65,15 +53,3 @@ export const orderCredits = (credits: CreditCollectionType, comparison: string, 
 }
 
 export const setStyleColors = (bg: Color, font: Color) => `background-color: ${bg}; color: ${font};`
-
-type PlaceholderImagesType = {
-    small: string,
-    medium: string,
-    large: string,
-}
-
-export const placeholderImages: PlaceholderImagesType = {
-    small: 'cinema100.png',
-    medium: 'cinema185.png',
-    large: 'cinema300.png',
-}

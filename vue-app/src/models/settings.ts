@@ -10,6 +10,12 @@ export enum Templates {
     Tabs = 'tabs',
 }
 
+export enum Sizes {
+    Small = 'small',
+    Medium = 'medium',
+    Large = 'large',
+}
+
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type HEX = `#${string}`;
@@ -29,8 +35,7 @@ export interface GlobalSettings {
 }
 
 export interface TypeStylingSettings {
-    multipleColumn: string
-    twoColumn: string
+    size: Sizes,
     headerColor: Color
     bodyColor: Color
     headerFontColor: Color

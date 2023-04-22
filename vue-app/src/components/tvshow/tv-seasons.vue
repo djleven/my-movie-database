@@ -3,8 +3,8 @@
               :sub-header="store.state.tvshow?.content?.name"
               class-list="seasons">
         <credit-list :overview-on-hover="store.state.global_conf.overviewOnHover"
-                 image-size="medium"
-                 column-class="twoColumn"
+                 :image-size="store.state.styling.size"
+                 :column-class="ImageType.Rectangular"
                  :credits="store.state.tvshow?.content?.seasons">
         </credit-list>
     </section-layout>
@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import { useStore } from '@/store'
+import { ImageType } from '@/helpers/images'
 
 const $t = inject('$t')
 const store = useStore();

@@ -34,7 +34,7 @@ You can find documentation on [how to use the plugin](https://mymoviedb.org/how-
 New features and bugfixes in this long overdue update
 
 Features:
-* New custom class list configuration option for responsive column layout (cast and crew sections)
+* New image / column size configuration option and automatic responsive column layout for lists (cast, crew and tv seasons sections)
 * New template configuration options for the header and body text color.
 * Caching of TMDb data for even faster pageloads and more performant js build.
 * User TMDb API key option, to use your own API key if you wish.
@@ -49,6 +49,7 @@ Bugfixes:
 * Failure in registering plugin script handle in some templates with earlier calls.
 * Hover on overview setting was not working.
 * Language bug breaks overview for some resource types (iso_639_1 data mismatch).
+* Faulty ordering of crew and cast credits.
 
 == Screenshots ==
 
@@ -96,9 +97,12 @@ Now you can install it using the WordPress admin interface or by manually upload
 == Changelog ==
 
 = 3.0.0 =
+* Added: Automatic responsive column layout for lists without need to set a preset option
+* Added: New image / column size configuration option (small, medium, large) for lists (cast, crew and tv seasons sections)
+* Removed: Responsive width presets configuration option (small, medium, large)
 * Added: Add cache purge button, TMDb link and id on admin post type screens
 * Added: User TMDb API key option
-* Added: Custom class list setting option for responsive column layout (cast and crew sections)
+* Added: ~~Custom class list setting option for responsive column layout (cast and crew sections)~~
 * Added: Use WordPress i18n for js to have POT files properly populated, committing to the translate.wordpress.org process.
 * Added: New template configuration options for the header and body text color.
 * Removed: mmdb_templates folder and only allow css file override in theme folder

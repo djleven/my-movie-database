@@ -3,7 +3,8 @@
     <credit-list
         v-if="mediaType.length"
         :i18-title-key="getI18TitleKey(index)"
-        image-size="medium"
+        :column-class="ImageType.Rectangular"
+        :image-size="imageSize"
         :overview-on-hover="overviewOnHover"
         :credits="mediaType"
     >
@@ -12,10 +13,18 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from 'vue'
+import { Sizes } from '@/models/settings'
+import { ImageType } from '@/helpers/images'
+
 const props = defineProps({
   credits: {
     type: Array,
     default: () => [] // TODO: substitute with type or interface
+  },
+  imageSize: {
+    type: String as PropType<Sizes>,
+    default: Sizes.Medium
   },
   overviewOnHover: {
     type: Boolean,

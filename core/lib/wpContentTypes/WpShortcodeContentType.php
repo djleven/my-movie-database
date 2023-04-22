@@ -13,22 +13,21 @@
 namespace MyMovieDatabase\Lib\WpContentTypes;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
-use MyMovieDatabase\Lib\Validators;
 
 class ShortcodeContentType extends WpAbstractContentType {
 
-	public $header_color;
-	public $body_color;
-	public $header_font_color;
-	public $body_font_color;
+    protected $header_color;
+    protected $body_color;
+    protected $header_font_color;
+    protected $body_font_color;
+    protected $size;
     /**
      * The user input shortcode attributes
      * @since     2.0.0
      * array | string
      */
-    public $attributes;
+    protected $attributes;
 
-    public $custom_width;
     /**
      * Initialize the class and set its properties.
      *
@@ -41,11 +40,12 @@ class ShortcodeContentType extends WpAbstractContentType {
      *
      * type       The mmdb content type ('slug') for the object
      * id         The tmdb id for the type object
-     * size       The template for the type object
-     * $size      The size for the shortcode template
-     * header     The header color for the shortcode template
-     * body       The background color for shortcodetemplate
-     *
+     * template   The template for the type object
+     * size       The size for the shortcode template
+     * header             The background color for the header of the shortcode template
+     * body               The background color for the body of the shortcode template
+     * header_font_color  The header text color for the shortcode template
+     * body_font_color    The body text color for the shortcode template
      */
 
     public function __construct($attributes) {
@@ -53,8 +53,7 @@ class ShortcodeContentType extends WpAbstractContentType {
         $this->data_type = $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME);
         $this->tmdb_id = $this->constructAttributes('id', '655');
         $this->template = $this->getTemplateSetting();
-        $this->custom_width = $this->getCustomWidthSetting();
-        $this->size = $this->getWidthSetting();
+        $this->size = $this->constructAttributes('size');
 	    $this->header_color = $this->constructAttributes('header');
 	    $this->body_color = $this->constructAttributes('body');
 	    $this->header_font_color = $this->constructAttributes('header_font_color');
@@ -102,32 +101,12 @@ class ShortcodeContentType extends WpAbstractContentType {
      */
     protected function getWidthSetting() {
 
-        if($this->custom_width) {
-            return 'custom';
-        }
+        if($this->size) {
+            return $this->size;
 
-        $setting = $this->constructAttributes('size');
-        if(isset($setting)) {
-
-            return $setting;
         }
 
         return parent::getWidthSetting();
-    }
-
-    /**
-     * Get the custom width setting for type object
-     *
-     * @since     3.0.0
-     * @return    string | null
-     */
-    protected function getCustomWidthSetting() {
-
-        $value = $this->constructAttributes('custom_width');
-        if ( $value ) {
-            $value = Validators::sanitize_html_class_list($value, null, ' ');
-        }
-        return $value;
     }
 
     /**

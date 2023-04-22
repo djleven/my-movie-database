@@ -16,7 +16,6 @@ use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
-use MyMovieDatabase\Lib\Validators;
 
 class Settings implements ActionHookSubscriberInterface {
 
@@ -186,23 +185,15 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->width_setting_id,
-                        'label'   => esc_html__( 'Responsive Column Widths', 'my-movie-database'),
-                        'desc'    => esc_html__( 'Select the responsive widths to use on crew and cast multi column sections. Choose between available presets or provide your own custom class(es)', 'my-movie-database' ),
+                        'label'   => esc_html__( 'Size of Images / Columns', 'my-movie-database'),
+                        'desc'    => esc_html__( 'Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout.', 'my-movie-database' ),
                         'type'    => 'select',
                         'default' => 'large',
                         'options' => array(
                             'large' => __( Constants::I18n_CORE_LARGE),
                             'medium' => __( Constants::I18n_CORE_MEDIUM),
                             'small' => __( Constants::I18n_CORE_SMALL),
-                            'custom' => esc_html__( 'Custom class', 'my-movie-database' ),
                         )
-                    ),
-                    array(
-                        'name'    => $plugin_type->custom_width_setting_id,
-                        'label'   => esc_html__( 'Custom Column Class(es)', 'my-movie-database'),
-                        'desc'    => esc_html__( 'Type one or more class names to apply. Multiple classes must be separated by a space.', 'my-movie-database' ),
-                        'type'    => 'text',
-                        'sanitize_callback' => [new Validators(), 'sanitize_html_class_list'],
                     ),
                     array(
                         'name'    => $plugin_type->transition_effect_setting_id,
@@ -566,9 +557,6 @@ class Settings implements ActionHookSubscriberInterface {
                 padding-left: 5px;
             }
 
-            tr[class$='_custom_width'] {
-                display: none;
-            }
         </style>
         <div class="mmdb_admin_header">
             <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-128x128.png" class="admin-logo"/>

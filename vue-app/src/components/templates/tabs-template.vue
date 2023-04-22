@@ -17,7 +17,7 @@
             <transition :name="stylingConfig.transitionEffect">
                 <template v-if="section.showIf">
                     <div v-show="activeSection === index"
-                         class="tab-content mmdb-header">
+                         class="tab-content">
                         <div class="tab-pane active">
                             <component :is="section.componentName"
                             :section="index">
@@ -28,7 +28,6 @@
                 </template>
             </transition>
         </template>
-        <div class="clearfix"></div>
     </div>
 </template>
 <script setup lang="ts">
@@ -46,7 +45,7 @@ defineProps({
 
 const store = useStore();
 const activeSection = computed(() => store.state.activeSection);
-const stylingConfig = computed(() => store.state.cssClasses);
+const stylingConfig = computed(() => store.state.styling);
 
 function setActiveSection(newActiveTab) {
   if(newActiveTab !== activeSection.value) {

@@ -30,7 +30,11 @@ jQuery( function ( $ ) {
             linkEl.href = this.getNewLink(newId, linkEl.href)
         },
         getNewLink: function(newId, oldUrl) {
-            return oldUrl.replace(oldUrl.substring(oldUrl.lastIndexOf('/') + 1), newId)
+            const oldId = oldUrl.substring(oldUrl.lastIndexOf('/') + 1);
+            if(oldId) {
+                return oldUrl.replace(oldId, newId)
+            }
+            return oldUrl + newId
         },
     }
 

@@ -38,11 +38,6 @@ class FileLoader {
         require_once 'PluginAPIManager.php';
 
         /**
-         * The class responsible for validator functions.
-         */
-        require_once self::MMDB_LIB_DIR . 'Validators.php';
-
-        /**
          * The class responsible for defining (shared) core controller functions.
          */
         require_once self::MMDB_CONTROLLERS_DIR . 'CoreController.php';

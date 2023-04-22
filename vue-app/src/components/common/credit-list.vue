@@ -1,29 +1,29 @@
 <template>
-    <div :class="wrapperClassList">
+    <div :class="getWrapperClassList">
         <h4 v-if="i18TitleKey"
             :class="i18TitleKey"
-            @click="activeCredit=null"
-            @mouseover="activeCredit=null" >{{ $t(i18TitleKey) }}</h4>
-        <div :class="`credits-wrapper ${overviewOnHover ? 'overview-on-hover' : ''}`">
+            :style="`color: ${store.state.styling.bodyFontColor}`"
+        >
+          {{ $t(i18TitleKey) }}
+        </h4>
+        <div :class="`credits-wrapper ${columnClass} ${overviewOnHover ? 'overview-on-hover' : ''}`">
             <template v-for="(credit, index) in credits" :key="index">
                <credit-item
                    :credit="credit"
-                   :index="index"
-                   :is-active="isActive(index)"
                    :column-class="columnClass"
                    :image-size="imageSize"
                    :has-set-active-events="overviewOnHover"
-                   @set-active="setActiveCredit"
                />
             </template>
         </div>
-        <div style="clear:both"></div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { inject, PropType, computed } from 'vue'
 import { useStore } from '@/store'
+import { Sizes } from "@/models/settings";
+import { ImageType } from "@/helpers/images";
 
 const $t = inject('$t')
 const props = defineProps({
@@ -36,16 +36,16 @@ const props = defineProps({
     default: 'credit-list-wrapper'
   },
   columnClass: {
-    type: String,
-    default: 'multipleColumn'
+    type: String as PropType<ImageType>,
+    default: ImageType.Square
   },
   i18TitleKey: {
     type: String,
     default: null
   },
   imageSize: {
-    type: String,
-    default: 'small'
+    type: String as PropType<Sizes>,
+    default: Sizes.Medium
   },
   overviewOnHover: {
     type: Boolean,
@@ -54,13 +54,7 @@ const props = defineProps({
 })
 
 const store = useStore()
-const activeCredit = ref(null);
 
-function setActiveCredit(index) {
-  activeCredit.value = index
-}
+const getWrapperClassList = computed(() => `${props.wrapperClassList} ${props.imageSize}`)
 
-function isActive(index) {
-  return props.overviewOnHover && index === activeCredit.value
-}
 </script>

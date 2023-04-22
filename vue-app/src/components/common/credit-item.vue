@@ -1,28 +1,36 @@
 <template>
   <div :class="wrapperClasses"
-       ref="creditWrapper"
-       :style="bgImageCss"
-       @click="setActive"
-       @mouseover="setActive">
-    <div class="img-container">
+       @touchstart="setActive()"
+       @touchend="setActive(false)"
+       @mouseenter="setActive()"
+       @mouseleave="setActive(false)"
+  >
+    <div :class="imgContainerClasses" :style="bgImageCss">
       <div v-if="isActive"
-           class="description">
+           class="credit-image description">
         <template v-if="credit.overview">
           {{ overviewExcerpt }}
         </template>
-        <p v-else class="center-text">
-          {{ $t('no_description') }}
-        </p>
+        <template v-else-if="!!$slots['active-slot-content']">
+          <slot name="active-slot-content" />
+        </template>
 
+        <div v-else>
+          {{ $t('no_description') }}
+        </div>
+        <slot name="active-slot-after" />
       </div>
       <img v-else
-           :class="imageSize === 'small' ? 'img-circle' : 'image'"
+           :class="imageClass"
            :alt="credit.title || credit.name + ' image'"
+           :height="imageSize.height"
+           :width="imageSize.width"
            :src="imageSource"/>
+
     </div>
-    <ul class="credits">
-      <template v-if="showCreditDuringEvent || !showCreditDuringEvent && !isActive">
-        <li>{{ title }}</li>
+    <ul class="credit-text-items">
+      <li>{{ title }}</li>
+      <slot>
         <li v-if="credit.character">
           {{ $t('role') }}: {{ credit.character }}
         </li>
@@ -34,15 +42,17 @@
         <li v-if="credit.episode_count">
           {{ $tc('episode_count', credit.episode_count ) }}
         </li>
-      </template>
+      </slot>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed, inject, PropType, ref } from 'vue'
 import { useStore } from '@/store'
-import { getExcerpt, getImageUrl, placeholderImages } from '@/helpers/templating'
+import { getExcerpt } from '@/helpers/templating'
+import { getImageUrl, ImageType, rectangularImageSizes, squareImageSizes } from '@/helpers/images'
+import { Sizes } from "@/models/settings";
 
 const $t = inject('$t')
 const $tc = inject('$tc')
@@ -51,46 +61,40 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  index: {
-    type: Number,
-    required: true
-  },
-  isActive: {
-    type: Boolean,
-    default: false
-  },
   columnClass: {
-    type: String,
-    default: 'multipleColumn'
+    type: String as PropType<ImageType>,
+    default: ImageType.Square
   },
   i18TitleKey: {
     type: String,
     default: null
   },
   imageSize: {
-    type: String,
-    default: 'small'
+    type: String as PropType<Sizes>,
+    default: Sizes.Medium
   },
   hasSetActiveEvents: {
     type: Boolean,
     default: false
   },
-  showCreditDuringEvent: {
-    type: Boolean,
-    default: false
-  }
 })
+const isActive = ref(false)
 
-const emit = defineEmits(['setActive'])
-const setActive = () => {
+const setActive = (state = true) => {
   if(props.hasSetActiveEvents) {
-    emit('setActive', props.index)
+    isActive.value = state
   }
 }
+
 const store = useStore()
-const creditWrapper = ref(null)
-const excerptLength = 350
-const overviewExcerpt = computed(() => getExcerpt(props.credit.overview, excerptLength))
+
+const excerptLength = {
+  [Sizes.Small]: 225,
+  [Sizes.Medium]: 300,
+  [Sizes.Large]: 500,
+}
+
+const overviewExcerpt = computed(() => getExcerpt(props.credit.overview, excerptLength[props.imageSize]))
 const title = computed(() => {
   const credit = props.credit
   const title = credit.name ?? credit.title
@@ -99,23 +103,41 @@ const title = computed(() => {
   }
   return title
 })
+
 const imageSource = computed(() => {
-  let size = props.imageSize
-  let file =
-      props.credit.poster_path || props.credit.profile_path
+  const size = props.imageSize
+  const imageType = props.columnClass
+  const filePath = props.credit.profile_path ?? props.credit.poster_path
 
-  if(file) {
-    return getImageUrl(file, size)
-  }
-
-  return ref(require(`../../assets/img/${placeholderImages[size]}`)).value
+  return getImageUrl(filePath, size, imageType)
 })
+
 const wrapperClasses = computed(() => {
-  const activeClass = props.isActive ? 'bg-image' : ''
-  return `${store.state.cssClasses[props.columnClass]} credits ${activeClass}`
-})
-const bgImageCss = computed(() => {
-  return props.isActive ? `background-image: url(${imageSource.value})` : `none`
+  const activeClass = isActive.value ? 'bg-image' : ''
+
+  return `${props.imageSize}-${props.columnClass} credits ${activeClass}`
 })
 
+const bgImageCss = computed(() => {
+
+  return isActive.value ? `background-image: url(${imageSource.value})` : `none`
+})
+
+const imageSize = computed(() => {
+  const imageSizes = props.columnClass === ImageType.Square ? squareImageSizes : rectangularImageSizes
+
+  return imageSizes[props.imageSize]
+})
+
+const imgContainerClasses = computed(() => {
+  const baseClass = 'img-container'
+  const placeholderClass = imageSource.value.includes('mmdb-placeholder-') ? 'no-image-available' : ''
+
+  return `${baseClass} ${placeholderClass}`
+})
+
+const imageClass = computed(() => {
+
+  return props.columnClass === ImageType.Square ? 'img-circle' : 'image credit-image'
+})
 </script>

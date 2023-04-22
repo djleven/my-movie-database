@@ -9,17 +9,14 @@
              v-model="searchInput"
       />
     </div>
-    <div class="panel-body">
-      <div v-for="(result, index) in results" :key="index"
-           class="col-2xl-3 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 credits mmdb-search">
+    <div :class="`credits-wrapper rectangular overview-on-hover`">
+      <template v-for="(result, index) in results" :key="index"
+           class="mmdb-search">
         <search-result
-            :active="active === index"
             :result="result"
-            :index="index"
             @select="select"
-            @setActive="setActive"
         />
-      </div>
+      </template>
       <div v-if="!results.length && searched">
         <h4>No search results found</h4>
       </div>
@@ -94,14 +91,13 @@ function setResults(data) {
 
 function resetForm(loadSuccess = false) {
     results.value = []
-    searchInput.value = ''
+    // searchInput.value = ''
   if(loadSuccess) {
     searched.value = false
   }
 }
 
-function select (index: number) {
-  const id = results.value[index]?.['id']
+function select (id) {
   if(id) {
     const inputElement = document.getElementById('MovieDatabaseID') as HTMLInputElement
     inputElement.value = id;
@@ -110,9 +106,6 @@ function select (index: number) {
     store.commit('setID', id)
     store.commit('setActiveSection')
   }
-}
-function setActive (index) {
-  active.value = index
 }
 
 </script>

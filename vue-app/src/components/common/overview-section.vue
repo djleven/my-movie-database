@@ -5,39 +5,40 @@
       class-list="overview"
   >
     <div class="mmdb-flex-container">
-      <h1 class="entry-title col-all-12">
-        {{ title }}
-      </h1>
-      <div :class="store.state.cssClasses.twoColumn">
+      <div :class="`meta-wrapper ${store.state.type}`">
+
+        <h1 class="mmodb-title" :style="`color: ${store.state.styling.bodyFontColor}`">
+          {{ title }}
+        </h1>
+        <template v-for="(meta, index) in mainMeta" :key="index">
+          <div v-if="showMeta(index, 'mainMeta')" :class="`mmodb-${index}`">
+            <strong>{{ meta.label ?? $t(index) }}:</strong>
+            {{ meta.value }}
+          </div>
+        </template>
+
+        <template v-for="(meta, index) in linksMeta" :key="index">
+          <div v-if="showMeta(index, 'linksMeta')" :class="`mmodb-${index}`">
+            <a target="_blank" :href="meta.value">
+              <strong>{{ $t(index) }}</strong>
+            </a>
+          </div>
+        </template>
+      </div>
+      <div>
         <img class="mmdb-poster"
              :src="getImage"
              :alt="`${title} image`"
         />
       </div>
-      <div :class="`meta-wrapper ${store.state.cssClasses.twoColumn}`">
-        <div class="mmdb-meta">
-          <template v-for="(meta, index) in mainMeta" :key="index">
-            <div v-if="showMeta(index, 'mainMeta')" :class="`mmodb-${index}`">
-              <strong>{{ meta.label ?? $t(index) }}:</strong>
-              {{ meta.value }}
-            </div>
-          </template>
 
-          <template v-for="(meta, index) in linksMeta" :key="index">
-            <div v-if="showMeta(index, 'linksMeta')" :class="`mmodb-${index}`">
-              <a target="_blank" :href="meta.value">
-                <strong>{{ $t(index) }}</strong>
-              </a>
-            </div>
-          </template>
+      <div v-if="store.state.showSettings.overview_text"
+           class="overview-text">
+        <div>
+          {{ description }}
         </div>
       </div>
-      <div class="clearfix"></div>
-      <div v-if="store.state.showSettings.overview_text"
-           class="col-md-12 overview-text">
-        {{ description }}
-      </div>
-      <div class="col-md-12">
+      <div v-if="bottomMeta" class="mmdb-ownership">
         <template v-for="(meta, index) in bottomMeta" :key="index">
           <div v-if="showMeta(index, 'bottomMeta')" :class="`mmodb-${index}`">
             <strong>{{ $t(index) }}:</strong>
@@ -52,8 +53,7 @@
 <script setup lang="ts">
 import { PropType, computed, ref, inject } from 'vue'
 import { useStore } from '@/store'
-
-import { getImageUrl, placeholderImages } from '@/helpers/templating'
+import { getImageUrl } from '@/helpers/images'
 import { ConditionalFieldGroup } from '@/models/templates'
 
 const $t = inject('$t')
@@ -86,14 +86,9 @@ const showSubSections = computed(() => {
 })
 
 const getImage = computed(() => {
-  let size = 'large'
   let file = store.getters.getImagePath
 
-  if (file) {
-    return getImageUrl(file, size)
-  }
-
-  return ref(require(`../../assets/img/${placeholderImages[size]}`)).value
+  return getImageUrl(file)
 })
 
 function showMeta(field, object) {

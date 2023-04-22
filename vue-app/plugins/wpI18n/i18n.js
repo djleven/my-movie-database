@@ -20,7 +20,7 @@ export default {
     place_of_birth: __('Birthplace', 'my-movie-database'),
     birthday: __('Birthday', 'my-movie-database'),
     birthplace: __('Birthplace', 'my-movie-database'),
-    death_date: __('Death date', 'my-movie-database'),
+    deathday: __('Died on', 'my-movie-database'),
     department: __('Department', 'my-movie-database'),
     known_for_department: _x('Known for', 'Known for refers to the department of work, ex: Known for acting or directing', 'my-movie-database'),
     also_known_as: _x('Also known as', 'Other names the person is also known as, for example Jon Stewart is "also known as" Jonathan Stuart Leibowitz', 'my-movie-database'),

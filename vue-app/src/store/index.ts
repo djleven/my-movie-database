@@ -19,7 +19,7 @@ interface BaseStateInterface {
     template: Templates
     global_conf: GlobalSettings
     showSettings: SectionShowSettings
-    cssClasses: TypeStylingSettings
+    styling: TypeStylingSettings
 }
 
 interface SectionComponentsInterface {

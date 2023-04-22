@@ -20,7 +20,6 @@ abstract class WpAbstractContentType {
     public $data_type;
     public $tmdb_id;
     public $template;
-    public $size;
 
     /**
      * The tmdb post meta identifier
@@ -140,60 +139,6 @@ abstract class WpAbstractContentType {
 
         return $this->getResourceTypeSetting( 'width', 'medium');
 	}
-
-    /**
-     * Get the custom width setting for type object
-     *
-     * @since     3.0.0
-     * @return    string
-     */
-    protected function getCustomWidthSetting() {
-
-        return $this->getResourceTypeSetting( 'custom_width', '');
-    }
-
-    /**
-     * Get the bootstrap width class for multiple column situations like cast or crew
-     *
-     * @since     1.0.2
-     * @return    string
-     */
-    protected function getMultipleColumnStyle() {
-
-        $css_class	= '';
-        $post_setting	= $this->size;
-
-        if ($post_setting === 'large') {
-            $css_class	= 'col-lg-3 col-md-3 col-sm-6 col-xs-12';
-        }
-        elseif ($post_setting === 'medium') {
-            $css_class	= 'col-lg-3 col-md-4 col-sm-6 col-xs-12';
-        }
-
-        elseif ($post_setting === 'small') {
-            $css_class	= 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
-        }
-
-        elseif ($post_setting === 'custom') {
-            $css_class	= $this->getCustomWidthSetting();
-        }
-
-        return $css_class;
-    }
-
-    /**
-     * Get the bootstrap width class for two column situations like in movie-main.php
-     * TODO: Do something with this
-     *
-     * @since     1.0.2
-     * @return    string
-     */
-    protected function getTwoColumnStyle() {
-
-        $css_class	= 'col-lg-6 col-md-6 col-sm-12';
-
-        return $css_class;
-    }
 
     /**
      * Associative array of visibility settings fot the data type sections

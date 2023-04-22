@@ -64,9 +64,8 @@ trait TemplateVueTrait
             'template' => $this->template,
             'global_conf' => $mmdb_single_run_settings['global_conf'],
             'showSettings' => $this->showSectionSettings(),
-            'cssClasses' => [
-                'multipleColumn' => $this->getMultipleColumnStyle(),
-                'twoColumn' => $this->getTwoColumnStyle(),
+            'styling' => [
+                'size' => $this->getWidthSetting(),
                 'headerColor' => $this->getHeaderColorSetting(),
                 'bodyColor' => $this->getBodyColorSetting(),
                 'headerFontColor' => $this->getHeaderFontColorSetting(),

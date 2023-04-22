@@ -252,10 +252,6 @@ class AdminController implements ActionHookSubscriberInterface, FilterHookSubscr
                 MMDB_NAME . 'Admin', TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME . 'Admin'), [], '1.0.0', 'all' );
             wp_enqueue_script( 'mmodb-admin-edit',  TemplateFiles::getJsFilePath($edit_js_file), ['jquery'],0.1, true);
         }
-        elseif($this->isAdminSettingsPage() ) {
-            $settings_js_file = 'admin-settings';
-            wp_enqueue_script( 'mmodb-admin-settings', TemplateFiles::getJsFilePath($settings_js_file), ['jquery'],0.1, true);
-        }
         TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
     }
 }

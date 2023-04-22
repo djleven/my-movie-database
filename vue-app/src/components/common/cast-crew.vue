@@ -6,11 +6,13 @@
         <extended-credits
             v-if="isPersonType"
             :credits="credits"
+            :image-size="store.state.styling.size"
             :i18-title-key-suffix="templateType"
             :overview-on-hover="store.state.global_conf.overviewOnHover"
         />
         <credit-list
             v-else
+            :image-size="store.state.styling.size"
             :credits="credits"
             :overview-on-hover="false"
         />

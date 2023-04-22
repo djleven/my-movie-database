@@ -1,18 +1,18 @@
 <template>
-    <section class="mmdb-section">
-        <div class="mmdb-header"
+    <div class="mmdb-section">
+        <h3 class="mmdb-header"
              v-if="showHeader"
              :style="headerColors">
-            <h3 class="mmdb-header-title" :style="`color:${stylingConfig.headerFontColor};`">
+            <span class="mmdb-header-title" :style="`color:${stylingConfig.headerFontColor};`">
                 {{ header }}
-                <span v-if="subHeader" class="pull-right">{{ subHeader }}</span>
-            </h3>
-        </div>
-        <div :class="`col-md-12 mmdb-body ${classList}`"
+            </span>
+          <span v-if="subHeader" class="mmdb-header-sub-title">{{ subHeader }}</span>
+        </h3>
+        <div :class="`mmdb-body ${classList}`"
              :style="bodyColors">
             <slot></slot>
         </div>
-    </section>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -44,7 +44,7 @@ defineProps({
 })
 
 const store = useStore();
-const stylingConfig = computed(() => store.state.cssClasses);
+const stylingConfig = computed(() => store.state.styling);
 const headerColors = computed(() => {
   const bg = stylingConfig.value.headerColor
   const font = stylingConfig.value.headerFontColor
