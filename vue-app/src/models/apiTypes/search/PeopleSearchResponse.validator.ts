@@ -1,7 +1,7 @@
 // @ts-nocheck
 // eslint-disable
 import Ajv from 'ajv'
-import type * as apiTypes from './person'
+import type * as apiTypes from './PeopleSearchResponse'
 import addFormats from 'ajv-formats'
 
 export const SCHEMA = {

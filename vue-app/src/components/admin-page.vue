@@ -28,9 +28,9 @@
 <script setup lang="ts">
 import { computed, ref, Ref, watch } from 'vue';
 import { useStore } from '@/store'
-import PeopleSearchResponse, { PersonSearchData } from '@/models/searchTypes/person'
-import TvShowsSearchResponse, { TvShowSearchData } from '@/models/searchTypes/tvshow'
-import MoviesSearchResponse, { MovieSearchData } from '@/models/searchTypes/movie'
+import PeopleSearchResponse, { PersonSearchData } from '@/models/apiTypes/search/PeopleSearchResponse'
+import TvShowsSearchResponse, { TvShowSearchData } from '@/models/apiTypes/search/TvShowsSearchResponse'
+import MoviesSearchResponse, { MovieSearchData } from '@/models/apiTypes/search/MoviesSearchResponse'
 
 const page = ref(1)
 const results: Ref<MovieSearchData[]> | Ref<TvShowSearchData[]> | Ref<PersonSearchData[]> = ref(  [])

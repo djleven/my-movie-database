@@ -4,12 +4,12 @@ import { PersonCredits, ScreenPlayCredits } from '@/models/credits'
 import { MovieData } from '@/store/movie'
 import { PersonData } from '@/store/person'
 import { TvShowData } from '@/store/tv'
-import { validateMoviesSearchResponse } from '@/models/searchTypes/movie.validator'
-import { validateTvShowsSearchResponse } from '@/models/searchTypes/tvshow.validator'
-import { validatePeopleSearchResponse } from '@/models/searchTypes/person.validator'
-import PeopleSearchResponse from '@/models/searchTypes/person'
-import TvShowsSearchResponse from '@/models/searchTypes/tvshow'
-import MoviesSearchResponse from '@/models/searchTypes/movie'
+import { validateMoviesSearchResponse } from '@/models/apiTypes/search/MoviesSearchResponse.validator'
+import { validateTvShowsSearchResponse } from '@/models/apiTypes/search/TvShowsSearchResponse.validator'
+import { validatePeopleSearchResponse } from '@/models/apiTypes/search/PeopleSearchResponse.validator'
+import PeopleSearchResponse from '@/models/apiTypes/search/PeopleSearchResponse'
+import TvShowsSearchResponse from '@/models/apiTypes/search/TvShowsSearchResponse'
+import MoviesSearchResponse from '@/models/apiTypes/search/MoviesSearchResponse'
 
 export default {
     async loadContent({ commit, state, dispatch }) {

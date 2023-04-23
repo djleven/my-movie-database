@@ -1,6 +1,6 @@
-import BaseSearchResponse from '@/models/searchTypes'
-import { MovieSearchData } from "@/models/searchTypes/movie";
-import { TvShowSearchData } from "@/models/searchTypes/tvshow";
+import BaseSearchResponse from '@/models/apiTypes/search/BaseSearchResponse'
+import { MovieSearchData } from '@/models/apiTypes/search/MoviesSearchResponse'
+import { TvShowSearchData } from '@/models/apiTypes/search/TvShowsSearchResponse'
 
 interface KnownForMovie extends MovieSearchData {
   media_type: 'movie'

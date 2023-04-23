@@ -1,13 +1,13 @@
 // @ts-nocheck
 // eslint-disable
 import Ajv from 'ajv'
-import type * as apiTypes from './tvshow'
+import type * as apiTypes from './MoviesSearchResponse'
 import addFormats from 'ajv-formats'
 
 export const SCHEMA = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "TvShowsSearchResponse": {
+        "MoviesSearchResponse": {
             "type": "object",
             "properties": {
                 "page": {
@@ -22,7 +22,7 @@ export const SCHEMA = {
                 "results": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/TvShowSearchData"
+                        "$ref": "#/definitions/MovieSearchData"
                     }
                 }
             },
@@ -54,7 +54,7 @@ export const SCHEMA = {
             ],
             "additionalProperties": false
         },
-        "TvShowSearchData": {
+        "MovieSearchData": {
             "type": "object",
             "properties": {
                 "poster_path": {
@@ -63,22 +63,13 @@ export const SCHEMA = {
                         "null"
                     ]
                 },
-                "popularity": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "number"
-                },
-                "backdrop_path": {
-                    "type": [
-                        "string",
-                        "null"
-                    ]
+                "adult": {
+                    "type": "boolean"
                 },
                 "overview": {
                     "type": "string"
                 },
-                "first_air_date": {
+                "release_date": {
                     "type": "string",
                     "oneOf": [
                         {
@@ -90,32 +81,41 @@ export const SCHEMA = {
                         }
                     ],
                 },
-                "origin_country": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
                 "genre_ids": {
                     "type": "array",
                     "items": {
                         "type": "number"
                     }
                 },
+                "id": {
+                    "type": "number"
+                },
                 "original_language": {
                     "type": "string"
                 },
-                "original_name": {
+                "original_title": {
                     "type": "string"
                 },
                 "title": {
                     "type": "string"
+                },
+                "backdrop_path": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "popularity": {
+                    "type": "number"
                 },
                 "vote_average": {
                     "type": "number"
                 },
                 "vote_count": {
                     "type": "number"
+                },
+                "video": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -127,21 +127,21 @@ export const SCHEMA = {
 };
 const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA");
 addFormats(ajv)
-export function validateTvShowsSearchResponse(payload: unknown): apiTypes.TvShowsSearchResponse {
-  /** Schema is defined in {@link SCHEMA.definitions.TvShowsSearchResponse } **/
-  const validator = ajv.getSchema("SCHEMA#/definitions/TvShowsSearchResponse");
+export function validateMoviesSearchResponse(payload: unknown): apiTypes.MoviesSearchResponse {
+  /** Schema is defined in {@link SCHEMA.definitions.MoviesSearchResponse } **/
+  const validator = ajv.getSchema("SCHEMA#/definitions/MoviesSearchResponse");
   const valid = validator(payload);
   if (!valid) {
-    const error = new Error('Invalid TvShowsSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "TvShowsSearchResponse"}));
+    const error = new Error('Invalid MoviesSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "MoviesSearchResponse"}));
     error.name = "ValidationError";
     throw error;
   }
   return payload;
 }
 
-export function isTvShowsSearchResponse(payload: unknown): payload is apiTypes.TvShowsSearchResponse {
+export function isMoviesSearchResponse(payload: unknown): payload is apiTypes.MoviesSearchResponse {
   try {
-    validateTvShowsSearchResponse(payload);
+    validateMoviesSearchResponse(payload);
     return true;
   } catch (error) {
     return false;

@@ -1,4 +1,4 @@
-import BaseSearchResponse from '@/models/searchTypes'
+import BaseSearchResponse from '@/models/apiTypes/search/BaseSearchResponse'
 export default interface MoviesSearchResponse extends BaseSearchResponse {
     results: MovieSearchData[]
 }
