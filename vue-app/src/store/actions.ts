@@ -1,9 +1,15 @@
-import { getById } from '@/helpers/resourceAPI'
+import { getById, searchAPI } from '@/helpers/resourceAPI'
 import { ContentTypes } from '@/models/settings'
 import { PersonCredits, ScreenPlayCredits } from '@/models/credits'
 import { MovieData } from '@/store/movie'
 import { PersonData } from '@/store/person'
 import { TvShowData } from '@/store/tv'
+import { validateMoviesSearchResponse } from '@/models/searchTypes/movie.validator'
+import { validateTvShowsSearchResponse } from '@/models/searchTypes/tvshow.validator'
+import { validatePeopleSearchResponse } from '@/models/searchTypes/person.validator'
+import PeopleSearchResponse from '@/models/searchTypes/person'
+import TvShowsSearchResponse from '@/models/searchTypes/tvshow'
+import MoviesSearchResponse from '@/models/searchTypes/movie'
 
 export default {
     async loadContent({ commit, state, dispatch }) {
@@ -69,4 +75,35 @@ export default {
     setContentLoaded(state, status: boolean) {
         state.contentLoaded = status
     },
+    async searchForResources({ commit, state }, val):
+        Promise<PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse>
+    {
+        let data
+        const errorMsg = `Error fetching search results for ${val}`
+        try {
+            const type = state.type
+            let query = await searchAPI(val, type)
+
+            if(!query.parsedBody) {
+                throw Error(errorMsg)
+            }
+            data = JSON.parse(query.parsedBody)
+
+            if(type === ContentTypes.Movie) {
+                data = validateMoviesSearchResponse(data)
+            }
+            else if(type === ContentTypes.TvShow) {
+                data = validateTvShowsSearchResponse(data)
+            }
+            else if (type === ContentTypes.Person) {
+                data = validatePeopleSearchResponse(data)
+            }
+        }
+        catch(e){
+            console.error(e, errorMsg)
+            commit('setErrorMessage', errorMsg)
+        }
+
+        return data
+    }
 }

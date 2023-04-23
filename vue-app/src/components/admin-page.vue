@@ -26,51 +26,38 @@
 
 </template>
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, Ref, watch } from 'vue';
 import { useStore } from '@/store'
-import { searchAPI } from '@/helpers/resourceAPI';
-
-import PeopleSearchResponse from '@/models/searchTypes/person'
-import TvShowsSearchResponse from '@/models/searchTypes/tvshow'
-import MoviesSearchResponse from '@/models/searchTypes/movie'
+import PeopleSearchResponse, { PersonSearchData } from '@/models/searchTypes/person'
+import TvShowsSearchResponse, { TvShowSearchData } from '@/models/searchTypes/tvshow'
+import MoviesSearchResponse, { MovieSearchData } from '@/models/searchTypes/movie'
 
 const page = ref(1)
-const results = ref([])
-const total_pages = ref(null)
+const results: Ref<MovieSearchData[]> | Ref<TvShowSearchData[]> | Ref<PersonSearchData[]> = ref(  [])
+const total_pages = ref(0)
 const active = ref(null)
 const searched = ref(false)
 const loading = ref(false)
 
 const store = useStore();
 const type = computed(() => store.state.type);
-const debug = computed(() => store.state.global_conf.debug);
-const contentLoaded = computed(() => store.state.contentLoaded);
+const debug = computed(() => store.state.global_conf.debug)
+const contentLoaded = computed(() => store.state.contentLoaded)
 
 watch(contentLoaded, (newValue) => {
   if(newValue) {
     resetForm(true)
   }
 });
-async function fetchResults(val) {
-  const errorMsg = `Error fetching search results for ${val}`
-  try {
-    let data: PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse
-    let query = await searchAPI(val, type.value)
-
-    if(!query.parsedBody) {
-      throw Error(errorMsg)
-    }
-    data = JSON.parse(query.parsedBody)
-
-    return setResults(data)
+const fetchResults = async (val) => {
+  if(!val) {
+    return
   }
-  catch(e){
-    console.error(e, errorMsg)
-    store.commit('setErrorMessage', errorMsg)
-  }
+  const results = await store.dispatch('searchForResources', val)
+  setResults(results)
 }
 
-function setResults(data) {
+function setResults(data: PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse) {
   if (debug.value) {
     console.log(data, 'Search result response data')
   }
