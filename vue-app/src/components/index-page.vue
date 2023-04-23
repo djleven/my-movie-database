@@ -3,9 +3,6 @@
              :is="template"
              :sections="sections">
   </component>
-  <div v-else-if="store.state.error">
-    {{store.state.error}}
-  </div>
 </template>
 
 <script setup lang="ts">

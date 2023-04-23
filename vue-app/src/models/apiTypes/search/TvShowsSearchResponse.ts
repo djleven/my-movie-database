@@ -9,7 +9,7 @@ export interface TvShowSearchData {
     id: number,
     backdrop_path: string | null,
     overview: string,
-    first_air_date: Date,
+    first_air_date: Date | null,
     origin_country: string[],
     genre_ids: number[],
     original_language: string,

@@ -1,3 +1,4 @@
+import PersonData from '@/models/apiTypes/PersonData'
 import {
     PersonCastCredit,
     PersonCredits,
@@ -6,25 +7,6 @@ import {
     ScreenPlayTypes
 } from '@/models/credits'
 import { orderCredits } from '@/helpers/templating'
-
-export interface PersonData {
-    name: string,
-    adult: boolean,
-    backdrop_path: string | null,
-    known_for_department: string,
-    also_known_as: string[],
-    birthday: Date | null,
-    place_of_birth: string,
-    combined_credits: PersonCredits,
-    deathday: Date | null,
-    gender: 0 | 1 | 2 | 3,
-    homepage: URL | null,
-    id: number,
-    imdb_id: string,
-    biography: string | null,
-    popularity: number,
-    profile_path: string | null,
-}
 
 const content: Partial<PersonData> | null = null
 

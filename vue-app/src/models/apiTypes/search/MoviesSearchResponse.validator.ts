@@ -64,22 +64,34 @@ export const SCHEMA = {
                     ]
                 },
                 "adult": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
                 },
                 "overview": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "release_date": {
-                    "type": "string",
-                    "oneOf": [
+                    "anyOf": [
                         {
-                            "maxLength": 0
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "maxLength": 0
+                                },
+                                {
+                                    "format": "date"
+                                }
+                            ],
                         },
                         {
-                            "format": 'date',
-                            "minLength": 1
+                            "type": "null"
                         }
-                    ],
+                    ]
                 },
                 "genre_ids": {
                     "type": "array",
@@ -91,13 +103,22 @@ export const SCHEMA = {
                     "type": "number"
                 },
                 "original_language": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "original_title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "backdrop_path": {
                     "type": [
@@ -106,16 +127,28 @@ export const SCHEMA = {
                     ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_average": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_count": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "video": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
                 }
             },
             "required": [
@@ -124,26 +157,27 @@ export const SCHEMA = {
             "additionalProperties": false
         }
     }
-};
-const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA");
+}
+
+const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA")
 addFormats(ajv)
 export function validateMoviesSearchResponse(payload: unknown): apiTypes.MoviesSearchResponse {
-  /** Schema is defined in {@link SCHEMA.definitions.MoviesSearchResponse } **/
-  const validator = ajv.getSchema("SCHEMA#/definitions/MoviesSearchResponse");
-  const valid = validator(payload);
-  if (!valid) {
-    const error = new Error('Invalid MoviesSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "MoviesSearchResponse"}));
-    error.name = "ValidationError";
-    throw error;
-  }
-  return payload;
+    /** Schema is defined in {@link SCHEMA.definitions.MoviesSearchResponse } **/
+    const validator = ajv.getSchema("SCHEMA#/definitions/MoviesSearchResponse")
+    const valid = validator(payload);
+    if (!valid) {
+        const error = new Error('Invalid MoviesSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "MoviesSearchResponse"}))
+        error.name = "ValidationError"
+        throw error
+    }
+    return payload
 }
 
 export function isMoviesSearchResponse(payload: unknown): payload is apiTypes.MoviesSearchResponse {
-  try {
-    validateMoviesSearchResponse(payload);
-    return true;
-  } catch (error) {
-    return false;
-  }
+    try {
+        validateMoviesSearchResponse(payload)
+        return true
+    } catch (error) {
+        return false
+    }
 }

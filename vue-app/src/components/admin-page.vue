@@ -41,7 +41,6 @@ const loading = ref(false)
 
 const store = useStore();
 const type = computed(() => store.state.type);
-const debug = computed(() => store.state.global_conf.debug)
 const contentLoaded = computed(() => store.state.contentLoaded)
 
 watch(contentLoaded, (newValue) => {
@@ -58,9 +57,6 @@ const fetchResults = async (val) => {
 }
 
 function setResults(data: PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse) {
-  if (debug.value) {
-    console.log(data, 'Search result response data')
-  }
   page.value = data.page
   results.value = data.results
   total_pages.value = data.total_pages

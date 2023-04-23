@@ -64,16 +64,25 @@ export const SCHEMA = {
                     ]
                 },
                 "adult": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
                 },
                 "id": {
                     "type": "number"
                 },
                 "name": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "known_for": {
                     "anyOf": [
@@ -89,22 +98,34 @@ export const SCHEMA = {
                                         ]
                                     },
                                     "adult": {
-                                        "type": "boolean"
+                                        "type": [
+                                            "boolean",
+                                            "null"
+                                        ]
                                     },
                                     "overview": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "release_date": {
-                                        "type": "string",
-                                        "oneOf": [
+                                        "anyOf": [
                                             {
-                                                "maxLength": 0
+                                                "type": "string",
+                                                "oneOf": [
+                                                    {
+                                                        "maxLength": 0
+                                                    },
+                                                    {
+                                                        "format": "date"
+                                                    }
+                                                ],
                                             },
                                             {
-                                                "format": 'date',
-                                                "minLength": 1
+                                                "type": "null"
                                             }
-                                        ],
+                                        ]
                                     },
                                     "genre_ids": {
                                         "type": "array",
@@ -116,13 +137,22 @@ export const SCHEMA = {
                                         "type": "number"
                                     },
                                     "original_language": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "original_title": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "title": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "backdrop_path": {
                                         "type": [
@@ -131,16 +161,28 @@ export const SCHEMA = {
                                         ]
                                     },
                                     "popularity": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "vote_average": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "vote_count": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "video": {
-                                        "type": "boolean"
+                                        "type": [
+                                            "boolean",
+                                            "null"
+                                        ]
                                     },
                                     "media_type": {
                                         "type": "string",
@@ -165,7 +207,10 @@ export const SCHEMA = {
                                         ]
                                     },
                                     "popularity": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "id": {
                                         "type": "number"
@@ -177,19 +222,28 @@ export const SCHEMA = {
                                         ]
                                     },
                                     "overview": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "first_air_date": {
-                                        "type": "string",
-                                        "oneOf": [
+                                        "anyOf": [
                                             {
-                                                "maxLength": 0
+                                                "type": "string",
+                                                "oneOf": [
+                                                    {
+                                                        "maxLength": 0
+                                                    },
+                                                    {
+                                                        "format": "date"
+                                                    }
+                                                ],
                                             },
                                             {
-                                                "format": 'date',
-                                                "minLength": 1
+                                                "type": "null"
                                             }
-                                        ],
+                                        ]
                                     },
                                     "origin_country": {
                                         "type": "array",
@@ -204,19 +258,34 @@ export const SCHEMA = {
                                         }
                                     },
                                     "original_language": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "original_name": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "title": {
-                                        "type": "string"
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "vote_average": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "vote_count": {
-                                        "type": "number"
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
                                     },
                                     "media_type": {
                                         "type": "string",
@@ -247,22 +316,34 @@ export const SCHEMA = {
                     ]
                 },
                 "adult": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
                 },
                 "overview": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "release_date": {
-                    "type": "string",
-                    "oneOf": [
+                    "anyOf": [
                         {
-                            "maxLength": 0
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "maxLength": 0
+                                },
+                                {
+                                    "format": "date"
+                                }
+                            ],
                         },
                         {
-                            "format": 'date',
-                            "minLength": 1
+                            "type": "null"
                         }
-                    ],
+                    ]
                 },
                 "genre_ids": {
                     "type": "array",
@@ -274,13 +355,22 @@ export const SCHEMA = {
                     "type": "number"
                 },
                 "original_language": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "original_title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "backdrop_path": {
                     "type": [
@@ -289,16 +379,28 @@ export const SCHEMA = {
                     ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_average": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_count": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "video": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
                 }
             },
             "required": [
@@ -316,7 +418,10 @@ export const SCHEMA = {
                     ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "id": {
                     "type": "number"
@@ -328,19 +433,28 @@ export const SCHEMA = {
                     ]
                 },
                 "overview": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "first_air_date": {
-                    "type": "string",
-                    "oneOf": [
+                    "anyOf": [
                         {
-                            "maxLength": 0
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "maxLength": 0
+                                },
+                                {
+                                    "format": "date"
+                                }
+                            ],
                         },
                         {
-                            "format": 'date',
-                            "minLength": 1
+                            "type": "null"
                         }
-                    ],
+                    ]
                 },
                 "origin_country": {
                     "type": "array",
@@ -355,19 +469,34 @@ export const SCHEMA = {
                     }
                 },
                 "original_language": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "original_name": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "vote_average": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_count": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 }
             },
             "required": [
@@ -376,26 +505,27 @@ export const SCHEMA = {
             "additionalProperties": false
         }
     }
-};
-const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA");
+}
+
+const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA")
 addFormats(ajv)
 export function validatePeopleSearchResponse(payload: unknown): apiTypes.PeopleSearchResponse {
-  /** Schema is defined in {@link SCHEMA.definitions.PeopleSearchResponse } **/
-  const validator = ajv.getSchema("SCHEMA#/definitions/PeopleSearchResponse");
-  const valid = validator(payload);
-  if (!valid) {
-    const error = new Error('Invalid PeopleSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "PeopleSearchResponse"}));
-    error.name = "ValidationError";
-    throw error;
-  }
-  return payload;
+    /** Schema is defined in {@link SCHEMA.definitions.PeopleSearchResponse } **/
+    const validator = ajv.getSchema("SCHEMA#/definitions/PeopleSearchResponse")
+    const valid = validator(payload);
+    if (!valid) {
+        const error = new Error('Invalid PeopleSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "PeopleSearchResponse"}))
+        error.name = "ValidationError"
+        throw error
+    }
+    return payload
 }
 
 export function isPeopleSearchResponse(payload: unknown): payload is apiTypes.PeopleSearchResponse {
-  try {
-    validatePeopleSearchResponse(payload);
-    return true;
-  } catch (error) {
-    return false;
-  }
+    try {
+        validatePeopleSearchResponse(payload)
+        return true
+    } catch (error) {
+        return false
+    }
 }

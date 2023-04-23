@@ -1,37 +1,6 @@
 import { ScreenPlayCredits } from '@/models/credits'
-import ScreenPlayData from '@/models/screenPlay'
-import { orderCredits} from '@/helpers/templating'
-interface BelongsToCollection {
-    backdrop_path: string,
-    id: number,
-    name: string,
-    poster_path: string,
-}
-
-interface YoutubeVideo {
-    name: string,
-    size: string,
-    source: string,
-    type: string
-}
-export interface MovieData extends ScreenPlayData {
-    belongs_to_collection: BelongsToCollection | null,
-    budget: number,
-    imdb_id: string | null,
-    original_language: string,
-    original_title: string,
-    release_date: Date,
-    revenue: number,
-    runtime: number | null,
-    status: string,
-    tagline: string | null,
-    title: string,
-    trailers: {
-        quicktime: [],
-        youtube: YoutubeVideo[],
-    },
-    video: boolean,
-}
+import MovieData from '@/models/apiTypes/MovieData'
+import { orderCredits } from '@/helpers/templating'
 
 const content: Partial<MovieData> | null = null
 

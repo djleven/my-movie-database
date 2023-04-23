@@ -16,7 +16,7 @@ interface AbstractCredit {
 interface ScreenPlayCredit extends AbstractCredit {
     gender: number
     known_for_department: string
-    profile_path: string
+    profile_path: string | null
 }
 
 export interface ScreenPlayCastCredit extends ScreenPlayCredit {
@@ -42,17 +42,17 @@ interface PersonCredit extends AbstractCredit {
     original_language: string
     episode_count: number
     overview: string
-    origin_country: [string]
-    genre_ids: [number]
+    origin_country: string[]
+    genre_ids: number[]
     media_type: string
     poster_path: string | null
-    first_air_date: string
+    first_air_date: Date | null
     vote_average: number
     vote_count: number
     backdrop_path: string | null
     original_title: string
     video: boolean
-    release_date: string
+    release_date: Date | null
     title: string
 }
 export interface PersonCastCredit extends PersonCredit {

@@ -64,7 +64,10 @@ export const SCHEMA = {
                     ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "id": {
                     "type": "number"
@@ -76,19 +79,28 @@ export const SCHEMA = {
                     ]
                 },
                 "overview": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "first_air_date": {
-                    "type": "string",
-                    "oneOf": [
+                    "anyOf": [
                         {
-                            "maxLength": 0
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "maxLength": 0
+                                },
+                                {
+                                    "format": "date"
+                                }
+                            ],
                         },
                         {
-                            "format": 'date',
-                            "minLength": 1
+                            "type": "null"
                         }
-                    ],
+                    ]
                 },
                 "origin_country": {
                     "type": "array",
@@ -103,19 +115,34 @@ export const SCHEMA = {
                     }
                 },
                 "original_language": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "original_name": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "title": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "vote_average": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "vote_count": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 }
             },
             "required": [
@@ -124,26 +151,27 @@ export const SCHEMA = {
             "additionalProperties": false
         }
     }
-};
-const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA");
+}
+
+const ajv = new Ajv({ removeAdditional: true }).addSchema(SCHEMA, "SCHEMA")
 addFormats(ajv)
 export function validateTvShowsSearchResponse(payload: unknown): apiTypes.TvShowsSearchResponse {
-  /** Schema is defined in {@link SCHEMA.definitions.TvShowsSearchResponse } **/
-  const validator = ajv.getSchema("SCHEMA#/definitions/TvShowsSearchResponse");
-  const valid = validator(payload);
-  if (!valid) {
-    const error = new Error('Invalid TvShowsSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "TvShowsSearchResponse"}));
-    error.name = "ValidationError";
-    throw error;
-  }
-  return payload;
+    /** Schema is defined in {@link SCHEMA.definitions.TvShowsSearchResponse } **/
+    const validator = ajv.getSchema("SCHEMA#/definitions/TvShowsSearchResponse")
+    const valid = validator(payload)
+    if (!valid) {
+        const error = new Error('Invalid TvShowsSearchResponse: ' + ajv.errorsText(validator.errors, {dataVar: "TvShowsSearchResponse"}));
+        error.name = "ValidationError"
+        throw error
+    }
+    return payload
 }
 
 export function isTvShowsSearchResponse(payload: unknown): payload is apiTypes.TvShowsSearchResponse {
-  try {
-    validateTvShowsSearchResponse(payload);
-    return true;
-  } catch (error) {
-    return false;
-  }
+    try {
+        validateTvShowsSearchResponse(payload)
+        return true
+    } catch (error) {
+        return false
+    }
 }

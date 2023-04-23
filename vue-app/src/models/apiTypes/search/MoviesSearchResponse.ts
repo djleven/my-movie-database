@@ -7,7 +7,7 @@ export interface MovieSearchData {
     poster_path: string | null,
     adult: boolean,
     overview: string,
-    release_date: Date,
+    release_date: Date | null,
     genre_ids: number[],
     id: number,
     original_language: string,

@@ -1,15 +1,18 @@
 import { getById, searchAPI } from '@/helpers/resourceAPI'
 import { ContentTypes } from '@/models/settings'
 import { PersonCredits, ScreenPlayCredits } from '@/models/credits'
-import { MovieData } from '@/store/movie'
-import { PersonData } from '@/store/person'
-import { TvShowData } from '@/store/tv'
+import MovieData from '@/models/apiTypes/MovieData'
+import TvShowData from '@/models/apiTypes/TvShowData'
+import PersonData from '@/models/apiTypes/PersonData'
 import { validateMoviesSearchResponse } from '@/models/apiTypes/search/MoviesSearchResponse.validator'
 import { validateTvShowsSearchResponse } from '@/models/apiTypes/search/TvShowsSearchResponse.validator'
 import { validatePeopleSearchResponse } from '@/models/apiTypes/search/PeopleSearchResponse.validator'
 import PeopleSearchResponse from '@/models/apiTypes/search/PeopleSearchResponse'
 import TvShowsSearchResponse from '@/models/apiTypes/search/TvShowsSearchResponse'
 import MoviesSearchResponse from '@/models/apiTypes/search/MoviesSearchResponse'
+import { validateMovieData } from '@/models/apiTypes/MovieData.validator'
+import { validateTvShowData } from '@/models/apiTypes/TvShowData.validator'
+import { validatePersonData } from '@/models/apiTypes/PersonData.validator'
 
 export default {
     async loadContent({ commit, state, dispatch }) {
@@ -30,6 +33,16 @@ export default {
             data = JSON.parse(response.parsedBody)
             if (state.global_conf.debug) {
                 console.log(data, 'Content type response data')
+            }
+
+            if(type === ContentTypes.Movie) {
+                data = validateMovieData(data)
+            }
+            else if(type === ContentTypes.TvShow) {
+                data = validateTvShowData(data)
+            }
+            else if (type === ContentTypes.Person) {
+                data = validatePersonData(data)
             }
 
             return dispatch('addContent', data)
@@ -88,6 +101,9 @@ export default {
                 throw Error(errorMsg)
             }
             data = JSON.parse(query.parsedBody)
+            if (state.global_conf.debug) {
+                console.log(data, 'Search result response data')
+            }
 
             if(type === ContentTypes.Movie) {
                 data = validateMoviesSearchResponse(data)
@@ -98,12 +114,13 @@ export default {
             else if (type === ContentTypes.Person) {
                 data = validatePeopleSearchResponse(data)
             }
+
+            return data
         }
-        catch(e){
+        catch(e) {
             console.error(e, errorMsg)
             commit('setErrorMessage', errorMsg)
+            throw Error(errorMsg)
         }
-
-        return data
     }
 }
