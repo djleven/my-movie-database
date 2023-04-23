@@ -28,7 +28,7 @@
 import { computed, inject } from 'vue'
 import { ImageType } from '@/helpers/images'
 import { Sizes } from '@/models/settings'
-import {getExcerpt} from "@/helpers/templating";
+import { getExcerpt } from "@/helpers/templating";
 
 const $t = inject('$t')
 const props = defineProps({
@@ -47,9 +47,15 @@ const select = () => {
 const knownFor = computed(() => {
   const known_for = props.result.known_for
   if(known_for && known_for.length) {
-    return known_for.map((elem) => {
-      return getExcerpt((elem.name || elem.title), 35)
-    }).join(", ")
+    let results: string[] = []
+     known_for.forEach((elem) => {
+      const text = (elem.name || elem.title)
+      if(text) {
+        results.push(getExcerpt(text, 35))
+      }
+    })
+
+    return results.join(", ")
   }
   return null
 })
