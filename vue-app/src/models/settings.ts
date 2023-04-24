@@ -30,7 +30,7 @@ export enum TransitionEffects {
 export interface GlobalSettings {
     locale: string
     debug: boolean
-    date_format: Color
+    date_format: string
     overviewOnHover: boolean
 }
 
@@ -51,7 +51,7 @@ export enum BaseTemplateSections {
 }
 
 export interface SectionShowSettings {
-    Overview_text: boolean
+    overview_text: boolean
     [BaseTemplateSections.Section_2]: boolean
     [BaseTemplateSections.Section_3]: boolean
     [BaseTemplateSections.Section_4]: boolean

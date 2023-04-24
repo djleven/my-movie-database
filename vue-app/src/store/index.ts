@@ -11,38 +11,31 @@ import personModule, { PersonState }  from '@/store/person'
 import Movie from '@/models/contentTypes/movie'
 import Tvshow from '@/models/contentTypes/tvshow'
 import Person from '@/models/contentTypes/person'
-import { ContentId, ContentTypes, Templates, GlobalSettings, SectionShowSettings, TypeStylingSettings, BaseTemplateSections } from '@/models/settings'
+import BaseStateConfig from '@/models/apiTypes/BaseStateConfig'
+import { ContentTypes, BaseTemplateSections } from '@/models/settings'
 
-interface BaseStateInterface {
-    id: ContentId
-    type: ContentTypes
-    template: Templates
-    global_conf: GlobalSettings
-    showSettings: SectionShowSettings
-    styling: TypeStylingSettings
-}
 
-interface SectionComponentsInterface {
+interface SectionComponents {
     [BaseTemplateSections.Overview]: string
     [BaseTemplateSections.Section_2]: string
     [BaseTemplateSections.Section_3]: string
     [BaseTemplateSections.Section_4]: string
 }
 
-export interface StateInterface extends BaseStateInterface {
+export interface AppState extends BaseStateConfig {
     error: string,
     contentLoaded: boolean,
     contentLoading: boolean,
     activeSection: BaseTemplateSections,
-    components: SectionComponentsInterface,
+    components: SectionComponents,
     movie?: MovieState,
     tvshow?: TvShowState,
     person?: PersonState
 }
 
-export const key: InjectionKey<Store<StateInterface>> = Symbol()
+export const key: InjectionKey<Store<AppState>> = Symbol()
 
-export const initiateStore = (conf: BaseStateInterface): Store<StateInterface> => {
+export const initiateStore = (conf: BaseStateConfig): Store<AppState> => {
     const type = conf.type
     let object
     if(type === ContentTypes.Movie) {
@@ -58,7 +51,7 @@ export const initiateStore = (conf: BaseStateInterface): Store<StateInterface> =
         [type]: moduleInitialState
     }
 
-    const myState: StateInterface = Object.assign({
+    const myState: AppState = Object.assign({
         error: '',
         contentLoaded: false,
         contentLoading: false,
@@ -66,7 +59,7 @@ export const initiateStore = (conf: BaseStateInterface): Store<StateInterface> =
         activeSection: BaseTemplateSections.Overview,
     }, moduleState, conf)
 
-    return createStore<StateInterface>({
+    return createStore<AppState>({
         modules: {
             tvshow: tvModule,
             movie: movieModule,
