@@ -28,7 +28,7 @@ const tidyExcerpt = (text, maxLen, separator = ' ') => {
     if (text.length <= maxLen) {
         return text;
     }
-    return text.substr(0, text.lastIndexOf(separator, maxLen));
+    return text.substring(0, text.lastIndexOf(separator, maxLen));
 }
 
 export const orderCredits = (credits: CreditCollectionType, comparison: string, date = false, desc = true) => {

@@ -21,7 +21,7 @@ export default {
     mutations: {
         setCredits(state, {cast, crew}: ScreenPlayCredits) {
             state.credits = Object.assign({}, {
-                cast:orderCredits(cast, 'order', false, false),
+                cast: orderCredits(cast, 'order', false, false),
                 crew: orderCredits(crew, 'popularity', false, true)
             })
         },

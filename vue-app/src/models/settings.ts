@@ -1,4 +1,3 @@
-export type ContentId = `${number}`;
 export enum ContentTypes {
     TvShow = 'tvshow',
     Movie = 'movie',

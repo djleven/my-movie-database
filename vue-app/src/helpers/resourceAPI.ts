@@ -1,7 +1,7 @@
-import { ContentId, ContentTypes } from '@/models/settings'
+import { ContentTypes } from '@/models/settings'
 
 const getEndpoint = '/wp-json/my-movie-db/v2/get-data'
-const generateQuery = (endpoint: string, options: Record<string, string>) => {
+const generateQuery = (endpoint: string, options: Record<string, string | Number>) => {
     let query = '';
     if (Object.keys(options).length > 0) {
         let option
@@ -41,7 +41,7 @@ async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
     }
 }
 
-export const getById = async ({id, type}: {id: ContentId, type: ContentTypes}): Promise<HttpResponse<string>>  => {
+export const getById = async ({id, type}: {id: Number, type: ContentTypes}): Promise<HttpResponse<string>>  => {
     return get(generateQuery(
         getEndpoint, {
         id: id,

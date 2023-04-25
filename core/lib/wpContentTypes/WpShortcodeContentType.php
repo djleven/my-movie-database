@@ -51,7 +51,7 @@ class ShortcodeContentType extends WpAbstractContentType {
     public function __construct($attributes) {
         $this->attributes = $attributes;
         $this->data_type = $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME);
-        $this->tmdb_id = $this->constructAttributes('id', '655');
+        $this->tmdb_id = (int) $this->constructAttributes('id', 655);
         $this->template = $this->getTemplateSetting();
         $this->size = $this->constructAttributes('size');
 	    $this->header_color = $this->constructAttributes('header');

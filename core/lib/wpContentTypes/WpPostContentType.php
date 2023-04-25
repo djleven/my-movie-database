@@ -28,7 +28,7 @@ class WpPostContentType extends WpAbstractContentType {
     public function __construct($data_type, $post_id) {
         $this->data_type = self::postToMovieType($data_type);
         $this->post_id = $post_id;
-        $this->tmdb_id = $this->getPostMetaIdSetting();
+        $this->tmdb_id = (int) $this->getPostMetaIdSetting();
         $this->template = $this->getTemplateSetting();
     }
 

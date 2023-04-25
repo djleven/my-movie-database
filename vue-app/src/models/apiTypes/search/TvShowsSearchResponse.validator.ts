@@ -126,7 +126,7 @@ export const SCHEMA = {
                         "null"
                     ]
                 },
-                "title": {
+                "name": {
                     "type": [
                         "string",
                         "null"

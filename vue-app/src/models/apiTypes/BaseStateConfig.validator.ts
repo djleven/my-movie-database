@@ -12,7 +12,15 @@ export const SCHEMA = {
             "type": "object",
             "properties": {
                 "id": {
-                    "$ref": "#/definitions/ContentId"
+                    "oneOf": [
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 },
                 "type": {
                     "$ref": "#/definitions/ContentTypes"
@@ -39,9 +47,6 @@ export const SCHEMA = {
                 "styling"
             ],
             "additionalProperties": false
-        },
-        "ContentId": {
-            "type": "string"
         },
         "ContentTypes": {
             "type": "string",

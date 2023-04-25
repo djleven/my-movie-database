@@ -14,4 +14,17 @@ namespace MyMovieDatabase\Lib\WpContentTypes;
 
 class WpAdminPostContentType extends WpPostContentType {
 
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @since      1.0.0
+     * @param      string    $data_type   The mmdb content type ('slug') for the object
+     * @param      string    $post_id     The associated wp post id
+     */
+    public function __construct($data_type, $post_id) {
+        parent::__construct($data_type, $post_id);
+        if($this->tmdb_id === 0) {
+            $this->tmdb_id = null;
+        }
+    }
 }

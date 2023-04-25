@@ -1,5 +1,4 @@
 import {
-    ContentId,
     ContentTypes,
     GlobalSettings,
     SectionShowSettings,
@@ -8,7 +7,7 @@ import {
 } from "@/models/settings";
 
 export default interface BaseStateConfig {
-    id: ContentId
+    id: number
     type: ContentTypes
     template: Templates
     global_conf: GlobalSettings

@@ -14,7 +14,7 @@ export interface TvShowSearchData {
     genre_ids: number[],
     original_language: string,
     original_name: string,
-    title: string,
+    name: string,
     vote_average: number,
     vote_count: number,
 }

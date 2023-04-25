@@ -54,9 +54,6 @@ trait TemplateVueTrait
         }
 
         $mmdbID = $this->tmdb_id;
-        if(!$mmdbID) {
-            $mmdbID = 0;
-        }
 
         $myVueState = [
             'id' => $mmdbID,

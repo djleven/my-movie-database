@@ -1,4 +1,4 @@
-import { BaseTemplateSections, ContentId } from '@/models/settings'
+import { BaseTemplateSections } from '@/models/settings'
 
 export default {
     setActiveSection(state, activeSection?: BaseTemplateSections) {
@@ -7,7 +7,7 @@ export default {
         }
         state.activeSection = activeSection
     },
-    setID(state, id: ContentId) {
+    setID(state, id: Number) {
         state.id = id
     },
     setContentLoaded(state, status: boolean) {
