@@ -1,4 +1,6 @@
-import {BaseTemplateSections} from "@/models/settings";
+import { BaseTemplateSections } from '@/models/settings'
+
+export type EntityComponents = Partial<Record<BaseTemplateSections, AppComponents>>
 
 export enum AppComponents {
     MovieOverview = 'MovieOverview',
@@ -25,4 +27,3 @@ type ConditionalField  = {
 export type ConditionalFieldGroup  = {
     [key: string]: ConditionalField
 }
-

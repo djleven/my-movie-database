@@ -14,7 +14,7 @@ const store = useStore();
 const $t = inject('$t')
 
 const id = computed(() => store.state.id)
-const components = computed(() => store.state.components)
+const components = computed(() => store.getters.getComponents)
 const template = computed(() => store.state.template + '-template')
 const showSettings = computed(() => store.state.showSettings)
 

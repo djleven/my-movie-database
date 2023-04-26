@@ -42,5 +42,8 @@ export default {
     },
     getImagePath: (state, getters)  => {
         return getters[`${state.type}/getImagePath`]
+    },
+    getComponents: (state, getters)  => {
+        return state[state.type].components
     }
 }

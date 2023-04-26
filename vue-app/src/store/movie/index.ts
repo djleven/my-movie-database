@@ -1,6 +1,21 @@
 import { ScreenPlayCredits } from '@/models/credits'
 import MovieData from '@/models/apiTypes/MovieData'
 import { orderCredits } from '@/helpers/templating'
+import {BaseTemplateSections} from '@/models/settings'
+import {EntityComponents, AppComponents} from '@/models/templates'
+
+export interface MovieState {
+    content: MovieData | null
+    credits: ScreenPlayCredits
+    components: EntityComponents
+}
+
+const TypeComponents: EntityComponents = {
+    [BaseTemplateSections.Overview]: AppComponents.MovieOverview,
+    [BaseTemplateSections.Section_2]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_4]: AppComponents.MovieTrailer,
+}
 
 const content: Partial<MovieData> | null = null
 
@@ -8,15 +23,12 @@ const credits: ScreenPlayCredits = {
     cast: [],
     crew: []
 }
-export interface MovieState {
-    content: MovieData | null,
-    credits: ScreenPlayCredits
-}
 export default {
     namespaced: true,
     state: (): MovieState => ({
         content,
-        credits
+        credits,
+        components: TypeComponents
     }),
     mutations: {
         setCredits(state, {cast, crew}: ScreenPlayCredits) {

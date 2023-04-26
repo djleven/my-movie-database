@@ -1,10 +1,20 @@
 import TvShowData from '@/models/apiTypes/TvShowData'
 import { ScreenPlayCredits } from '@/models/credits'
 import { orderCredits} from '@/helpers/templating'
+import { BaseTemplateSections } from '@/models/settings'
+import { AppComponents, EntityComponents } from '@/models/templates'
 
 export interface TvShowState {
-    content: TvShowData | null,
+    content: TvShowData | null
     credits: ScreenPlayCredits
+    components: EntityComponents
+}
+
+const TypeComponents: EntityComponents = {
+    [BaseTemplateSections.Overview]: AppComponents.TvOverview,
+    [BaseTemplateSections.Section_2]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_3]: AppComponents.CastCrew,
+    [BaseTemplateSections.Section_4]: AppComponents.TvSeasons,
 }
 
 const content: Partial<TvShowData> | null = null
@@ -18,7 +28,8 @@ export default {
     namespaced: true,
     state: (): TvShowState => ({
         content,
-        credits
+        credits,
+        components: TypeComponents
     }),
     mutations: {
         setCredits(state, {cast, crew}: ScreenPlayCredits) {
