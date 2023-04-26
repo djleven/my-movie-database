@@ -2,7 +2,7 @@ import ScreenPlayData, { ProductionCompany } from '@/models/screenPlay'
 
 interface CreatedByCredit {
     credit_id: string,
-    gender: 1 | 2,
+    gender: 0 | 1 | 2 | 3,
     id: number,
     name: string,
     profile_path: string | null

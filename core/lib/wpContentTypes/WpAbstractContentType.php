@@ -10,7 +10,7 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
-use MyMovieDatabase\CoreController;
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 
 abstract class WpAbstractContentType {
@@ -22,12 +22,44 @@ abstract class WpAbstractContentType {
     public $template;
 
     /**
+     * The options class to handle the resource type setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $resourceSettings
+     */
+    protected $resourceSettings;
+
+    /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
+
+    /**
      * The tmdb post meta identifier
      *
      * @since     2.0.0
      */
     const MMDB_POST_META_ID = 'MovieDatabaseID';
 
+
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @param      string    $data_type   The mmdb content type ('slug') for the object
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
+     * @since    3.0.0
+     */
+
+    public function __construct($data_type, $advancedSettings) {
+        $this->data_type = $data_type;
+        $this->advancedSettings = $advancedSettings;
+        $this->resourceSettings = new OptionsGroup($this->getResourceTypeSettingGroup());
+    }
     /**
      * Get unique content type ID
      *
@@ -61,7 +93,7 @@ abstract class WpAbstractContentType {
     protected function getResourceTypeSetting($settingId, $default = '') {
 
         $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_' . $settingId;
-        return CoreController::getMmdbOption($post_setting_name, $this->getResourceTypeSettingGroup(), $default);
+        return $this->resourceSettings->getOption($post_setting_name, $default);
     }
 
     /**

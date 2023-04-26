@@ -11,16 +11,30 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\Constants;
 use MyMovieDatabase\ActionHookSubscriberInterface;
+
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
+use MyMovieDatabase\Constants;
+use MyMovieDatabase\TemplateFiles;
+
 class Settings implements ActionHookSubscriberInterface {
+
+    use SettingsHeader;
 
     private $settings_api;
     private $plugin_resource_types;
+
+    /**
+     * The screen of current WordPress request
+     *
+     * @since     3.0.0
+     * @var       SettingsCacheController
+     */
+    public $cacheController;
+
 
     /**
      * Initialize the class and set its properties.
@@ -29,6 +43,7 @@ class Settings implements ActionHookSubscriberInterface {
      * @param      array    $plugin_resource_types    The tmdb resource (data) types.
      */
     public function __construct($plugin_resource_types) {
+        $this->cacheController = new SettingsCacheController();
         $this->settings_api = new \WeDevs_Settings_API;
         $this->plugin_resource_types = $plugin_resource_types;
     }
@@ -45,7 +60,7 @@ class Settings implements ActionHookSubscriberInterface {
     {
         return [
             'admin_init'   => 'admin_init',
-            'admin_menu'   => 'admin_menu',
+            'admin_enqueue_scripts' => 'enqueue_scripts',
         ];
     }
 
@@ -66,8 +81,14 @@ class Settings implements ActionHookSubscriberInterface {
         $this->settings_api->admin_init();
     }
 
-    public function admin_menu() {
-        add_options_page( 'The Movie Database for WP Options', 'My Movie Database', 'manage_options', 'mmdb_settings', array($this, 'plugin_page') );
+    /**
+     * Register the script(s) for the settings page.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_scripts() {
+        $settings_js_file = 'admin-settings';
+        wp_enqueue_script( 'mmodb-admin-settings', TemplateFiles::getJsFilePath($settings_js_file), ['jquery'],0.1, true);
     }
 
     /**
@@ -103,7 +124,12 @@ class Settings implements ActionHookSubscriberInterface {
         return [[
                 'id'    => MMDB_ADVANCED_OPTION_GROUP,
                 'title' => esc_html__( Constants::I18n_CORE_ADVANCED_OPTIONS )
-            ]];
+            ],
+            [
+                'id'    => Constants::CACHE_MANAGER_OPTION_GROUP,
+                'title' => esc_html__( 'Cache manager', 'my-movie-database' ),
+            ]
+        ];
     }
 
     /**
@@ -111,7 +137,7 @@ class Settings implements ActionHookSubscriberInterface {
      *
      * @since    0.7.0
      *
-     * @since    1.0.0 			split into other seperate section functions which are merged here
+     * @since    1.0.0 			split into other separate section functions which are merged here
      * @return    array    		all settings sections
      */
     private function getSettingsSections() {
@@ -169,7 +195,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->body_color_setting_id,
-                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX  ). ' - ' . __( Constants::I18n_CORE_BG_COLOR),
+                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX  ) . ' - ' . __( Constants::I18n_CORE_BG_COLOR),
                         'desc'    => esc_html__( "Background color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -177,7 +203,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->body_font_color_setting_id,
-                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX ). ' - ' . __( Constants::I18n_CORE_TEXT_COLOR ),
+                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX ) . ' - ' . __( Constants::I18n_CORE_TEXT_COLOR ),
                         'desc'    => esc_html__( "Font color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -313,8 +339,8 @@ class Settings implements ActionHookSubscriberInterface {
                         'posts_custom' => esc_html__( 'No, use Posts but change the "Posts" menu label to "Movies"', 'my-movie-database' ),
                         'posts'  => esc_html__( 'No, use Posts and leave them as they are', 'my-movie-database' ),
                         'no_post'  => $this->getEnableSectionNoOptionLabel(
-	                        'Movies',
-	                        esc_html__( 'None of the above', 'my-movie-database' )
+                                'Movies',
+                                esc_html__( 'None of the above', 'my-movie-database' )
                         )
                     )
                 ),
@@ -375,12 +401,11 @@ class Settings implements ActionHookSubscriberInterface {
                     'name'    => 'mmdb_css_file',
                     'label'   => esc_html__( 'Include plugin css file', 'my-movie-database' ),
                     'desc'    => esc_html__( 'Select when to load the plugin css file, selecting No will never load the plugin css file', 'my-movie-database' ),
-                    'type'    => 'select',
+                    'type'    => 'radio',
                     'default' => 'yes',
                     'options' => array(
-                        'yes'  => esc_html__( 'Yes, load it for posts that use my-movie-database only', 'my-movie-database' ),
-                        'all'  => esc_html__( 'Yes, but load it for all wp pages (for use with archive, etc)', 'my-movie-database' ),
-                        'no' => __(Constants::I18n_CORE_NO),
+                        'yes' => __(Constants::I18n_CORE_YES),
+                        'no'  => __(Constants::I18n_CORE_NO),
                     )
                 ),
                 array(
@@ -417,6 +442,40 @@ class Settings implements ActionHookSubscriberInterface {
     }
 
     /**
+     * Get the cache manager settings fields
+     *
+     * @since    3.0.0
+     * @return   array
+     */
+    private function getCacheManagerFields() {
+
+        return [
+            Constants::CACHE_MANAGER_OPTION_GROUP => [
+                [
+                    'name'    => Constants::CACHE_MANAGER_DELETE_TYPE,
+                    'label'   => esc_html__( 'Resource type to delete', 'my-movie-database' ),
+                    'type'    => 'select',
+                    'default' => 'select',
+                    'options' => [
+                        ''  => __( Constants::I18n_CORE_SELECT),
+                        'movie'  => esc_html__( 'Movies', 'my-movie-database' ),
+                        'tvshow' => esc_html__( 'Tv Show', 'my-movie-database' ),
+                        'person'  => esc_html__( 'Person', 'my-movie-database' ),
+                    ]
+                ],
+                [
+                    'name'    => Constants::CACHE_MANAGER_DELETE_ID,
+                    'label'   => esc_html__( 'Resource TMDb id to delete', 'my-movie-database'),
+                    'desc'    => esc_html__( 'Enter the TMDb id of the cached resource to delete', 'my-movie-database' ),
+                    'type'    => 'number',
+                    'sanitize_callback' => 'sanitize_key',
+                ],
+            ],
+        ];
+    }
+
+
+    /**
      * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
      *
      * @since    0.7.0
@@ -428,100 +487,9 @@ class Settings implements ActionHookSubscriberInterface {
 
         return array_merge(
                 $this->getTypeSectionFields(),
-                $this->getAfterTypeSectionsFields()
+                $this->getAfterTypeSectionsFields(),
+                $this->getCacheManagerFields()
         );
-
-    }
-
-    /**
-     * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
-     *
-     * @since    0.7.0
-     * @since    1.0.0 			split into other separate section functions which are merged here
-     *
-     * @return    array
-     */
-    private function getHeaderInfo() {
-
-        return [
-            [
-                'title' => esc_html__( 'Get Help',  'my-movie-database' ),
-                'span_class' => 'dashicons-sos',
-                'rows' => [
-                    [
-                        'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
-                        'span_class' => 'dashicons-editor-help',
-                        'url' => 'https://mymoviedb.org/how-to-use-the-mmdb-plugin/',
-                        'url-text' => esc_html__( 'How to use the plugin.',  'my-movie-database' )
-                    ],
-                    [
-                        'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
-                        'span_class' => 'dashicons-admin-settings',
-                        'url' => 'https://mymoviedb.org/plugin-configuration-mmdb-options-page/',
-                        'url-text' => esc_html__( 'Configuration options',  'my-movie-database' )
-                    ],
-                    [
-                        'title' => __( Constants::I18n_CORE_SUPPORT ),
-                        'span_class' => 'dashicons-tickets-alt',
-                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/',
-                        'text' => esc_html__( 'Still can\'t figure it out?',  'my-movie-database' ),
-                        'url-text' => esc_html__( 'Open up a ticket.',  'my-movie-database' )
-                    ],
-                ],
-            ],
-            [
-                'title' => esc_html__( 'Offer Help',  'my-movie-database' ) . ' - ' . esc_html__( 'Contribute',  'my-movie-database' ),
-                'span_class' => 'dashicons-groups',
-                'rows' => [
-                    [
-                        'title' => esc_html__( 'Review', 'my-movie-database' ),
-                        'span_class' => 'dashicons-star-half',
-                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/reviews/',
-                        'text' => esc_html__( 'It means a lot to us.',  'my-movie-database' ),
-                        'url-text' => esc_html__( 'Please leave your review.',  'my-movie-database' ),
-                    ],
-                    [
-                        'title' => esc_html__( 'Translate', 'my-movie-database' ),
-                        'span_class' => 'dashicons-flag',
-                        'url' => 'https://translate.wordpress.org/projects/wp-plugins/my-movie-database/',
-                        'url-text' => esc_html__( 'Help translate the plugin in your language.',  'my-movie-database' )
-                    ],
-                    [
-                        'title' => esc_html__( 'Give feedback',  'my-movie-database' ),
-                        'span_class' => 'dashicons-testimonial',
-                        'url' => 'https://docs.google.com/forms/d/1BTZZqUn1DB84bUtmpU0tW1qABbngOapBuwMrYZfI8cM',
-                        'text' => esc_html__( 'We\'ll love you for it!',  'my-movie-database'  ),
-                        'url-text' => esc_html__( 'Fill out a brief survey.',  'my-movie-database'  )
-                    ],
-                ]
-            ],
-            [
-                'title' => esc_html__( 'Connect',  'my-movie-database' ),
-                'span_class' => 'dashicons-universal-access',
-                'rows' => [
-                    [
-                        'title' => esc_html__( 'Newsletter', 'my-movie-database' ),
-                        'span_class' => 'dashicons-email-alt',
-                        'url' => 'https://mymoviedb.org/join-our-mailing-list/',
-                        'text' => esc_html__( 'Stay in the loop!',  'my-movie-database' ),
-                        'url-text' => esc_html__( 'Join our mailing list.',  'my-movie-database' ),
-                    ],
-                    [
-                        'title' => esc_html__( 'Showcase', 'my-movie-database' ),
-                        'span_class' => 'dashicons-superhero',
-                        'url' => 'https://docs.google.com/forms/d/1PhyunzFStFevWS5EDHBTxYX8SyytCuGw1I4kUMDq5r4',
-                        'url-text' => esc_html__( 'Add your website to our site showcase.',  'my-movie-database' )
-                    ],
-                    [
-                        'title' => esc_html__( 'Development',  'my-movie-database' ),
-                        'span_class' => 'dashicons-admin-tools',
-                        'url' => 'mailto:info@e-leven.net',
-                        'text' => esc_html__( 'Need a special feature?',  'my-movie-database'  ),
-                        'url-text' => esc_html__( 'Contact us',  'my-movie-database'  )
-                    ],
-                ]
-            ]
-        ];
     }
 
     /**
@@ -531,60 +499,10 @@ class Settings implements ActionHookSubscriberInterface {
      * @return  void
      */
     public function plugin_page() {
+        $this->getSettingsPageHtml();
         ?>
-        <style>
-            .mmdb_admin_header {
-                display: flex;
-                max-width: 1200px;
-                justify-content: flex-start;
-                padding: 50px 0 35px;
-                align-items: center;
-            }
-            .mmdb_admin_header .admin-logo {
-                padding: 0 20px;
-            }
-            .mmdb-row {
-                display: flex;
-                justify-content: space-evenly;
-                flex-wrap: wrap;
-                max-width: 1600px;
-                padding: 0 30px;
-            }
-            .mmdb-row .mmdb-header-boxes li > span {
-                padding-right: 5px;
-            }
-            .mmdb-row .mmdb-header-boxes h3 > span {
-                padding-left: 5px;
-            }
-
-        </style>
-        <div class="mmdb_admin_header">
-            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-128x128.png" class="admin-logo"/>
-            <h1><?php echo __( 'My Movie Database',  'my-movie-database' ) . ' - ' . __( 'Settings' );?></h1>
-        </div>
-        <div class="mmdb-row">
-            <?php foreach($this->getHeaderInfo() as $info) :?>
-            <div class="mmdb-header-boxes">
-                <h3><?php echo $info['title']?><span class="dashicons <?php echo $info['span_class']?>"></span></h3>
-                <ul>
-                    <?php foreach($info['rows'] as $row) :?>
-                    <li>
-                        <span class="dashicons <?php echo $row['span_class']?>"></span><strong><?php echo $row['title']?>:</strong>
-                        <?php $text = isset($row['text']) ? $row['text'] : ''; echo $text; ?>
-                        <a href="<?php echo $row['url']?>" target="_blank">
-                            <?php echo $row['url-text']?>
-                        </a>
-                    </li>
-                    <?php endforeach;?>
-                </ul>
-            </div>
-            <?php endforeach;?>
-        </div>
-
         <div class="wrap">
-
         <?php
-
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
 
@@ -592,4 +510,3 @@ class Settings implements ActionHookSubscriberInterface {
     }
 
 }
-

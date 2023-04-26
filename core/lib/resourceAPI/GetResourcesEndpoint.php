@@ -13,9 +13,7 @@
  */
 namespace MyMovieDatabase\Lib\ResourceAPI;
 
-use MyMovieDatabase\CoreController;
 use MyMovieDatabase\MyMovieDatabase;
-use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -23,8 +21,27 @@ use MyMovieDatabase\Admin\CacheManager;
 
 class GetResourcesEndpoint extends AbstractEndpoint {
 
+    /**
+     * TMDb API key to use
+     *
+     * @since 3.0.0
+     * @var string
+     */
+    protected $api_key;
+
     const MMDB_GET_DATA_WP_API_ENDPOINT = '/get-data';
 
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @since        3.0.0
+     *
+     * @param string   $api_key
+     */
+    public function __construct($api_key) {
+        parent::__construct();
+        $this->api_key = $api_key;
+    }
 
     /**
      * Action callback to register the get data endpoint with WP API
@@ -50,10 +67,7 @@ class GetResourcesEndpoint extends AbstractEndpoint {
     public function getDataFromRemoteAPI($data) {
 
         try {
-            $plugin_api_key = "c8df48be0b9d3f1ed59ee365855e663a";
-            $api_key =
-                CoreController::getMmdbOption('mmdb_tmdb_api_key', MMDB_ADVANCED_OPTION_GROUP, $plugin_api_key);
-            $request = new BuildRequest($data, substr(get_locale(), 0, 2), $api_key);
+            $request = new BuildRequest($data, substr(get_locale(), 0, 2), $this->api_key);
             return wp_remote_get(
                 $request->getRequestURL(),
                 ['timeout' => 30]

@@ -2,7 +2,7 @@
 /**
  * The file that defines the mmdb shortcode class
  *
- * The ShortcodeContentType class is a subclass of the WpAbstractContentType class.
+ * The WpShortcodeContentType class is a subclass of the WpAbstractContentType class.
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
@@ -11,10 +11,11 @@
  * @subpackage my-movie-database/core/lib/wpContentTypes
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
-class ShortcodeContentType extends WpAbstractContentType {
+class WpShortcodeContentType extends WpAbstractContentType {
 
     protected $header_color;
     protected $body_color;
@@ -35,7 +36,7 @@ class ShortcodeContentType extends WpAbstractContentType {
      *
      * @param     $attributes  array | string  The user input shortcode attributes
      *            returns empty string if no input parameters exist
-     *
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
      * Available valid parameters:
      *
      * type       The mmdb content type ('slug') for the object
@@ -48,9 +49,13 @@ class ShortcodeContentType extends WpAbstractContentType {
      * body_font_color    The body text color for the shortcode template
      */
 
-    public function __construct($attributes) {
+    public function __construct($attributes, $advancedSettings) {
         $this->attributes = $attributes;
-        $this->data_type = $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME);
+        parent::__construct(
+            $this->constructAttributes('type',  MovieResourceType::DATA_TYPE_NAME),
+            $advancedSettings
+        );
+
         $this->tmdb_id = (int) $this->constructAttributes('id', 655);
         $this->template = $this->getTemplateSetting();
         $this->size = $this->constructAttributes('size');

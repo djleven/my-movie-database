@@ -12,7 +12,6 @@ namespace MyMovieDatabase\Lib\WpContentTypes;
 
 use MyMovieDatabase\MyMovieDatabase;
 use MyMovieDatabase\TemplateFiles;
-use MyMovieDatabase\CoreController;
 
 trait TemplateVueTrait
 {
@@ -35,31 +34,12 @@ trait TemplateVueTrait
      * @since     1.0.0
      */
     public function createVueInstance($admin) {
-
-        global $mmdbID_processed;
-        global $mmdb_single_run_settings;
-        $uniqueID = $this->getUniqueID();
-
-        if(!is_array($mmdbID_processed)) {
-            $mmdb_single_run_settings = [
-                'global_conf' => [
-                    'locale' => get_locale(),
-                    'debug' => (bool) CoreController::getMmdbOption("mmdb_debug", "mmdb_opt_advanced", false),
-                    'date_format' => get_option( 'date_format' ),
-                    'overviewOnHover' => (bool) CoreController::getMmdbOption("mmdb_overview_on_hover", "mmdb_opt_advanced", true),
-                ],
-            ];
-        } elseif (in_array($uniqueID, $mmdbID_processed)) {
-            return;
-        }
-
         $mmdbID = $this->tmdb_id;
-
         $myVueState = [
             'id' => $mmdbID,
             'type' => $this->data_type,
             'template' => $this->template,
-            'global_conf' => $mmdb_single_run_settings['global_conf'],
+            'global_conf' => $this->getGlobalConfForJSView(),
             'showSettings' => $this->showSectionSettings(),
             'styling' => [
                 'size' => $this->getWidthSetting(),
@@ -81,8 +61,6 @@ trait TemplateVueTrait
                 )';
 
         $this->registerInstantiatingScriptWithWordPress($myVue);
-
-        $mmdbID_processed[] = $uniqueID;
     }
 
     /**
@@ -107,6 +85,22 @@ trait TemplateVueTrait
 			}
 		}
 	}
+
+    /**
+     * Setup and return the type view output
+     *
+     * @since     3.0.0
+     * @return    array	$output    The generated html of the template view
+     */
+    protected function getGlobalConfForJSView() {
+
+        return [
+            'locale' => get_locale(),
+            'debug' => (bool) $this->advancedSettings->getOption("mmdb_debug", false),
+            'date_format' => get_option( 'date_format' ),
+            'overviewOnHover' => (bool) $this->advancedSettings->getOption("mmdb_overview_on_hover", true),
+        ];
+    }
 
     /**
      * Setup and return the type view output

@@ -166,10 +166,9 @@ export const SCHEMA = {
                                 ]
                             },
                             "gender": {
-                                "type": "number",
-                                "enum": [
-                                    1,
-                                    2
+                                "type": [
+                                    "number",
+                                    "null"
                                 ]
                             },
                             "id": {
@@ -672,13 +671,22 @@ export const SCHEMA = {
                     ]
                 },
                 "popularity": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "gender": {
-                    "type": "number"
+                    "type": [
+                        "number",
+                        "null"
+                    ]
                 },
                 "known_for_department": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "profile_path": {
                     "type": [

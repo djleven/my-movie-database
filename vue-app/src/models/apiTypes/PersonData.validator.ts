@@ -90,12 +90,9 @@ export const SCHEMA = {
                     ]
                 },
                 "gender": {
-                    "type": "number",
-                    "enum": [
-                        0,
-                        1,
-                        2,
-                        3
+                    "type": [
+                        "number",
+                        "null"
                     ]
                 },
                 "homepage": {

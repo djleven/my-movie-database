@@ -9,7 +9,7 @@
  * @since      1.1.0
  *
  * @package    my-movie-database
- * @subpackage my-movie-database/public
+ * @subpackage my-movie-database/core
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 namespace MyMovieDatabase;
@@ -71,26 +71,15 @@ class TemplateFiles {
      *
      *
      * @since    1.0.0
-     * @param    $activeScreen  boolean
+     * @param    $load_css_file  boolean
      */
-    public static function enqueueCommonFiles($activeScreen) {
-        $css_file =
-            CoreController::getMmdbOption('mmdb_css_file', MMDB_ADVANCED_OPTION_GROUP, 'yes');
+    public static function enqueueCommonFiles($load_css_file) {
 
-        // To load only on mmdb active post type pages.
-        if($activeScreen) {
-			self::enqueuePluginLibrary();
-            if( $css_file === 'yes') {
-                $css_file = 'all';
-            }
-        }
-
-        if( $css_file === 'all') {
-
+        self::enqueuePluginLibrary();
+        if($load_css_file) {
             wp_enqueue_style(
                 MMDB_NAME, TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME), [], '2.3.0', 'all' );
         }
-        // Load for all wp pages below.
     }
 
 	/**

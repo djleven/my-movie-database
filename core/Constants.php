@@ -6,7 +6,7 @@
  * @since      3.0.0
  *
  * @package    my-movie-database
- * @subpackage my-movie-database/public
+ * @subpackage my-movie-database/core
  * @author     Kostas Stathakos <info@e-leven.net>
  */
 namespace MyMovieDatabase;
@@ -120,6 +120,15 @@ class Constants {
     const I18n_CORE_MEDIUM = 'Medium';
     const I18n_CORE_SMALL = 'Small';
 
+    /*
+    * wp-includes/media.php:4585 wp-includes/js/dist/block-editor.js
+    * wp-includes/js/dist/block-library.js
+    * wp-includes/js/dist/editor.js:5967 wp-admin/includes/template.php
+    * wp-admin/nav-menus.php:936 wp-admin/plugin-editor.php
+    * wp-admin/theme-editor.php
+    */
+    const I18n_CORE_SELECT = 'Select';
+
     /**
      * Custom post type creation
      *
@@ -179,4 +188,12 @@ class Constants {
 
         return $type;
     }
+
+    // TODO: Move below into new constants file
+    const ADMIN_OPTIONS_PAGE = 'admin_options_page';
+    const ADMIN_EDIT_POST_PAGE = 'admin_edit_post_page';
+
+    const CACHE_MANAGER_OPTION_GROUP = 'mmdb_cache_manager';
+    const CACHE_MANAGER_DELETE_TYPE = 'mmdb_delete_cache_type';
+    const CACHE_MANAGER_DELETE_ID = 'mmdb_delete_cache_id';
 }

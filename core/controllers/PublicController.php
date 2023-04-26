@@ -15,11 +15,13 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
-use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
+use MyMovieDatabase\Lib\WpContentTypes\WpShortcodeContentType;
 
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
+use MyMovieDatabase\Lib\OptionsGroup;
 
 class PublicController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface, ShortcodeHookSubscriberInterface {
 
@@ -35,13 +37,23 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
     private $active_post_types;
 
     /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
-     * @param    array  $active_post_types  active post types as per settings
+     * @param    OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
+     * @param    array         $active_post_types  active post types as per settings
      */
-    public function __construct($active_post_types = []) {
-
+    public function __construct($advancedSettings, $active_post_types = []) {
+        $this->advancedSettings = $advancedSettings;
         $this->active_post_types = $active_post_types;
     }
 
@@ -56,9 +68,9 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      */
     public function getActions()
     {
-        return [
-            'wp_enqueue_scripts' => 'enqueue_scripts',
+        return  [
             'the_content' => 'post_content_view_hook',
+            'wp_enqueue_scripts' => 'enqueue_scripts',
         ];
     }
 
@@ -170,7 +182,7 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
 
             $post_id = get_the_ID();
             $post_type = get_post_type($post_id);
-            $mmdb_type = new WpPostContentType($post_type, $post_id);
+            $mmdb_type = new WpPostContentType($post_type, $post_id, $this->advancedSettings);
             if($mmdb_type->tmdb_id) {
                 return $mmdb_type->orderTheContent($content);
             }
@@ -187,12 +199,12 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      * @param     $atts    array | string
      *                     associative array of attributes, or an empty string if no attributes given
      *
-     * @return    string   The ShortcodeContentType view
+     * @return    string   The WpShortcodeContentType view
      */
     public function shortcode_content_view_hook($atts) {
         // normalize attributes - lowercase
         $atts = array_change_key_case((array)$atts, CASE_LOWER);
-        $mmdb_type = new ShortcodeContentType($atts);
+        $mmdb_type = new WpShortcodeContentType($atts, $this->advancedSettings);
 
         return $mmdb_type->templateViewOutput();
     }
@@ -203,8 +215,13 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      * @since    1.0.0
      */
     public function enqueue_scripts() {
-
-        TemplateFiles::enqueueCommonFiles($this->isActiveMmdbScreen());
+        if($this->isActiveMmdbScreen()) {
+            $load_css_file = $this->advancedSettings->getOption(
+                'mmdb_css_file',
+                'yes'
+            );
+            TemplateFiles::enqueueCommonFiles($load_css_file === 'yes');
+        }
     }
 
     /**
@@ -214,9 +231,8 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      */
     private function postTypesToArchivePagesSetting()
     {
-        return CoreController::getMmdbOption(
+        return $this->advancedSettings->getOption(
             'mmdb_wp_categories',
-            MMDB_ADVANCED_OPTION_GROUP,
             'yes'
         );
     }

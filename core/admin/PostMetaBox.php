@@ -12,15 +12,34 @@
 namespace MyMovieDatabase\Admin;
 
 use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\FilterHookSubscriberInterface;
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType;
 use MyMovieDatabase\Lib\ResourceAPI\BuildRequest;
 use MyMovieDatabase\Constants;
+use MyMovieDatabase\TemplateFiles;
 
-class PostMetaBox implements ActionHookSubscriberInterface {
+class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
 
-    public $active_post_types;
     public $mmodb_content;
+
+    /**
+     * The plugin's current active post types.
+     *
+     * @since    1.0.0
+     * @var      array $active_post_types
+     */
+    public $active_post_types;
+
+    /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
 
     /**
      * The tmdb post meta identifier
@@ -36,16 +55,16 @@ class PostMetaBox implements ActionHookSubscriberInterface {
      */
     const MMDB_SHOULD_DELETE_CACHED = 'mmodb_should_delete_cached';
 
-    /**
-     * Initialize the class and add the meta box hooks
-     *
-     * @param array $active_post_types The plugin's current active post types.
-     *
-     * @since    1.0.0
-     */
-    public function __construct( $active_post_types ) {
 
-        $this->active_post_types = array( $active_post_types );
+    /**
+     * Initialize the class.
+     *
+     * @since      3.0.0
+     * @param      OptionsGroup $advancedSettings           OptionsGroup class with the advanced setting values
+     */
+    public function __construct($active_post_types, $advancedSettings) {
+        $this->active_post_types = $active_post_types;
+        $this->advancedSettings = $advancedSettings;
     }
 
     /**
@@ -60,6 +79,26 @@ class PostMetaBox implements ActionHookSubscriberInterface {
         return [
             'add_meta_boxes' => 'mmdb_add_post_meta_boxes',
             'save_post'      => 'mmdb_save_post_class_meta',
+            'admin_enqueue_scripts' => 'enqueue_scripts',
+        ];
+    }
+
+    /**
+     * Get the filter hooks to be registered
+     *
+     * Hide the meta boxes in the post screens as default behavior
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getFilters()
+    {
+        return [
+            'default_hidden_meta_boxes' => [
+                'mmdb_hide_meta_box',
+                10,
+                2
+            ]
         ];
     }
 
@@ -71,22 +110,15 @@ class PostMetaBox implements ActionHookSubscriberInterface {
      * @since     0.7.0
      */
     public function mmdb_add_post_meta_boxes( $post_type ) {
-
-        $active_post_types = $this->active_post_types;
-
-        foreach ( $active_post_types as $active_post_type ) {
-
-            //limit meta box to active post types
-            if ( in_array( $post_type, $active_post_type ) ) {
-                add_meta_box( 'cs-meta',
-                    Constants::getTypeLabel( WpPostContentType::postToMovieType( $post_type ) ),
-                    array( $this, "mmdb_id_class_meta_box" ),
-                    $post_type,
-                    'normal',
-                    'high',
-                    array( $post_type )
-                );
-            }
+        if ( in_array( $post_type, $this->active_post_types ) ) {
+            add_meta_box( 'cs-meta',
+                Constants::getTypeLabel( WpPostContentType::postToMovieType( $post_type ) ),
+                array( $this, "mmdb_id_class_meta_box" ),
+                $post_type,
+                'normal',
+                'high',
+                array( $post_type )
+            );
         }
     }
 
@@ -101,7 +133,7 @@ class PostMetaBox implements ActionHookSubscriberInterface {
     public function mmdb_id_class_meta_box( $post, $args ) {
         // Add a nonce field to be checked later on.
         wp_nonce_field( 'mmdb_class_nonce_check', 'mmdb_class_nonce_check_value' );
-        $this->mmodb_content = new WpAdminPostContentType( $post->post_type, $post->ID );
+        $this->mmodb_content = new WpAdminPostContentType( $post->post_type, $post->ID, $this->advancedSettings );
 
         echo '<div><h3 class="center-text">' . __( Constants::I18n_CORE_SEARCH ) . '</h3></div>';
         echo $this->mmodb_content->templateViewOutput();
@@ -172,5 +204,40 @@ class PostMetaBox implements ActionHookSubscriberInterface {
         $output .= '</div>';
         return $output;
     }
-}
 
+    /**
+     * Register the JavaScript and the stylesheets for the post box area.
+     *
+     * @since    3.0.0
+     */
+    public function enqueue_scripts() {
+        $edit_js_file = 'admin-edit';
+        wp_enqueue_style(
+            MMDB_NAME . 'Admin', TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME . 'Admin'), [], '1.0.0', 'all' );
+        wp_enqueue_script( 'mmodb-admin-edit',  TemplateFiles::getJsFilePath($edit_js_file), ['jquery'],0.1, true);
+    }
+
+    /**
+     * Hides the meta boxes in the post screens as default behavior (if the user has not yet set his screen options)
+     *
+     * @since     1.0.0
+     * @return    array
+     */
+    public function mmdb_hide_meta_box($hidden, $screen) {
+
+        // do this only for our active mmdb post types
+        if ($screen->base === 'post' && in_array($screen->id, $this->active_post_types)) {
+            $hidden = array(
+                'postexcerpt',
+                'slugdiv',
+                'postcustom',
+                'trackbacksdiv',
+                'commentstatusdiv',
+                'commentsdiv',
+                'authordiv',
+                'revisionsdiv'
+            );
+        }
+        return $hidden;
+    }
+}

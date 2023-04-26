@@ -12,6 +12,7 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
 class WpPostContentType extends WpAbstractContentType {
@@ -24,9 +25,10 @@ class WpPostContentType extends WpAbstractContentType {
      * @since      1.0.0
      * @param      string    $data_type   The mmdb content type ('slug') for the object
      * @param      string    $post_id     The associated wp post id
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
      */
-    public function __construct($data_type, $post_id) {
-        $this->data_type = self::postToMovieType($data_type);
+    public function __construct($data_type, $post_id, $advancedSettings) {
+        parent::__construct(self::postToMovieType($data_type), $advancedSettings);
         $this->post_id = $post_id;
         $this->tmdb_id = (int) $this->getPostMetaIdSetting();
         $this->template = $this->getTemplateSetting();

@@ -18,7 +18,7 @@ export default {
     async loadContent({ commit, state, dispatch }) {
         const id = state.id
         const type = state.type
-        const errorMsg = `Error fetching ${type} results`
+        const errorMsg = `An error occurred while loading the ${type} data`
 
         commit('setContentLoading', true)
         commit('setContentLoaded', false)
@@ -92,7 +92,7 @@ export default {
         Promise<PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse>
     {
         let data
-        const errorMsg = `Error fetching search results for ${val}`
+        const errorMsg = `An error occurred while loading the search results for ${val}`
         try {
             const type = state.type
             let query = await searchAPI(val, type)

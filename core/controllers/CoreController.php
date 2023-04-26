@@ -11,6 +11,7 @@
  */
 namespace MyMovieDatabase;
 
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\PostTypes\PostType;
 
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
@@ -22,7 +23,7 @@ use MyMovieDatabase\Lib\ResourceAPI\GetResourcesEndpoint;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceAPI\AbstractEndpoint;
 
-class CoreController {
+class CoreController implements ActionHookSubscriberInterface {
 
     /**
      * The resource (data) types made available in the plugin.
@@ -55,12 +56,22 @@ class CoreController {
     public $endpoints;
 
     /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
+
+    /**
      * Initialize the class:
      * Set its properties and register the custom post types and taxonomy
      *
      * @since      1.0.0
      */
-    public function __construct() {
+    public function __construct($advancedSettings) {
+        $this->advancedSettings = $advancedSettings;
         $this->available_resource_types = $this->setAdminResourceTypes();
         $this->active_post_types = $this->getActivePostTypes();
         $this->setCustomPostTypes();
@@ -68,22 +79,30 @@ class CoreController {
     }
 
     /**
-     * Static method to get plugin options set by admin user.
+     * Get the action hooks to be registered related to the core functionality.
      *
-     * @since      0.7.0
-     * @param      string $option  setting option key
-     * @param      string $section setting option section
-     * @param      string $default default value
-     * @return     mixed
+     * @since    3.0.0
+     * @access   public
      */
-    public static function getMmdbOption($option, $section, $default = '') {
+    public function getActions()
+    {
+        return [
+            'plugins_loaded' => 'load_plugin_textdomain',
+        ];
+    }
 
-        $options = get_option($section);
+    /**
+     * Load the plugin text domain for translation.
+     *
+     * @since    1.0.0
+     */
+    public function load_plugin_textdomain() {
 
-        if (isset($options[$option]) && $options[$option] !== '') {
-            return $options[$option];
-        }
-        return $default;
+        load_plugin_textdomain(
+            MMDB_WP_NAME,
+            false,
+            MMDB_WP_NAME . '/languages'
+        );
     }
 
     /**
@@ -115,12 +134,16 @@ class CoreController {
 
         foreach ($plugin_resource_types as $plugin_resource_type) {
 
-            if ($plugin_resource_type->getPostTypeSetting() != 'no_post') {
+            $setting = $this->advancedSettings->getOption(
+                $plugin_resource_type->post_type_advanced_setting_key,
+                $plugin_resource_type->data_type
+            );
+            if ($setting != 'no_post') {
 
-                if (substr($plugin_resource_type->getPostTypeSetting(), 0, 5) === 'posts') {
+                if (substr($setting, 0, 5) === 'posts') {
                     $active_post_types[] = 'post';
                 } else {
-                    $active_post_types[] = $plugin_resource_type->getPostTypeSetting();
+                    $active_post_types[] = $setting;
                 }
 
             }
@@ -136,19 +159,16 @@ class CoreController {
     private function setCustomPostTypes() {
 
         $tax_options = [];
-        $disableGutenberg = self::getMmdbOption(
+        $disableGutenberg = $this->advancedSettings->getOption(
             'mmdb_disable_gutenberg_post_type',
-            MMDB_ADVANCED_OPTION_GROUP,
             false
         );
-        $wpCategoriesOption = self::getMmdbOption(
+        $wpCategoriesOption = $this->advancedSettings->getOption(
             'mmdb_wp_categories',
-            MMDB_ADVANCED_OPTION_GROUP,
             'yes'
         );
-        $hierarchicalTaxonomy = self::getMmdbOption(
+        $hierarchicalTaxonomy = $this->advancedSettings->getOption(
             'mmdb_hierarchical_taxonomy',
-            MMDB_ADVANCED_OPTION_GROUP,
             'yes'
         );
         if($hierarchicalTaxonomy !== 'yes') {
@@ -158,7 +178,11 @@ class CoreController {
         }
 
         foreach($this->available_resource_types as $plugin_resource_type) {
-            if ($plugin_resource_type->getPostTypeSetting() == $plugin_resource_type->data_type) {
+            $setting = $this->advancedSettings->getOption(
+                $plugin_resource_type->post_type_advanced_setting_key,
+                $plugin_resource_type->data_type
+            );
+            if ($setting == $plugin_resource_type->data_type) {
 
                 $names = [
                     'name' => $plugin_resource_type->data_type,
@@ -210,8 +234,13 @@ class CoreController {
      * @return void
      */
     private function setEndpoints() {
+        $api_key = $this->advancedSettings->getOption(
+            'mmdb_tmdb_api_key',
+            'c8df48be0b9d3f1ed59ee365855e663a'
+        );
+
         $this->endpoints = [
-            new GetResourcesEndpoint()
+            new GetResourcesEndpoint($api_key)
         ];
     }
 }

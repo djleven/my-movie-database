@@ -13,8 +13,6 @@
  */
 namespace MyMovieDatabase\Lib\ResourceTypes;
 
-use MyMovieDatabase\CoreController;
-
 abstract class AbstractResourceType {
     public $data_type;
 	public $data_type_label;
@@ -30,6 +28,7 @@ abstract class AbstractResourceType {
     public $header_color_setting_id;
     public $header_font_color_setting_id;
     public $transition_effect_setting_id;
+    public $post_type_advanced_setting_key;
 
     const SECTION_OVERVIEW = 'overview_text';
     const SECTION_2 = 'section_2';
@@ -70,18 +69,18 @@ abstract class AbstractResourceType {
         $this->header_color_setting_id = $this->makeTypeSetting('header_color');
         $this->header_font_color_setting_id = $this->makeTypeSetting('header_font_color');
         $this->transition_effect_setting_id = $this->makeTypeSetting('transition_effect');
+        $this->post_type_advanced_setting_key = $this->getPostTypeAdvancedSettingKey();
     }
 
     /**
-     * Get the post type setting for type object
+     * Get the post type (advanced) setting key for type object
      *
      * @since     1.0.0
      * @return    string
      */
-    public function getPostTypeSetting() {
+    public function getPostTypeAdvancedSettingKey() {
 
-        $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_post_type';
-        return CoreController::getMmdbOption($post_setting_name, MMDB_ADVANCED_OPTION_GROUP , $this->data_type);
+        return MMDB_PLUGIN_ID . '_' . $this->data_type . '_post_type';
     }
 
     /**
