@@ -1,8 +1,8 @@
 import { ScreenPlayCredits } from '@/models/credits'
 import MovieData from '@/models/apiTypes/MovieData'
-import { orderCredits } from '@/helpers/templating'
-import {BaseTemplateSections} from '@/models/settings'
-import {EntityComponents, AppComponents} from '@/models/templates'
+import { orderCredits, removeDuplicatesAndAggregateCredits } from '@/helpers/templating'
+import { BaseTemplateSections } from '@/models/settings'
+import { EntityComponents, AppComponents } from '@/models/templates'
 
 export interface MovieState {
     content: MovieData | null
@@ -34,7 +34,9 @@ export default {
         setCredits(state, {cast, crew}: ScreenPlayCredits) {
             state.credits = Object.assign({}, {
                 cast: orderCredits(cast, 'order', false, false),
-                crew: orderCredits(crew, 'popularity', false, true)
+                crew: removeDuplicatesAndAggregateCredits(
+                    orderCredits(crew, 'popularity', false, true)
+                )
             })
         },
         setContent(state, data: MovieData) {

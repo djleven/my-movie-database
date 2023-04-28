@@ -4,9 +4,9 @@ import {
     PersonCredits,
     PersonCreditsByScreenPlayType,
     PersonCrewCredit,
-    ScreenPlayTypes
+    ScreenPlayTypes,
 } from '@/models/credits'
-import { orderCredits } from '@/helpers/templating'
+import { orderCredits, removeDuplicatesAndAggregateCredits } from '@/helpers/templating'
 import { AppComponents, EntityComponents } from '@/models/templates'
 import { BaseTemplateSections } from '@/models/settings'
 
@@ -43,6 +43,7 @@ const filterCreditsByMediaType = (credits: PersonCastCredit[] | PersonCrewCredit
         }
     });
 }
+
 export default {
     namespaced: true,
     state: (): PersonState => ({
@@ -65,17 +66,22 @@ export default {
                     )
                 },
                 crew: {
-                    movie: orderCredits(
-                        filterCreditsByMediaType(crew, ScreenPlayTypes.Movie),
-                        'release_date',
-                        true
+                    movie: removeDuplicatesAndAggregateCredits(
+                        orderCredits(
+                            filterCreditsByMediaType(crew, ScreenPlayTypes.Movie),
+                            'release_date',
+                            true
+                        )
                     ),
-                    tv: orderCredits(
-                        filterCreditsByMediaType(crew, ScreenPlayTypes.Tv),
-                        'episode_count'
+                    tv: removeDuplicatesAndAggregateCredits(
+                        orderCredits(
+                            filterCreditsByMediaType(crew, ScreenPlayTypes.Tv),
+                            'episode_count'
+                        )
                     )
                 }
             })
+            console.log(state)
         },
         setContent(state, data: PersonData) {
             state.content = Object.assign({}, data)

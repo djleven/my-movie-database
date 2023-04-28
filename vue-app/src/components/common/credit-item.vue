@@ -30,7 +30,11 @@
     </div>
     <ul class="credit-text-items">
       <li>{{ title }}</li>
-      <slot>
+      <multi-credit-item
+          v-if="credit.job_aggregate?.length > 1"
+          :credits="credit.job_aggregate"
+      />
+      <slot v-else>
         <li v-if="credit.character">
           {{ $t('role') }}: {{ credit.character }}
         </li>

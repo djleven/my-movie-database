@@ -28,6 +28,7 @@ export interface ScreenPlayCastCredit extends ScreenPlayCredit {
 export interface ScreenPlayCrewCredit extends ScreenPlayCredit {
     department: string
     job: string
+    job_aggregate?: BasicScreenPlayCrewCredit[]
 }
 
 export type ScreenPlayCredits = {
@@ -61,6 +62,7 @@ export interface PersonCastCredit extends PersonCredit {
 export interface PersonCrewCredit extends PersonCredit {
     department: string
     job: string
+    job_aggregate?: BasicScreenPlayCrewCredit[]
 }
 
 export type PersonCredits = {
@@ -83,6 +85,11 @@ export type PersonCreditsByScreenPlayType = {
         [ScreenPlayTypes.Movie]: PersonCrewCredit[],
         [ScreenPlayTypes.Tv]: PersonCrewCredit[],
     }
+}
+
+export interface BasicScreenPlayCrewCredit {
+    job: string
+    episode_count?: number
 }
 
 export type CreditCollectionType = ScreenPlayCrewCredit[] | ScreenPlayCastCredit[] | PersonCastCredit[] | PersonCrewCredit[]

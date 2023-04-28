@@ -1,6 +1,6 @@
 import TvShowData from '@/models/apiTypes/TvShowData'
 import { ScreenPlayCredits } from '@/models/credits'
-import { orderCredits} from '@/helpers/templating'
+import { orderCredits, removeDuplicatesAndAggregateCredits } from '@/helpers/templating'
 import { BaseTemplateSections } from '@/models/settings'
 import { AppComponents, EntityComponents } from '@/models/templates'
 
@@ -35,7 +35,9 @@ export default {
         setCredits(state, {cast, crew}: ScreenPlayCredits) {
             state.credits = Object.assign({}, {
                 cast:orderCredits(cast, 'order', false, false),
-                crew: orderCredits(crew, 'popularity', false, true)
+                crew: removeDuplicatesAndAggregateCredits(
+                    orderCredits(crew, 'popularity', false, true)
+                )
             })
         },
         setContent(state, data: TvShowData) {
