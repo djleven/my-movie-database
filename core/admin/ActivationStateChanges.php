@@ -14,9 +14,11 @@ namespace MyMovieDatabase\Admin;
 use MyMovieDatabase\ActionHookSubscriberInterface;
 use MyMovieDatabase\RegisterStateActivationHookSubscriberInterface;
 
+use MyMovieDatabase\Constants;
+
 class ActivationStateChanges implements ActionHookSubscriberInterface, RegisterStateActivationHookSubscriberInterface {
 
-    const PLUGIN_ACTIVATED = 'Plugin_Activated';
+    const PLUGIN_ACTIVATED_OPTION = Constants::PLUGIN_ID_INIT . '_opt_plugin_activated';
 
     public $pluginFile = MMDB_PLUGIN_MAIN_FILE;
 
@@ -61,7 +63,7 @@ class ActivationStateChanges implements ActionHookSubscriberInterface, RegisterS
 
     public function on_mmdb_activation() {
 
-        add_option( self::PLUGIN_ACTIVATED, MMDB_NAME );
+        add_option( self::PLUGIN_ACTIVATED_OPTION, Constants::PLUGIN_NAME_CAMEL );
 
     }
 
@@ -71,9 +73,9 @@ class ActivationStateChanges implements ActionHookSubscriberInterface, RegisterS
 
     public function on_load_mmdb() {
 
-        if ( get_option( self::PLUGIN_ACTIVATED ) ===  MMDB_NAME) {
+        if ( get_option( self::PLUGIN_ACTIVATED_OPTION ) ===  Constants::PLUGIN_NAME_CAMEL) {
 
-            delete_option( self::PLUGIN_ACTIVATED );
+            delete_option( self::PLUGIN_ACTIVATED_OPTION );
 
             flush_rewrite_rules();
         }

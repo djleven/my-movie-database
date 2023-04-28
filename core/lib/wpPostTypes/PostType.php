@@ -2,7 +2,7 @@
 
 namespace MyMovieDatabase\Lib\PostTypes;
 
-use MyMovieDatabase\Constants;
+use MyMovieDatabase\I18nConstants;
 
 /**
  * PostTypes
@@ -154,7 +154,7 @@ class PostType extends PostTypeEntityAbstract
     {
         // default labels
         $common_labels = parent::createLabels();
-        $labels = Constants::I18n_CORE_POST_TYPE_LABELS;
+        $labels = I18nConstants::I18n_CORE_POST_TYPE_LABELS;
 
         return array_merge( $common_labels, [
             'add_new'                  => _x( $labels['Add New'], 'post'),

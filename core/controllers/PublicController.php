@@ -70,7 +70,6 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
     {
         return  [
             'the_content' => 'post_content_view_hook',
-            'wp_enqueue_scripts' => 'enqueue_scripts',
         ];
     }
 
@@ -88,7 +87,7 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
         $filters = [
             'the_content_feed' => 'remove_shortcode_from_feed',
         ];
-        if($this->postTypesToArchivePagesSetting() === 'yes') {
+        if($this->postTypesToArchivePagesSetting() === Constants::OPTION_STRING_VALUE_TRUE) {
             $filters['pre_get_posts'] =  'post_types_to_archive_pages';
         }
 
@@ -151,25 +150,6 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
     }
 
     /**
-     * Determine if we are on an active mmdb screen
-     *
-     * @since     1.0.0
-     * @return    boolean
-     */
-    private function isActiveMmdbScreen(){
-
-        $result = false;
-        if($this->isActiveMmdbShortcode()) {
-            $result = true;
-        }
-        elseif($this->isActiveMmdbContent()) {
-            $result = true;
-        }
-
-        return $result;
-    }
-
-    /**
      * Orchestrate the setup and rendering of the mmdb post content view
      *
      * @since    1.0.0
@@ -210,21 +190,6 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
     }
 
     /**
-     * Register the JavaScript and CSS for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts() {
-        if($this->isActiveMmdbScreen()) {
-            $load_css_file = $this->advancedSettings->getOption(
-                'mmdb_css_file',
-                'yes'
-            );
-            TemplateFiles::enqueueCommonFiles($load_css_file === 'yes');
-        }
-    }
-
-    /**
      * Include mmdb custom post types in wordpress category pages if option is selected
      *
      * @since    1.2.0
@@ -232,8 +197,8 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
     private function postTypesToArchivePagesSetting()
     {
         return $this->advancedSettings->getOption(
-            'mmdb_wp_categories',
-            'yes'
+            Constants::ADV_OPTION_WP_CATEGORIES,
+            Constants::OPTION_STRING_VALUE_TRUE
         );
     }
 
@@ -243,8 +208,8 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      *
      * @since    1.2.0
      *
-     * @param    WP_Query    $query
-     * @return   WP_Query
+     * @param    \WP_Query    $query
+     * @return   \WP_Query
      */
     public function post_types_to_archive_pages($query) {
 
@@ -271,7 +236,7 @@ class PublicController implements ActionHookSubscriberInterface, FilterHookSubsc
      *
      * @since    2.0.0
      * @param    $content string  The current post content.
-     * @return   mixed
+     * @return   string
      */
     public function remove_shortcode_from_feed($content){
 

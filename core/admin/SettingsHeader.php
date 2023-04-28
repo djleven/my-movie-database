@@ -11,7 +11,7 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\Constants;
+use MyMovieDatabase\I18nConstants;
 
 trait SettingsHeader {
 
@@ -31,19 +31,19 @@ trait SettingsHeader {
                 'span_class' => 'dashicons-sos',
                 'rows' => [
                     [
-                        'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
+                        'title' => __( I18nConstants::I18n_CORE_DOCUMENTATION ),
                         'span_class' => 'dashicons-editor-help',
                         'url' => 'https://mymoviedb.org/how-to-use-the-mmdb-plugin/',
                         'url-text' => esc_html__( 'How to use the plugin.',  'my-movie-database' )
                     ],
                     [
-                        'title' => __( Constants::I18n_CORE_DOCUMENTATION ),
+                        'title' => __( I18nConstants::I18n_CORE_DOCUMENTATION ),
                         'span_class' => 'dashicons-admin-settings',
                         'url' => 'https://mymoviedb.org/plugin-configuration-mmdb-options-page/',
                         'url-text' => esc_html__( 'Configuration options',  'my-movie-database' )
                     ],
                     [
-                        'title' => __( Constants::I18n_CORE_SUPPORT ),
+                        'title' => __( I18nConstants::I18n_CORE_SUPPORT ),
                         'span_class' => 'dashicons-tickets-alt',
                         'url' => 'https://wordpress.org/support/plugin/my-movie-database/',
                         'text' => esc_html__( 'Still can\'t figure it out?',  'my-movie-database' ),

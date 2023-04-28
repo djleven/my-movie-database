@@ -18,6 +18,7 @@ use MyMovieDatabase\ActionHookSubscriberInterface;
 
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Constants;
 
 class AdminController implements ActionHookSubscriberInterface {
 
@@ -121,7 +122,7 @@ class AdminController implements ActionHookSubscriberInterface {
      */
     private function hasEditWpPostsSetting() {
         $setting = $this->advancedSettings->getOption(
-            'mmdb_movie_post_type',
+            Constants::ADV_OPTION_POST_TYPE_MOVIE,
             MovieResourceType::DATA_TYPE_NAME
         );
 

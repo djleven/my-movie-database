@@ -29,6 +29,11 @@ class FileLoader {
         /**
          * A class responsible for hosting global constants and keeping track of core WP i18n strings used.
          */
+        require_once self::MMDB_INC_DIR . 'I18nConstants.php';
+
+        /**
+         * A class responsible for hosting constants used in the plugin.
+         */
         require_once self::MMDB_INC_DIR . 'Constants.php';
 
         /**

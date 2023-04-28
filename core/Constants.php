@@ -1,6 +1,6 @@
 <?php
 /**
- * The class responsible for keeping track of the core WP translation strings used in this plugin
+ * The class responsible for storing the constants used in this plugin
  *
  * @link       https://e-leven.net/
  * @since      3.0.0
@@ -11,189 +11,45 @@
  */
 namespace MyMovieDatabase;
 
-use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
-use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
-use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
 class Constants {
 
     /**
-     * The class responsible for keeping track of the core WP translation strings used in this plugin
-     *
-     * Well, there's more to it. Apparently, the WordPress translate platform ignores the text-domain when creating
-     * POT files. So in order to avoid having WP core i18n be added to their POT file, we will load them 'dynamically'.
-     *
-     * Using core wp i18n strings is considered a bad practise. There are multiple core pot files, there are serious
-     * questions of context and other reasons to recommend against this. Although there obviously is merit in these
-     * arguments, it seems to me that there are also some valid reasons to do so.
-     *
-     * The current use of core translation strings by this plugin is 99% for the WordPress backend;
-     * The custom post type screens and the plugin settings.
-     *
-     * The translations used have been carefully selected, considering their context to minimise errors in some locales,
-     * as well as the sources of these strings to ensure availability and relative stability.
-     *
-     * Obviously it's really nice not to have to translate some basic strings like 'Yes/No', 'Enabled/Disabled' again
-     * and again, especially for simple plugin settings.
-     * Another reason for going down this path relates to the custom post types. See info below.
+     * Global Plugin Naming
      */
-
-    /*
-     * wp-signup.php
-     * wp-admin/includes/class-wp-debug-data.php
-     * wp-admin/includes/class-wp-links-list-table.php
-     */
-    const I18n_CORE_NO = 'No';
-    const I18n_CORE_YES = 'Yes';
-
-    /* wp-admin/includes/class-wp-debug-data.php */
-    const I18n_CORE_ENABLED = 'Enabled';
-    const I18n_CORE_DISABLED = 'Disabled';
-
-    /* wp-admin/includes/meta-boxes.php */
-    const I18n_CORE_NONE = 'None';
-
-
-    /* wp-includes/admin-bar.php */
-    const I18n_CORE_DOCUMENTATION = 'Documentation';
-    const I18n_CORE_SUPPORT = 'Support';
-
-    /* wp-includes/media-template.php */
-    const I18n_CORE_ADVANCED_OPTIONS = 'Advanced Options';
-
-    /*
-     * wp-includes/blocks/categories.php
-     * wp-includes/theme-compat/sidebar.php:129
-     * wp-includes/category-template.php
-     * wp-includes/widgets/class-wp-widget-categories.php
-     * wp-includes/js/dist/block-library.js
-     * wp-includes/js/dist/components.js
-     * wp-admin/edit-link-form.php
-     * wp-admin/includes/class-wp-links-list-table.php
-     * wp-admin/includes/upgrade.php:
-     */
-    const I18n_CORE_CATEGORIES= 'Categories';
-
-    /*
-     * wp-includes/admin-bar.php
-     * wp-includes/blocks/search.php
-     * wp-includes/class-wp-editor.php
-     * wp-includes/media.php
-     * wp-includes/js/dist/block-editor.js
-     * wp-includes/js/dist/components.js
-     * wp-includes/js/dist/edit-site.js
-     * wp-admin/includes/class-wp-media-list-table.php
-     * wp-admin/includes/class-wp-theme-install-list-table.php
-     * wp-admin/includes/nav-menu.php
-     * wp-admin/includes/template.php
-     * wp-admin/includes/theme-install.php
-     * */
-    const I18n_CORE_SEARCH = 'Search';
-
-    /* wp-includes/widgets/class-wp-widget-tag-cloud.php */
-    const I18n_CORE_TAGS = 'Tags';
-
-    /*  wp-admin/tools.php */
-    const I18n_CORE_CATEGORIES_TAGS_DESC =  'Categories have hierarchy, meaning that you can nest sub-categories. Tags do not have hierarchy and cannot be nested. Sometimes people start out using one on their posts, then later realize that the other would work better for their content.';
+    const PLUGIN_ID_INIT = 'mmdb';
+    const PLUGIN_NAME_DASHES = 'my-movie-database';
+    const PLUGIN_NAME_UNDERSCORES = 'my_movie_database';
+    const PLUGIN_NAME_CAMEL= 'myMovieDatabase';
 
     /**
-     * Template styling
+     * Advanced Settings Group
      */
+    const ADVANCED_OPTION_GROUP_NAME = self::PLUGIN_ID_INIT . '_opt_advanced';
+    const ADV_OPTION_POST_TYPE_MOVIE = self::PLUGIN_ID_INIT . '_movie_post_type';
+    const ADV_OPTION_POST_TYPE_TV = self::PLUGIN_ID_INIT . '_tvshow_post_type';
+    const ADV_OPTION_POST_TYPE_PERSON = self::PLUGIN_ID_INIT . '_person_post_type';
+    const ADV_OPTION_TAXONOMY_TYPE = self::PLUGIN_ID_INIT . '_hierarchical_taxonomy';
+    const ADV_OPTION_WP_CATEGORIES = self::PLUGIN_ID_INIT . '_wp_categories';
+    const ADV_OPTION_OVERVIEW_HOVER = self::PLUGIN_ID_INIT . '_overview_on_hover';
+    const ADV_OPTION_CSS_FILE_INC = self::PLUGIN_ID_INIT . '_css_file';
+    const ADV_OPTION_API_KEY = self::PLUGIN_ID_INIT . '_tmdb_api_key';
+    const ADV_OPTION_GUTENBERG_DISABLE = self::PLUGIN_ID_INIT . '_disable_gutenberg_post_type';
+    const ADV_OPTION_DEBUG_ENABLE = self::PLUGIN_ID_INIT . '_debug';
 
-    /*
-     * wp-includes/class-wp-xmlrpc-server.php
-     * wp-includes/js/dist/edit-site.js
-     * wp-admin/includes/class-wp-posts-list-table.php
-     * wp-admin/includes/meta-boxes.php
-     */
-    const I18n_CORE_TEMPLATE = 'Template';
-
-    /* wp-includes/class-wp-editor.php */
-    const I18n_CORE_BODY = 'Body';
-    const I18n_CORE_BODY_CTX = 'table body';
-    const I18n_CORE_HEADER = 'Header';
-    const I18n_CORE_BG_COLOR = 'Background color';
-    const I18n_CORE_TEXT_COLOR = 'Text color';
-
-    /* wp-includes/theme.json */
-    const I18n_CORE_LARGE = 'Large';
-    const I18n_CORE_MEDIUM = 'Medium';
-    const I18n_CORE_SMALL = 'Small';
-
-    /*
-    * wp-includes/media.php:4585 wp-includes/js/dist/block-editor.js
-    * wp-includes/js/dist/block-library.js
-    * wp-includes/js/dist/editor.js:5967 wp-admin/includes/template.php
-    * wp-admin/nav-menus.php:936 wp-admin/plugin-editor.php
-    * wp-admin/theme-editor.php
-    */
-    const I18n_CORE_SELECT = 'Select';
 
     /**
-     * Custom post type creation
-     *
-     * WordPress seems to use the Page instead of Post type translations (default labels) for custom post type labels
-     * that have not been defined during their creation. In other words, the default labels fallback to
-     * 'pages' instead of 'posts'.
-     *
-     * So when creating a custom post type we're explicitly defining (almost) all  of them (because we want 'posts').
-     * In the context of the purpose of this file (the bad practise), I really could not bear to see
-     * the below included in this plugin's POT file.
-     *
-     * These come from WP get_default_labels() (at wp-app/wp-includes/class-wp-post-type.php)
+     * Cache Manager Settings Group
      */
-    const I18n_CORE_POST_TYPE_LABELS = [
-        'Add New'                      => 'Add New',
-        'No posts found.'              => 'No posts found.',
-        'No posts found in Trash.'     => 'No posts found in Trash.',
-        'Add New Post'                 => 'Add New Post',
-        'Edit Post'                    => 'Edit Post',
-        'New Post'                     => 'New Post',
-        'View Post'                    => 'View Post',
-        'View Posts'                   => 'View Posts',
-        'Search Posts'                 => 'Search Posts',
-        'Post Archives'                => 'Post Archives',
-        'Post Attributes'              => 'Post Attributes',
-        'Insert into post'             => 'Insert into post',
-        'Uploaded to this post'        => 'Uploaded to this post',
-        'Featured image'               => 'Featured image',
-        'Set featured image'           => 'Set featured image',
-        'Remove featured image'        => 'Remove featured image',
-        'Use as featured image'        => 'Use as featured image',
-        'Filter posts list'            => 'Filter posts list',
-        'Posts list navigation'        => 'Posts list navigation',
-        'Posts list'                   => 'Posts list',
-        'Post published.'              => 'Post published.',
-        'Post published privately.'    => 'Post published privately.',
-        'Post reverted to draft.'      => 'Post reverted to draft.',
-        'Post scheduled.'              => 'Post scheduled.',
-        'Post updated.'                => 'Post updated.',
-        'Post Link'                    => 'Post Link',
-        'A link to a post.'            => 'A link to a post.',
-    ];
+    const CACHE_MANAGER_OPTION_GROUP_NAME = self::PLUGIN_ID_INIT . '_opt_cache_manager';
+    const CACHE_MANAGER_DELETE_TYPE = self::PLUGIN_ID_INIT . '_delete_cache_type';
+    const CACHE_MANAGER_DELETE_ID = self::PLUGIN_ID_INIT . '_delete_cache_id';
 
-    public static function getTypeLabel($type) {
-
-        if ($type === MovieResourceType::DATA_TYPE_NAME) {
-            return MovieResourceType::getI18nDefaultLabel();
-        }
-
-        if ($type === TvshowResourceType::DATA_TYPE_NAME) {
-            return TvshowResourceType::getI18nDefaultLabel();
-        }
-
-        if ($type === PersonResourceType::DATA_TYPE_NAME) {
-            return PersonResourceType::getI18nDefaultLabel();
-        }
-
-        return $type;
-    }
-
-    // TODO: Move below into new constants file
     const ADMIN_OPTIONS_PAGE = 'admin_options_page';
     const ADMIN_EDIT_POST_PAGE = 'admin_edit_post_page';
 
-    const CACHE_MANAGER_OPTION_GROUP = 'mmdb_cache_manager';
-    const CACHE_MANAGER_DELETE_TYPE = 'mmdb_delete_cache_type';
-    const CACHE_MANAGER_DELETE_ID = 'mmdb_delete_cache_id';
+
+    // TODO: Migration script to convert these to boolean
+    const OPTION_STRING_VALUE_TRUE = 'yes';
+    const OPTION_STRING_VALUE_FALSE = 'no';
 }

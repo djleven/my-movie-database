@@ -13,6 +13,8 @@ namespace MyMovieDatabase\Lib\WpContentTypes;
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 
+use MyMovieDatabase\Constants;
+
 abstract class WpAbstractContentType {
 
     use TemplateVueTrait;
@@ -92,7 +94,7 @@ abstract class WpAbstractContentType {
      */
     protected function getResourceTypeSetting($settingId, $default = '') {
 
-        $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_' . $settingId;
+        $post_setting_name = Constants::PLUGIN_ID_INIT . '_' . $this->data_type . '_' . $settingId;
         return $this->resourceSettings->getOption($post_setting_name, $default);
     }
 

@@ -18,6 +18,7 @@ use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
 
 use MyMovieDatabase\Constants;
+use MyMovieDatabase\I18nConstants;
 use MyMovieDatabase\TemplateFiles;
 
 class Settings implements ActionHookSubscriberInterface {
@@ -49,11 +50,9 @@ class Settings implements ActionHookSubscriberInterface {
     }
 
     /**
-     * Get the action hooks to be registered related to the admin settings.
+     * Get the action hooks to be registered related to the option settings.
      *
-     * Enqueue scripts
-     *
-     * @since    2.5.0
+     * @since    3.0.0
      * @access   public
      */
     public function getActions()
@@ -88,7 +87,13 @@ class Settings implements ActionHookSubscriberInterface {
      */
     public function enqueue_scripts() {
         $settings_js_file = 'admin-settings';
-        wp_enqueue_script( 'mmodb-admin-settings', TemplateFiles::getJsFilePath($settings_js_file), ['jquery'],0.1, true);
+        wp_enqueue_script(
+            Constants::PLUGIN_ID_INIT . '_admin_settings',
+            TemplateFiles::getJsFilePath($settings_js_file),
+            ['jquery'],
+            0.1,
+            true
+        );
     }
 
     /**
@@ -122,11 +127,11 @@ class Settings implements ActionHookSubscriberInterface {
     private function getAfterTypesSections() {
 
         return [[
-                'id'    => MMDB_ADVANCED_OPTION_GROUP,
-                'title' => esc_html__( Constants::I18n_CORE_ADVANCED_OPTIONS )
+                'id'    => Constants::ADVANCED_OPTION_GROUP_NAME,
+                'title' => esc_html__( I18nConstants::I18n_CORE_ADVANCED_OPTIONS )
             ],
             [
-                'id'    => Constants::CACHE_MANAGER_OPTION_GROUP,
+                'id'    => Constants::CACHE_MANAGER_OPTION_GROUP_NAME,
                 'title' => esc_html__( 'Cache manager', 'my-movie-database' ),
             ]
         ];
@@ -168,7 +173,7 @@ class Settings implements ActionHookSubscriberInterface {
 
                     array(
                         'name'    => $plugin_type->tmpl_setting_id,
-                        'label'   =>  __( Constants::I18n_CORE_TEMPLATE ),
+                        'label'   =>  __( I18nConstants::I18n_CORE_TEMPLATE ),
                         'desc'    => esc_html__( 'Select the template to use', 'my-movie-database' ),
                         'type'    => 'select',
                         'default' => 'tabs',
@@ -179,7 +184,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->header_color_setting_id,
-                        'label'   => __( Constants::I18n_CORE_HEADER ) . ' - ' . __( Constants::I18n_CORE_BG_COLOR ),
+                        'label'   => __( I18nConstants::I18n_CORE_HEADER ) . ' - ' . __( I18nConstants::I18n_CORE_BG_COLOR ),
                         'desc'    => __( "Background color for the template header", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -187,7 +192,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->header_font_color_setting_id,
-                        'label'   => __( Constants::I18n_CORE_HEADER ) . ' - ' . __( Constants::I18n_CORE_TEXT_COLOR ),
+                        'label'   => __( I18nConstants::I18n_CORE_HEADER ) . ' - ' . __( I18nConstants::I18n_CORE_TEXT_COLOR ),
                         'desc'    => esc_html__( "Font color for the template header", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -195,7 +200,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->body_color_setting_id,
-                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX  ) . ' - ' . __( Constants::I18n_CORE_BG_COLOR),
+                        'label'   => _x( I18nConstants::I18n_CORE_BODY, I18nConstants::I18n_CORE_BODY_CTX  ) . ' - ' . __( I18nConstants::I18n_CORE_BG_COLOR),
                         'desc'    => esc_html__( "Background color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -203,7 +208,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->body_font_color_setting_id,
-                        'label'   => _x( Constants::I18n_CORE_BODY, Constants::I18n_CORE_BODY_CTX ) . ' - ' . __( Constants::I18n_CORE_TEXT_COLOR ),
+                        'label'   => _x( I18nConstants::I18n_CORE_BODY, I18nConstants::I18n_CORE_BODY_CTX ) . ' - ' . __( I18nConstants::I18n_CORE_TEXT_COLOR ),
                         'desc'    => esc_html__( "Font color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
@@ -216,9 +221,9 @@ class Settings implements ActionHookSubscriberInterface {
                         'type'    => 'select',
                         'default' => 'large',
                         'options' => array(
-                            'large' => __( Constants::I18n_CORE_LARGE),
-                            'medium' => __( Constants::I18n_CORE_MEDIUM),
-                            'small' => __( Constants::I18n_CORE_SMALL),
+                            'large' => __( I18nConstants::I18n_CORE_LARGE),
+                            'medium' => __( I18nConstants::I18n_CORE_MEDIUM),
+                            'small' => __( I18nConstants::I18n_CORE_SMALL),
                         )
                     ),
                     array(
@@ -230,7 +235,7 @@ class Settings implements ActionHookSubscriberInterface {
                         'options' => array(
                             'fade' => esc_html__( 'Fade', 'my-movie-database' ),
                             'bounce' => esc_html__( 'Bounce', 'my-movie-database' ),
-                            'none' => __( Constants::I18n_CORE_NONE ),
+                            'none' => __( I18nConstants::I18n_CORE_NONE ),
                         )
                     ),
                     array(
@@ -287,7 +292,7 @@ class Settings implements ActionHookSubscriberInterface {
      * @since    3.0.0
      */
     private function getEnableSectionYesOptionLabel($type) {
-        return __( Constants::I18n_CORE_YES ) . '. '
+        return __( I18nConstants::I18n_CORE_YES ) . '. '
                . sprintf(
                    esc_html__('Use a "%s" posts section (custom post type)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
@@ -306,11 +311,11 @@ class Settings implements ActionHookSubscriberInterface {
     private function getEnableSectionNoOptionLabel($type, $no_msg = null) {
 
         if($no_msg === null) {
-            $no_msg = __( Constants::I18n_CORE_NO );
+            $no_msg = __( I18nConstants::I18n_CORE_NO );
         }
         return $no_msg . '. '
                . sprintf(
-                   esc_html__('I only want to use "%s" with shortcodes and / or Gutenberg Blocks (or not at all)', 'my-movie-database' ),
+                   esc_html__('I only want to use "%s" with shortcodes (or not at all)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
                );
     }
@@ -328,9 +333,9 @@ class Settings implements ActionHookSubscriberInterface {
         $people_label = PersonResourceType::getI18nDefaultPluralLabel();
 
         return [
-            MMDB_ADVANCED_OPTION_GROUP => array(
+            Constants::ADVANCED_OPTION_GROUP_NAME => array(
                 array(
-                    'name'    => 'mmdb_movie_post_type',
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_MOVIE,
                     'label'   => $this->getEnableSectionLabel($movies_label),
                     'type'    => 'radio',
                     'default' => 'movie',
@@ -345,7 +350,7 @@ class Settings implements ActionHookSubscriberInterface {
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_tvshow_post_type',
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_TV,
                     'label'   => $this->getEnableSectionLabel($tv_shows_label),
                     'type'    => 'radio',
                     'default' => 'tvshow',
@@ -355,7 +360,7 @@ class Settings implements ActionHookSubscriberInterface {
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_person_post_type',
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_PERSON,
                     'label'   => $this->getEnableSectionLabel($people_label),
                     'type'    => 'radio',
                     'default' => 'person',
@@ -365,21 +370,21 @@ class Settings implements ActionHookSubscriberInterface {
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_hierarchical_taxonomy',
-                    'label'   => __( Constants::I18n_CORE_CATEGORIES ) . ' / ' . __( Constants::I18n_CORE_TAGS ) ,
-                    'desc' => esc_html__( 'Select the type of taxonomy to be created for each enabled post type section.', 'my-movie-database' ) . PHP_EOL . __( Constants::I18n_CORE_CATEGORIES_TAGS_DESC ),
+                    'name'    => Constants::ADV_OPTION_TAXONOMY_TYPE,
+                    'label'   => __( I18nConstants::I18n_CORE_CATEGORIES ) . ' / ' . __( I18nConstants::I18n_CORE_TAGS ) ,
+                    'desc' => esc_html__( 'Select the type of taxonomy to be created for each enabled post type section.', 'my-movie-database' ) . PHP_EOL . __( I18nConstants::I18n_CORE_CATEGORIES_TAGS_DESC ),
                     'type'    => 'radio',
-                    'default' => 'yes',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes'  => __( Constants::I18n_CORE_CATEGORIES ),
-                        'no'  => __( Constants::I18n_CORE_TAGS ),
+                        'yes'  => __( I18nConstants::I18n_CORE_CATEGORIES ),
+                        'no'  => __( I18nConstants::I18n_CORE_TAGS ),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_wp_categories',
+                    'name'    => Constants::ADV_OPTION_WP_CATEGORIES,
                     'label'   => esc_html__( 'Wordpress Categories', 'my-movie-database' ),
                     'type'    => 'radio',
-                    'default' => 'yes',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
                         'yes'  => esc_html__( 'Yes, allow movies, tvshows and persons to be associated to wordpress categories', 'my-movie-database' ),
                         'no_archive_pages' => esc_html__( 'Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins', 'my-movie-database' ),
@@ -387,54 +392,54 @@ class Settings implements ActionHookSubscriberInterface {
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_overview_on_hover',
+                    'name'    => Constants::ADV_OPTION_OVERVIEW_HOVER,
                     'label'   => esc_html__( "Overview on hover", 'my-movie-database' ),
                     'desc'    => esc_html__( 'Show description on hover for person credits and tvshow seasons', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => true,
                     'options' => array(
-                        false => __(Constants::I18n_CORE_NO),
-                        true  => __(Constants::I18n_CORE_YES),
+                        true  => __(I18nConstants::I18n_CORE_YES),
+                        false => __(I18nConstants::I18n_CORE_NO),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_css_file',
+                    'name'    => Constants::ADV_OPTION_CSS_FILE_INC,
                     'label'   => esc_html__( 'Include plugin css file', 'my-movie-database' ),
                     'desc'    => esc_html__( 'Select when to load the plugin css file, selecting No will never load the plugin css file', 'my-movie-database' ),
                     'type'    => 'radio',
-                    'default' => 'yes',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes' => __(Constants::I18n_CORE_YES),
-                        'no'  => __(Constants::I18n_CORE_NO),
+                        'yes' => __(I18nConstants::I18n_CORE_YES),
+                        'no'  => __(I18nConstants::I18n_CORE_NO),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_tmdb_api_key',
+                    'name'    => Constants::ADV_OPTION_API_KEY,
                     'label'   => sprintf(esc_html__( '%s API key', 'my-movie-database'), 'TMDb'),
                     'desc'    => sprintf(esc_html__( 'Enter your %s API key.', 'my-movie-database' ), 'TMDb'),
                     'type'    => 'password',
                     'sanitize_callback' => 'sanitize_key',
                 ),
                 array(
-                    'name'    => 'mmdb_disable_gutenberg_post_type',
+                    'name'    => Constants::ADV_OPTION_GUTENBERG_DISABLE,
                     'label'   => esc_html__( 'Disable the Gutenberg editor?', 'my-movie-database' ),
                     'desc'    => esc_html__( 'Stop using the Gutenberg editor for the plugin\'s post types?', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => 0,
                     'options' => array(
-                        false => __(Constants::I18n_CORE_NO),
-                        true  => __(Constants::I18n_CORE_YES),
+                        false => __(I18nConstants::I18n_CORE_NO),
+                        true  => __(I18nConstants::I18n_CORE_YES),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_debug',
+                    'name'    => Constants::ADV_OPTION_DEBUG_ENABLE,
                     'label'   => esc_html__( 'Debug Mode', 'my-movie-database' ),
                     'desc'    => esc_html__( "Will output data received from TMDB in your browser's (web developer tools) console", 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => 0,
                     'options' => array(
-                        false => __(Constants::I18n_CORE_DISABLED),
-                        true  => __(Constants::I18n_CORE_ENABLED)
+                        false => __(I18nConstants::I18n_CORE_DISABLED),
+                        true  => __(I18nConstants::I18n_CORE_ENABLED)
                     )
                 )
             )
@@ -450,14 +455,14 @@ class Settings implements ActionHookSubscriberInterface {
     private function getCacheManagerFields() {
 
         return [
-            Constants::CACHE_MANAGER_OPTION_GROUP => [
+            Constants::CACHE_MANAGER_OPTION_GROUP_NAME => [
                 [
                     'name'    => Constants::CACHE_MANAGER_DELETE_TYPE,
                     'label'   => esc_html__( 'Resource type to delete', 'my-movie-database' ),
                     'type'    => 'select',
                     'default' => 'select',
                     'options' => [
-                        ''  => __( Constants::I18n_CORE_SELECT),
+                        ''  => __( I18nConstants::I18n_CORE_SELECT),
                         'movie'  => esc_html__( 'Movies', 'my-movie-database' ),
                         'tvshow' => esc_html__( 'Tv Show', 'my-movie-database' ),
                         'person'  => esc_html__( 'Person', 'my-movie-database' ),

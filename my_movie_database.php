@@ -16,17 +16,13 @@
 if ( ! defined( 'WPINC' ) ) {
     die;
 }
-if ( defined( 'MMDB_PLUGIN_ID' ) ) {
+if ( defined( 'MMDB_PLUGIN_URL' ) ) {
     die;
 }
-define( 'MMDB_PLUGIN_ID', 'mmdb' );
-define( 'MMDB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'MMDB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'MMDB_PLUGIN_MAIN_FILE', __FILE__ );
-define( 'MMDB_NAME', 'my_movie_database' );
-define( 'MMDB_WP_NAME', 'my-movie-database' );
-define( 'MMDB_CAMEL_NAME', 'myMovieDatabase' );
-define( 'MMDB_ADVANCED_OPTION_GROUP', MMDB_PLUGIN_ID . '_opt_advanced' );
+
+define( 'MMDB_PLUGIN_URL', plugin_dir_url( __FILE__ ), false );
+define( 'MMDB_PLUGIN_DIR', plugin_dir_path( __FILE__ ), false );
+define( 'MMDB_PLUGIN_MAIN_FILE', __FILE__, false);
 
 /**
  * The core plugin entry class

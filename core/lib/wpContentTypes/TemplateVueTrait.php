@@ -13,6 +13,8 @@ namespace MyMovieDatabase\Lib\WpContentTypes;
 use MyMovieDatabase\MyMovieDatabase;
 use MyMovieDatabase\TemplateFiles;
 
+use MyMovieDatabase\Constants;
+
 trait TemplateVueTrait
 {
     /**
@@ -73,8 +75,12 @@ trait TemplateVueTrait
      */
     protected function registerInstantiatingScriptWithWordPress($content, $firsTry = true) {
 		$hasInstantiatingScriptBeenAdded = wp_add_inline_script( TemplateFiles::PLUGIN_JS_LIB_FILE, $content );
-		if ( ! $hasInstantiatingScriptBeenAdded ) {
-			TemplateFiles::enqueuePluginLibrary();
+			if ( ! $hasInstantiatingScriptBeenAdded ) {
+				$load_css_file = $this->advancedSettings->getOption(
+					Constants::ADV_OPTION_CSS_FILE_INC,
+					Constants::OPTION_STRING_VALUE_TRUE
+			);
+			TemplateFiles::enqueueCommonFiles($load_css_file !== Constants::OPTION_STRING_VALUE_FALSE);
 			if ( $firsTry ) {
 				$this->registerInstantiatingScriptWithWordPress( $content, false );
 			} else {
@@ -96,9 +102,11 @@ trait TemplateVueTrait
 
         return [
             'locale' => get_locale(),
-            'debug' => (bool) $this->advancedSettings->getOption("mmdb_debug", false),
+            'debug' =>
+                (bool) $this->advancedSettings->getOption(Constants::ADV_OPTION_DEBUG_ENABLE, false),
             'date_format' => get_option( 'date_format' ),
-            'overviewOnHover' => (bool) $this->advancedSettings->getOption("mmdb_overview_on_hover", true),
+            'overviewOnHover' =>
+                (bool) $this->advancedSettings->getOption(Constants::ADV_OPTION_OVERVIEW_HOVER, true),
         ];
     }
 

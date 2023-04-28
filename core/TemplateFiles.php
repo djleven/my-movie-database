@@ -14,6 +14,8 @@
  */
 namespace MyMovieDatabase;
 
+use MyMovieDatabase\Constants;
+
 class TemplateFiles {
 
 	CONST ASSETS_PUBLIC_PATH   = 'assets/';
@@ -31,7 +33,7 @@ class TemplateFiles {
 	public static function getPublicFile($path) {
 		$path = self::ASSETS_PUBLIC_PATH . $path;
 
-		$theme_path = MMDB_WP_NAME . '/' . $path;
+		$theme_path = Constants::PLUGIN_NAME_DASHES . '/' . $path;
 		if (locate_template(array($theme_path))) {
 			return get_theme_file_uri('/' . $theme_path);
 		}
@@ -78,7 +80,12 @@ class TemplateFiles {
         self::enqueuePluginLibrary();
         if($load_css_file) {
             wp_enqueue_style(
-                MMDB_NAME, TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME), [], '2.3.0', 'all' );
+                Constants::PLUGIN_NAME_UNDERSCORES,
+                TemplateFiles::getPublicStylesheet(Constants::PLUGIN_NAME_CAMEL),
+                [],
+                '3.0.0',
+                'all'
+            );
         }
     }
 
@@ -90,7 +97,7 @@ class TemplateFiles {
 	 */
 	public static function enqueuePluginLibrary() {
 		$mmdb_js_file = TemplateFiles::getJsFilePath(self::PLUGIN_JS_LIB_FILE, 'app/');
-		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],0.4, true);
+		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],1.0, true);
 		wp_set_script_translations(
 			self::PLUGIN_JS_LIB_FILE,
 			'my-movie-database',

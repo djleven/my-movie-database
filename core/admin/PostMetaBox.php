@@ -17,8 +17,9 @@ use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType;
 use MyMovieDatabase\Lib\ResourceAPI\BuildRequest;
-use MyMovieDatabase\Constants;
+use MyMovieDatabase\I18nConstants;
 use MyMovieDatabase\TemplateFiles;
+use MyMovieDatabase\Constants;
 
 class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
 
@@ -112,7 +113,7 @@ class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriber
     public function mmdb_add_post_meta_boxes( $post_type ) {
         if ( in_array( $post_type, $this->active_post_types ) ) {
             add_meta_box( 'cs-meta',
-                Constants::getTypeLabel( WpPostContentType::postToMovieType( $post_type ) ),
+                I18nConstants::getTypeLabel( WpPostContentType::postToMovieType( $post_type ) ),
                 array( $this, "mmdb_id_class_meta_box" ),
                 $post_type,
                 'normal',
@@ -135,7 +136,7 @@ class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriber
         wp_nonce_field( 'mmdb_class_nonce_check', 'mmdb_class_nonce_check_value' );
         $this->mmodb_content = new WpAdminPostContentType( $post->post_type, $post->ID, $this->advancedSettings );
 
-        echo '<div><h3 class="center-text">' . __( Constants::I18n_CORE_SEARCH ) . '</h3></div>';
+        echo '<div><h3 class="center-text">' . __( I18nConstants::I18n_CORE_SEARCH ) . '</h3></div>';
         echo $this->mmodb_content->templateViewOutput();
         echo $this->addAfterContentHtml();
     }
@@ -213,8 +214,18 @@ class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriber
     public function enqueue_scripts() {
         $edit_js_file = 'admin-edit';
         wp_enqueue_style(
-            MMDB_NAME . 'Admin', TemplateFiles::getPublicStylesheet(MMDB_CAMEL_NAME . 'Admin'), [], '1.0.0', 'all' );
-        wp_enqueue_script( 'mmodb-admin-edit',  TemplateFiles::getJsFilePath($edit_js_file), ['jquery'],0.1, true);
+            Constants::PLUGIN_NAME_UNDERSCORES . '_admin',
+            TemplateFiles::getPublicStylesheet(Constants::PLUGIN_NAME_CAMEL . 'Admin'),
+            [],
+            '3.0.0',
+            'all'
+        );
+        wp_enqueue_script( Constants::PLUGIN_NAME_UNDERSCORES . '_admin_edit',
+            TemplateFiles::getJsFilePath($edit_js_file),
+            ['jquery'],
+            0.1,
+            true
+        );
     }
 
     /**

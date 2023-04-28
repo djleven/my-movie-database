@@ -35,7 +35,7 @@ class SettingsCacheController implements ActionHookSubscriberInterface {
      * @since    3.0.0
      */
     public function __construct() {
-        $this->cacheSettings = new OptionsGroup(Constants::CACHE_MANAGER_OPTION_GROUP);
+        $this->cacheSettings = new OptionsGroup(Constants::CACHE_MANAGER_OPTION_GROUP_NAME);
         $this->clearCache();
     }
 

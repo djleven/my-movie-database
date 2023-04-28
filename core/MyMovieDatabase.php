@@ -111,7 +111,7 @@ class MyMovieDatabase {
         $this->fileLoader = new FileLoader();
         $this->fileLoader->loadCommonDependencies();
         $this->manager = new PluginAPIManager();
-        $this->advancedSettings = new OptionsGroup(MMDB_ADVANCED_OPTION_GROUP);
+        $this->advancedSettings = new OptionsGroup(Constants::ADVANCED_OPTION_GROUP_NAME);
         $this->run();
     }
 
@@ -288,7 +288,7 @@ class MyMovieDatabase {
         )) {
             return;
         }
-        $error_msg = MMDB_CAMEL_NAME . ' error';
+        $error_msg = Constants::PLUGIN_NAME_CAMEL . ' error';
         if($optional_msg) {
             $error_msg .= ': ' . $optional_msg . PHP_EOL;
         }

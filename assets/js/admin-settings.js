@@ -1,7 +1,7 @@
 jQuery( function ( $ ) {
     let conditionalSettingFields = {
-        cacheTypeToDeleteSelector: "select[id='mmdb_cache_manager[mmdb_delete_cache_type]']",
-        cacheIDToDeleteSelector: "input[id='mmdb_cache_manager[mmdb_delete_cache_id]']",
+        cacheTypeToDeleteSelector: "select[id='mmdb_opt_cache_manager[mmdb_delete_cache_type]']",
+        cacheIDToDeleteSelector: "input[id='mmdb_opt_cache_manager[mmdb_delete_cache_id]']",
         toggleEl: function(targetTrEl, shouldShow) {
             let shouldDisable = null
             if(shouldShow === true) {

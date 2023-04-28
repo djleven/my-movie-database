@@ -13,6 +13,8 @@
  */
 namespace MyMovieDatabase\Lib\ResourceTypes;
 
+use MyMovieDatabase\Constants;
+
 abstract class AbstractResourceType {
     public $data_type;
 	public $data_type_label;
@@ -80,7 +82,7 @@ abstract class AbstractResourceType {
      */
     public function getPostTypeAdvancedSettingKey() {
 
-        return MMDB_PLUGIN_ID . '_' . $this->data_type . '_post_type';
+        return Constants::PLUGIN_ID_INIT . '_' . $this->data_type . '_post_type';
     }
 
     /**
@@ -92,7 +94,7 @@ abstract class AbstractResourceType {
      */
     public static function makeTypeSettingGroupId($data_type) {
 
-        return  MMDB_PLUGIN_ID . '_opt_' . $data_type . 's';
+        return Constants::PLUGIN_ID_INIT . '_opt_' . $data_type . 's';
     }
 
     /**
@@ -104,7 +106,7 @@ abstract class AbstractResourceType {
      */
     protected function makeTypeSetting($setting) {
 
-        return  MMDB_PLUGIN_ID . '_' . $this->data_type . '_' . $setting;
+        return Constants::PLUGIN_ID_INIT . '_' . $this->data_type . '_' . $setting;
     }
 
     /**

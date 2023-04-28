@@ -99,9 +99,9 @@ class CoreController implements ActionHookSubscriberInterface {
     public function load_plugin_textdomain() {
 
         load_plugin_textdomain(
-            MMDB_WP_NAME,
+            Constants::PLUGIN_NAME_DASHES,
             false,
-            MMDB_WP_NAME . '/languages'
+            Constants::PLUGIN_NAME_DASHES . '/languages'
         );
     }
 
@@ -160,18 +160,18 @@ class CoreController implements ActionHookSubscriberInterface {
 
         $tax_options = [];
         $disableGutenberg = $this->advancedSettings->getOption(
-            'mmdb_disable_gutenberg_post_type',
+            Constants::ADV_OPTION_GUTENBERG_DISABLE,
             false
         );
         $wpCategoriesOption = $this->advancedSettings->getOption(
-            'mmdb_wp_categories',
-            'yes'
+            Constants::ADV_OPTION_WP_CATEGORIES,
+            Constants::OPTION_STRING_VALUE_TRUE
         );
         $hierarchicalTaxonomy = $this->advancedSettings->getOption(
-            'mmdb_hierarchical_taxonomy',
-            'yes'
+            Constants::ADV_OPTION_TAXONOMY_TYPE,
+            Constants::OPTION_STRING_VALUE_TRUE
         );
-        if($hierarchicalTaxonomy !== 'yes') {
+        if($hierarchicalTaxonomy !== Constants::OPTION_STRING_VALUE_TRUE) {
             $tax_options = [
                 'hierarchical' => false,
             ];
@@ -235,7 +235,7 @@ class CoreController implements ActionHookSubscriberInterface {
      */
     private function setEndpoints() {
         $api_key = $this->advancedSettings->getOption(
-            'mmdb_tmdb_api_key',
+            Constants::ADV_OPTION_API_KEY,
             'c8df48be0b9d3f1ed59ee365855e663a'
         );
 
