@@ -442,11 +442,9 @@ div.mmdb-content .fade-enter, div.mmdb-content .fade-leave-to  {
 div.mmdb-content .appModal {
     box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.4);
     left: calc(40%);
-    /*left: calc(50vw - 300px);*/
-    position: absolute;
+    position: fixed;
     z-index: 999;
     width: 300px;
-    /*top: 20vh;*/
     top: calc(40%);
     border-radius: 5px;
     overflow: hidden;
@@ -455,21 +453,28 @@ div.mmdb-content .appModal .appModalTitle {
     background-color: #eee;
     text-align: left;
     padding: 8px 12px;
-    font-size: 1.4em;
+    font-size: 20px;
 }
 div.mmdb-content .appModal .appModalTitle .close {
-    line-height: 26px;
-    color: purple;
+    line-height: 14px;
+    color: white;
     float: right;
     border: none;
+    padding: 4px;
 }
 div.mmdb-content .appModal .appModalBody {
     background-color: #fff;
     text-align: left;
     padding: 12px;
+    font-size: 17px;
 }
 div.mmdb-content .appModal .appModalFooter {
     background-color: #eee;
     padding: 12px;
     text-align: left;
+}
+
+div.mmdb-content .appModal .appModalFooter button {
+    padding: 5px;
+    font-size: 16px;
 }

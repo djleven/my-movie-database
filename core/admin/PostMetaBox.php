@@ -197,6 +197,7 @@ class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriber
             $output .= '<div id="mmodb_delete_cache">';
             $output .= PHP_EOL;
             $output .=
+                /* translators: %s: Number of days. */
                 '<span>' . sprintf(__('Cache expires in %s days','my-movie-database'), $cache_manager->getCacheExpiresDaysLeft()) . '</span>';
             $output .=
                 '<input type="button" id="mmodb_delete_cache_submit" class="button" value="' . esc_html__('Delete cache now', 'my-movie-database') .'"/>';

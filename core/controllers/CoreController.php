@@ -198,17 +198,17 @@ class CoreController implements ActionHookSubscriberInterface {
 
 	            if($hierarchicalTaxonomy === 'yes') {
 		            $tax_names['singular'] =
-			            /* translators: Custom post type hierarchical taxonomy (category) name. Movie, TvShow or Person. '%s Category' */
+			            /* translators: %s: Custom post type category (taxonomy) name: ex Movie, Tv Show or Person Category*/
 			            sprintf( __( '%s Category', 'my-movie-database' ), $plugin_resource_type->data_type_label );
                     $tax_names['plural'] =
-	                    /* translators: Custom post type hierarchical taxonomy (category) plural name. Movie, TvShow or Person. '%s Categories' */
+	                    /* translators: %s: Plural custom post type category (taxonomy) name: ex Movie, Tv Show or Person Categories*/
 	                    sprintf( __( '%s Categories', 'my-movie-database' ), $plugin_resource_type->data_type_label );
 	            } else {
 		            $tax_names['singular'] =
-			            /* translators: Custom post type non-hierarchical taxonomy (tag) name. Movie, TvShow or Person. '%s Tag' */
+	                    /* translators: %s: Custom post type tag (taxonomy) name: ex Movie, Tv Show or Person Tag */
 			            sprintf(__('%s Tag', 'my-movie-database'), $plugin_resource_type->data_type_label);
                     $tax_names['plural'] =
-	                    /* translators: Custom post type non-hierarchical taxonomy (tag) plural name. Movie, TvShow or Person. '%s Tags' */
+	                    /* translators: %s: Plural custom post type tag (taxonomy) name: ex Movie, Tv Show or Person Tags*/
 	                    sprintf(__('%s Tags', 'my-movie-database'), $plugin_resource_type->data_type_label);
 				}
 

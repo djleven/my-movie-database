@@ -71,7 +71,8 @@ class SettingsCacheController implements ActionHookSubscriberInterface {
             return;
         }
         $this->admin_notice_message = sprintf(
-            esc_html__( 'The cache for the %s with TMDb id %s and locale %s was deleted.', 'my-movie-database'),
+            /* translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US. */
+            esc_html__( 'The cache for the %1$s with TMDb id %2$s and locale %3$s was deleted.', 'my-movie-database'),
             esc_html__($data_type),
             $data_id,
             get_locale()
@@ -86,7 +87,8 @@ class SettingsCacheController implements ActionHookSubscriberInterface {
         if(!$cache_manager->deleteCachedData()) {
             if($cache_manager->deleteCachedData() === false) {
                 $this->admin_notice_message = sprintf(
-                    esc_html__( 'The cache for the %s with TMDb id %s and locale %s was not found.', 'my-movie-database'),
+                    /* translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US. */
+                    esc_html__( 'The cache for the %1$s with TMDb id %2$s and locale %3$s was not found.', 'my-movie-database'),
                     esc_html__($data_type),
                     $data_id,
                     get_locale()

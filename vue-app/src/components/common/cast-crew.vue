@@ -1,5 +1,5 @@
 <template>
-    <section-layout :header="$t(headerLabel())"
+    <section-layout :header="headerLabel()"
               :sub-header="store.getters.getContentTitle"
               :class-list="headerClassList">
       <slot>
@@ -42,8 +42,20 @@ const sectionTypeMap = {
 const store = useStore()
 const contentType = computed(() => store.state.type)
 const isPersonType:boolean = contentType.value === ContentTypes.Person
+const isTvShowType:boolean = contentType.value === ContentTypes.TvShow
 const templateType: string = sectionTypeMap[props.section]
 const headerClassList: string = `${contentType.value} credits ${templateType}`
 const credits = computed(() => store.state[contentType.value]?.credits[templateType])
-const headerLabel = ():string => isPersonType ? `${ContentTypes.Person}.${templateType}` : templateType
+const headerLabel = ():string => {
+  if(isPersonType) {
+    return $t(`${ContentTypes.Person}.${templateType}`)
+  }
+  if(isTvShowType) {
+    const season_number = store.state.tvshow?.content?.number_of_seasons
+    if (season_number) {
+      return $t(templateType) + ' - ' + $t('season_numbered', `${season_number}`)
+    }
+  }
+  return $t(templateType)
+}
 </script>

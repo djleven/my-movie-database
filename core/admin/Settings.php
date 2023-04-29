@@ -178,7 +178,9 @@ class Settings implements ActionHookSubscriberInterface {
                         'type'    => 'select',
                         'default' => 'tabs',
                         'options' => array(
+                            /* translators: Refers to the tabs template. */
                             'tabs' => esc_html__( 'With tabs', 'my-movie-database' ),
+                            /* translators: Refers to the accordion template. */
                             'accordion' => esc_html__( 'With accordion', 'my-movie-database' ),
                         )
                     ),
@@ -233,7 +235,9 @@ class Settings implements ActionHookSubscriberInterface {
                         'type'    => 'select',
                         'default' => 'fade',
                         'options' => array(
+                            /* translators: Refers a transition effect name. */
                             'fade' => esc_html__( 'Fade', 'my-movie-database' ),
+                            /* translators: Refers a transition effect name. */
                             'bounce' => esc_html__( 'Bounce', 'my-movie-database' ),
                             'none' => __( I18nConstants::I18n_CORE_NONE ),
                         )
@@ -278,6 +282,7 @@ class Settings implements ActionHookSubscriberInterface {
      */
     private function getEnableSectionLabel($type) {
         return sprintf(
+            /* translators: %s: Post type, ex: movie, tv show or person section. */
             esc_html__( 'Enable "%s" section?', 'my-movie-database' ),
             __($type, 'my-movie-database')
         );
@@ -294,6 +299,7 @@ class Settings implements ActionHookSubscriberInterface {
     private function getEnableSectionYesOptionLabel($type) {
         return __( I18nConstants::I18n_CORE_YES ) . '. '
                . sprintf(
+                   /* translators: %s: Post type, ex: movie, tv show or person section. */
                    esc_html__('Use a "%s" posts section (custom post type)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
                );
@@ -315,6 +321,7 @@ class Settings implements ActionHookSubscriberInterface {
         }
         return $no_msg . '. '
                . sprintf(
+                   /* translators: %s: Plural version of resource / post type, ex: use movies, tv shows or people. */
                    esc_html__('I only want to use "%s" with shortcodes (or not at all)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
                );
@@ -405,7 +412,6 @@ class Settings implements ActionHookSubscriberInterface {
                 array(
                     'name'    => Constants::ADV_OPTION_CSS_FILE_INC,
                     'label'   => esc_html__( 'Include plugin css file', 'my-movie-database' ),
-                    'desc'    => esc_html__( 'Select when to load the plugin css file, selecting No will never load the plugin css file', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
@@ -415,7 +421,9 @@ class Settings implements ActionHookSubscriberInterface {
                 ),
                 array(
                     'name'    => Constants::ADV_OPTION_API_KEY,
+                    /* translators: %s: Name of API service provider, ex: TMDb, Google. */
                     'label'   => sprintf(esc_html__( '%s API key', 'my-movie-database'), 'TMDb'),
+                    /* translators: %s: Name of API service provider, ex: TMDb, Google. */
                     'desc'    => sprintf(esc_html__( 'Enter your %s API key.', 'my-movie-database' ), 'TMDb'),
                     'type'    => 'password',
                     'sanitize_callback' => 'sanitize_key',
@@ -458,9 +466,11 @@ class Settings implements ActionHookSubscriberInterface {
             Constants::CACHE_MANAGER_OPTION_GROUP_NAME => [
                 [
                     'name'    => Constants::CACHE_MANAGER_DELETE_TYPE,
-                    'label'   => esc_html__( 'Resource type to delete', 'my-movie-database' ),
+                    'label'   => esc_html__( 'Delete cached resource', 'my-movie-database' ),
+                    /* translators: Resource type, ex: movie, tv show or person resource. */
+                    'desc'   => esc_html__( 'Select the type of cached resource to delete', 'my-movie-database'),
                     'type'    => 'select',
-                    'default' => 'select',
+                    'default' => '',
                     'options' => [
                         ''  => __( I18nConstants::I18n_CORE_SELECT),
                         'movie'  => esc_html__( 'Movies', 'my-movie-database' ),
@@ -470,8 +480,8 @@ class Settings implements ActionHookSubscriberInterface {
                 ],
                 [
                     'name'    => Constants::CACHE_MANAGER_DELETE_ID,
-                    'label'   => esc_html__( 'Resource TMDb id to delete', 'my-movie-database'),
-                    'desc'    => esc_html__( 'Enter the TMDb id of the cached resource to delete', 'my-movie-database' ),
+                    /* translators: %s: Name of the resource provider, ex: TMDb, Google. */
+                    'desc'   => sprintf(esc_html__( 'Enter the %s id of the cached resource to delete', 'my-movie-database'), 'TMDb'),
                     'type'    => 'number',
                     'sanitize_callback' => 'sanitize_key',
                 ],

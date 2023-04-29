@@ -18,7 +18,7 @@ export default {
     async loadContent({ commit, state, dispatch }) {
         const id = state.id
         const type = state.type
-        const errorMsg = `An error occurred while loading the ${type} data`
+        const errorMsg = `An error occurred while retrieving the ${type} data with id ${id}`
 
         commit('setContentLoading', true)
         commit('setContentLoaded', false)
@@ -32,7 +32,7 @@ export default {
 
             data = JSON.parse(response.parsedBody)
             if (state.global_conf.debug) {
-                console.log(data, 'Content type response data')
+                console.log(data, 'Debug: Content type response data')
             }
 
             if(type === ContentTypes.Movie) {
@@ -76,7 +76,7 @@ export default {
             dispatch(`${type}/setContentLoaded`)
         }
         catch(e){
-            const msg = `An error occurred while loading the ${type} data`
+            const msg = `An error occurred while loading the ${type} data with id ${state.id}`
             console.error(msg)
             commit('setErrorMessage', msg)
         }
@@ -92,7 +92,7 @@ export default {
         Promise<PeopleSearchResponse | TvShowsSearchResponse | MoviesSearchResponse>
     {
         let data
-        const errorMsg = `An error occurred while loading the search results for ${val}`
+        const errorMsg = `An error occurred while loading the ${state.type} search results for ${val}`
         try {
             const type = state.type
             let query = await searchAPI(val, type)
@@ -102,7 +102,7 @@ export default {
             }
             data = JSON.parse(query.parsedBody)
             if (state.global_conf.debug) {
-                console.log(data, 'Search result response data')
+                console.log(data, 'Debug: Search result response data')
             }
 
             if(type === ContentTypes.Movie) {

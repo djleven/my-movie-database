@@ -1,6 +1,8 @@
 #!/bin/sh
 
 echo "Perform cleanup, renaming/replacing for shipping the min.js file"
+cp plugins/wpI18n/i18n.js ../assets/js/app
+
 cd ..
 cd assets || exit
 cd js || exit

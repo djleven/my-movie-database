@@ -66,7 +66,7 @@ trait SettingsHeader {
                         'title' => esc_html__( 'Translate', 'my-movie-database' ),
                         'span_class' => 'dashicons-flag',
                         'url' => 'https://translate.wordpress.org/projects/wp-plugins/my-movie-database/',
-                        'url-text' => esc_html__( 'Help translate the plugin in your language.',  'my-movie-database' )
+                        'url-text' => esc_html__( 'Translate the plugin in your language.',  'my-movie-database' )
                     ],
                     [
                         'title' => esc_html__( 'Give feedback',  'my-movie-database' ),
