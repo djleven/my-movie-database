@@ -124,11 +124,6 @@ class MyMovieDatabase {
     private function runCore() {
         $this->coreController = new CoreController($this->advancedSettings);
         $this->manager->register($this->coreController);
-        foreach ($this->coreController->post_types as $post_type)  {
-            // Taxonomies must be registered before PostTypes
-            $this->manager->register($post_type->postTypeTaxonomy);
-            $this->manager->register($post_type);
-        }
 
         foreach ($this->coreController->endpoints as $endpoint)  {
             $this->manager->register($endpoint);

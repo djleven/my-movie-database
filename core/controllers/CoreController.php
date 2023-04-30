@@ -23,7 +23,7 @@ use MyMovieDatabase\Lib\ResourceAPI\GetResourcesEndpoint;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceAPI\AbstractEndpoint;
 
-class CoreController implements ActionHookSubscriberInterface {
+class CoreController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
 
     /**
      * The resource (data) types made available in the plugin.
@@ -72,9 +72,8 @@ class CoreController implements ActionHookSubscriberInterface {
      */
     public function __construct($advancedSettings) {
         $this->advancedSettings = $advancedSettings;
-        $this->available_resource_types = $this->setAdminResourceTypes();
+        $this->available_resource_types = $this->getAdminResourceTypes();
         $this->active_post_types = $this->getActivePostTypes();
-        $this->setCustomPostTypes();
         $this->setEndpoints();
     }
 
@@ -88,6 +87,22 @@ class CoreController implements ActionHookSubscriberInterface {
     {
         return [
             'plugins_loaded' => 'load_plugin_textdomain',
+            'init' => 'set_custom_post_types',
+        ];
+    }
+
+
+    /**
+     * Get the action hooks to be registered related to the core functionality.
+     *
+     * @since    3.0.0
+     * @access   public
+     */
+    public function getFilters()
+    {
+        return [
+            'load_textdomain_mofile'       => ['load_fallback_text_domain_file',10, 2],
+            'load_script_translation_file' => ['load_fallback_text_domain_file',10, 2]
         ];
     }
 
@@ -111,7 +126,7 @@ class CoreController implements ActionHookSubscriberInterface {
      * @since     1.0.0
      * @return    array
      */
-    private function setAdminResourceTypes() {
+    private function getAdminResourceTypes() {
 
         return [
             new MovieResourceType(),
@@ -156,7 +171,7 @@ class CoreController implements ActionHookSubscriberInterface {
      *
      * @since     1.0.0
      */
-    private function setCustomPostTypes() {
+    public function set_custom_post_types() {
 
         $tax_options = [];
         $disableGutenberg = $this->advancedSettings->getOption(
@@ -178,6 +193,7 @@ class CoreController implements ActionHookSubscriberInterface {
         }
 
         foreach($this->available_resource_types as $plugin_resource_type) {
+            $plugin_resource_type->setDefaultLabels();
             $setting = $this->advancedSettings->getOption(
                 $plugin_resource_type->post_type_advanced_setting_key,
                 $plugin_resource_type->data_type
@@ -197,19 +213,11 @@ class CoreController implements ActionHookSubscriberInterface {
                 ];
 
 	            if($hierarchicalTaxonomy === 'yes') {
-		            $tax_names['singular'] =
-			            /* translators: %s: Custom post type category (taxonomy) name: ex Movie, Tv Show or Person Category*/
-			            sprintf( __( '%s Category', 'my-movie-database' ), $plugin_resource_type->data_type_label );
-                    $tax_names['plural'] =
-	                    /* translators: %s: Plural custom post type category (taxonomy) name: ex Movie, Tv Show or Person Categories*/
-	                    sprintf( __( '%s Categories', 'my-movie-database' ), $plugin_resource_type->data_type_label );
+		            $tax_names['singular'] = $plugin_resource_type->getI18nDefaultCategoryLabel();
+                    $tax_names['plural'] = $plugin_resource_type->getI18nDefaultPluralCategoryLabel();
 	            } else {
-		            $tax_names['singular'] =
-	                    /* translators: %s: Custom post type tag (taxonomy) name: ex Movie, Tv Show or Person Tag */
-			            sprintf(__('%s Tag', 'my-movie-database'), $plugin_resource_type->data_type_label);
-                    $tax_names['plural'] =
-	                    /* translators: %s: Plural custom post type tag (taxonomy) name: ex Movie, Tv Show or Person Tags*/
-	                    sprintf(__('%s Tags', 'my-movie-database'), $plugin_resource_type->data_type_label);
+		            $tax_names['singular'] = $plugin_resource_type->getI18nDefaultTagLabel();
+                    $tax_names['plural'] = $plugin_resource_type->getI18nDefaultPluralTagLabel();
 				}
 
                 $custom_post_type =
@@ -222,6 +230,8 @@ class CoreController implements ActionHookSubscriberInterface {
                     $custom_post_type->assignTaxonomyToPostType(['category', 'post_tag']);
                 }
 
+                $custom_post_type->postTypeTaxonomy->registerPosTypeEntity();
+                $custom_post_type->registerPosTypeEntity();
                 $this->post_types[] = $custom_post_type;
             }
         }
@@ -242,6 +252,44 @@ class CoreController implements ActionHookSubscriberInterface {
         $this->endpoints = [
             new GetResourcesEndpoint($api_key)
         ];
+    }
+
+    /**
+     * Modify local language files loaded to default fallback
+     *
+     * This plugin ships with some basic translation files for multi-locale languages ex: French, German.
+     * These basic translation files have no locale, only language (ex: 'fr', not 'fr-FR').
+     *
+     * These files are referred to as 'local'. Those that originate from translate.wordpress.org are referred to as 'remote'.
+     *
+     * When there are no remote (found in plugins/languages folder) locale specific files available (ex: 'fr-CA'),
+     * the below code will load the local generic (non locale) files. This method is called for both for .mo and .json files.
+     *
+     * The principle is that if the user local is say Belgian French (fr-BG) and there is only a fr-FR translation available,
+     * it is preferable to use fr-FR as fallback instead of English.
+     *
+     * Code based on https://vedovini.net/2013/12/18/smart-fallback-mechanism-for-loading-text-domains-in-wordpress/
+     *
+     * Caveat: Use of .mo translation files in the (php) code are available only after the 'load_textdomain_mofile' filter has fired.
+     *
+     * In this here plugin, with some minor modifications, this is fine. Beats copying the same .mo files for each locale.
+     *
+     * @since     3.0.0
+     * @return void
+     */
+    public function load_fallback_text_domain_file($src) {
+        if (str_contains($src, '/plugins/my-movie-database/languages/')) {
+            extract(pathinfo($src));
+            $pos = strrpos($filename, '_');
+
+            if ($pos !== false) {
+                # cut off the locale part, leaving the language part only
+                $filename = substr($filename, 0, $pos);
+                $src = $dirname . '/' . $filename . '.' . $extension;
+            }
+        }
+
+        return $src;
     }
 }
 

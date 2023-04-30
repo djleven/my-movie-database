@@ -1,8 +1,5 @@
 <?php
-
 namespace MyMovieDatabase\Lib\PostTypes;
-
-use MyMovieDatabase\ActionHookSubscriberInterface;
 
 /**
  * PostTypeEntity
@@ -12,7 +9,7 @@ use MyMovieDatabase\ActionHookSubscriberInterface;
  * An adaptation based on the work of jjgrainger's PostTypes
  * @link    https://github.com/jjgrainger/PostTypes/
  */
-abstract class PostTypeEntityAbstract implements ActionHookSubscriberInterface
+abstract class PostTypeEntityAbstract
 {
     /**
      * The name for the PostTypeEntity
@@ -89,24 +86,11 @@ abstract class PostTypeEntityAbstract implements ActionHookSubscriberInterface
     abstract protected function isPostTypeEntityRegistered();
 
     /**
-     * Register the PostTypeEntity related actions
-     *
-     * @since    3.0.0
-     * @return array
-     */
-    public function getActions()
-    {
-        return [
-            'init' => 'register_post_type_entity',
-        ];
-    }
-
-    /**
      * Callback to Register the PostTypeEntity with WordPress
      *
      * @return void
      */
-    public function register_post_type_entity()
+    public function registerPosTypeEntity()
     {
         if (!$this->isPostTypeEntityRegistered()) {
             // register the Taxonomy with WordPress

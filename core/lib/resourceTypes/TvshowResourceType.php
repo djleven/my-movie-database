@@ -62,5 +62,49 @@ class TvshowResourceType extends AbstractResourceType {
 
         return __('Tv Shows', 'my-movie-database');
     }
+
+    /**
+     * Get the default translated category label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultCategoryLabel() {
+
+        return __('Tv Show category', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated plural category label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultPluralCategoryLabel() {
+
+        return __('Tv Show categories', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated tag label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultTagLabel() {
+
+        return __('Tv Show tag', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated plural tag label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultPluralTagLabel() {
+
+        return __('Tv Show tags', 'my-movie-database');
+    }
 }
 

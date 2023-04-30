@@ -39,6 +39,10 @@ abstract class AbstractResourceType {
 
     abstract public static function getI18nDefaultLabel();
     abstract public static function getI18nDefaultPluralLabel();
+    abstract public function getI18nDefaultCategoryLabel();
+    abstract public function getI18nDefaultPluralCategoryLabel();
+    abstract public function getI18nDefaultTagLabel();
+    abstract public function getI18nDefaultPluralTagLabel();
 
     /**
      * Initialize the class and set its properties.
@@ -55,10 +59,13 @@ abstract class AbstractResourceType {
         $data_type_label_plural = null,
         $type_menu_icon = null
     ) {
-        $this->data_type_label =
-            $data_type_label ? $data_type_label : static::getI18nDefaultLabel();;
-        $this->data_type_label_plural =
-            $data_type_label_plural ? $data_type_label_plural : static::getI18nDefaultPluralLabel();
+        if($data_type_label){
+            $this->data_type_label = $data_type_label;
+        }
+        if($data_type_label_plural){
+            $this->data_type_label_plural = $data_type_label_plural;
+        }
+
         $this->data_type = $data_type;
         $this->type_menu_icon = $type_menu_icon;
         $this->type_setting_id = self::makeTypeSettingGroupId($this->data_type);
@@ -142,5 +149,16 @@ abstract class AbstractResourceType {
 			static::SECTION_3   	  => __( 'Crew', 'my-movie-database' )
 		], $sectionLabels);
 	}
+
+    /**
+     * Set the default name labels for type object
+     *
+     * @since     3.0.0
+     * @return    void
+     */
+    public function setDefaultLabels() {
+        $this->data_type_label = static::getI18nDefaultLabel();;
+        $this->data_type_label_plural = static::getI18nDefaultPluralLabel();
+    }
 }
 

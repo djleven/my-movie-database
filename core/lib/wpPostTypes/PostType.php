@@ -22,7 +22,7 @@ class PostType extends PostTypeEntityAbstract
 
     /**
      * The PostType taxonomy
-     * @var array
+     * @var Taxonomy
      */
     public $postTypeTaxonomy;
 

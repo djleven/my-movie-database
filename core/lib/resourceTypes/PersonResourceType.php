@@ -43,8 +43,8 @@ class PersonResourceType extends AbstractResourceType {
     public function setHideSectionsSetting() {
 
 	    return $this->getSectionLabels([
-		    static::SECTION_2   	  => __( 'Cast Credits', 'my-movie-database' ),
-		    static::SECTION_3   	  => __( 'Crew Credits', 'my-movie-database' ),
+		    static::SECTION_2   	  => __( 'Cast credits', 'my-movie-database' ),
+		    static::SECTION_3   	  => __( 'Crew credits', 'my-movie-database' ),
 	    ]);
 	}
 
@@ -61,7 +61,51 @@ class PersonResourceType extends AbstractResourceType {
      */
     public static function getI18nDefaultPluralLabel() {
 
-        return __('People', 'my-movie-database');
+        return __('Persons', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated category label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultCategoryLabel() {
+
+        return __('Person category', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated plural category label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultPluralCategoryLabel() {
+
+        return __('Person categories', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated tag label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultTagLabel() {
+
+        return __('Person tag', 'my-movie-database');
+    }
+
+    /**
+     * Get the default translated plural tag label of the type
+     *
+     * @since     3.0.0
+     * @return    string
+     */
+    public function getI18nDefaultPluralTagLabel() {
+
+        return __('Person tags', 'my-movie-database');
     }
 }
 
