@@ -1,0 +1,591 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - My Movie Database - Development (trunk)\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-04-30T20:32:26+00:00\n"
+"PO-Revision-Date: +0000\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
+
+#: core/admin/SettingsHeader.php:50
+msgid "Open up a ticket."
+msgstr "Ouvrir un ticket."
+
+#: core/admin/SettingsHeader.php:49
+msgid "Still can't figure it out?"
+msgstr "Toujours coincé(e)?"
+
+#: core/admin/Settings.php:206
+msgid "Background color for the template content"
+msgstr "Couleur de l'arrière-plan pour le contenu du modèle"
+
+#: core/admin/Settings.php:190
+msgid "Background color for the template header"
+msgstr "Couleur de l'arrière-plan pour l'en-tête du modèle"
+
+#: core/admin/SettingsHeader.php:158
+msgid "Settings"
+msgstr "Réglages"
+
+#: core/lib/resourceTypes/PersonResourceType.php:47
+#: assets/js/app/i18n.js:31
+msgid "Crew credits"
+msgstr "Crédits d'équipe technique"
+
+#: core/lib/resourceTypes/PersonResourceType.php:46
+#: assets/js/app/i18n.js:30
+msgid "Cast credits"
+msgstr "Crédits de distribution"
+
+#: core/lib/resourceTypes/MovieResourceType.php:47
+#: assets/js/app/i18n.js:41
+msgid "Trailer"
+msgstr "Bande-annonce"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:46
+#: assets/js/app/i18n.js:50
+msgid "Seasons"
+msgstr "Saisons"
+
+#: core/lib/resourceTypes/AbstractResourceType.php:146
+#: assets/js/app/i18n.js:8
+msgid "Crew"
+msgstr "Équipe technique"
+
+#: core/lib/resourceTypes/AbstractResourceType.php:145
+#: assets/js/app/i18n.js:7
+msgid "Cast"
+msgstr "Distribution"
+
+#: core/lib/resourceTypes/AbstractResourceType.php:144
+msgid "Overview Text"
+msgstr "Texte d'Aperçu"
+
+#: core/admin/SettingsHeader.php:66
+msgid "Translate"
+msgstr "Traduire"
+
+#: core/admin/SettingsHeader.php:63
+msgid "Please leave your review."
+msgstr "Veuillez laisser votre avis."
+
+#: core/admin/SettingsHeader.php:62
+msgid "It means a lot to us."
+msgstr "Nous l'apprécions beaucoup."
+
+#: core/admin/SettingsHeader.php:59
+msgid "Review"
+msgstr "Avis"
+
+#: core/admin/SettingsHeader.php:43
+msgid "Configuration options"
+msgstr "Options de configuration"
+
+#: core/admin/SettingsHeader.php:37
+msgid "How to use the plugin."
+msgstr "Comment utiliser l'extension."
+
+#: core/admin/SettingsHeader.php:30
+msgid "Get Help"
+msgstr "Obtenir de l'aide"
+
+#: core/admin/Settings.php:446
+msgid "Will output data received from TMDB in your browser's (web developer tools) console"
+msgstr ""
+
+#: core/admin/Settings.php:445
+msgid "Debug Mode"
+msgstr "Mode débogage"
+
+#: core/admin/Settings.php:405
+msgid "Show description on hover for person credits and tvshow seasons"
+msgstr "Afficher la description au survol pour les crédits et pour les saisons des séries"
+
+#: core/admin/Settings.php:404
+msgid "Overview on hover"
+msgstr "Aperçu au survol"
+
+#: core/admin/Settings.php:399
+msgid "No, do not use wordpress categories"
+msgstr "Non, ne pas utiliser les catégories WordPress"
+
+#: core/admin/Settings.php:398
+msgid "Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins"
+msgstr "Oui, associez-les, mais n'affichez pas ces types d'articles dans les pages de catégories (archives), ça rentre en conflit avec mon thème ou mes extensions"
+
+#: core/admin/Settings.php:397
+msgid "Yes, allow movies, tvshows and persons to be associated to wordpress categories"
+msgstr "Oui, autorisez les films, les émissions de télévision et les personnes a être associés aux catégories de wordpress"
+
+#: core/admin/Settings.php:393
+msgid "Default Wordpress categories can be selectable for your your mmdb posts"
+msgstr "Les catégories Wordpress par défaut peuvent être sélectionnables pour vos articles mmdb"
+
+#: core/admin/Settings.php:392
+msgid "Wordpress Categories"
+msgstr "Catégories WordPress"
+
+#: core/admin/Settings.php:415
+msgid "Include plugin css file"
+msgstr "Inclure le fichier css de l'extension"
+
+#: core/admin/Settings.php:352
+msgid "No, use Posts and leave them as they are"
+msgstr "Non, utilisez les Articles et laissez-les tels quels"
+
+#: core/admin/Settings.php:351
+msgid "No, use Posts but change the \"Posts\" menu label to \"Movies\""
+msgstr "Non, utilisez les Articles mais changez leur étiquettes en \"Films\""
+
+#: core/admin/Settings.php:259
+msgid "Select the sections to be hidden"
+msgstr "Sélectionnez les sections à masquer"
+
+#: core/admin/Settings.php:258
+msgid "Hide sections"
+msgstr "Masquer les sections"
+
+#: core/admin/Settings.php:253
+msgid "Before content"
+msgstr "Avant le contenu"
+
+#: core/admin/Settings.php:252
+msgid "After content"
+msgstr "Après le contenu"
+
+#: core/admin/Settings.php:248
+msgid "Choose to display MMDB info before or after the content"
+msgstr "Choisissez l'emplacement des informations MMDB avant ou après le contenu"
+
+#: core/admin/Settings.php:247
+msgid "Display position"
+msgstr "Emplacement"
+
+#. translators: Refers a transition effect name.
+#: core/admin/Settings.php:241
+msgid "Bounce"
+msgstr "Rebondir"
+
+#. translators: Refers a transition effect name.
+#: core/admin/Settings.php:239
+msgid "Fade"
+msgstr "Fondu"
+
+#: core/admin/Settings.php:234
+msgid "Select the transition effect to use when switching sections"
+msgstr "Sélectionnez l'effet de transition à appliquer aux changements de sections"
+
+#: core/admin/Settings.php:233
+msgid "Transition effect"
+msgstr "Effet de transition"
+
+#. translators: Refers to the accordion template.
+#: core/admin/Settings.php:184
+msgid "With accordion"
+msgstr "Avec accordéon"
+
+#. translators: Refers to the tabs template.
+#: core/admin/Settings.php:182
+msgid "With tabs"
+msgstr "Avec onglets"
+
+#. Author URI of the plugin
+msgid "https://e-leven.net/"
+msgstr "https://e-leven.net/"
+
+#. Author of the plugin
+msgid "Kostas Stathakos"
+msgstr "Kostas Stathakos"
+
+#. Description of the plugin
+msgid "The My Movie Database plugin compliments your content by adding information about the movies, the television shows and the people you choose. The data comes from the Movie Database (TMDb). This plugin was developed to enrich your movie or tvshow critique / review by 'automatically' adding the related information and allowing you to focus on your writing instead."
+msgstr "L'extension My Movie Database complète votre contenu en ajoutant des informations sur les films, les émissions de télé et les personnes que vous choisissez. Les données proviennent du The Movie Database (TMDb). Cette extension a été développée pour enrichir votre évaluation / critique de film / série de télé en ajoutant 'automatiquement' les données requises, vous permettant ainsi de mieux vous concentrer sur votre écriture."
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/my-movie-database/"
+msgstr "https://fr.wordpress.org/plugins/my-movie-database/"
+
+#. Plugin Name of the plugin
+#: core/admin/SettingsHeader.php:158
+msgid "My Movie Database"
+msgstr ""
+
+#. translators: %s: Number of days.
+#: core/admin/PostMetaBox.php:170
+msgid "Cache expires in %s days"
+msgstr "Le cache expire dans %s jours"
+
+#: core/admin/PostMetaBox.php:172
+msgid "Delete cache now"
+msgstr "Supprimer le cache maintenant"
+
+#: core/admin/Settings.php:135
+msgid "Cache manager"
+msgstr "Gestionnaire de cache"
+
+#: core/admin/Settings.php:177
+msgid "Select the template to use"
+msgstr "Sélectionner le modèle à utiliser"
+
+#: core/admin/Settings.php:198
+msgid "Font color for the template header"
+msgstr "Couleur du texte pour l'en-tête du modèle"
+
+#: core/admin/Settings.php:214
+msgid "Font color for the template content"
+msgstr "Couleur du texte pour le contenu du modèle"
+
+#: core/admin/Settings.php:221
+msgid "Size of images / columns"
+msgstr "Taille des images / colonnes"
+
+#: core/admin/Settings.php:222
+msgid "Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout."
+msgstr "Sélectionnez la taille des images pour les sections qui affichent des listes (ex: Sections Équipe technique et distribution). Affecte également la taille des colonnes de la grille réactive."
+
+#. translators: %s: Post type, ex: movie, tv show or person section.
+#: core/admin/Settings.php:286
+msgid "Enable \"%s\" section?"
+msgstr "Activer la section \"%s\"?"
+
+#. translators: %s: Post type, ex: movie, tv show or person section.
+#: core/admin/Settings.php:303
+msgid "Use a \"%s\" posts section (custom post type)"
+msgstr "Utilisez une section \"%s\" (type de contenu personnalisé)"
+
+#. translators: %s: Plural version of resource / post type, ex: use movies, tv shows or persons.
+#: core/admin/Settings.php:325
+msgid "I only want to use \"%s\" with shortcodes (or not at all)"
+msgstr "Je veux seulement utiliser les \"%s\" avec des \"shortcodes\" (ou pas du tout)"
+
+#: core/admin/Settings.php:355
+msgid "None of the above"
+msgstr "Aucune de ces réponses"
+
+#: core/admin/Settings.php:382
+msgid "Select the type of taxonomy to be created for each enabled post type section."
+msgstr "Sélectionnez le type de taxonomie à créer pour chaque section de type de contenu activée."
+
+#. translators: %s: Name of API service provider, ex: TMDb, Google.
+#: core/admin/Settings.php:426
+msgid "%s API key"
+msgstr "Clé API de %s"
+
+#. translators: %s: Name of API service provider, ex: TMDb, Google.
+#: core/admin/Settings.php:428
+msgid "Enter your %s API key."
+msgstr "Entrez votre clé API de %s"
+
+#: core/admin/Settings.php:434
+msgid "Disable the Gutenberg editor?"
+msgstr "Désactiver l'éditeur Gutenberg?"
+
+#: core/admin/Settings.php:435
+msgid "Stop using the Gutenberg editor for the plugin's post types?"
+msgstr "Arrêter d'utiliser l'éditeur Gutenberg pour les types de contenu de l'extension?"
+
+#: core/admin/Settings.php:470
+msgid "Delete cached resource"
+msgstr "Supprimer la ressource en cache"
+
+#. translators: Resource type, ex: movie, tv show or person resource.
+#: core/admin/Settings.php:472
+msgid "Select the type of cached resource to delete"
+msgstr "Sélectionnez le type de ressource en cache à supprimer"
+
+#: core/admin/Settings.php:477
+#: core/lib/resourceTypes/MovieResourceType.php:70
+msgid "Movies"
+msgstr "Films"
+
+#: core/admin/Settings.php:478
+#: core/lib/resourceTypes/TvshowResourceType.php:52
+msgid "Tv Show"
+msgstr "Émission de télé"
+
+#: core/admin/Settings.php:479
+#: core/lib/resourceTypes/PersonResourceType.php:53
+msgid "Person"
+msgstr "Personne"
+
+#. translators: %s: Name of the resource provider, ex: TMDb, Google.
+#: core/admin/Settings.php:485
+msgid "Enter the %s id of the cached resource to delete"
+msgstr "Entrez l'identifiant %s de la ressource mise en cache à supprimer"
+
+#. translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US.
+#: core/admin/SettingsCacheController.php:75
+msgid "The cache for the %1$s with TMDb id %2$s and locale %3$s was deleted."
+msgstr "Le cache pour le type de resource \"%1$s\" avec l'identifiant TMDb %2$s et les paramètres régionaux %3$s, a été supprimé."
+
+#: core/admin/SettingsCacheController.php:81
+msgid "An error has occurred."
+msgstr "Une erreur est survenue."
+
+#. translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US.
+#: core/admin/SettingsCacheController.php:91
+msgid "The cache for the %1$s with TMDb id %2$s and locale %3$s was not found."
+msgstr "Le cache pour le type de resource \"%1$s\" avec l'identifiant TMDb %2$s et les paramètres régionaux %3$s, n'a pas été trouvé."
+
+#: core/admin/SettingsHeader.php:55
+msgid "Offer Help"
+msgstr "Offrez votre aide"
+
+#: core/admin/SettingsHeader.php:55
+msgid "Contribute"
+msgstr "Contribuez"
+
+#: core/admin/SettingsHeader.php:69
+msgid "Translate the plugin in your language."
+msgstr "Traduisez l'extension dans votre langue."
+
+#: core/admin/SettingsHeader.php:72
+msgid "Give feedback"
+msgstr "Vos commentaires"
+
+#: core/admin/SettingsHeader.php:75
+msgid "We'll love you for it!"
+msgstr "Nous vous aimerons pour cela!"
+
+#: core/admin/SettingsHeader.php:76
+msgid "Fill out a brief survey."
+msgstr "Remplissez un bref sondage."
+
+#: core/admin/SettingsHeader.php:81
+msgid "Connect"
+msgstr "Connectez"
+
+#: core/admin/SettingsHeader.php:85
+msgid "Newsletter"
+msgstr "Bulletin"
+
+#: core/admin/SettingsHeader.php:88
+msgid "Stay in the loop!"
+msgstr "Rester informé!"
+
+#: core/admin/SettingsHeader.php:89
+msgid "Join our mailing list."
+msgstr "Joignez-vous à notre liste d'envoi"
+
+#: core/admin/SettingsHeader.php:92
+msgid "Showcase"
+msgstr ""
+
+#: core/admin/SettingsHeader.php:95
+msgid "Add your website to our site showcase."
+msgstr ""
+
+#: core/admin/SettingsHeader.php:98
+msgid "Development"
+msgstr "Développement"
+
+#: core/admin/SettingsHeader.php:101
+msgid "Need a special feature?"
+msgstr "Besoin d'une fonctionnalité personnalisée?"
+
+#: core/admin/SettingsHeader.php:102
+msgid "Contact us"
+msgstr "Contactez-nous"
+
+#: core/lib/resourceTypes/MovieResourceType.php:59
+msgid "Movie"
+msgstr "Film"
+
+#: core/lib/resourceTypes/MovieResourceType.php:81
+msgid "Movie category"
+msgstr "Catégorie de film"
+
+#: core/lib/resourceTypes/MovieResourceType.php:92
+msgid "Movie categories"
+msgstr "Catégories de film"
+
+#: core/lib/resourceTypes/MovieResourceType.php:103
+msgid "Movie tag"
+msgstr "Étiquette de film"
+
+#: core/lib/resourceTypes/MovieResourceType.php:114
+msgid "Movie tags"
+msgstr "Étiquettes de film"
+
+#: core/lib/resourceTypes/PersonResourceType.php:64
+msgid "Persons"
+msgstr "Personnes"
+
+#: core/lib/resourceTypes/PersonResourceType.php:75
+msgid "Person category"
+msgstr "Catégorie de personne"
+
+#: core/lib/resourceTypes/PersonResourceType.php:86
+msgid "Person categories"
+msgstr "Catégories de personne"
+
+#: core/lib/resourceTypes/PersonResourceType.php:97
+msgid "Person tag"
+msgstr "Étiquette de personne"
+
+#: core/lib/resourceTypes/PersonResourceType.php:108
+msgid "Person tags"
+msgstr "Étiquettes de personne"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:63
+msgid "Tv Shows"
+msgstr "Émissions de télé"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:74
+msgid "Tv Show category"
+msgstr "Catégorie d'émissions de télé"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:85
+msgid "Tv Show categories"
+msgstr "Catégories d'émissions de télé"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:96
+msgid "Tv Show tag"
+msgstr "Étiquette d'émissions de télé"
+
+#: core/lib/resourceTypes/TvshowResourceType.php:107
+msgid "Tv Show tags"
+msgstr "Étiquettes d'émissions de télé"
+
+#: assets/js/app/i18n.js:6
+msgid "Overview"
+msgstr "Aperçu"
+
+#. translators: Acting role
+#: assets/js/app/i18n.js:10
+msgid "Role"
+msgstr "Rôle"
+
+#: assets/js/app/i18n.js:11
+msgid "Website"
+msgstr "Site web"
+
+#: assets/js/app/i18n.js:12
+msgid "There is no description available"
+msgstr "Il n'y a pas de description disponible"
+
+#. translators: %s: Brand / Company website, ex: IMDb, TMDb, Rotten Tomatoes, etc
+#: assets/js/app/i18n.js:14
+msgid "%s Profile"
+msgstr "Profil %s"
+
+#: assets/js/app/i18n.js:16
+#: assets/js/app/i18n.js:18
+msgid "Place of birth"
+msgstr "Lieu de naissance"
+
+#: assets/js/app/i18n.js:17
+msgid "Birthday"
+msgstr "Date de naissance"
+
+#: assets/js/app/i18n.js:19
+msgid "Died on"
+msgstr "Date de décès"
+
+#: assets/js/app/i18n.js:20
+msgid "Department"
+msgstr "Département"
+
+#. translators: Refers to the department of work, ex: Known for acting or directing.
+#: assets/js/app/i18n.js:22
+msgid "Known for"
+msgstr "Célèbre pour"
+
+#. translators: Other names the person is also known as, for example Jon Stewart is "also known as" Jonathan Stuart Leibowitz.
+#: assets/js/app/i18n.js:24
+msgid "Also known as"
+msgstr "Alias"
+
+#: assets/js/app/i18n.js:25
+msgid "Movie roles"
+msgstr "Rôles de film"
+
+#: assets/js/app/i18n.js:26
+msgid "Movie crew credits"
+msgstr "Crédits d'équipe technique de film"
+
+#: assets/js/app/i18n.js:27
+msgid "Tv roles"
+msgstr "Rôles de télé"
+
+#: assets/js/app/i18n.js:28
+msgid "Tv crew credits"
+msgstr "Crédits d'équipe technique de télé"
+
+#: assets/js/app/i18n.js:34
+msgid "Genres"
+msgstr ""
+
+#. translators: Movie and tv networks
+#: assets/js/app/i18n.js:36
+msgid "Networks"
+msgstr "Réseaux"
+
+#: assets/js/app/i18n.js:37
+msgid "Production companies"
+msgstr "Sociétés de production"
+
+#. translators: Abbreviation for the word minutes, ex: 120 min.
+#: assets/js/app/i18n.js:39
+msgid "min"
+msgstr ""
+
+#: assets/js/app/i18n.js:42
+msgid "Starring"
+msgstr "Mettant en vedette"
+
+#: assets/js/app/i18n.js:43
+msgid "Original film language"
+msgstr "Langue originale du film"
+
+#: assets/js/app/i18n.js:44
+msgid "Original title"
+msgstr "Titre originale du film"
+
+#: assets/js/app/i18n.js:45
+msgid "Release date"
+msgstr "Date de sortie"
+
+#. translators: Duration of tv show episode or movie.
+#: assets/js/app/i18n.js:47
+#: assets/js/app/i18n.js:56
+msgid "Runtime"
+msgstr "Durée"
+
+#: assets/js/app/i18n.js:48
+msgid "Production countries"
+msgstr "Pays de production"
+
+#: assets/js/app/i18n.js:51
+msgid "Created by"
+msgstr "Créé par"
+
+#: assets/js/app/i18n.js:52
+msgid "Episodes"
+msgstr "Épisodes"
+
+#: assets/js/app/i18n.js:53
+msgid "First aired"
+msgstr "Première date de diffusion"
+
+#: assets/js/app/i18n.js:54
+msgid "Last air date"
+msgstr "Dernière date de diffusion"
+
+#. translators: %s: Number of episodes.
+#: assets/js/app/i18n.js:58
+msgid "%s episode"
+msgid_plural "%s episodes"
+msgstr[0] "%s épisode"
+msgstr[1] "%s épisodes"
+
+#. translators: %s: Season number of tv show.
+#: assets/js/app/i18n.js:60
+msgid "Season %s"
+msgstr "Saison n°%s"

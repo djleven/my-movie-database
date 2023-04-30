@@ -1,7 +1,7 @@
 <template>
   <section-layout
       :show-header="showSubSections"
-      :header="$t('summary')"
+      :header="$t('overview')"
       class-list="overview"
   >
     <div class="mmdb-flex-container">

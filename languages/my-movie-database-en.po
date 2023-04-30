@@ -1,17 +1,15 @@
-# Copyright (C) 2023 Kostas Stathakos
-# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: My Movie Database 3.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/my-movie-database\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-01T18:50:13+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"POT-Creation-Date: 2023-04-30T20:32:26+00:00\n"
+"PO-Revision-Date: 2023-04-30T20:32:26+00:00\n"
+"Language: \n"
 
 #. Plugin Name of the plugin
 #: core/admin/SettingsHeader.php:158
@@ -382,6 +380,96 @@ msgstr ""
 msgid "Movie"
 msgstr ""
 
+#: core/lib/resourceTypes/PersonResourceType.php:64
+msgid "Persons"
+msgstr ""
+
+#: core/lib/resourceTypes/TvshowResourceType.php:46
+#: assets/js/app/i18n.js:50
+msgid "Seasons"
+msgstr ""
+
+#: core/lib/resourceTypes/TvshowResourceType.php:63
+msgid "Tv Shows"
+msgstr ""
+
+#: assets/js/app/i18n.js:6
+msgid "Overview"
+msgstr ""
+
+#. translators: Acting role
+#: assets/js/app/i18n.js:10
+msgid "Role"
+msgstr ""
+
+#: assets/js/app/i18n.js:11
+msgid "Website"
+msgstr ""
+
+#: assets/js/app/i18n.js:12
+msgid "There is no description available"
+msgstr ""
+
+#. translators: %s: Brand / Company website, ex: IMDb, TMDb, Rotten Tomatoes, etc
+#: assets/js/app/i18n.js:14
+msgid "%s Profile"
+msgstr ""
+
+#: assets/js/app/i18n.js:17
+msgid "Birthday"
+msgstr ""
+
+#: assets/js/app/i18n.js:19
+msgid "Died on"
+msgstr ""
+
+#: assets/js/app/i18n.js:20
+msgid "Department"
+msgstr ""
+
+#: assets/js/app/i18n.js:34
+msgid "Genres"
+msgstr ""
+
+#. translators: Abbreviation for the word minutes, ex: 120 min.
+#: assets/js/app/i18n.js:39
+msgid "min"
+msgstr ""
+
+#: assets/js/app/i18n.js:42
+msgid "Starring"
+msgstr ""
+
+#. translators: Duration of tv show episode or movie.
+#: assets/js/app/i18n.js:47
+#: assets/js/app/i18n.js:56
+msgid "Runtime"
+msgstr ""
+
+#: assets/js/app/i18n.js:51
+msgid "Created by"
+msgstr ""
+
+#: assets/js/app/i18n.js:53
+msgid "First aired"
+msgstr ""
+
+#: assets/js/app/i18n.js:54
+msgid "Last air date"
+msgstr ""
+
+#. translators: %s: Number of episodes.
+#: assets/js/app/i18n.js:58
+msgid "%s episode"
+msgid_plural "%s episodes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: Season number of tv show.
+#: assets/js/app/i18n.js:60
+msgid "Season %s"
+msgstr ""
+
 #: core/lib/resourceTypes/MovieResourceType.php:81
 msgid "Movie category"
 msgstr ""
@@ -408,10 +496,6 @@ msgstr ""
 msgid "Crew credits"
 msgstr ""
 
-#: core/lib/resourceTypes/PersonResourceType.php:64
-msgid "Persons"
-msgstr ""
-
 #: core/lib/resourceTypes/PersonResourceType.php:75
 msgid "Person category"
 msgstr ""
@@ -426,15 +510,6 @@ msgstr ""
 
 #: core/lib/resourceTypes/PersonResourceType.php:108
 msgid "Person tags"
-msgstr ""
-
-#: core/lib/resourceTypes/TvshowResourceType.php:46
-#: assets/js/app/i18n.js:50
-msgid "Seasons"
-msgstr ""
-
-#: core/lib/resourceTypes/TvshowResourceType.php:63
-msgid "Tv Shows"
 msgstr ""
 
 #: core/lib/resourceTypes/TvshowResourceType.php:74
@@ -453,43 +528,9 @@ msgstr ""
 msgid "Tv Show tags"
 msgstr ""
 
-#: assets/js/app/i18n.js:6
-msgid "Overview"
-msgstr ""
-
-#. translators: Acting role
-#: assets/js/app/i18n.js:10
-msgid "Role"
-msgstr ""
-
-#: assets/js/app/i18n.js:11
-msgid "Website"
-msgstr ""
-
-#: assets/js/app/i18n.js:12
-msgid "There is no description available"
-msgstr ""
-
-#. translators: %s: Brand / Company website, ex: IMDb, TMDb, Rotten Tomatoes, etc
-#: assets/js/app/i18n.js:14
-msgid "%s Profile"
-msgstr ""
-
 #: assets/js/app/i18n.js:16
 #: assets/js/app/i18n.js:18
 msgid "Place of birth"
-msgstr ""
-
-#: assets/js/app/i18n.js:17
-msgid "Birthday"
-msgstr ""
-
-#: assets/js/app/i18n.js:19
-msgid "Died on"
-msgstr ""
-
-#: assets/js/app/i18n.js:20
-msgid "Department"
 msgstr ""
 
 #. translators: Refers to the department of work, ex: Known for acting or directing.
@@ -518,10 +559,6 @@ msgstr ""
 msgid "Tv crew credits"
 msgstr ""
 
-#: assets/js/app/i18n.js:34
-msgid "Genres"
-msgstr ""
-
 #. translators: Movie and tv networks
 #: assets/js/app/i18n.js:36
 msgid "Networks"
@@ -529,15 +566,6 @@ msgstr ""
 
 #: assets/js/app/i18n.js:37
 msgid "Production companies"
-msgstr ""
-
-#. translators: Abbreviation for the word minutes, ex: 120 min.
-#: assets/js/app/i18n.js:39
-msgid "min"
-msgstr ""
-
-#: assets/js/app/i18n.js:42
-msgid "Starring"
 msgstr ""
 
 #: assets/js/app/i18n.js:43
@@ -552,40 +580,10 @@ msgstr ""
 msgid "Release date"
 msgstr ""
 
-#. translators: Duration of tv show episode or movie.
-#: assets/js/app/i18n.js:47
-#: assets/js/app/i18n.js:56
-msgid "Runtime"
-msgstr ""
-
 #: assets/js/app/i18n.js:48
 msgid "Production countries"
 msgstr ""
 
-#: assets/js/app/i18n.js:51
-msgid "Created by"
-msgstr ""
-
 #: assets/js/app/i18n.js:52
 msgid "Episodes"
-msgstr ""
-
-#: assets/js/app/i18n.js:53
-msgid "First aired"
-msgstr ""
-
-#: assets/js/app/i18n.js:54
-msgid "Last air date"
-msgstr ""
-
-#. translators: %s: Number of episodes.
-#: assets/js/app/i18n.js:58
-msgid "%s episode"
-msgid_plural "%s episodes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %s: Season number of tv show.
-#: assets/js/app/i18n.js:60
-msgid "Season %s"
 msgstr ""

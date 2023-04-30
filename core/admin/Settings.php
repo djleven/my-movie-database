@@ -218,7 +218,7 @@ class Settings implements ActionHookSubscriberInterface {
                     ),
                     array(
                         'name'    => $plugin_type->width_setting_id,
-                        'label'   => esc_html__( 'Size of Images / Columns', 'my-movie-database'),
+                        'label'   => esc_html__( 'Size of images / columns', 'my-movie-database'),
                         'desc'    => esc_html__( 'Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout.', 'my-movie-database' ),
                         'type'    => 'select',
                         'default' => 'large',
@@ -321,7 +321,7 @@ class Settings implements ActionHookSubscriberInterface {
         }
         return $no_msg . '. '
                . sprintf(
-                   /* translators: %s: Plural version of resource / post type, ex: use movies, tv shows or people. */
+                   /* translators: %s: Plural version of resource / post type, ex: use movies, tv shows or persons. */
                    esc_html__('I only want to use "%s" with shortcodes (or not at all)', 'my-movie-database' ),
                    __($type, 'my-movie-database')
                );
@@ -390,6 +390,7 @@ class Settings implements ActionHookSubscriberInterface {
                 array(
                     'name'    => Constants::ADV_OPTION_WP_CATEGORIES,
                     'label'   => esc_html__( 'Wordpress Categories', 'my-movie-database' ),
+                    'desc'    => esc_html__( 'Default Wordpress categories can be selectable for your your mmdb posts', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
