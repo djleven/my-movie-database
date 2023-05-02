@@ -212,7 +212,7 @@ class CoreController implements ActionHookSubscriberInterface, FilterHookSubscri
                     'slug' => $plugin_resource_type->data_type . '-categories',
                 ];
 
-	            if($hierarchicalTaxonomy === 'yes') {
+	            if($hierarchicalTaxonomy === Constants::OPTION_STRING_VALUE_TRUE ) {
 		            $tax_names['singular'] = $plugin_resource_type->getI18nDefaultCategoryLabel();
                     $tax_names['plural'] = $plugin_resource_type->getI18nDefaultPluralCategoryLabel();
 	            } else {
@@ -226,7 +226,7 @@ class CoreController implements ActionHookSubscriberInterface, FilterHookSubscri
                     ]);
                 $custom_post_type->setTaxonomy($tax_names, $tax_options);
 
-                if($wpCategoriesOption !== 'no') {
+                if($wpCategoriesOption !== Constants::OPTION_STRING_VALUE_FALSE) {
                     $custom_post_type->assignTaxonomyToPostType(['category', 'post_tag']);
                 }
 

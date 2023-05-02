@@ -12,6 +12,7 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\Constants;
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
@@ -43,7 +44,7 @@ class WpPostContentType extends WpAbstractContentType {
 
     private function getPositionSetting() {
 
-        return $this->getResourceTypeSetting( 'pos', 'after');
+        return $this->getResourceTypeSetting( 'pos', Constants::OPTION_VALUE_POS_AFTER_CONTENT);
     }
 
     /**
@@ -68,7 +69,7 @@ class WpPostContentType extends WpAbstractContentType {
 
         $mmdb_content = $this->templateViewOutput();
         $position = $this->getPositionSetting();
-        if ($position == 'after') {
+        if ($position == Constants::OPTION_VALUE_POS_AFTER_CONTENT) {
             return $content . $mmdb_content;
         }
 

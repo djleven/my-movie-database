@@ -105,7 +105,7 @@ abstract class WpAbstractContentType {
      */
     protected function getTemplateSetting() {
 
-        return $this->getResourceTypeSetting( 'tmpl', 'tabs');
+        return $this->getResourceTypeSetting( 'tmpl', Constants::OPTION_VALUE_TMPL_TABS);
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class WpAbstractContentType {
      */
     protected function getHeaderColorSetting() {
 
-        return $this->getResourceTypeSetting( 'header_color', '#265a88');
+        return $this->getResourceTypeSetting( 'header_color', Constants::OPTION_VALUE_COLOR_DEFAULT_ONE);
     }
 
 	/**
@@ -127,7 +127,7 @@ abstract class WpAbstractContentType {
 	 */
 	protected function getHeaderFontColorSetting() {
 
-		return $this->getResourceTypeSetting( 'header_font_color', '#DCDCDC');
+		return $this->getResourceTypeSetting( 'header_font_color', Constants::OPTION_VALUE_COLOR_DEFAULT_TWO);
 	}
 
     /**
@@ -138,7 +138,7 @@ abstract class WpAbstractContentType {
      */
     protected function getBodyColorSetting() {
 
-        return $this->getResourceTypeSetting( 'body_color', '#DCDCDC');
+        return $this->getResourceTypeSetting( 'body_color', Constants::OPTION_VALUE_COLOR_DEFAULT_TWO);
     }
 
 	/**
@@ -149,7 +149,7 @@ abstract class WpAbstractContentType {
 	 */
 	protected function getBodyFontColorSetting() {
 
-		return $this->getResourceTypeSetting( 'body_font_color', '#265a88');
+		return $this->getResourceTypeSetting( 'body_font_color', Constants::OPTION_VALUE_COLOR_DEFAULT_ONE);
 	}
 
     /**
@@ -160,7 +160,7 @@ abstract class WpAbstractContentType {
      */
     protected function getTransitionEffectSetting() {
 
-        return $this->getResourceTypeSetting( 'transition_effect', 'fade');
+        return $this->getResourceTypeSetting( 'transition_effect', Constants::OPTION_VALUE_TRANSITION_FADE);
     }
 
     /**
@@ -171,7 +171,7 @@ abstract class WpAbstractContentType {
      */
     protected function getWidthSetting() {
 
-        return $this->getResourceTypeSetting( 'width', 'medium');
+        return $this->getResourceTypeSetting( 'width', Constants::OPTION_VALUE_SIZE_MEDIUM);
 	}
 
     /**

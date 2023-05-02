@@ -176,12 +176,12 @@ class Settings implements ActionHookSubscriberInterface {
                         'label'   =>  __( I18nConstants::I18n_CORE_TEMPLATE ),
                         'desc'    => esc_html__( 'Select the template to use', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'tabs',
+                        'default' => Constants::OPTION_VALUE_TMPL_TABS,
                         'options' => array(
                             /* translators: Refers to the tabs template. */
-                            'tabs' => esc_html__( 'With tabs', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_TMPL_TABS => esc_html__( 'With tabs', 'my-movie-database' ),
                             /* translators: Refers to the accordion template. */
-                            'accordion' => esc_html__( 'With accordion', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_TMPL_ACCORDION => esc_html__( 'With accordion', 'my-movie-database' ),
                         )
                     ),
                     array(
@@ -190,7 +190,7 @@ class Settings implements ActionHookSubscriberInterface {
                         'desc'    => __( "Background color for the template header", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#265a88'
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_ONE
                     ),
                     array(
                         'name'    => $plugin_type->header_font_color_setting_id,
@@ -198,7 +198,7 @@ class Settings implements ActionHookSubscriberInterface {
                         'desc'    => esc_html__( "Font color for the template header", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#DCDCDC'
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_TWO
                     ),
                     array(
                         'name'    => $plugin_type->body_color_setting_id,
@@ -206,7 +206,7 @@ class Settings implements ActionHookSubscriberInterface {
                         'desc'    => esc_html__( "Background color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#DCDCDC'
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_TWO
                     ),
                     array(
                         'name'    => $plugin_type->body_font_color_setting_id,
@@ -214,18 +214,18 @@ class Settings implements ActionHookSubscriberInterface {
                         'desc'    => esc_html__( "Font color for the template content", 'my-movie-database' ),
                         'type'    => 'color',
                         'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#265a88'
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_ONE
                     ),
                     array(
                         'name'    => $plugin_type->width_setting_id,
                         'label'   => esc_html__( 'Size of images / columns', 'my-movie-database'),
                         'desc'    => esc_html__( 'Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout.', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'large',
+                        'default' =>  Constants::OPTION_VALUE_SIZE_MEDIUM,
                         'options' => array(
-                            'large' => __( I18nConstants::I18n_CORE_LARGE),
-                            'medium' => __( I18nConstants::I18n_CORE_MEDIUM),
-                            'small' => __( I18nConstants::I18n_CORE_SMALL),
+                            Constants::OPTION_VALUE_SIZE_LARGE => __( I18nConstants::I18n_CORE_LARGE),
+                            Constants::OPTION_VALUE_SIZE_MEDIUM => __( I18nConstants::I18n_CORE_MEDIUM),
+                            Constants::OPTION_VALUE_SIZE_SMALL => __( I18nConstants::I18n_CORE_SMALL),
                         )
                     ),
                     array(
@@ -233,13 +233,13 @@ class Settings implements ActionHookSubscriberInterface {
                         'label'   => esc_html__( "Transition effect", 'my-movie-database' ),
                         'desc'    => esc_html__( 'Select the transition effect to use when switching sections', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'fade',
+                        'default' => Constants::OPTION_VALUE_TRANSITION_FADE,
                         'options' => array(
                             /* translators: Refers a transition effect name. */
-                            'fade' => esc_html__( 'Fade', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_TRANSITION_FADE => esc_html__( 'Fade', 'my-movie-database' ),
                             /* translators: Refers a transition effect name. */
-                            'bounce' => esc_html__( 'Bounce', 'my-movie-database' ),
-                            'none' => __( I18nConstants::I18n_CORE_NONE ),
+                            Constants::OPTION_VALUE_TRANSITION_BOUNCE => esc_html__( 'Bounce', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_TRANSITION_NONE => __( I18nConstants::I18n_CORE_NONE ),
                         )
                     ),
                     array(
@@ -247,10 +247,10 @@ class Settings implements ActionHookSubscriberInterface {
                         'label'   => esc_html__( 'Display position', 'my-movie-database' ),
                         'desc'    => esc_html__( 'Choose to display MMDB info before or after the content', 'my-movie-database' ),
                         'type'    => 'radio',
-                        'default' => 'after',
+                        'default' => Constants::OPTION_VALUE_POS_AFTER_CONTENT,
                         'options' => array(
-                            'after'  => esc_html__( 'After content', 'my-movie-database' ),
-                            'before' => esc_html__( 'Before content', 'my-movie-database' )
+                            Constants::OPTION_VALUE_POS_AFTER_CONTENT  => esc_html__( 'After content', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_POS_BEFORE_CONTENT => esc_html__( 'Before content', 'my-movie-database' )
                         )
                     ),
                     array(
@@ -383,8 +383,8 @@ class Settings implements ActionHookSubscriberInterface {
                     'type'    => 'radio',
                     'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes'  => __( I18nConstants::I18n_CORE_CATEGORIES ),
-                        'no'  => __( I18nConstants::I18n_CORE_TAGS ),
+                        Constants::OPTION_STRING_VALUE_TRUE  => __( I18nConstants::I18n_CORE_CATEGORIES ),
+                        Constants::OPTION_STRING_VALUE_FALSE => __( I18nConstants::I18n_CORE_TAGS ),
                     )
                 ),
                 array(
@@ -394,9 +394,9 @@ class Settings implements ActionHookSubscriberInterface {
                     'type'    => 'radio',
                     'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes'  => esc_html__( 'Yes, allow movies, tvshows and persons to be associated to wordpress categories', 'my-movie-database' ),
+                        Constants::OPTION_STRING_VALUE_TRUE  => esc_html__( 'Yes, allow movies, tvshows and persons to be associated to wordpress categories', 'my-movie-database' ),
                         'no_archive_pages' => esc_html__( 'Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins', 'my-movie-database' ),
-                        'no'  => esc_html__( 'No, do not use wordpress categories', 'my-movie-database' ),
+                        Constants::OPTION_STRING_VALUE_FALSE => esc_html__( 'No, do not use wordpress categories', 'my-movie-database' ),
                     )
                 ),
                 array(
@@ -416,8 +416,8 @@ class Settings implements ActionHookSubscriberInterface {
                     'type'    => 'radio',
                     'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes' => __(I18nConstants::I18n_CORE_YES),
-                        'no'  => __(I18nConstants::I18n_CORE_NO),
+                        Constants::OPTION_STRING_VALUE_TRUE  => __(I18nConstants::I18n_CORE_YES),
+                        Constants::OPTION_STRING_VALUE_FALSE => __(I18nConstants::I18n_CORE_NO),
                     )
                 ),
                 array(

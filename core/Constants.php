@@ -20,7 +20,7 @@ class Constants {
     const PLUGIN_ID_INIT = 'mmdb';
     const PLUGIN_NAME_DASHES = 'my-movie-database';
     const PLUGIN_NAME_UNDERSCORES = 'my_movie_database';
-    const PLUGIN_NAME_CAMEL= 'myMovieDatabase';
+    const PLUGIN_NAME_CAMEL = 'myMovieDatabase';
 
     /**
      * Advanced Settings Group
@@ -48,6 +48,25 @@ class Constants {
     const ADMIN_OPTIONS_PAGE = 'admin_options_page';
     const ADMIN_EDIT_POST_PAGE = 'admin_edit_post_page';
 
+    /**
+     * Settings Option Values
+     */
+    const OPTION_VALUE_TMPL_TABS = 'tabs';
+    const OPTION_VALUE_TMPL_ACCORDION = 'accordion';
+
+    const OPTION_VALUE_TRANSITION_FADE = 'fade';
+    const OPTION_VALUE_TRANSITION_BOUNCE = 'bounce';
+    const OPTION_VALUE_TRANSITION_NONE = 'none';
+
+    const OPTION_VALUE_SIZE_LARGE = 'large';
+    const OPTION_VALUE_SIZE_MEDIUM = 'medium';
+    const OPTION_VALUE_SIZE_SMALL = 'small';
+
+    const OPTION_VALUE_POS_BEFORE_CONTENT = 'before';
+    const OPTION_VALUE_POS_AFTER_CONTENT = 'after';
+
+    const OPTION_VALUE_COLOR_DEFAULT_ONE = '#265a88';
+    const OPTION_VALUE_COLOR_DEFAULT_TWO = '#DCDCDC';
 
     // TODO: Migration script to convert these to boolean
     const OPTION_STRING_VALUE_TRUE = 'yes';
