@@ -158,7 +158,8 @@ export const SCHEMA = {
             "type": "string",
             "enum": [
                 "fade",
-                "bounce"
+                "bounce",
+                "none"
             ]
         }
     }
@@ -171,7 +172,6 @@ export function validateBaseStateConfig(payload: unknown): apiTypes.BaseStateCon
     const validator = ajv.getSchema("SCHEMA#/definitions/BaseStateConfig")
     const valid = validator(payload)
     if (!valid) {
-        debugger
         const error = new Error(`Invalid mmdb configuration for ${payload.type} type with id of ${payload.id}: ` + createErrorMsg(validator.errors))
         error.name = "ValidationError"
         throw error

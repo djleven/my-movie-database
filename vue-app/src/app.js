@@ -3,7 +3,7 @@ import { initiateStore, key } from './store'
 import registerAllComponents from './_globals'
 import i18nWpPlugin from '../plugins/wpI18n'
 import RootComponent from './root-component'
-import {isBaseStateConfig, validateBaseStateConfig} from '@/models/apiTypes/BaseStateConfig.validator';
+import { validateBaseStateConfig } from '@/models/apiTypes/BaseStateConfig.validator'
 export default function(element, config, admin = false) {
 try {
     const componentName = admin ? 'admin-page' : 'index-page'

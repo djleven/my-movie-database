@@ -81,7 +81,6 @@ export default {
                     )
                 }
             })
-            console.log(state)
         },
         setContent(state, data: PersonData) {
             state.content = Object.assign({}, data)

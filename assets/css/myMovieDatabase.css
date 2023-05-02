@@ -303,12 +303,14 @@ div.mmdb-content .large-rectangular.credits .img-container, div.mmdb-content .la
     width: 425px;
 }
 
-div.mmdb-content .credits-wrapper.rectangular .credits .img-container.no-image-available {
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    border-radius: 3%
+/* Profile credits (TvShow and Movie credits) && Poster credits (Person and season) */
+div.mmdb-content .credits-wrapper.rectangular .credits .img-container.no-image-available,
+div.mmdb-content .credits-wrapper.square .credits .img-container.no-image-available img {
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    border-radius: 6%
 }
 
 /* Poster overview-on-hover credits (Person and season) */

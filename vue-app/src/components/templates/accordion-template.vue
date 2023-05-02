@@ -3,7 +3,8 @@
         <template v-for="(section, index) in sections" :key="index">
             <div v-if="section.showIf"
                  class="panel panel-default">
-                <div class="panel-heading"
+                <div v-if="showAccordionNavigation"
+                     class="panel-heading"
                      @click="setActiveSection(index)"
                      :style="headerStyling">
                     <h3 class="panel-title">
@@ -33,7 +34,7 @@ import { useStore } from '@/store'
 import { SectionTemplates } from '@/models/templates'
 import {Color} from "@/models/settings";
 
-defineProps({
+const props = defineProps({
   sections: {
     type: Object as PropType<SectionTemplates>,
     required: true
@@ -53,4 +54,15 @@ function setActiveSection(newActiveTab) {
   }
   store.commit('setActiveSection', newActiveTab)
 }
+const showAccordionNavigation = computed(() => {
+  const sections = props.sections;
+  let count = 0
+  Object.keys(sections).forEach((key) => {
+    if(sections[key].showIf) {
+      count++
+    }
+  })
+
+  return count !== 1
+})
 </script>

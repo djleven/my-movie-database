@@ -8,12 +8,19 @@ export type TranslationParams = {
 export default {
     install: (app:App) => {
         const $t = (key: string, replacements?: string[] | number[]) => {
+            if(!key) {
+                return
+            }
             if (replacements?.length) {
                 return translateWithReplacements(key, replacements)
             }
+
             return translate(key)
         }
         const $tc = (key: string, count: number) => {
+            if(!key) {
+                return
+            }
             return translateWithCount(key, count)
         }
         app.provide('$t', $t);

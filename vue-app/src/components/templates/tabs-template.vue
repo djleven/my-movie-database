@@ -1,6 +1,6 @@
 <template>
     <div class="mmdbTabs">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" v-if="showTabsNavigation">
             <template v-for="(section, index) in sections" :key="index">
                 <li v-if="section.showIf"
                     :class="toggleActiveClass(index)"
@@ -36,7 +36,7 @@ import { useStore } from '@/store'
 import { SectionTemplates } from '@/models/templates'
 import { setStyleColors } from '@/helpers/templating'
 
-defineProps({
+const props = defineProps({
   sections: {
     type: Object as PropType<SectionTemplates>,
     required: true
@@ -46,7 +46,17 @@ defineProps({
 const store = useStore();
 const activeSection = computed(() => store.state.activeSection);
 const stylingConfig = computed(() => store.state.styling);
+const showTabsNavigation = computed(() => {
+  const sections = props.sections;
+  let count = 0
+  Object.keys(sections).forEach((key) => {
+    if(sections[key].showIf) {
+      count++
+    }
+  })
 
+  return count !== 1
+})
 function setActiveSection(newActiveTab) {
   if(newActiveTab !== activeSection.value) {
     store.commit('setActiveSection', newActiveTab)
