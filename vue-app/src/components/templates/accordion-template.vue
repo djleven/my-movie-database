@@ -1,5 +1,5 @@
 <template>
-    <div class="panel-group">
+    <div class="panel-group mmdb-accordion">
         <template v-for="(section, index) in sections" :key="index">
             <div v-if="section.showIf"
                  class="panel panel-default">
@@ -45,7 +45,7 @@ const store = useStore();
 const styling = computed(() => store.state.styling)
 const activeSection = computed(() => store.state.activeSection)
 const headerStyling = computed(() => {
-  return `background-color: ${styling.value.headerColor}; border-bottom: 1px solid ${styling.value.headerFontColor}`
+  return `background-color: ${styling.value.headerColor}; border-bottom: 3px solid ${styling.value.bodyColor}`
 })
 
 function setActiveSection(newActiveTab) {

@@ -83,7 +83,7 @@ class TemplateFiles {
                 Constants::PLUGIN_NAME_UNDERSCORES,
                 TemplateFiles::getPublicStylesheet(Constants::PLUGIN_NAME_CAMEL),
                 [],
-                '3.0.0',
+                '3.0.1',
                 'all'
             );
         }

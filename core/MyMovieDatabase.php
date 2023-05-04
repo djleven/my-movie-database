@@ -85,7 +85,7 @@ class MyMovieDatabase {
     /**
      * The class responsible for loading plugin dependencies.
      *
-     * @since    3.50.0
+     * @since    3.0.0
      * @access   protected
      * @var      FileLoader    $fileLoader
      */
@@ -107,7 +107,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = "3.0.0";
+        $this->version = "3.0.1";
         $this->fileLoader = new FileLoader();
         $this->fileLoader->loadCommonDependencies();
         $this->manager = new PluginAPIManager();
