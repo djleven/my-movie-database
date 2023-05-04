@@ -12,23 +12,22 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\Lib\OptionsGroup;
+
 class WpAdminPostContentType extends WpPostContentType {
 
     /**
-     * Setup and return the type view output
+     * Initialize the class and set its properties.
      *
-     * @since     1.0.0
-     *
-     * @return array
+     * @since      1.0.0
+     * @param      string    $data_type   The mmdb content type ('slug') for the object
+     * @param      string    $post_id     The associated wp post id
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
      */
-    protected function getVueComponentsToLoad() {
-        $components = parent::getVueComponentsToLoad();
-        $components['entry']['path'] = '';
-        $components['entry']['filename'] = 'admin';
-        $components['other99']['path'] = '';
-        $components['other99']['filename'] = 'index';
-
-        return $components;
+    public function __construct($data_type, $post_id, $advancedSettings) {
+        parent::__construct($data_type, $post_id, $advancedSettings);
+        if($this->tmdb_id === 0) {
+            $this->tmdb_id = null;
+        }
     }
-
 }

@@ -16,22 +16,7 @@ class Taxonomy extends PostTypeEntityAbstract
      * PostTypes to register the Taxonomy to
      * @var array
      */
-    public $posttypes = [];
-
-    /**
-     * Register the Taxonomy to WordPress
-     *
-     * @return void
-     */
-    public function registerActions()
-    {
-        // register the taxonomy, set priority to 9
-        // so taxonomies are registered before PostTypes
-        add_action('init', [$this, 'registerPostTypeEntity'], 9);
-
-        // assign taxonomy to post type objects
-        add_action('init', [$this, 'registerTaxonomyToObjects']);
-    }
+    public $postTypes = [];
 
     /**
      * Is the PostTypeEntity registered
@@ -58,15 +43,15 @@ class Taxonomy extends PostTypeEntityAbstract
     /**
      * Assign a PostType to register the Taxonomy to
      *
-     * @param  mixed $posttypes
+     * @param  mixed $postTypes
      * @return $this
      */
-    public function posttype($posttypes)
+    public function assignPostTypeToTaxonomy($postTypes)
     {
-        $posttypes = is_string($posttypes) ? [$posttypes] : $posttypes;
+        $postTypes = is_string($postTypes) ? [$postTypes] : $postTypes;
 
-        foreach ($posttypes as $posttype) {
-            $this->posttypes[] = $posttype;
+        foreach ($postTypes as $postType) {
+            $this->postTypes[] = $postType;
         }
 
         return $this;
@@ -77,12 +62,12 @@ class Taxonomy extends PostTypeEntityAbstract
      *
      * @return void
      */
-    public function registerTaxonomyToObjects()
+    public function registerTaxonomyToPostType()
     {
         // register Taxonomy to each of the PostTypes assigned
-        if (!empty($this->posttypes)) {
-            foreach ($this->posttypes as $posttype) {
-                register_taxonomy_for_object_type($this->name, $posttype);
+        if (!empty($this->postTypes)) {
+            foreach ($this->postTypes as $postType) {
+                register_taxonomy_for_object_type($this->name, $postType);
             }
         }
     }
@@ -107,25 +92,5 @@ class Taxonomy extends PostTypeEntityAbstract
 
         // apply overrides
         return array_replace($options, $this->options);
-    }
-
-    /**
-     * Create labels for the Taxonomy
-     * @return array
-     */
-    public function createLabels()
-    {
-        // default labels
-        $common_labels = parent::createLabels();
-
-       return array_merge($common_labels, [
-            'update_item' => __('Update') . ' - ' . __($this->singular, MMDB_WP_NAME),
-            'new_item_name' => __('New') . ' ' .  __('Name') . ' - ' . __($this->singular, MMDB_WP_NAME),
-            'parent_item' => __('Parent'). ' - ' . __($this->singular, MMDB_WP_NAME),
-
-            'popular_items' => __('Popular ' . $this->plural, MMDB_WP_NAME),
-            'separate_items_with_commas' => __('Separate ' . $this->plural . ' with commas', MMDB_WP_NAME),
-            'add_or_remove_items' => __('Add or remove') . ' ' . $this->plural,
-        ]);
     }
 }

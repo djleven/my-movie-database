@@ -1,0 +1,482 @@
+/**
+ * The css file for the public facing views of the plugin
+ *
+ * @link       https://e-leven.net/
+ * @since      0.7.0
+ *
+ * @package    my-movie-database
+ * @subpackage my-movie-database/assets/css
+ */
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+div.mmdb-content * {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+    max-width: 100%;
+}
+div.mmdb-content ul {
+    list-style: none;
+    margin: 0;
+}
+
+div.mmdb-content .credits-wrapper, div.mmdb-content .mmdb-flex-container, div.mmdb-content .nav.nav-tabs, div.mmdb-content .mmdb-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+div.mmdb-content .mmdb-header {
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+div.mmdb-content{
+    font-size: min(max(0.9rem, 4vw), 17px);
+}
+
+div.mmdb-content .large {
+    font-size: min(max(1rem, 4vw), 18px);
+    max-width: 1800px;
+}
+.mmdb-section {
+    width: 100%;
+}
+
+/*
+ Tab navigation
+ */
+
+/* Tabs template */
+div.mmdb-content .mmdbTabs ul {
+    margin-bottom: 0!important;
+    margin-right: 0!important;
+    margin-left: 0!important;
+}
+div.mmdb-content .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+div.mmdb-content .nav-tabs {
+    border: none;
+}
+div.mmdb-content .nav-tabs > li {
+    /*float: none;*/
+    /*margin-bottom: -1px;*/
+}
+
+div.mmdb-content .nav > li {
+    position: relative;
+    display: block;
+    margin: 0;
+}
+
+div.mmdb-content .nav-tabs > li > a {
+    margin-right: 2px;
+    font-size: min(max(0.9em, 4vw), 1.2em);
+    line-height: 1.5;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+div.mmdb-content .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+div.mmdb-content .nav-tabs > li.active > a, div.mmdb-content .nav-tabs > li.active > a:hover, div.mmdb-content .nav-tabs > li.active > a:focus {
+    border: none;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+div.mmdb-content .nav-tabs > li.active > a.active {
+    /* The tab navigation colors are inherited from the plugin color pattern settings; This is a way to override this*/
+    /*color: yellow!important;*/
+    /*background-color: black!important;*/
+}
+
+div.mmdb-content .nav-tabs > li.inactive > a.inactive {
+    /* The tab navigation colors are inherited from the plugin color pattern settings; This is a way to override this*/
+    /*color: black!important;*/
+    /*background-color: yellow!important;*/
+}
+
+div.mmdb-content .nav-tabs > li.inactive > a:hover, div.mmdb-content .nav-tabs > li.inactive > a:focus {
+    opacity: .6;
+}
+div.mmdb-content h3 {
+    padding: 10px 15px;
+    margin: 0!important;
+    font-size: min(max(0.9em, 4vw), 1.2em);
+}
+
+/* Accordion template */
+div.mmdb-content .panel-title a {
+    text-decoration: none;
+    border: none;
+}
+
+div.mmdb-content .panel-title {
+    cursor: pointer;
+}
+
+div.mmdb-content .panel-body {
+    padding: 0;
+}
+
+div.mmdb-content .panel-heading {
+    padding: 15px 0;
+}
+
+
+/*
+ Overview sections
+ */
+div.mmdb-content .meta-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 0 20px 0;
+    max-width: 450px;
+}
+
+div.mmdb-content .mmdb-meta {
+    line-height: 1.5;
+}
+
+div.mmdb-content h1.mmodb-title {
+    font-size: min(max(1.5rem, 4vw), 35px);
+    text-align: center;
+    padding: 0 0 30px;
+    line-height: 1.3;
+    margin: 0
+}
+
+div.mmdb-content .mmdb-meta,  div.mmdb-content .credits.bg-image .img-container {
+    width: auto;
+}
+
+div.mmdb-content .mmdb-flex-container  {
+    text-align: center;
+    padding: 2.5em 1.5em;
+    align-items: center;
+    justify-content: space-evenly;
+    row-gap: min(max(1.5rem, 4vw), 3rem);
+}
+
+div.mmdb-content .overview-text, div.mmdb-content .mmdb-ownership {
+    padding-left:  min(max(0em, 4vw), 3rem);
+    padding-right:  min(max(0em, 4vw), 3rem);
+    width: 100%;
+}
+
+div.mmdb-content .overview-text > div {
+    text-align: justify;
+    margin: auto;
+    max-width: 1050px;
+}
+
+div.mmdb-content .mmdb-rectangular {
+    border-radius: 3%;
+}
+
+@media (min-width: 576px) {
+    div.mmdb-content h1.mmodb-title {
+        /*font-size: 22px;*/
+    }
+}
+
+@media (min-width: 768px) {
+    div.mmdb-content h1.mmodb-title {
+        /*font-size: 25px;*/
+        line-height: 1.4;
+    }
+}
+
+@media (min-width: 1024px) {
+    div.mmdb-content h1.mmodb-title {
+        /*font-size: 30px;*/
+        line-height: 1.5;
+    }
+}
+
+/*
+ Credits sections
+ */
+div.mmdb-content .credits-wrapper {
+    text-align: center;
+    justify-content: space-evenly;
+    row-gap: 40px;
+}
+
+div.mmdb-content ul.credit-text-items li {
+    line-height: 1em;
+    padding: 0 0 5px;
+    margin: 0
+}
+
+div.mmdb-content .img-container:not(.no-image-available) .img-circle {
+    border-radius: 50%;
+}
+
+div.mmdb-content .credit-list-wrapper {
+    padding: 50px 0
+}
+
+/* Profile credits (TvShow and Movie credits) */
+
+div.mmdb-content .large .credits-wrapper.square {
+    row-gap: 50px;
+}
+
+div.mmdb-content .credits-wrapper.square .credits .img-container img {
+    margin: auto;
+}
+
+div.mmdb-content .small-square.credits .img-container {
+    height: 160px;
+}
+
+div.mmdb-content .medium-square.credits .img-container {
+    height: 205px;
+}
+
+div.mmdb-content .large-square.credits .img-container {
+    height: 330px;
+}
+
+div.mmdb-content .small-square.credits .img-container, div.mmdb-content .small-square.credits ul.credit-text-items {
+    width: 157px;
+}
+
+div.mmdb-content .medium-square.credits .img-container, div.mmdb-content .medium-square.credits ul.credit-text-items {
+    width: 205px;
+}
+
+div.mmdb-content .large-square.credits .img-container, div.mmdb-content .large-square.credits ul.credit-text-items {
+    width: 325px;
+}
+
+/* Poster credits (Person and season) */
+div.mmdb-content h4.movie_cast, div.mmdb-content h4.tv_cast, div.mmdb-content h4.movie_crew, div.mmdb-content h4.tv_crew {
+    font-size: min(max(1.2em, 4vw), 1.5em);
+    text-align: center;
+}
+
+div.mmdb-content .person .credits .img-container img, div.mmdb-content .seasons .credits .img-container img {
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+div.mmdb-content .small-rectangular.credits .img-container {
+    height: 255px;
+}
+
+div.mmdb-content .medium-rectangular.credits .img-container {
+    height: 300px;
+}
+
+div.mmdb-content .large-rectangular.credits .img-container {
+    height: 525px;
+}
+
+div.mmdb-content .small-rectangular.credits .img-container, div.mmdb-content .small-rectangular.credits ul.credit-text-items {
+    width: 249px;
+}
+
+div.mmdb-content .medium-rectangular.credits .img-container, div.mmdb-content .medium-rectangular.credits ul.credit-text-items {
+    width: 280px;
+}
+
+div.mmdb-content .large-rectangular.credits .img-container, div.mmdb-content .large-rectangular.credits ul.credit-text-items  {
+    width: 425px;
+}
+
+/* Profile credits (TvShow and Movie credits) && Poster credits (Person and season) */
+div.mmdb-content .credits-wrapper.rectangular .credits .img-container.no-image-available,
+div.mmdb-content .credits-wrapper.square .credits .img-container.no-image-available img {
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.1);
+    border-radius: 6%
+}
+
+/* Poster overview-on-hover credits (Person and season) */
+
+div.mmdb-content  .overview-on-hover .img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.mmdb-content .credits.bg-image .img-container {
+    background-color: hsla(0, 0%, 100%, 0.75);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-blend-mode: overlay;
+    background-size: contain;
+    object-fit: cover;
+    border-radius: 5%;
+}
+.mmdb-body .overview-on-hover .img-container .description {
+    font-size: 0.95em;
+    padding: 10px 10px 0;
+    line-height: 1.4em;
+    font-weight: 400;
+    overflow: hidden;
+    color: #101820FF;
+}
+
+.mmdb-body .overview-on-hover .medium-rectangular.credits .credit-image.description {
+    line-height: 1.5em;
+}
+
+.mmdb-body .overview-on-hover .large-rectangular.credits .credit-image.description {
+    font-size: min(max(1em, 4vw), 1.1em);
+    padding: 10px 35px 0;
+    line-height: 1.5em;
+}
+
+.mmdb-body .bg-image {
+    cursor: pointer;
+}
+
+div.mmdb-content .rectangular ul.credit-text-items {
+    margin: 20px 0;
+}
+
+div.mmdb-content .large .rectangular ul.credit-text-items {
+    margin: 30px 0;
+}
+
+/* IE and Edge hack  */
+
+_:-ms-lang(x), .mmdb-body .bg-image {
+    background-image: none!important;
+    background-color: hsla(0,0%,100%,0.2);
+}
+
+/* Person credits */
+div.mmdb-content.person ul.credit-text-items {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+div.mmdb-content .person.credits .credit-list-wrapper {
+    padding: 50px 0 0
+}
+
+div.mmdb-content .person.credits .credit-list-wrapper:last-child {
+    padding: 50px 0
+}
+
+div.mmdb-content .person.credits .credits-wrapper.rectangular {
+    padding-top: 30px;
+}
+
+/*Transition effects*/
+div.mmdb-content .bounce-enter-active {
+    animation: bounce-in .5s;
+}
+div.mmdb-content .bounce-leave-active {
+    animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    75% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+div.mmdb-content .fade-enter-active {
+    transition: opacity .3s;
+}
+div.mmdb-content .fade-leave-active {
+    transition: opacity .3s;
+}
+
+div.mmdb-content .fade-enter, div.mmdb-content .fade-leave-to  {
+    opacity: 0;
+    background: inherit;
+}
+
+/* Movie trailer section 4 */
+.mmdb-trailer-video {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+.mmdb-trailer-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 1080px;
+}
+
+/* App popup info modal */
+div.mmdb-content .appModal {
+    box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.4);
+    left: calc(40%);
+    position: fixed;
+    z-index: 999;
+    width: 300px;
+    top: calc(40%);
+    border-radius: 5px;
+    overflow: hidden;
+}
+div.mmdb-content .appModal .appModalTitle {
+    background-color: #eee;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 20px;
+}
+div.mmdb-content .appModal .appModalTitle .close {
+    line-height: 14px;
+    color: white;
+    float: right;
+    border: none;
+    padding: 4px;
+}
+div.mmdb-content .appModal .appModalBody {
+    background-color: #fff;
+    text-align: left;
+    padding: 12px;
+    font-size: 17px;
+}
+div.mmdb-content .appModal .appModalFooter {
+    background-color: #eee;
+    padding: 12px;
+    text-align: left;
+}
+
+div.mmdb-content .appModal .appModalFooter button {
+    padding: 5px;
+    font-size: 16px;
+}

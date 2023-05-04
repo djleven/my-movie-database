@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+wp i18n make-pot ./ --exclude=vue-app --allow-root --ignore-domain
+wp i18n update-po languages/my-movie-database.pot --allow-root
+wp i18n make-json languages --pretty-print --no-purge --allow-root
+wp i18n make-mo languages --allow-root
+
+cd languages || exit
+
+for file in *.json
+do
+  if [ "$file" != "${file%-*}.json" ]; then
+     mv "$file" "${file%-*}.json"
+  fi
+
+done

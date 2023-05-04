@@ -12,6 +12,10 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
+use MyMovieDatabase\Constants;
+use MyMovieDatabase\Lib\OptionsGroup;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+
 class WpPostContentType extends WpAbstractContentType {
 
     public $post_id;
@@ -22,14 +26,13 @@ class WpPostContentType extends WpAbstractContentType {
      * @since      1.0.0
      * @param      string    $data_type   The mmdb content type ('slug') for the object
      * @param      string    $post_id     The associated wp post id
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
      */
-    public function __construct($data_type, $post_id) {
-        $this->data_type = self::postToMovieType($data_type);
+    public function __construct($data_type, $post_id, $advancedSettings) {
+        parent::__construct(self::postToMovieType($data_type), $advancedSettings);
         $this->post_id = $post_id;
-        $this->tmdb_id = $this->getPostMetaIdSetting();
+        $this->tmdb_id = (int) $this->getPostMetaIdSetting();
         $this->template = $this->getTemplateSetting();
-        $this->size = $this->getWidthSetting();
-        $this->components = $this->getVueComponentsToLoad();
     }
 
     /**
@@ -41,7 +44,7 @@ class WpPostContentType extends WpAbstractContentType {
 
     private function getPositionSetting() {
 
-        return $this->getResourceTypeSetting( 'pos', 'after');
+        return $this->getResourceTypeSetting( 'pos', Constants::OPTION_VALUE_POS_AFTER_CONTENT);
     }
 
     /**
@@ -66,15 +69,11 @@ class WpPostContentType extends WpAbstractContentType {
 
         $mmdb_content = $this->templateViewOutput();
         $position = $this->getPositionSetting();
-        if ($position == 'after') {
-            $new_content = $content;
-            $new_content.= $mmdb_content;
+        if ($position == Constants::OPTION_VALUE_POS_AFTER_CONTENT) {
+            return $content . $mmdb_content;
         }
-        else {
-            $new_content = $mmdb_content;
-            $new_content.= $content;
-        }
-        return $new_content;
+
+        return $mmdb_content . $content;
     }
 
     /**
@@ -88,13 +87,11 @@ class WpPostContentType extends WpAbstractContentType {
      */
     public static function postToMovieType($type) {
 
-        if ($type == 'post') {
-            return 'movie';
+        if ($type === 'post') {
+            return MovieResourceType::DATA_TYPE_NAME;
         }
-        else {
-            return $type;
-        }
-    }
 
+        return $type;
+    }
 }
 

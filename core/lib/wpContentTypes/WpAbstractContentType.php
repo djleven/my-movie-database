@@ -10,8 +10,10 @@
  */
 namespace MyMovieDatabase\Lib\WpContentTypes;
 
-use MyMovieDatabase\CoreController;
+use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
+
+use MyMovieDatabase\Constants;
 
 abstract class WpAbstractContentType {
 
@@ -20,8 +22,24 @@ abstract class WpAbstractContentType {
     public $data_type;
     public $tmdb_id;
     public $template;
-    public $size;
-    public $components;
+
+    /**
+     * The options class to handle the resource type setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $resourceSettings
+     */
+    protected $resourceSettings;
+
+    /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
 
     /**
      * The tmdb post meta identifier
@@ -30,13 +48,20 @@ abstract class WpAbstractContentType {
      */
     const MMDB_POST_META_ID = 'MovieDatabaseID';
 
-    /**
-     * The mmdb_template's root folder for the vue components
-     *
-     * @since     2.0.0
-     */
-    const COMPONENTS_ROOT_FOLDER = 'components/';
 
+    /**
+     * Initialize the class and set its properties.
+     *
+     * @param      string    $data_type   The mmdb content type ('slug') for the object
+     * @param      OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
+     * @since    3.0.0
+     */
+
+    public function __construct($data_type, $advancedSettings) {
+        $this->data_type = $data_type;
+        $this->advancedSettings = $advancedSettings;
+        $this->resourceSettings = new OptionsGroup($this->getResourceTypeSettingGroup());
+    }
     /**
      * Get unique content type ID
      *
@@ -69,8 +94,8 @@ abstract class WpAbstractContentType {
      */
     protected function getResourceTypeSetting($settingId, $default = '') {
 
-        $post_setting_name	= MMDB_PLUGIN_ID . '_' . $this->data_type . '_' . $settingId;
-        return CoreController::getMmdbOption($post_setting_name, $this->getResourceTypeSettingGroup(), $default);
+        $post_setting_name = Constants::PLUGIN_ID_INIT . '_' . $this->data_type . '_' . $settingId;
+        return $this->resourceSettings->getOption($post_setting_name, $default);
     }
 
     /**
@@ -80,7 +105,7 @@ abstract class WpAbstractContentType {
      */
     protected function getTemplateSetting() {
 
-        return $this->getResourceTypeSetting( 'tmpl', 'tabs');
+        return $this->getResourceTypeSetting( 'tmpl', Constants::OPTION_VALUE_TMPL_TABS);
     }
 
     /**
@@ -91,8 +116,19 @@ abstract class WpAbstractContentType {
      */
     protected function getHeaderColorSetting() {
 
-        return $this->getResourceTypeSetting( 'header_color', '#265a88');
+        return $this->getResourceTypeSetting( 'header_color', Constants::OPTION_VALUE_COLOR_DEFAULT_ONE);
     }
+
+	/**
+	 * Get the header font color setting for type object
+	 *
+	 * @since     3.0.0
+	 * @return    string
+	 */
+	protected function getHeaderFontColorSetting() {
+
+		return $this->getResourceTypeSetting( 'header_font_color', Constants::OPTION_VALUE_COLOR_DEFAULT_TWO);
+	}
 
     /**
      * Get the body color setting for type object
@@ -102,8 +138,19 @@ abstract class WpAbstractContentType {
      */
     protected function getBodyColorSetting() {
 
-        return $this->getResourceTypeSetting( 'body_color', '#DCDCDC');
+        return $this->getResourceTypeSetting( 'body_color', Constants::OPTION_VALUE_COLOR_DEFAULT_TWO);
     }
+
+	/**
+	 * Get the body color setting for type object
+	 *
+	 * @since     1.0.0
+	 * @return    string
+	 */
+	protected function getBodyFontColorSetting() {
+
+		return $this->getResourceTypeSetting( 'body_font_color', Constants::OPTION_VALUE_COLOR_DEFAULT_ONE);
+	}
 
     /**
      * Get the transition effect setting for type object
@@ -113,7 +160,7 @@ abstract class WpAbstractContentType {
      */
     protected function getTransitionEffectSetting() {
 
-        return $this->getResourceTypeSetting( 'transition_effect', 'fade');
+        return $this->getResourceTypeSetting( 'transition_effect', Constants::OPTION_VALUE_TRANSITION_FADE);
     }
 
     /**
@@ -124,58 +171,22 @@ abstract class WpAbstractContentType {
      */
     protected function getWidthSetting() {
 
-        return $this->getResourceTypeSetting( 'width', 'medium');
-    }
-
-    /**
-     * Get the bootstrap width class for multiple column situations like cast or crew
-     *
-     * @since     1.0.2
-     * @return    string
-     */
-    protected function getMultipleColumnStyle() {
-
-        $css_class	= '';
-        $post_setting	= $this->size;
-
-        if ($post_setting === 'large') {
-            $css_class	= 'col-lg-3 col-md-3 col-sm-6';
-        }
-        elseif ($post_setting === 'medium') {
-            $css_class	= 'col-lg-3 col-md-4 col-sm-6';
-        }
-
-        elseif ($post_setting === 'small') {
-            $css_class	= 'col-lg-4 col-md-6 col-sm-6';
-        }
-
-        return $css_class;
-    }
-
-    /**
-     * Get the bootstrap width class for two column situations like in movie-main.php
-     * TODO: Do something with this
-     *
-     * @since     1.0.2
-     * @return    string
-     */
-    protected function getTwoColumnStyle() {
-
-        $css_class	= 'col-lg-6 col-md-6 col-sm-6';
-
-        return $css_class;
-    }
+        return $this->getResourceTypeSetting( 'width', Constants::OPTION_VALUE_SIZE_MEDIUM);
+	}
 
     /**
      * Associative array of visibility settings fot the data type sections
      *
      * @since    1.0.0
+     * @param    array $sections
      * @return   array
      */
-    protected function showSectionSettings() {
+    protected function showSectionSettings($sections = null) {
 
         $result = [];
-        $sections = AbstractResourceType::getSections();
+        if(!$sections) {
+            $sections = AbstractResourceType::getSections();
+        }
         $settings = $this->getResourceTypeSetting('sections', []);
 
         foreach($sections as $section) {

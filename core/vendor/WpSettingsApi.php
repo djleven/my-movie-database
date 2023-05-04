@@ -35,7 +35,6 @@ class WeDevs_Settings_API {
      */
     function admin_enqueue_scripts() {
         wp_enqueue_style( 'wp-color-picker' );
-
         wp_enqueue_media();
         wp_enqueue_script( 'wp-color-picker' );
         wp_enqueue_script( 'jquery' );
@@ -105,7 +104,9 @@ class WeDevs_Settings_API {
 
             if ( isset($section['desc']) && !empty($section['desc']) ) {
                 $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
-                $callback = create_function('', 'echo "' . str_replace( '"', '\"', $section['desc'] ) . '";');
+                $callback = function() use ( $section ) {
+                    echo str_replace( '"', '\"', $section['desc'] );
+                };
             } else if ( isset( $section['callback'] ) ) {
                 $callback = $section['callback'];
             } else {
@@ -175,7 +176,7 @@ class WeDevs_Settings_API {
     function callback_text( $args ) {
 
         $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-        $size        = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+        $size        = isset( $args['size'] ) ? $args['size'] : 'regular';
         $type        = isset( $args['type'] ) ? $args['type'] : 'text';
         $placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
@@ -537,7 +538,7 @@ class WeDevs_Settings_API {
                         if ( isset( $this->settings_fields[ $form['id'] ] ) ):
                         ?>
                         <div style="padding-left: 10px">
-                            <?php submit_button(); ?>
+                            <?php submit_button($text = null, $type = 'primary', $name = 'submit-' . $form['id']); ?>
                         </div>
                         <?php endif; ?>
                     </form>

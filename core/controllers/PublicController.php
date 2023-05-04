@@ -15,9 +15,15 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
-use MyMovieDatabase\Lib\WpContentTypes\ShortcodeContentType;
+use MyMovieDatabase\Lib\WpContentTypes\WpShortcodeContentType;
 
-class PublicController {
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
+use MyMovieDatabase\Lib\OptionsGroup;
+
+class PublicController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface, ShortcodeHookSubscriberInterface {
 
     const MMDB_SHORTCODE = 'my_movie_db';
     const MMDB_SHORTCODE_ALT = 'my-movie-db';
@@ -31,41 +37,75 @@ class PublicController {
     private $active_post_types;
 
     /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
-     * @param    array  $active_post_types  active post types as per settings
+     * @param    OptionsGroup  $advancedSettings   OptionsGroup class with the advanced setting values
+     * @param    array         $active_post_types  active post types as per settings
      */
-    public function __construct($active_post_types = []) {
-
+    public function __construct($advancedSettings, $active_post_types = []) {
+        $this->advancedSettings = $advancedSettings;
         $this->active_post_types = $active_post_types;
-        $this->registerMainHooks();
     }
 
     /**
-     * Register the main hooks related to the public-facing functionality.
+     * Get the action hooks to be registered related to the public-facing functionality.
      *
      * Enqueue scripts and styles
      * Post content hook for mmdb post content
-     * Register the shortcode for mmdb content
-     * Remove shortcode content from RSS feeds
      *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return  [
+            'the_content' => 'post_content_view_hook',
+        ];
+    }
+
+    /**
+     * Get the filter hooks to be registered related to the public-facing functionality.
+     *
+     * Remove shortcode content from RSS feeds
      * Conditionally include custom post types on archive pages
      *
-     * @since    1.0.0
-     * @access   private
+     * @since    2.5.0
+     * @access   public
      */
-    private function registerMainHooks() {
-
-        add_shortcode( self::MMDB_SHORTCODE, array( $this, 'shortcode_content_view_hook'));
-        add_shortcode( self::MMDB_SHORTCODE_ALT, array( $this, 'shortcode_content_view_hook'));
-        add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts' ));
-        add_action( 'the_content', array($this, 'post_content_view_hook' ));
-        add_filter( 'the_content_feed', array($this, 'remove_shortcode_from_feed'));
-        if($this->postTypesToArchivePagesSetting() === 'yes') {
-
-            add_filter('pre_get_posts', array($this, 'post_types_to_archive_pages'));
+    public function getFilters()
+    {
+        $filters = [
+            'the_content_feed' => 'remove_shortcode_from_feed',
+        ];
+        if($this->postTypesToArchivePagesSetting() === Constants::OPTION_STRING_VALUE_TRUE) {
+            $filters['pre_get_posts'] =  'post_types_to_archive_pages';
         }
+
+        return $filters;
+    }
+
+    /**
+     * Get the shortcodes to be registered.
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getShortcodes()
+    {
+        return [
+            self::MMDB_SHORTCODE => 'shortcode_content_view_hook',
+            self::MMDB_SHORTCODE_ALT => 'shortcode_content_view_hook',
+        ];
     }
 
     /**
@@ -110,25 +150,6 @@ class PublicController {
     }
 
     /**
-     * Determine if we are on an active mmdb screen
-     *
-     * @since     1.0.0
-     * @return    boolean
-     */
-    private function isActiveMmdbScreen(){
-
-        $result = false;
-        if($this->isActiveMmdbShortcode()) {
-            $result = true;
-        }
-        elseif($this->isActiveMmdbContent()) {
-            $result = true;
-        }
-
-        return $result;
-    }
-
-    /**
      * Orchestrate the setup and rendering of the mmdb post content view
      *
      * @since    1.0.0
@@ -141,7 +162,7 @@ class PublicController {
 
             $post_id = get_the_ID();
             $post_type = get_post_type($post_id);
-            $mmdb_type = new WpPostContentType($post_type, $post_id);
+            $mmdb_type = new WpPostContentType($post_type, $post_id, $this->advancedSettings);
             if($mmdb_type->tmdb_id) {
                 return $mmdb_type->orderTheContent($content);
             }
@@ -158,24 +179,14 @@ class PublicController {
      * @param     $atts    array | string
      *                     associative array of attributes, or an empty string if no attributes given
      *
-     * @return    string   The ShortcodeContentType view
+     * @return    string   The WpShortcodeContentType view
      */
     public function shortcode_content_view_hook($atts) {
         // normalize attributes - lowercase
         $atts = array_change_key_case((array)$atts, CASE_LOWER);
-        $mmdb_type = new ShortcodeContentType($atts);
+        $mmdb_type = new WpShortcodeContentType($atts, $this->advancedSettings);
 
         return $mmdb_type->templateViewOutput();
-    }
-
-    /**
-     * Register the JavaScript and CSS for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts() {
-
-        TemplateFiles::enqueueCommonFiles($this->isActiveMmdbScreen());
     }
 
     /**
@@ -185,10 +196,9 @@ class PublicController {
      */
     private function postTypesToArchivePagesSetting()
     {
-        return CoreController::getMmdbOption(
-            'mmdb_wp_categories',
-            MMDB_ADVANCED_OPTION_GROUP,
-            'yes'
+        return $this->advancedSettings->getOption(
+            Constants::ADV_OPTION_WP_CATEGORIES,
+            Constants::OPTION_STRING_VALUE_TRUE
         );
     }
 
@@ -198,8 +208,8 @@ class PublicController {
      *
      * @since    1.2.0
      *
-     * @param    WP_Query    $query
-     * @return   WP_Query
+     * @param    \WP_Query    $query
+     * @return   \WP_Query
      */
     public function post_types_to_archive_pages($query) {
 
@@ -210,9 +220,9 @@ class PublicController {
                     [
                         'nav_menu_item',
                         'post',
-                        'movie',
-                        'tvshow',
-                        'person'
+                        MovieResourceType::DATA_TYPE_NAME,
+                        TvshowResourceType::DATA_TYPE_NAME,
+                        PersonResourceType::DATA_TYPE_NAME
                     ];
             }
             $query->set('post_type',$post_type);
@@ -226,7 +236,7 @@ class PublicController {
      *
      * @since    2.0.0
      * @param    $content string  The current post content.
-     * @return   mixed
+     * @return   string
      */
     public function remove_shortcode_from_feed($content){
 

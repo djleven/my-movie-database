@@ -12,25 +12,46 @@
 
 namespace MyMovieDatabase\Admin;
 
-class EditPostType {
+use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
-    public $type_name;
-    public $type_slug;
+class EditPostType implements ActionHookSubscriberInterface {
+
+    /**
+     * The label of this type.
+     * @var string
+     */
+    public $type_label;
+
+    /**
+     * The plural label of this type.
+     * @var string
+     */
     public $type_plural;
 
     /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
-     * @param      string    $type_name       		The name of this type.
-     * @param      string    $type_slug       		The slug of this type.
-     * @param      string    $type_plural     		The plural name of this type.
      */
-    public function __construct($type_name, $type_slug, $type_plural) {
+    public function __construct() {
 
-        $this->type_name = $type_name;
-        $this->type_slug = $type_slug;
-        $this->type_plural = $type_plural;
+        $this->type_label = MovieResourceType::getI18nDefaultLabel();
+        $this->type_plural = MovieResourceType::getI18nDefaultPluralLabel();
+    }
+
+    /**
+     * Get the action hooks to be registered related to the main wp post type.
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'admin_head'    => 'mmdb_posts_admin_menu_icons_css',
+            'init'          => 'mmdb_change_posts_object_label',
+        ];
     }
 
     /**
@@ -49,20 +70,6 @@ class EditPostType {
     }
 
     /**
-     * Change the posts menu label
-     *
-     * @since     0.7.0
-     */
-    public function mmdb_change_posts_menu_label() {
-        global $menu;
-        global $submenu;
-        $menu[5][0] = "$this->type_plural";
-        $submenu['edit.php'][5][0] = "$this->type_plural";
-        $submenu['edit.php'][10][0] = "Add $this->type_plural";
-        echo '';
-    }
-
-    /**
      * Change the posts labels
      *
      * @since     0.7.0
@@ -71,14 +78,8 @@ class EditPostType {
         global $wp_post_types;
         $labels = & $wp_post_types['post']->labels;
         $labels->name = $this->type_plural;
-        $labels->singular_name = "$this->type_name";
-        $labels->add_new = "Add $this->type_name";
-        $labels->add_new_item = "Add $this->type_name";
-        $labels->edit_item = "Edit $this->type_name";
-        $labels->new_item = "$this->type_name";
-        $labels->view_item = "View $this->type_name";
-        $labels->search_items = "Search $this->type_plural";
-        $labels->not_found = "No $this->type_plural found";
-        $labels->not_found_in_trash = "No $this->type_plural found in Trash";
+        $labels->singular_name = "$this->type_label";
+        $labels->menu_name = $this->type_plural;
+        $labels->all_items = $this->type_plural;
     }
 }

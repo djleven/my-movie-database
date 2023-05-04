@@ -1,5 +1,4 @@
 <?php
-
 namespace MyMovieDatabase\Lib\PostTypes;
 
 /**
@@ -31,24 +30,6 @@ abstract class PostTypeEntityAbstract
     public $plural;
 
     /**
-     * The wp text domain to use for translation
-     * @var string
-     */
-    public $i18nTxtDomain;
-
-    /**
-     * The localised singular name for the PostTypeEntity
-     * @var string
-     */
-    public $singular_i18n;
-
-    /**
-     * The localised plural name for the PostTypeEntity
-     * @var string
-     */
-    public $plural_i18n;
-
-    /**
      * The slug for the PostTypeEntity
      * @var string
      */
@@ -56,25 +37,17 @@ abstract class PostTypeEntityAbstract
 
     /**
      * The options for the PostTypeEntity
-     * @var string
+     * @var array
      */
     public $options;
 
     /**
-     * The column manager for the PostTypeEntity
-     * @var mixed
-     */
-    public $columns;
-
-    /**
      * Create a PostTypeEntity
      * @param mixed $names           A string for the name, or an array of names
-     * @param string $i18nTxtDomain  The wp text domain to use for i18n
      * @param array $options         The options for the PostTypeEntity
      */
-    public function __construct($names, $i18nTxtDomain, $options = [])
+    public function __construct($names, $options = [])
     {
-        $this->i18nTxtDomain = $i18nTxtDomain;
         $this->options = $options;
         $this->setNames($names);
     }
@@ -87,13 +60,6 @@ abstract class PostTypeEntityAbstract
     abstract protected function createOptions();
 
     /**
-     * Register the PostTypeEntity WordPress actions
-     *
-     * @return void
-     */
-    abstract public function registerActions();
-
-    /**
      * Register the PostTypeEntity to WordPress
      *
      * @param $options
@@ -103,6 +69,16 @@ abstract class PostTypeEntityAbstract
     abstract protected function wordpressRegistration($options);
 
     /**
+     * Associates an already registered taxonomy to a post type.
+     * Wrapper class for WP register_taxonomy_for_object_type
+     *
+     * Both children classes have this functionality built-in
+     *
+     * @return bool
+     */
+    abstract protected function registerTaxonomyToPostType();
+
+    /**
      * Is the PostTypeEntity registered
      *
      * @return bool
@@ -110,43 +86,16 @@ abstract class PostTypeEntityAbstract
     abstract protected function isPostTypeEntityRegistered();
 
     /**
-     * Register the PostTypeEntity
+     * Callback to Register the PostTypeEntity with WordPress
      *
      * @return void
      */
-    public function registerPostTypeEntity()
+    public function registerPosTypeEntity()
     {
         if (!$this->isPostTypeEntityRegistered()) {
-            $this->setI18nBaseLabels();
             // register the Taxonomy with WordPress
             $this->wordpressRegistration($this->createOptions());
-        }
-    }
-
-    /**
-     * Set the translated base labels
-     *
-     * @return void
-     */
-    public function setI18nBaseLabels()
-    {
-        $this->singular_i18n = __($this->singular, $this->i18nTxtDomain);
-        $this->plural_i18n   = __($this->plural, $this->i18nTxtDomain);
-    }
-
-    /**
-     * Register the Column related actions
-     *
-     * @return void
-     */
-    public function registerColumns()
-    {
-        if (isset($this->columns)) {
-            // set custom sortable columns
-            add_filter("manage_edit-{$this->name}_sortable_columns", [$this, 'setSortableColumns']);
-
-            // run action that sorts columns on request
-            add_action('parse_term_query', [$this, 'sortSortableColumns']);
+            $this->registerTaxonomyToPostType();
         }
     }
 
@@ -166,20 +115,6 @@ abstract class PostTypeEntityAbstract
 
         // create names for the PostTypeEntity
         $this->createNames($names);
-    }
-
-    /**
-     * Get the Column Manager for the PostTypeEntity
-     *
-     * @return Columns
-     */
-    public function columns()
-    {
-        if (!isset($this->columns)) {
-            $this->columns = new Columns;
-        }
-
-        return $this->columns;
     }
 
     /**
@@ -220,7 +155,7 @@ abstract class PostTypeEntityAbstract
                 $name = $this->singular . 's';
             }
 
-            // asign the name to the PostTypeEntity property
+            // assign the name to the PostTypeEntity property
             $this->$key = $name;
         }
     }
@@ -234,32 +169,9 @@ abstract class PostTypeEntityAbstract
     {
         // default labels
         return [
-            'name' => $this->singular_i18n,
-            'singular_name' => $this->singular_i18n,
-            'menu_name' => $this->plural_i18n,
-            'all_items' => __('All ' . $this->plural, $this->i18nTxtDomain),
-            'add_new_item' => __('Add New', $this->i18nTxtDomain) . ' - ' . $this->singular_i18n,
-            'edit_item' => __('Edit') . ' - ' . $this->singular_i18n,
-            'view_item' =>  __('View') . ' - ' . $this->singular_i18n,
-            'search_items' => __('Search') . ' - ' . $this->plural_i18n,
-            'not_found' => __('No ' . $this->plural .' found', $this->i18nTxtDomain),
-            'parent_item_colon' => __('Parent'). ' - ' . $this->singular_i18n. ':',
+            'name' => $this->plural,
+            'singular_name' => $this->singular,
+            'menu_name' => $this->plural,
         ];
-    }
-
-    /**
-     * Make custom columns sortable
-     *
-     * @param array $columns Default WordPress sortable columns
-     *
-     * @return array
-     */
-    public function setSortableColumns($columns)
-    {
-        if (!empty($this->columns()->sortable)) {
-            $columns = array_merge($columns, $this->columns()->sortable);
-        }
-
-        return $columns;
     }
 }

@@ -4,8 +4,8 @@
  *
  * It is used to:
  * - load dependencies,
- * - define internationalization,
- * - instantiate the core plugin controllers for both the public-facing side of the site and the admin area.
+ * - instantiate the core plugin controllers
+ * - register relevant classes with the PluginAPIManager
  *
  * @link       https://e-leven.net/
  * @since      1.0.0
@@ -17,8 +17,17 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Admin\AdminController;
+use MyMovieDatabase\Admin\PostMetaBox;
+use MyMovieDatabase\Lib\OptionsGroup;
 
 class MyMovieDatabase {
+
+    /**
+     * The unique instance of the plugin.
+     *
+     * @var MyMovieDatabase
+     */
+    private static $instance;
 
     /**
      * The current version of the plugin.
@@ -29,148 +38,150 @@ class MyMovieDatabase {
      */
     protected $version;
 
-    const MMDB_INC_DIR = MMDB_PLUGIN_DIR . 'core/';
-    const MMDB_CONTROLLERS_DIR = self::MMDB_INC_DIR . 'controllers/';
-    const MMDB_LIB_DIR = self::MMDB_INC_DIR . 'lib/';
-    const MMDB_ADMIN_DIR = self::MMDB_INC_DIR . 'admin/';
-    const MMDB_VENDOR_DIR = self::MMDB_INC_DIR . 'vendor/';
+    /**
+     * The wp plugin API registration manager of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      PluginAPIManager    $manager    The registration manager of the plugin.
+     */
+    protected $manager;
+
+    /**
+     * The core controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      CoreController    $coreController    The core controller object of the plugin.
+     */
+    protected $coreController;
+
+    /**
+     * The admin controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      AdminController    $adminController    The admin controller object of the plugin.
+     */
+    protected $adminController = null;
+
+    /**
+     * The public controller object of the plugin.
+     *
+     * @since    2.5.0
+     * @access   protected
+     * @var      PublicController    $publicController    The public controller object of the plugin.
+     */
+    protected $publicController = null;
+
+    /**
+     * Class object that handles the MMDB admin metaboxes for the active post types
+     *
+     * @since     2.5.0
+     * @var    PostMetaBox     $adminPostMetaBox
+     */
+    public $adminPostMetaBox;
+
+    /**
+     * The class responsible for loading plugin dependencies.
+     *
+     * @since    3.50.0
+     * @access   protected
+     * @var      FileLoader    $fileLoader
+     */
+    protected $fileLoader;
+
+    /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup    $advancedSettings
+     */
+    protected $advancedSettings;
 
     /**
      * Initialise the plugin.
      *
-     * Set the plugin version, register the textdomain, and run the core controllers.
-     *
      * @since    1.0.0
      */
 
-    public function __construct() {
-
-        $this->version = "2.0.7";
-        add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain'));
-
+    private function __construct() {
+        $this->version = "3.0.0";
+        $this->fileLoader = new FileLoader();
+        $this->fileLoader->loadCommonDependencies();
+        $this->manager = new PluginAPIManager();
+        $this->advancedSettings = new OptionsGroup(Constants::ADVANCED_OPTION_GROUP_NAME);
         $this->run();
     }
 
     /**
-     * Load the plugin text domain for translation.
+     * Instantiate the core controllers.
      *
-     * @since    1.0.0
+     * @since    3.0.0
+     * @access   private
      */
-    public function load_plugin_textdomain() {
+    private function runCore() {
+        $this->coreController = new CoreController($this->advancedSettings);
+        $this->manager->register($this->coreController);
 
-        load_plugin_textdomain(
-            MMDB_WP_NAME,
-            false,
-            MMDB_WP_NAME . '/languages'
+        foreach ($this->coreController->endpoints as $endpoint)  {
+            $this->manager->register($endpoint);
+        }
+
+    }
+
+    /**
+     * Load the dependencies and instantiate the admin controller.
+     *
+     * @since    2.5.0
+     * @access   private
+     */
+    private function runAdmin() {
+        $isSettingsPage = $this->isAdminSettingsPage();
+        $this->fileLoader->loadAdminDependencies($isSettingsPage);
+
+        $this->adminController = new AdminController(
+            $this->advancedSettings,
+            $isSettingsPage ? $this->coreController->available_resource_types : null
         );
+
+        $this->manager->register($this->adminController->activation_state_changes);
+        if($this->adminController->settings) {
+            $this->manager->register( $this->adminController->settings );
+            $this->manager->register( $this->adminController->settings->cacheController );
+        }
+
+        if($this->adminController->edit_post_type){
+            $this->manager->register($this->adminController->edit_post_type);
+        }
+
+        $this->manager->register($this->adminController);
+
+        if(!$isSettingsPage && $this->isAdminPostPage()) {
+            $this->fileLoader->loadAdminPostMetaBoxDependencies();
+            $this->adminPostMetaBox = new PostMetaBox(
+                $this->coreController->active_post_types,
+                $this->advancedSettings
+            );
+            $this->manager->register($this->adminPostMetaBox);
+        }
+
     }
 
     /**
-     * Load the required common dependencies for this plugin.
+     * Load the dependencies and instantiate the public controllers.
      *
-     * @since    2.0.2
+     * @since    2.5.0
      * @access   private
      */
-    private function loadCommonDependencies() {
-        /**
-         * The class responsible for defining (shared) core controller functions.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'CoreController.php';
-
-        /**
-         * The abstract superclass responsible for the mmdb resource (data) types.
-         */
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/AbstractResourceType.php';
-
-        /**
-         * The concrete subclasses responsible for the mmdb admin, tvshow and person resource (data) types
-         */
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/MovieResourceType.php';
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/TvshowResourceType.php';
-        require_once self::MMDB_LIB_DIR . 'resourceTypes/PersonResourceType.php';
-
-        /**
-         * A class for creating Wordpress custom post types and custom taxonomies.
-         */
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Columns.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostTypeEntityAbstract.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/PostType.php';
-        require_once self::MMDB_LIB_DIR . 'wpPostTypes/Taxonomy.php';
-
-        /**
-         * A class responsible for handling plugin template files.
-         */
-        require_once self::MMDB_INC_DIR . 'TemplateFiles.php';
-
-        /**
-         * The abstract superclass responsible for the mmdb view types and accompanying trait for Vuejs.
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/TemplateVueTrait.php';
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAbstractContentType.php';
-
-        /**
-         * The concrete subclass responsible for the mmdb post view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpPostContentType.php';
-    }
-
-    /**
-     * Load the required admin side dependencies for this plugin.
-     *
-     * @since    2.0.2
-     * @access   private
-     */
-    private function loadAdminDependencies() {
-
-        /**
-         * A Wordpress Settings API wrapper class (by Tareq Hasan).
-         */
-        require_once self::MMDB_VENDOR_DIR . 'WpSettingsApi.php';
-
-        /**
-         * The class responsible for configuring the plugin's admin settings (using the above wrapper class).
-         */
-        require_once self::MMDB_ADMIN_DIR . 'Settings.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the admin area.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'AdminController.php';
-
-        /**
-         * A class responsible for customising wordpress post type to accommodate movies
-         */
-        require_once self::MMDB_ADMIN_DIR . 'EditPostType.php';
-
-        /**
-         * The class responsible for the plugin post meta box in the admin area.
-         */
-        require_once self::MMDB_ADMIN_DIR . 'PostMetaBox.php';
-
-        /**
-         * The concrete subclass responsible for the mmdb admin content view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAdminPostContentType.php';
-    }
-
-    /**
-     * Load the required public facing side dependencies for this plugin.
-     *
-     * @since    2.0.2
-     * @access   private
-     */
-    private function loadPublicDependencies() {
-
-        /**
-         * The class responsible for orchestrating actions that occur in the public-facing
-         * side of the site.
-         */
-        require_once self::MMDB_CONTROLLERS_DIR . 'PublicController.php';
-
-        /**
-         * The concrete subclass responsible for the shortcode view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpShortcodeContentType.php';
+    private function runPublic() {
+        $this->fileLoader->loadPublicDependencies();
+        $this->publicController = new PublicController(
+            $this->advancedSettings,
+            $this->coreController->active_post_types
+        );
+        $this->manager->register($this->publicController);
     }
 
     /**
@@ -180,18 +191,108 @@ class MyMovieDatabase {
      * @access   private
      */
     private function run() {
-
-        $this->loadCommonDependencies();
-        $core_controller = new CoreController();
-
+        $this->runCore();
         if (is_admin()) {
-            $this->loadAdminDependencies();
-            new AdminController($core_controller->available_resource_types, $core_controller->active_post_types);
+            $this->runAdmin();
         } else {
-            $this->loadPublicDependencies();
-            new PublicController($core_controller->active_post_types);
+            $this->runPublic();
         }
     }
 
-}
+    /**
+     * Determine if we are on the plugin setting - or related - page
+     *
+     * @since     3.0.0
+     * @return    boolean
+     */
+    protected function isAdminSettingsPage() {
 
+        return (isset($_REQUEST['page']) && $_REQUEST['page'] === "mmdb_settings") || (isset($_REQUEST['option_page']));
+    }
+
+    /**
+     * Determine if we are on an admin edit post page
+     *
+     * If we are, there's no way to determine this early if it's a mmdb post type
+     *
+     * @since     3.0.0
+     * @return    boolean
+     */
+    protected function isAdminEditPostPage() {
+
+        return isset($_REQUEST['post']) && isset($_REQUEST['action']) && $_REQUEST['action'] === 'edit';
+    }
+
+    /**
+     * Determine if we are on a plugin active new post type page
+     *
+     * @since     3.0.0
+     * @return    boolean
+     */
+    protected function isAdminNewPostPage() {
+        $is_wp_new_post_page = isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-admin/post-new.php') !== false;
+        if(!$is_wp_new_post_page) {
+            return false;
+        }
+        $active_post_types = $this->coreController->active_post_types;
+
+        if(!isset($_REQUEST['post_type']) && in_array('post', $active_post_types)) {
+            return true;
+        }
+        if(isset($_REQUEST['post_type']) && in_array($_REQUEST['post_type'], $active_post_types)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function isAdminPostPage() {
+
+        return $this->isAdminEditPostPage() || $this->isAdminNewPostPage();
+    }
+
+
+    /**
+     * Gets an instance of our plugin.
+     *
+     * @return MyMovieDatabase
+     */
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * Log content to error log
+     *
+     * Enabled when WP_DEBUG_LOG  and WP_DEBUG_LOG are set to true
+     * Can be disabled via the mmodb_debug_log filter.
+     *
+     * @since      2.0.2
+     * @param      mixed   $content
+     *
+     */
+    public static function writeToLog ( $content, $optional_msg = null )  {
+        if ( !apply_filters(
+            'mmodb_debug_log',
+            defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG
+        )) {
+            return;
+        }
+        $error_msg = Constants::PLUGIN_NAME_CAMEL . ' error';
+        if($optional_msg) {
+            $error_msg .= ': ' . $optional_msg . PHP_EOL;
+        }
+        if ( is_array( $content ) || is_object( $content ) ) {
+            $error_msg .= print_r( $content, true );
+        } else {
+            $error_msg .= $content;
+        }
+
+        error_log( $error_msg );
+    }
+}

@@ -11,10 +11,31 @@
  */
 namespace MyMovieDatabase\Admin;
 
-class Settings {
+use MyMovieDatabase\ActionHookSubscriberInterface;
+
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
+use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
+
+use MyMovieDatabase\Constants;
+use MyMovieDatabase\I18nConstants;
+use MyMovieDatabase\TemplateFiles;
+
+class Settings implements ActionHookSubscriberInterface {
+
+    use SettingsHeader;
 
     private $settings_api;
     private $plugin_resource_types;
+
+    /**
+     * The screen of current WordPress request
+     *
+     * @since     3.0.0
+     * @var       SettingsCacheController
+     */
+    public $cacheController;
+
 
     /**
      * Initialize the class and set its properties.
@@ -23,8 +44,23 @@ class Settings {
      * @param      array    $plugin_resource_types    The tmdb resource (data) types.
      */
     public function __construct($plugin_resource_types) {
+        $this->cacheController = new SettingsCacheController();
         $this->settings_api = new \WeDevs_Settings_API;
         $this->plugin_resource_types = $plugin_resource_types;
+    }
+
+    /**
+     * Get the action hooks to be registered related to the option settings.
+     *
+     * @since    3.0.0
+     * @access   public
+     */
+    public function getActions()
+    {
+        return [
+            'admin_init'   => 'admin_init',
+            'admin_enqueue_scripts' => 'enqueue_scripts',
+        ];
     }
 
     /**
@@ -44,8 +80,20 @@ class Settings {
         $this->settings_api->admin_init();
     }
 
-    public function admin_menu() {
-        add_options_page( 'The Movie Database for WP Options', 'My Movie Database', 'manage_options', 'mmdb_settings', array($this, 'plugin_page') );
+    /**
+     * Register the script(s) for the settings page.
+     *
+     * @since    1.0.0
+     */
+    public function enqueue_scripts() {
+        $settings_js_file = 'admin-settings';
+        wp_enqueue_script(
+            Constants::PLUGIN_ID_INIT . '_admin_settings',
+            TemplateFiles::getJsFilePath($settings_js_file),
+            ['jquery'],
+            0.1,
+            true
+        );
     }
 
     /**
@@ -63,31 +111,12 @@ class Settings {
             $sections[] =
                 [
                     'id'    => $plugin_resource_type->type_setting_id,
-                    'title' => esc_html__( $plugin_resource_type->data_type_label, MMDB_WP_NAME ) . ' ' .  esc_html__( 'Settings', MMDB_WP_NAME )
+                    'title' => esc_html__( $plugin_resource_type->data_type_label, 'my-movie-database' )
                 ];
         }
 
         return $sections;
     }
-
-    /**
-     * Get/set the settings sections that go before the TMDB data type views (ex: Basic settings)
-     *
-     * @since    1.0.0
-     * @return   array   'before' settings sections
-     */
-
-    /**
-    private function getBeforeTypesSections() {
-
-    $sections[] =
-    array(
-    'id'    => 'mmdb_opt_basic',
-    'title' => esc_html__( 'Basic Settings', MMDB_WP_NAME )
-    );
-    return $sections;
-    }
-     */
 
     /**
      * Get/set the settings sections that go after the TMDB data type views (ex: Advanced settings)
@@ -98,9 +127,14 @@ class Settings {
     private function getAfterTypesSections() {
 
         return [[
-                'id'    => MMDB_ADVANCED_OPTION_GROUP,
-                'title' => esc_html__( 'Advanced Settings', MMDB_WP_NAME )
-            ]];
+                'id'    => Constants::ADVANCED_OPTION_GROUP_NAME,
+                'title' => esc_html__( I18nConstants::I18n_CORE_ADVANCED_OPTIONS )
+            ],
+            [
+                'id'    => Constants::CACHE_MANAGER_OPTION_GROUP_NAME,
+                'title' => esc_html__( 'Cache manager', 'my-movie-database' ),
+            ]
+        ];
     }
 
     /**
@@ -108,13 +142,12 @@ class Settings {
      *
      * @since    0.7.0
      *
-     * @since    1.0.0 			split into other seperate section functions which are merged here
+     * @since    1.0.0 			split into other separate section functions which are merged here
      * @return    array    		all settings sections
      */
     private function getSettingsSections() {
 
         return array_merge(
-//            $this->getBeforeTypesSections(),
             $this->getTypeSections(),
             $this->getAfterTypesSections()
         );
@@ -140,75 +173,93 @@ class Settings {
 
                     array(
                         'name'    => $plugin_type->tmpl_setting_id,
-                        'label'   => __( $plugin_type->data_type_label, MMDB_WP_NAME ). ' - ' . __( 'template', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( 'Select the template to use. The custom template is empty by default', MMDB_WP_NAME ),
+                        'label'   =>  __( I18nConstants::I18n_CORE_TEMPLATE ),
+                        'desc'    => esc_html__( 'Select the template to use', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'tabs',
+                        'default' => Constants::OPTION_VALUE_TMPL_TABS,
                         'options' => array(
-                            'tabs' => esc_html__( 'With tabs', MMDB_WP_NAME ),
-                            'accordion' => esc_html__( 'With accordion', MMDB_WP_NAME ),
-                            'custom'  => esc_html__( 'Custom template', MMDB_WP_NAME ),
+                            /* translators: Refers to the tabs template. */
+                            Constants::OPTION_VALUE_TMPL_TABS => esc_html__( 'With tabs', 'my-movie-database' ),
+                            /* translators: Refers to the accordion template. */
+                            Constants::OPTION_VALUE_TMPL_ACCORDION => esc_html__( 'With accordion', 'my-movie-database' ),
                         )
                     ),
                     array(
+                        'name'    => $plugin_type->header_color_setting_id,
+                        'label'   => __( I18nConstants::I18n_CORE_HEADER ) . ' - ' . __( I18nConstants::I18n_CORE_BG_COLOR ),
+                        'desc'    => __( "Background color for the template header", 'my-movie-database' ),
+                        'type'    => 'color',
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_ONE
+                    ),
+                    array(
+                        'name'    => $plugin_type->header_font_color_setting_id,
+                        'label'   => __( I18nConstants::I18n_CORE_HEADER ) . ' - ' . __( I18nConstants::I18n_CORE_TEXT_COLOR ),
+                        'desc'    => esc_html__( "Font color for the template header", 'my-movie-database' ),
+                        'type'    => 'color',
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_TWO
+                    ),
+                    array(
+                        'name'    => $plugin_type->body_color_setting_id,
+                        'label'   => _x( I18nConstants::I18n_CORE_BODY, I18nConstants::I18n_CORE_BODY_CTX  ) . ' - ' . __( I18nConstants::I18n_CORE_BG_COLOR),
+                        'desc'    => esc_html__( "Background color for the template content", 'my-movie-database' ),
+                        'type'    => 'color',
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_TWO
+                    ),
+                    array(
+                        'name'    => $plugin_type->body_font_color_setting_id,
+                        'label'   => _x( I18nConstants::I18n_CORE_BODY, I18nConstants::I18n_CORE_BODY_CTX ) . ' - ' . __( I18nConstants::I18n_CORE_TEXT_COLOR ),
+                        'desc'    => esc_html__( "Font color for the template content", 'my-movie-database' ),
+                        'type'    => 'color',
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'default' => Constants::OPTION_VALUE_COLOR_DEFAULT_ONE
+                    ),
+                    array(
                         'name'    => $plugin_type->width_setting_id,
-                        'label'   => __( $plugin_type->data_type_label, MMDB_WP_NAME ). ' - ' . __( 'width', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( 'Select the responsive widths to use. Full-width if you have a no sidebar layout, one-sidebar if you have, well, one sidebar(!), etc', MMDB_WP_NAME ),
+                        'label'   => esc_html__( 'Size of images / columns', 'my-movie-database'),
+                        'desc'    => esc_html__( 'Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout.', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'large',
+                        'default' =>  Constants::OPTION_VALUE_SIZE_MEDIUM,
                         'options' => array(
-                            'large' => esc_html__( 'Full-width', MMDB_WP_NAME ),
-                            'medium' => esc_html__( 'One sidebar', MMDB_WP_NAME ),
-                            'small' => esc_html__( 'Two sidebars', MMDB_WP_NAME ),
+                            Constants::OPTION_VALUE_SIZE_LARGE => __( I18nConstants::I18n_CORE_LARGE),
+                            Constants::OPTION_VALUE_SIZE_MEDIUM => __( I18nConstants::I18n_CORE_MEDIUM),
+                            Constants::OPTION_VALUE_SIZE_SMALL => __( I18nConstants::I18n_CORE_SMALL),
                         )
                     ),
                     array(
                         'name'    => $plugin_type->transition_effect_setting_id,
-                        'label'   => esc_html__( "Transition effect", MMDB_WP_NAME ),
-                        'desc'    => esc_html__( 'Select the transition effect to use when switching sections', MMDB_WP_NAME ),
+                        'label'   => esc_html__( "Transition effect", 'my-movie-database' ),
+                        'desc'    => esc_html__( 'Select the transition effect to use when switching sections', 'my-movie-database' ),
                         'type'    => 'select',
-                        'default' => 'fade',
+                        'default' => Constants::OPTION_VALUE_TRANSITION_FADE,
                         'options' => array(
-                            'fade' => esc_html__( 'Fade', MMDB_WP_NAME ),
-                            'bounce' => esc_html__( 'Bounce', MMDB_WP_NAME ),
-                            'none' => esc_html__( 'None', MMDB_WP_NAME ),
+                            /* translators: Refers a transition effect name. */
+                            Constants::OPTION_VALUE_TRANSITION_FADE => esc_html__( 'Fade', 'my-movie-database' ),
+                            /* translators: Refers a transition effect name. */
+                            Constants::OPTION_VALUE_TRANSITION_BOUNCE => esc_html__( 'Bounce', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_TRANSITION_NONE => __( I18nConstants::I18n_CORE_NONE ),
                         )
                     ),
                     array(
                         'name'    => $plugin_type->pos_setting_id,
-                        'label'   => esc_html__( 'Display position', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( 'Choose to display MMDB info before or after the content', MMDB_WP_NAME ),
+                        'label'   => esc_html__( 'Display position', 'my-movie-database' ),
+                        'desc'    => esc_html__( 'Choose to display MMDB info before or after the content', 'my-movie-database' ),
                         'type'    => 'radio',
-                        'default' => 'after',
+                        'default' => Constants::OPTION_VALUE_POS_AFTER_CONTENT,
                         'options' => array(
-                            'after'  => esc_html__( 'After content', MMDB_WP_NAME ),
-                            'before' => esc_html__( 'Before content', MMDB_WP_NAME )
+                            Constants::OPTION_VALUE_POS_AFTER_CONTENT  => esc_html__( 'After content', 'my-movie-database' ),
+                            Constants::OPTION_VALUE_POS_BEFORE_CONTENT => esc_html__( 'Before content', 'my-movie-database' )
                         )
                     ),
                     array(
                         'name'    => $plugin_type->sections_setting_id,
-                        'label'   => esc_html__( 'Hide sections', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( 'Select the sections to be hidden', MMDB_WP_NAME ),
+                        'label'   => esc_html__( 'Hide sections', 'my-movie-database' ),
+                        'desc'    => esc_html__( 'Select the sections to be hidden', 'my-movie-database' ),
                         'type'    => 'multicheck',
                         'default' => '',
                         'options' => $plugin_type->setHideSectionsSetting()
-                    ),
-
-                    array(
-                        'name'    => $plugin_type->header_color_setting_id,
-                        'label'   => esc_html__( 'Header Background Color', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( "Background color for the template header", MMDB_WP_NAME ),
-                        'type'    => 'color',
-                        'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#265a88'
-                    ),
-                    array(
-                        'name'    => $plugin_type->body_color_setting_id,
-                        'label'   => esc_html__( 'Body Color', MMDB_WP_NAME ),
-                        'desc'    => esc_html__( "Background color for the template content", MMDB_WP_NAME ),
-                        'type'    => 'color',
-                        'sanitize_callback' => 'sanitize_text_field',
-                        'default' => '#DCDCDC'
                     ),
 
                 )
@@ -222,17 +273,59 @@ class Settings {
     }
 
     /**
-     * Get/set the settings fields that go after the TMDB data type views (ex: Advanced settings fields)
+     * Get the label for the "enable plugin'/s custom post type section" setting
      *
-     * @since    1.0.0
-     * @return   array   'after' settings fields
+     * @param string $type
+     *
+     * @return   string
+     * @since    3.0.0
      */
+    private function getEnableSectionLabel($type) {
+        return sprintf(
+            /* translators: %s: Post type, ex: movie, tv show or person section. */
+            esc_html__( 'Enable "%s" section?', 'my-movie-database' ),
+            __($type, 'my-movie-database')
+        );
+    }
 
     /**
-    private function getBeforeTypeSectionsFields() {
-
-    }
+     * Get the label for the "enable plugin'/s custom post type section" 'Yes' option
+     *
+     * @param string $type
+     *
+     * @return   string
+     * @since    3.0.0
      */
+    private function getEnableSectionYesOptionLabel($type) {
+        return __( I18nConstants::I18n_CORE_YES ) . '. '
+               . sprintf(
+                   /* translators: %s: Post type, ex: movie, tv show or person section. */
+                   esc_html__('Use a "%s" posts section (custom post type)', 'my-movie-database' ),
+                   __($type, 'my-movie-database')
+               );
+    }
+
+    /**
+     * Get the label for the "enable plugin'/s custom post type section" 'No' option
+     *
+     * @param string $type
+     * @param null $no_msg
+     *
+     * @return   string
+     * @since    3.0.0
+     */
+    private function getEnableSectionNoOptionLabel($type, $no_msg = null) {
+
+        if($no_msg === null) {
+            $no_msg = __( I18nConstants::I18n_CORE_NO );
+        }
+        return $no_msg . '. '
+               . sprintf(
+                   /* translators: %s: Plural version of resource / post type, ex: use movies, tv shows or persons. */
+                   esc_html__('I only want to use "%s" with shortcodes (or not at all)', 'my-movie-database' ),
+                   __($type, 'my-movie-database')
+               );
+    }
 
     /**
      * Get/set the settings fields that go after the TMDB data type views (ex: Advanced settings fields)
@@ -242,258 +335,190 @@ class Settings {
      */
     private function getAfterTypeSectionsFields() {
 
-        $settings_fields = array(
+        $movies_label = MovieResourceType::getI18nDefaultPluralLabel();
+        $tv_shows_label = TvshowResourceType::getI18nDefaultPluralLabel();
+        $people_label = PersonResourceType::getI18nDefaultPluralLabel();
 
-            MMDB_ADVANCED_OPTION_GROUP => array(
+        return [
+            Constants::ADVANCED_OPTION_GROUP_NAME => array(
                 array(
-                    'name'    => 'mmdb_movie_post_type',
-                    'label'   => esc_html__( 'Enable "Movies" section?', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Movies post type - what is to be done?', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_MOVIE,
+                    'label'   => $this->getEnableSectionLabel($movies_label),
                     'type'    => 'radio',
                     'default' => 'movie',
                     'options' => array(
-                        'movie'  => esc_html__( 'Yes, use a "Movies" post section (custom post type)', MMDB_WP_NAME ),
-                        'posts_custom' => esc_html__( 'No, use Posts but change the "Posts" menu label to "Movies"', MMDB_WP_NAME ),
-                        'posts'  => esc_html__( 'No, use Posts and leave them as they are', MMDB_WP_NAME ),
-                        'no_post'  => esc_html__( 'None of the above, I only want to use Movies with shortcodes (or not at all)', MMDB_WP_NAME ),
+                        'movie'  => $this->getEnableSectionYesOptionLabel($movies_label),
+                        'posts_custom' => esc_html__( 'No, use Posts but change the "Posts" menu label to "Movies"', 'my-movie-database' ),
+                        'posts'  => esc_html__( 'No, use Posts and leave them as they are', 'my-movie-database' ),
+                        'no_post'  => $this->getEnableSectionNoOptionLabel(
+                                'Movies',
+                                esc_html__( 'None of the above', 'my-movie-database' )
+                        )
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_tvshow_post_type',
-                    'label'   => esc_html__( 'Enable "Tvshows" section?', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Tvshows post type - what is to be done?', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_TV,
+                    'label'   => $this->getEnableSectionLabel($tv_shows_label),
                     'type'    => 'radio',
                     'default' => 'tvshow',
                     'options' => array(
-                        'tvshow'  => esc_html__( 'Yes, use a "TvShows" post section (custom post type)', MMDB_WP_NAME ),
-                        'no_post'  => esc_html__( 'No no, I only want to use TvShows with shortcodes (or not at all)', MMDB_WP_NAME ),
+                        'tvshow'  => $this->getEnableSectionYesOptionLabel($tv_shows_label),
+                        'no_post'  => $this->getEnableSectionNoOptionLabel($tv_shows_label),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_person_post_type',
-                    'label'   => esc_html__( 'Enable "Persons" section?', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Persons post type - what is to be done?', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_POST_TYPE_PERSON,
+                    'label'   => $this->getEnableSectionLabel($people_label),
                     'type'    => 'radio',
                     'default' => 'person',
                     'options' => array(
-                        'person'  => esc_html__( 'Yes, use a "Persons" post section (custom post type)', MMDB_WP_NAME ),
-                        'no_post'  => esc_html__( 'No no, I only want to use Persons with shortcodes (or not at all)', MMDB_WP_NAME ),
+                        'person'  => $this->getEnableSectionYesOptionLabel($people_label),
+                        'no_post' => $this->getEnableSectionNoOptionLabel($people_label),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_css_file',
-                    'label'   => esc_html__( 'Include plugin css file', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Select when to load the plugin css file, selecting No will never load the plugin css file', MMDB_WP_NAME ),
-                    'type'    => 'select',
-                    'default' => 'yes',
-                    'options' => array(
-                        'yes'  => esc_html__( 'Yes, load it for posts that use my-movie-database only', MMDB_WP_NAME ),
-                        'all'  => esc_html__( 'Yes, but load it for all wp pages (for use with archive, etc)', MMDB_WP_NAME ),
-                        'no' => esc_html__( 'No',  MMDB_WP_NAME )
-                    )
-                ),
-                array(
-                    'name'    => 'mmdb_bootstrap',
-                    'label'   => esc_html__( 'Include bootstrap stylesheet', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Default templates require bootstrap css, select No if you dont want this plugin to include it', MMDB_WP_NAME ),
-                    'type'    => 'select',
-                    'default' => 'yes',
-                    'options' => array(
-                        'yes'  => esc_html__( 'Yes, load it for my-movie-database pages only', MMDB_WP_NAME ),
-                        'all'  => esc_html__( 'Yes, but load it for all wp pages', MMDB_WP_NAME ),
-                        'no' => esc_html__( 'No',  MMDB_WP_NAME )
-                    )
-                ),
-                array(
-                    'name'    => 'mmdb_wp_categories',
-                    'label'   => esc_html__( 'Wordpress Categories', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Default Wordpress categories can be selectable for your your mmdb posts', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_TAXONOMY_TYPE,
+                    'label'   => __( I18nConstants::I18n_CORE_CATEGORIES ) . ' / ' . __( I18nConstants::I18n_CORE_TAGS ) ,
+                    'desc' => esc_html__( 'Select the type of taxonomy to be created for each enabled post type section.', 'my-movie-database' ) . PHP_EOL . __( I18nConstants::I18n_CORE_CATEGORIES_TAGS_DESC ),
                     'type'    => 'radio',
-                    'default' => 'yes',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes'  => esc_html__( 'Yes, allow movies, tvshows and persons to be associated to wordpress categories', MMDB_WP_NAME ),
-                        'no_archive_pages' => esc_html__( 'Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins', MMDB_WP_NAME ),
-                        'no'  => esc_html__( 'No, do not use wordpress categories', MMDB_WP_NAME ),
+                        Constants::OPTION_STRING_VALUE_TRUE  => __( I18nConstants::I18n_CORE_CATEGORIES ),
+                        Constants::OPTION_STRING_VALUE_FALSE => __( I18nConstants::I18n_CORE_TAGS ),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_hierarchical_taxonomy',
-                    'label'   => esc_html__( 'Hierarchical Categories', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Plugin categories can be hierarchical (have parents / children) or not. Non-hierarchical categories behave like wordpress tags', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_WP_CATEGORIES,
+                    'label'   => esc_html__( 'Wordpress Categories', 'my-movie-database' ),
+                    'desc'    => esc_html__( 'Default Wordpress categories can be selectable for your your mmdb posts', 'my-movie-database' ),
                     'type'    => 'radio',
-                    'default' => 'yes',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
                     'options' => array(
-                        'yes'  => esc_html__( 'Yes, I want the standard hierarchical categories', MMDB_WP_NAME ),
-                        'no'  => esc_html__( 'No, I want categories to be in the form of tags', MMDB_WP_NAME ),
+                        Constants::OPTION_STRING_VALUE_TRUE  => esc_html__( 'Yes, allow movies, tvshows and persons to be associated to wordpress categories', 'my-movie-database' ),
+                        'no_archive_pages' => esc_html__( 'Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins', 'my-movie-database' ),
+                        Constants::OPTION_STRING_VALUE_FALSE => esc_html__( 'No, do not use wordpress categories', 'my-movie-database' ),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_overview_on_hover',
-                    'label'   => esc_html__( "Overview on hover", MMDB_WP_NAME ),
-                    'desc'    => esc_html__( 'Show description on hover for person credits and tvshow seasons', MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_OVERVIEW_HOVER,
+                    'label'   => esc_html__( "Overview on hover", 'my-movie-database' ),
+                    'desc'    => esc_html__( 'Show description on hover for person credits and tvshow seasons', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => true,
                     'options' => array(
-                        true => esc_html__( 'Yes', MMDB_WP_NAME ),
-                        false => esc_html__( 'No', MMDB_WP_NAME ),
+                        true  => __(I18nConstants::I18n_CORE_YES),
+                        false => __(I18nConstants::I18n_CORE_NO),
                     )
                 ),
                 array(
-                    'name'    => 'mmdb_debug',
-                    'label'   => esc_html__( 'Debug Mode', MMDB_WP_NAME ),
-                    'desc'    => esc_html__( "Will output data received from TMDB in your browser's (web developer tools) console", MMDB_WP_NAME ),
+                    'name'    => Constants::ADV_OPTION_CSS_FILE_INC,
+                    'label'   => esc_html__( 'Include plugin css file', 'my-movie-database' ),
+                    'type'    => 'radio',
+                    'default' => Constants::OPTION_STRING_VALUE_TRUE,
+                    'options' => array(
+                        Constants::OPTION_STRING_VALUE_TRUE  => __(I18nConstants::I18n_CORE_YES),
+                        Constants::OPTION_STRING_VALUE_FALSE => __(I18nConstants::I18n_CORE_NO),
+                    )
+                ),
+                array(
+                    'name'    => Constants::ADV_OPTION_API_KEY,
+                    /* translators: %s: Name of API service provider, ex: TMDb, Google. */
+                    'label'   => sprintf(esc_html__( '%s API key', 'my-movie-database'), 'TMDb'),
+                    /* translators: %s: Name of API service provider, ex: TMDb, Google. */
+                    'desc'    => sprintf(esc_html__( 'Enter your %s API key.', 'my-movie-database' ), 'TMDb'),
+                    'type'    => 'password',
+                    'sanitize_callback' => 'sanitize_key',
+                ),
+                array(
+                    'name'    => Constants::ADV_OPTION_GUTENBERG_DISABLE,
+                    'label'   => esc_html__( 'Disable the Gutenberg editor?', 'my-movie-database' ),
+                    'desc'    => esc_html__( 'Stop using the Gutenberg editor for the plugin\'s post types?', 'my-movie-database' ),
                     'type'    => 'radio',
                     'default' => 0,
                     'options' => array(
-                        false => 'OFF',
-                        true  => 'ON'
+                        false => __(I18nConstants::I18n_CORE_NO),
+                        true  => __(I18nConstants::I18n_CORE_YES),
+                    )
+                ),
+                array(
+                    'name'    => Constants::ADV_OPTION_DEBUG_ENABLE,
+                    'label'   => esc_html__( 'Debug Mode', 'my-movie-database' ),
+                    'desc'    => esc_html__( "Will output data received from TMDB in your browser's (web developer tools) console", 'my-movie-database' ),
+                    'type'    => 'radio',
+                    'default' => 0,
+                    'options' => array(
+                        false => __(I18nConstants::I18n_CORE_DISABLED),
+                        true  => __(I18nConstants::I18n_CORE_ENABLED)
                     )
                 )
             )
-        );
-
-        return $settings_fields;
+        ];
     }
+
+    /**
+     * Get the cache manager settings fields
+     *
+     * @since    3.0.0
+     * @return   array
+     */
+    private function getCacheManagerFields() {
+
+        return [
+            Constants::CACHE_MANAGER_OPTION_GROUP_NAME => [
+                [
+                    'name'    => Constants::CACHE_MANAGER_DELETE_TYPE,
+                    'label'   => esc_html__( 'Delete cached resource', 'my-movie-database' ),
+                    /* translators: Resource type, ex: movie, tv show or person resource. */
+                    'desc'   => esc_html__( 'Select the type of cached resource to delete', 'my-movie-database'),
+                    'type'    => 'select',
+                    'default' => '',
+                    'options' => [
+                        ''  => __( I18nConstants::I18n_CORE_SELECT),
+                        'movie'  => esc_html__( 'Movies', 'my-movie-database' ),
+                        'tvshow' => esc_html__( 'Tv Show', 'my-movie-database' ),
+                        'person'  => esc_html__( 'Person', 'my-movie-database' ),
+                    ]
+                ],
+                [
+                    'name'    => Constants::CACHE_MANAGER_DELETE_ID,
+                    /* translators: %s: Name of the resource provider, ex: TMDb, Google. */
+                    'desc'   => sprintf(esc_html__( 'Enter the %s id of the cached resource to delete', 'my-movie-database'), 'TMDb'),
+                    'type'    => 'number',
+                    'sanitize_callback' => 'sanitize_key',
+                ],
+            ],
+        ];
+    }
+
 
     /**
      * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
      *
      * @since    0.7.0
      *
-     * @since    1.0.0 			split into other seperate section functions which are merged here
+     * @since    1.0.0 			split into other separate section functions which are merged here
      * @return    array    		all settings fields
      */
     private function getSettingsFields() {
 
         return array_merge(
-//                $this->getBeforeTypeSectionsFields(),
                 $this->getTypeSectionFields(),
-                $this->getAfterTypeSectionsFields()
+                $this->getAfterTypeSectionsFields(),
+                $this->getCacheManagerFields()
         );
-
-    }
-
-    /**
-     * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
-     *
-     * @since    0.7.0
-     *
-     * @since    1.0.0 			split into other seperate section functions which are merged here
-     */
-    private function getHeaderInfo() {
-
-        return [
-            [
-                'title' => esc_html__( 'Get Help',  MMDB_WP_NAME ),
-                'rows' => [
-                    [
-                        'title' => esc_html__( 'Documentation',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-editor-help',
-                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/how-to-use-the-mmdb-plugin/',
-                        'url-text' => esc_html__( 'How to use the plugin.',  MMDB_WP_NAME )
-                    ],
-                    [
-                        'title' => esc_html__( 'Documentation',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-admin-tools',
-                        'url' => 'https://mymoviedatabase.cinema.ttic.ca/plugin-configuration-mmdb-options-page/',
-                        'url-text' => esc_html__( 'Configuration options',  MMDB_WP_NAME )
-                    ],
-                    [
-                        'title' => esc_html__( 'Support',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-tickets-alt',
-                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/',
-                        'text' => esc_html__( 'Still can\'t figure it out?',  MMDB_WP_NAME ),
-                        'url-text' => esc_html__( 'Open up a ticket.',  MMDB_WP_NAME )
-                    ],
-                ],
-            ],
-            [
-                'title' => esc_html__( 'Give Help - Contribute',  MMDB_WP_NAME ),
-                'rows' => [
-                    [
-                        'title' => esc_html__( 'Review',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-star-half',
-                        'url' => 'https://wordpress.org/support/plugin/my-movie-database/reviews/',
-                        'text' => esc_html__( 'It means a lot to us.',  MMDB_WP_NAME ),
-                        'url-text' => esc_html__( 'Please leave your review.',  MMDB_WP_NAME ),
-                    ],
-                    [
-                        'title' => esc_html__( 'Translate',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-flag',
-                        'url' => 'https://translate.wordpress.org/projects/wp-plugins/my-movie-database/',
-                        'text' => esc_html__( 'Help',  MMDB_WP_NAME ),
-                        'url-text' => esc_html__( 'translate the plugin in your language.',  MMDB_WP_NAME )
-                    ],
-                    [
-                        'title' => esc_html__( 'Donate',  MMDB_WP_NAME ),
-                        'span_class' => 'dashicons-buddicons-community',
-                        'url' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6',
-                        'text' => esc_html__( 'Or if you prefer, maybe',  MMDB_WP_NAME ),
-                        'url-text' => esc_html__( 'buy us a beer?',  MMDB_WP_NAME )
-                    ],
-                ]
-            ]
-        ];
     }
 
     /**
      * Make plugin option page
      *
      * @since    0.7.0
-     * @return string
+     * @return  void
      */
     public function plugin_page() {
+        $this->getSettingsPageHtml();
         ?>
-        <style>
-            .mmdb_admin_header {
-                height: 70px;
-            }
-            .mmdb_admin_header .admin-logo {
-                float:left;
-                padding: 10px 0;
-            }
-            .mmdb_admin_header h1 {
-                float:left;
-                padding: 15px 10px;
-            }
-            .mmdb-row {
-                clear: both;
-            }
-            .mmdb-row h3 {
-                margin: 0;
-                text-align: center;
-            }
-            .mmdb-row .update-nag span {
-                padding-right: 5px;
-            }
-        </style>
-        <div class="mmdb_admin_header">
-            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
-            <h1><?php esc_html__( 'My Movie Database Options',  MMDB_WP_NAME );?></h1>
-        </div>
-        <div class="mmdb-row">
-            <?php foreach($this->getHeaderInfo() as $info) :?>
-            <div class="update-nag">
-                <h3><?php echo $info['title']?></h3>
-                <ul>
-                    <?php foreach($info['rows'] as $row) :?>
-                    <li>
-                        <span class="dashicons <?php echo $row['span_class']?>"></span><strong><?php echo $row['title']?>:</strong>
-                        <?php $text = isset($row['text']) ? $row['text'] : ''; echo $text; ?>
-                        <a href="<?php echo $row['url']?>" target="_blank">
-                            <?php echo $row['url-text']?>
-                        </a>
-                    </li>
-                    <?php endforeach;?>
-                </ul>
-            </div>
-            <?php endforeach;?>
-        </div>
-
         <div class="wrap">
-
         <?php
-
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
 
@@ -501,4 +526,3 @@ class Settings {
     }
 
 }
-

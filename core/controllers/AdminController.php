@@ -14,42 +14,83 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\CoreController;
-use MyMovieDatabase\TemplateFiles;
+use MyMovieDatabase\ActionHookSubscriberInterface;
 
-class AdminController {
+use MyMovieDatabase\Lib\OptionsGroup;
+use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
+use MyMovieDatabase\Constants;
+
+class AdminController implements ActionHookSubscriberInterface {
 
     /**
      * The resource (data) types made available in the plugin.
      *
-     * @since     1.0.0
      * @return    array
+     * @since     1.0.0
      */
     private $available_resource_types;
+
     /**
-     * Active post types as per admin user settings.
+     * Class object that handles the plugin activation state changes
      *
-     * @since     1.0.0
-     * @return    array
+     * @return    ActivationStateChanges
+     * @since     2.5.0
      */
-    public $active_post_types;
+    public $activation_state_changes;
+    /**
+     * Class object that defines the option page settings functionality
+     *
+     * @return    Settings
+     * @since     2.5.0
+     */
+    public $settings;
+    /**
+     * Class object that conditionally edits / modifies wp post type
+     *
+     * @return    EditPostType
+     * @since     2.5.0
+     */
+    public $edit_post_type = null;
+
+    /**
+     * An instance of the options helper class loaded with the advanced setting values.
+     *
+     * @since    3.0.0
+     * @access   protected
+     * @var      OptionsGroup $advancedSettings
+     */
+    protected $advancedSettings;
 
     /**
      * Initialize the class and set its properties.
      *
+     * @param array $available_resource_types
+     * @param OptionsGroup $advancedSettings OptionsGroup class with the advanced setting values
+     *
      * @since      1.0.0
-     * @param      array $available_resource_types
-     * @param      array $active_post_types
      */
-    public function __construct($available_resource_types, $active_post_types ) {
-
+    public function __construct( $advancedSettings, $available_resource_types = null ) {
+        $this->advancedSettings         = $advancedSettings;
+        $this->activation_state_changes = new ActivationStateChanges();
         $this->available_resource_types = $available_resource_types;
-        $this->active_post_types = $active_post_types;
+        $this->setEditWpPosts();
         $this->setAdminSettings();
-        $this->editWpPosts();
-        $this->registerPostMetaBoxes();
-        $this->registerRemainingHooks();
     }
+
+    /**
+     * Get the action hooks to be registered related to the admin-facing functionality.
+     *
+     * Enqueue scripts
+     *
+     * @since    2.5.0
+     * @access   public
+     */
+    public function getActions() {
+        return  [
+            'admin_menu' => 'admin_menu',
+        ];
+    }
+
 
     /**
      * Instantiate the class that defines the option page settings functionality for the plugin
@@ -58,26 +99,34 @@ class AdminController {
      */
 
     private function setAdminSettings() {
+        if ( $this->available_resource_types ) {
+            $this->settings = new Settings( $this->available_resource_types );
+        }
+    }
 
-        $settings = new Settings($this->available_resource_types);
-        add_action( 'admin_init', array($settings, 'admin_init') );
-        add_action( 'admin_menu', array($settings, 'admin_menu') );
+    public function admin_menu() {
+        add_options_page(
+            'The Movie Database for WP Options',
+            'My Movie Database',
+            'manage_options',
+            'mmdb_settings',
+            [ $this->settings, 'plugin_page' ]
+        );
     }
 
     /**
      * Check settings whether default wp post type should be edited / modified or not
      *
-     * @since     1.0.0
      * @return    boolean
+     * @since     1.0.0
      */
-    private function editWpPostsSetting() {
+    private function hasEditWpPostsSetting() {
+        $setting = $this->advancedSettings->getOption(
+            Constants::ADV_OPTION_POST_TYPE_MOVIE,
+            MovieResourceType::DATA_TYPE_NAME
+        );
 
-        if(CoreController::getMmdbOption('mmdb_movie_post_type', MMDB_ADVANCED_OPTION_GROUP, 'movie') == 'posts_custom') {
-
-            return true;
-        }
-
-        return false;
+        return $setting == 'posts_custom';
     }
 
     /**
@@ -85,103 +134,11 @@ class AdminController {
      *
      * @since     1.0.0
      */
-    private function editWpPosts() {
+    private function setEditWpPosts() {
 
-        if($this->editWpPostsSetting()){
+        if ( $this->hasEditWpPostsSetting() ) {
 
-            $edit_post_type = new EditPostType('Movie', 'movie', 'Movies');
-            add_action('admin_head', array($edit_post_type, 'mmdb_posts_admin_menu_icons_css'));
-            add_action('init', array($edit_post_type, 'mmdb_change_posts_object_label'));
-            add_action('admin_menu', array($edit_post_type, 'mmdb_change_posts_menu_label'));
+            $this->edit_post_type = new EditPostType();
         }
-
-        return;
     }
-
-    /**
-     * Determine if we are on a mmdb active post type (edit or new post) screen
-     *
-     * @since     1.0.0
-     * @return    boolean
-     */
-    private function isAdminEditPostPage() {
-
-        $result = false;
-        $screen = get_current_screen();
-        $post_base = $screen->base;
-        $post_idtype = $screen->id;
-        foreach ($this->active_post_types as $active_post_type) {
-            // Check screen hook and current post type
-            if ($post_idtype == $active_post_type && $post_base == 'post') {
-                $result = true;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Make / register MMDB metaboxes for the active post types
-     *
-     * @since     1.0.0
-     */
-    private function registerPostMetaBoxes() {
-
-        $post_meta_box = new PostMetaBox($this->active_post_types);
-        add_action('add_meta_boxes', array($post_meta_box, 'mmdb_add_post_meta_boxes'));
-        add_action('save_post', array($post_meta_box, 'mmdb_save_post_class_meta'));
-    }
-
-    /**
-     * Hides the meta boxes in the post screens as default behavior (if the user has not yet set his screen options)
-     *
-     * @since     1.0.0
-     * @return    array
-     */
-    public function mmdb_hide_meta_box($hidden) {
-
-        // do this only for our active mmdb post types
-        if ($this->isAdminEditPostPage()) {
-            $hidden = array(
-                'postexcerpt',
-                'slugdiv',
-                'postcustom',
-                'trackbacksdiv',
-                'commentstatusdiv',
-                'commentsdiv',
-                'authordiv',
-                'revisionsdiv'
-            );
-        }
-        return $hidden;
-    }
-
-    /**
-     * Register the JavaScript and the stylesheets for the admin area.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts() {
-
-        $isAdminEditPostPage = $this->isAdminEditPostPage();
-        if($isAdminEditPostPage) {
-            wp_enqueue_style(
-                MMDB_NAME . 'Admin', TemplateFiles::getPublicFile(MMDB_CAMEL_NAME . 'Admin', 'css'), [], '1.0.0', 'all' );
-        }
-        TemplateFiles::enqueueCommonFiles($isAdminEditPostPage);
-    }
-
-    /**
-     * Register the remaining hooks related to the admin area functionality.
-     *
-     * @since    1.0.0
-     */
-    private function registerRemainingHooks() {
-
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'));
-        add_filter('default_hidden_meta_boxes', array($this, 'mmdb_hide_meta_box'),10,2);
-
-    }
-
 }
-
