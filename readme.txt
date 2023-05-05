@@ -43,7 +43,7 @@ Have a look at the demo video to see some features listed below and visit the [m
 
 = External API Service Provider =
 
-The data comes from the API of [The Movie Database (TMDb)](https://www.themoviedb.org), the leading crowdsourced movie industry data initiative. This calls made to the [TMDb api](https://www.themoviedb.org/documentation/api) are provided free of charge, and we are very grateful for their tremendous generosity.
+The data comes from [The Movie Database (TMDb)](https://www.themoviedb.org), the leading crowdsourced movie industry data initiative. Calls to the [TMDb api](https://www.themoviedb.org/documentation/api) are provided free of charge, and we are grateful for their tremendous generosity.
 My Movie Database is no way endorsed or certified by TMDb.
 
 = Documentation and support =
@@ -70,7 +70,6 @@ Speaking of feedback, if you use this plugin, would you please follow the link i
 5. Person crew credits with medium size images and overview on hover.
 6. Tv show seasons section with large size images.
 7. Movie trailer section.
-8. Movie trailer section.
 8. Search results. Note the TMDb Id is visible (needed if you use a shortcode). Also with Gutenberg editor disabled option.
 9. Cast section in the admin backend (selected from search and saved).
 10. The main settings for Movie (same for Tv Shows and Persons except for the hide section options)
@@ -114,8 +113,15 @@ Now you can install it using the WordPress admin interface or by manually upload
 
 = Version 3.0.1 - MAY 4TH, 2023 =
 
+**Bugfixes**
+
+* Hotfix: TMDb id  not being saved in post type screen.
 * Minor styling fix to accordion sub header padding and border color restore the look it had in v2.0.x.
+
+**Enhancements**
+
 * Improvement of WordPress readme and new updated screenshots.
+
 
 = Version 3.0.0 - MAY 4TH, 2023 =
 
