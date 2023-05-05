@@ -158,7 +158,7 @@ class MyMovieDatabase {
 
         $this->manager->register($this->adminController);
 
-        if(!$isSettingsPage && $this->isAdminPostPage()) {
+        if(!$isSettingsPage) {
             $this->fileLoader->loadAdminPostMetaBoxDependencies();
             $this->adminPostMetaBox = new PostMetaBox(
                 $this->coreController->active_post_types,
@@ -209,48 +209,6 @@ class MyMovieDatabase {
 
         return (isset($_REQUEST['page']) && $_REQUEST['page'] === "mmdb_settings") || (isset($_REQUEST['option_page']));
     }
-
-    /**
-     * Determine if we are on an admin edit post page
-     *
-     * If we are, there's no way to determine this early if it's a mmdb post type
-     *
-     * @since     3.0.0
-     * @return    boolean
-     */
-    protected function isAdminEditPostPage() {
-
-        return isset($_REQUEST['post']) && isset($_REQUEST['action']) && $_REQUEST['action'] === 'edit';
-    }
-
-    /**
-     * Determine if we are on a plugin active new post type page
-     *
-     * @since     3.0.0
-     * @return    boolean
-     */
-    protected function isAdminNewPostPage() {
-        $is_wp_new_post_page = isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-admin/post-new.php') !== false;
-        if(!$is_wp_new_post_page) {
-            return false;
-        }
-        $active_post_types = $this->coreController->active_post_types;
-
-        if(!isset($_REQUEST['post_type']) && in_array('post', $active_post_types)) {
-            return true;
-        }
-        if(isset($_REQUEST['post_type']) && in_array($_REQUEST['post_type'], $active_post_types)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function isAdminPostPage() {
-
-        return $this->isAdminEditPostPage() || $this->isAdminNewPostPage();
-    }
-
 
     /**
      * Gets an instance of our plugin.
