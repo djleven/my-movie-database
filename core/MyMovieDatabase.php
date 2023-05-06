@@ -17,7 +17,6 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Admin\AdminController;
-use MyMovieDatabase\Admin\PostMetaBox;
 use MyMovieDatabase\Lib\OptionsGroup;
 
 class MyMovieDatabase {
@@ -73,14 +72,6 @@ class MyMovieDatabase {
      * @var      PublicController    $publicController    The public controller object of the plugin.
      */
     protected $publicController = null;
-
-    /**
-     * Class object that handles the MMDB admin metaboxes for the active post types
-     *
-     * @since     2.5.0
-     * @var    PostMetaBox     $adminPostMetaBox
-     */
-    public $adminPostMetaBox;
 
     /**
      * The class responsible for loading plugin dependencies.
@@ -143,29 +134,23 @@ class MyMovieDatabase {
 
         $this->adminController = new AdminController(
             $this->advancedSettings,
-            $isSettingsPage ? $this->coreController->available_resource_types : null
+            $isSettingsPage ? $this->coreController->available_resource_types : null,
+            $this->coreController->active_post_types
         );
 
         $this->manager->register($this->adminController->activation_state_changes);
-        if($this->adminController->settings) {
+
+        if($isSettingsPage) {
             $this->manager->register( $this->adminController->settings );
             $this->manager->register( $this->adminController->settings->cacheController );
+        } else {
+            $this->manager->register($this->adminController->post_meta_box);
         }
-
         if($this->adminController->edit_post_type){
             $this->manager->register($this->adminController->edit_post_type);
         }
 
         $this->manager->register($this->adminController);
-
-        if(!$isSettingsPage) {
-            $this->fileLoader->loadAdminPostMetaBoxDependencies();
-            $this->adminPostMetaBox = new PostMetaBox(
-                $this->coreController->active_post_types,
-                $this->advancedSettings
-            );
-            $this->manager->register($this->adminPostMetaBox);
-        }
 
     }
 
