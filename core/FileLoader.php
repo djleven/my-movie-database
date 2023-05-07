@@ -53,6 +53,11 @@ class FileLoader {
         require_once self::MMDB_CONTROLLERS_DIR . 'CoreController.php';
 
         /**
+         * The class responsible for i18n textdomain functionality.
+         */
+        require_once self::MMDB_LIB_DIR . 'LanguageManager.php';
+
+        /**
          * The abstract superclass responsible for the mmdb resource (data) types.
          */
         require_once self::MMDB_LIB_DIR . 'resourceTypes/AbstractResourceType.php';

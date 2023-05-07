@@ -98,7 +98,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = "3.0.1";
+        $this->version = "3.0.2";
         $this->fileLoader = new FileLoader();
         $this->fileLoader->loadCommonDependencies();
         $this->manager = new PluginAPIManager();
@@ -115,6 +115,7 @@ class MyMovieDatabase {
     private function runCore() {
         $this->coreController = new CoreController($this->advancedSettings);
         $this->manager->register($this->coreController);
+        $this->manager->register($this->coreController->languageManager);
 
         foreach ($this->coreController->endpoints as $endpoint)  {
             $this->manager->register($endpoint);
