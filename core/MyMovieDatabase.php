@@ -142,6 +142,7 @@ class MyMovieDatabase {
         $this->manager->register($this->adminController->activation_state_changes);
 
         if($isSettingsPage) {
+            $this->adminController->settings->setVersion($this->version);
             $this->manager->register( $this->adminController->settings );
             $this->manager->register( $this->adminController->settings->cacheController );
         } else {

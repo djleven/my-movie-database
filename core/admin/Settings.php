@@ -38,6 +38,15 @@ class Settings implements ActionHookSubscriberInterface {
 
 
     /**
+     * The current version of the plugin.
+     *
+     * @since    3.0.2
+     * @access   protected
+     * @var      string    $version    The current version of the plugin.
+     */
+    protected $version;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    0.7.0
@@ -515,7 +524,7 @@ class Settings implements ActionHookSubscriberInterface {
      * @return  void
      */
     public function plugin_page() {
-        $this->getSettingsPageHtml();
+        $this->getSettingsPageHtml($this->version);
         ?>
         <div class="wrap">
         <?php
@@ -525,4 +534,15 @@ class Settings implements ActionHookSubscriberInterface {
         echo '</div>';
     }
 
+    /**
+     * Set plugin version
+     *
+     * @since    3.0.2
+     *
+     * @param      string  $version
+     * @return  void
+     */
+    public function setVersion($version) {
+        $this->version = $version;
+    }
 }

@@ -11,6 +11,7 @@
  */
 namespace MyMovieDatabase\Admin;
 
+use MyMovieDatabase\Constants;
 use MyMovieDatabase\I18nConstants;
 
 trait SettingsHeader {
@@ -114,7 +115,7 @@ trait SettingsHeader {
      *
      * @return  void
      */
-    public function getSettingsPageHtml() {
+    public function getSettingsPageHtml($version) {
         ?>
         <style>
             .mmdb_admin_header {
@@ -170,7 +171,7 @@ trait SettingsHeader {
         <div class="mmdb_admin_header">
             <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
             <h1><?php echo __( 'My Movie Database',  'my-movie-database' ) ;?>
-                <div class="version">v3.0.0</div>
+                <div class="version"><?php echo sprintf( __( I18nConstants::I18n_CORE_VERSION ), $version );?></div>
             </h1>
         </div>
         <div class="mmdb-row">
