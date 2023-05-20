@@ -6,7 +6,7 @@ Tags: movie, movies, film, tv, television, television series, tv show, TMDb, cas
 Requires at least: 4.6
 Requires PHP: 5.6
 Tested up to: 6.2
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,14 @@ Now you can install it using the WordPress admin interface or by manually upload
 4. Locate the plugin and select **"Activate"**
 
 == Changelog ==
+
+= Version 3.0.3 - MAY 19TH, 2023 =
+
+**Bugfixes**
+
+* Regression: Plugin post type taxonomy option not showing on Gutenberg edit pages.
+* Regression: TMDb movie links broken.
+
 
 = Version 3.0.2 - MAY 8TH, 2023 =
 

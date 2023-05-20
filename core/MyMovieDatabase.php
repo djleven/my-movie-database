@@ -98,7 +98,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = "3.0.2";
+        $this->version = '3.0.3';
         $this->fileLoader = new FileLoader();
         $this->fileLoader->loadCommonDependencies();
         $this->manager = new PluginAPIManager();

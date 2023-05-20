@@ -97,7 +97,7 @@ class TemplateFiles {
 	 */
 	public static function enqueuePluginLibrary() {
 		$mmdb_js_file = TemplateFiles::getJsFilePath(self::PLUGIN_JS_LIB_FILE, 'app/');
-		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],1.0, true);
+		wp_enqueue_script( self::PLUGIN_JS_LIB_FILE, $mmdb_js_file, ['wp-i18n'],1.1, true);
 		wp_set_script_translations(
 			self::PLUGIN_JS_LIB_FILE,
 			'my-movie-database',
