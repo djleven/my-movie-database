@@ -39,6 +39,18 @@ class I18nConstants {
      */
 
     /*
+    * wp-admin/includes/ajax-actions.php
+    * wp-admin/includes/ajax-actions.php
+    * wp-admin/includes/class-wp-debug-data.php
+    * wp-admin/includes/class-wp-debug-data.php
+    * wp-admin/includes/class-wp-debug-data.php:
+    * wp-admin/includes/class-wp-plugins-list-table.php
+    * wp-admin/includes/update.php:231 wp-admin/includes/update.php
+    * wp-admin/includes/class-wp-ms-themes-list-table.php
+     */
+    const I18n_CORE_VERSION = 'Version %s';
+
+    /*
      * wp-signup.php
      * wp-admin/includes/class-wp-debug-data.php
      * wp-admin/includes/class-wp-links-list-table.php

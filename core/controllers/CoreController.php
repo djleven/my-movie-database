@@ -13,6 +13,7 @@ namespace MyMovieDatabase;
 
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\PostTypes\PostType;
+use MyMovieDatabase\Lib\LanguageManager;
 
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
@@ -23,7 +24,7 @@ use MyMovieDatabase\Lib\ResourceAPI\GetResourcesEndpoint;
 use MyMovieDatabase\Lib\ResourceTypes\AbstractResourceType;
 use MyMovieDatabase\Lib\ResourceAPI\AbstractEndpoint;
 
-class CoreController implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
+class CoreController implements ActionHookSubscriberInterface {
 
     /**
      * The resource (data) types made available in the plugin.
@@ -65,12 +66,22 @@ class CoreController implements ActionHookSubscriberInterface, FilterHookSubscri
     protected $advancedSettings;
 
     /**
+     * An instance of the LanguageManager class to handle all things i18n textdomain related.
+     *
+     * @since    3.0.2
+     * @access   public
+     * @var      LanguageManager    $languageManager
+     */
+    public $languageManager;
+
+    /**
      * Initialize the class:
      * Set its properties and register the custom post types and taxonomy
      *
      * @since      1.0.0
      */
     public function __construct($advancedSettings) {
+        $this->languageManager = new LanguageManager();
         $this->advancedSettings = $advancedSettings;
         $this->available_resource_types = $this->getAdminResourceTypes();
         $this->active_post_types = $this->getActivePostTypes();
@@ -86,38 +97,8 @@ class CoreController implements ActionHookSubscriberInterface, FilterHookSubscri
     public function getActions()
     {
         return [
-            'plugins_loaded' => 'load_plugin_textdomain',
             'init' => 'set_custom_post_types',
         ];
-    }
-
-
-    /**
-     * Get the action hooks to be registered related to the core functionality.
-     *
-     * @since    3.0.0
-     * @access   public
-     */
-    public function getFilters()
-    {
-        return [
-            'load_textdomain_mofile'       => ['load_fallback_text_domain_file',10, 2],
-            'load_script_translation_file' => ['load_fallback_text_domain_file',10, 2]
-        ];
-    }
-
-    /**
-     * Load the plugin text domain for translation.
-     *
-     * @since    1.0.0
-     */
-    public function load_plugin_textdomain() {
-
-        load_plugin_textdomain(
-            Constants::PLUGIN_NAME_DASHES,
-            false,
-            Constants::PLUGIN_NAME_DASHES . '/languages'
-        );
     }
 
     /**
@@ -252,44 +233,6 @@ class CoreController implements ActionHookSubscriberInterface, FilterHookSubscri
         $this->endpoints = [
             new GetResourcesEndpoint($api_key)
         ];
-    }
-
-    /**
-     * Modify local language files loaded to default fallback
-     *
-     * This plugin ships with some basic translation files for multi-locale languages ex: French, German.
-     * These basic translation files have no locale, only language (ex: 'fr', not 'fr-FR').
-     *
-     * These files are referred to as 'local'. Those that originate from translate.wordpress.org are referred to as 'remote'.
-     *
-     * When there are no remote (found in plugins/languages folder) locale specific files available (ex: 'fr-CA'),
-     * the below code will load the local generic (non locale) files. This method is called for both for .mo and .json files.
-     *
-     * The principle is that if the user local is say Belgian French (fr-BG) and there is only a fr-FR translation available,
-     * it is preferable to use fr-FR as fallback instead of English.
-     *
-     * Code based on https://vedovini.net/2013/12/18/smart-fallback-mechanism-for-loading-text-domains-in-wordpress/
-     *
-     * Caveat: Use of .mo translation files in the (php) code are available only after the 'load_textdomain_mofile' filter has fired.
-     *
-     * In this here plugin, with some minor modifications, this is fine. Beats copying the same .mo files for each locale.
-     *
-     * @since     3.0.0
-     * @return void
-     */
-    public function load_fallback_text_domain_file($src) {
-        if (str_contains($src, '/plugins/my-movie-database/languages/')) {
-            extract(pathinfo($src));
-            $pos = strrpos($filename, '_');
-
-            if ($pos !== false) {
-                # cut off the locale part, leaving the language part only
-                $filename = substr($filename, 0, $pos);
-                $src = $dirname . '/' . $filename . '.' . $extension;
-            }
-        }
-
-        return $src;
     }
 }
 

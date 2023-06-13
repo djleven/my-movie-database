@@ -31,6 +31,14 @@ class AdminController implements ActionHookSubscriberInterface {
     private $available_resource_types;
 
     /**
+     * Active post types as per admin user settings.
+     *
+     * @since     1.0.0
+     * @return    array
+     */
+    public $active_post_types;
+
+    /**
      * Class object that handles the plugin activation state changes
      *
      * @return    ActivationStateChanges
@@ -44,6 +52,15 @@ class AdminController implements ActionHookSubscriberInterface {
      * @since     2.5.0
      */
     public $settings;
+
+    /**
+     * Class object that handles the MMDB admin metaboxes for the active post types
+     *
+     * @since     2.5.0
+     * @var    PostMetaBox     $post_meta_box
+     */
+    public $post_meta_box;
+
     /**
      * Class object that conditionally edits / modifies wp post type
      *
@@ -64,17 +81,23 @@ class AdminController implements ActionHookSubscriberInterface {
     /**
      * Initialize the class and set its properties.
      *
-     * @param array $available_resource_types
-     * @param OptionsGroup $advancedSettings OptionsGroup class with the advanced setting values
+     * @param      array | null       $available_resource_types
+     * @param      array | null       $active_post_types
+     * @param      OptionsGroup       $advancedSettings OptionsGroup class with the advanced setting values
      *
      * @since      1.0.0
      */
-    public function __construct( $advancedSettings, $available_resource_types = null ) {
+    public function __construct( $advancedSettings, $available_resource_types = null, $active_post_types = null ) {
         $this->advancedSettings         = $advancedSettings;
         $this->activation_state_changes = new ActivationStateChanges();
         $this->available_resource_types = $available_resource_types;
+        $this->active_post_types        = $active_post_types;
         $this->setEditWpPosts();
-        $this->setAdminSettings();
+        if ( $this->available_resource_types ) {
+            $this->setAdminSettings();
+        } else {
+            $this->setPostMetaBoxes();
+        }
     }
 
     /**
@@ -91,7 +114,6 @@ class AdminController implements ActionHookSubscriberInterface {
         ];
     }
 
-
     /**
      * Instantiate the class that defines the option page settings functionality for the plugin
      *
@@ -99,9 +121,19 @@ class AdminController implements ActionHookSubscriberInterface {
      */
 
     private function setAdminSettings() {
-        if ( $this->available_resource_types ) {
-            $this->settings = new Settings( $this->available_resource_types );
-        }
+        $this->settings = new Settings( $this->available_resource_types );
+    }
+
+    /**
+     * Handle the MMDB metaboxes for the active post types
+     *
+     * @since     1.0.0
+     */
+    private function setPostMetaBoxes() {
+        $this->post_meta_box = new PostMetaBox(
+            $this->active_post_types,
+            $this->advancedSettings
+        );
     }
 
     public function admin_menu() {
@@ -141,4 +173,5 @@ class AdminController implements ActionHookSubscriberInterface {
             $this->edit_post_type = new EditPostType();
         }
     }
+
 }

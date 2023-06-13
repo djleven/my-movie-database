@@ -53,6 +53,11 @@ class FileLoader {
         require_once self::MMDB_CONTROLLERS_DIR . 'CoreController.php';
 
         /**
+         * The class responsible for i18n textdomain functionality.
+         */
+        require_once self::MMDB_LIB_DIR . 'LanguageManager.php';
+
+        /**
          * The abstract superclass responsible for the mmdb resource (data) types.
          */
         require_once self::MMDB_LIB_DIR . 'resourceTypes/AbstractResourceType.php';
@@ -119,6 +124,16 @@ class FileLoader {
             require_once self::MMDB_ADMIN_DIR . 'SettingsHeader.php';
             require_once self::MMDB_ADMIN_DIR . 'SettingsCacheController.php';
             require_once self::MMDB_ADMIN_DIR . 'Settings.php';
+        } else {
+            /**
+             * The class responsible for the plugin post meta box in the admin area.
+             */
+            require_once self::MMDB_ADMIN_DIR . 'PostMetaBox.php';
+
+            /**
+             * The concrete subclass responsible for the mmdb admin content view
+             */
+            require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAdminPostContentType.php';
         }
         /**
          * The class responsible for orchestrating the plugin's state activation changes.
@@ -134,24 +149,6 @@ class FileLoader {
          * A class responsible for customising wordpress post type to accommodate movies
          */
         require_once self::MMDB_ADMIN_DIR . 'EditPostType.php';
-    }
-
-    /**
-     * Load the required PostMetaBox dependencies.
-     *
-     * @since    3.0.0
-     * @access   public
-     */
-    public function loadAdminPostMetaBoxDependencies() {
-        /**
-         * The class responsible for the plugin post meta box in the admin area.
-         */
-        require_once self::MMDB_ADMIN_DIR . 'PostMetaBox.php';
-
-        /**
-         * The concrete subclass responsible for the mmdb admin content view
-         */
-        require_once self::MMDB_LIB_DIR . 'wpContentTypes/WpAdminPostContentType.php';
     }
 
     /**

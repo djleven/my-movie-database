@@ -11,6 +11,7 @@
  */
 namespace MyMovieDatabase\Admin;
 
+use MyMovieDatabase\Constants;
 use MyMovieDatabase\I18nConstants;
 
 trait SettingsHeader {
@@ -114,25 +115,39 @@ trait SettingsHeader {
      *
      * @return  void
      */
-    public function getSettingsPageHtml() {
+    public function getSettingsPageHtml($version) {
         ?>
         <style>
             .mmdb_admin_header {
                 display: flex;
-                max-width: 1200px;
-                justify-content: flex-start;
-                padding: 50px 0 35px;
+                max-width: 1600px;
+                /*padding: 25px 0 10px 40px;*/
+                padding: 20px 0 10px 10px;
                 align-items: center;
             }
+            .mmdb_admin_header h1 {
+                align-self: flex-end;
+            }
             .mmdb_admin_header .admin-logo {
-                padding: 0 20px;
+                padding: 0 20px 0 0;
             }
             .mmdb-row {
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
+                /*justify-content: space-evenly;*/
                 flex-wrap: wrap;
                 max-width: 1600px;
-                padding: 0 30px;
+                /*padding: 0 30px;*/
+                padding: 10px 15px
+            }
+            .mmdb-row .mmdb-header-boxes {
+                /*border: 3px solid black;*/
+                /*padding: 0 15px;*/
+                /*border-radius: 15px;*/
+            }
+            .version {
+                font-size: 14px;
+                padding: 8px 0 0;
             }
             .mmdb-row .mmdb-header-boxes li > span {
                 padding-right: 5px;
@@ -154,8 +169,10 @@ trait SettingsHeader {
 
         </style>
         <div class="mmdb_admin_header">
-            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-128x128.png" class="admin-logo"/>
-            <h1><?php echo __( 'My Movie Database',  'my-movie-database' ) . ' - ' . __( 'Settings' );?></h1>
+            <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
+            <h1><?php echo __( 'My Movie Database',  'my-movie-database' ) ;?>
+                <div class="version"><?php echo sprintf( __( I18nConstants::I18n_CORE_VERSION ), $version );?></div>
+            </h1>
         </div>
         <div class="mmdb-row">
             <?php foreach($this->getHeaderInfo() as $info) :?>

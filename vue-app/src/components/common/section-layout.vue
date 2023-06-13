@@ -1,15 +1,17 @@
 <template>
-    <div class="mmdb-section">
+    <div class="mmdb-section" :style="bodyColors">
+      <div class="mmdb-header-wrapper">
         <h3 class="mmdb-header"
-             v-if="showHeader"
-             :style="headerColors">
+            v-if="showHeader"
+            :style="headerColors">
             <span class="mmdb-header-title" :style="`color:${stylingConfig.headerFontColor};`">
                 {{ header }}
             </span>
           <span v-if="subHeader" class="mmdb-header-sub-title">{{ subHeader }}</span>
         </h3>
-        <div :class="`mmdb-body ${classList}`"
-             :style="bodyColors">
+      </div>
+
+        <div :class="`mmdb-body ${classList}`">
             <slot></slot>
         </div>
     </div>

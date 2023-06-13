@@ -33,7 +33,8 @@ div.mmdb-content .credits-wrapper, div.mmdb-content .mmdb-flex-container, div.mm
 }
 
 div.mmdb-content .mmdb-header {
-    align-items: baseline;
+    align-items: center;
+    min-height: 50px;
     justify-content: space-between;
 }
 
@@ -114,6 +115,15 @@ div.mmdb-content .nav-tabs > li.inactive > a.inactive {
 div.mmdb-content .nav-tabs > li.inactive > a:hover, div.mmdb-content .nav-tabs > li.inactive > a:focus {
     opacity: .6;
 }
+
+div.mmdb-accordion .mmdb-header-wrapper {
+    padding: 20px 15px 0;
+}
+
+div.mmdb-accordion .mmdb-body.trailer {
+    padding: 20px 0;
+}
+
 div.mmdb-content h3 {
     padding: 10px 15px;
     margin: 0!important;
@@ -231,7 +241,8 @@ div.mmdb-content .img-container:not(.no-image-available) .img-circle {
 }
 
 div.mmdb-content .credit-list-wrapper {
-    padding: 50px 0
+    padding: 50px 15px;
+    margin: auto;
 }
 
 /* Profile credits (TvShow and Movie credits) */

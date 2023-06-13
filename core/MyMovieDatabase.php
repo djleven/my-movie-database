@@ -17,7 +17,6 @@
 namespace MyMovieDatabase;
 
 use MyMovieDatabase\Admin\AdminController;
-use MyMovieDatabase\Admin\PostMetaBox;
 use MyMovieDatabase\Lib\OptionsGroup;
 
 class MyMovieDatabase {
@@ -75,17 +74,9 @@ class MyMovieDatabase {
     protected $publicController = null;
 
     /**
-     * Class object that handles the MMDB admin metaboxes for the active post types
-     *
-     * @since     2.5.0
-     * @var    PostMetaBox     $adminPostMetaBox
-     */
-    public $adminPostMetaBox;
-
-    /**
      * The class responsible for loading plugin dependencies.
      *
-     * @since    3.50.0
+     * @since    3.0.0
      * @access   protected
      * @var      FileLoader    $fileLoader
      */
@@ -107,7 +98,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = "3.0.0";
+        $this->version = '3.0.3';
         $this->fileLoader = new FileLoader();
         $this->fileLoader->loadCommonDependencies();
         $this->manager = new PluginAPIManager();
@@ -124,6 +115,7 @@ class MyMovieDatabase {
     private function runCore() {
         $this->coreController = new CoreController($this->advancedSettings);
         $this->manager->register($this->coreController);
+        $this->manager->register($this->coreController->languageManager);
 
         foreach ($this->coreController->endpoints as $endpoint)  {
             $this->manager->register($endpoint);
@@ -143,29 +135,24 @@ class MyMovieDatabase {
 
         $this->adminController = new AdminController(
             $this->advancedSettings,
-            $isSettingsPage ? $this->coreController->available_resource_types : null
+            $isSettingsPage ? $this->coreController->available_resource_types : null,
+            $this->coreController->active_post_types
         );
 
         $this->manager->register($this->adminController->activation_state_changes);
-        if($this->adminController->settings) {
+
+        if($isSettingsPage) {
+            $this->adminController->settings->setVersion($this->version);
             $this->manager->register( $this->adminController->settings );
             $this->manager->register( $this->adminController->settings->cacheController );
+        } else {
+            $this->manager->register($this->adminController->post_meta_box);
         }
-
         if($this->adminController->edit_post_type){
             $this->manager->register($this->adminController->edit_post_type);
         }
 
         $this->manager->register($this->adminController);
-
-        if(!$isSettingsPage && $this->isAdminPostPage()) {
-            $this->fileLoader->loadAdminPostMetaBoxDependencies();
-            $this->adminPostMetaBox = new PostMetaBox(
-                $this->coreController->active_post_types,
-                $this->advancedSettings
-            );
-            $this->manager->register($this->adminPostMetaBox);
-        }
 
     }
 
@@ -209,48 +196,6 @@ class MyMovieDatabase {
 
         return (isset($_REQUEST['page']) && $_REQUEST['page'] === "mmdb_settings") || (isset($_REQUEST['option_page']));
     }
-
-    /**
-     * Determine if we are on an admin edit post page
-     *
-     * If we are, there's no way to determine this early if it's a mmdb post type
-     *
-     * @since     3.0.0
-     * @return    boolean
-     */
-    protected function isAdminEditPostPage() {
-
-        return isset($_REQUEST['post']) && isset($_REQUEST['action']) && $_REQUEST['action'] === 'edit';
-    }
-
-    /**
-     * Determine if we are on a plugin active new post type page
-     *
-     * @since     3.0.0
-     * @return    boolean
-     */
-    protected function isAdminNewPostPage() {
-        $is_wp_new_post_page = isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-admin/post-new.php') !== false;
-        if(!$is_wp_new_post_page) {
-            return false;
-        }
-        $active_post_types = $this->coreController->active_post_types;
-
-        if(!isset($_REQUEST['post_type']) && in_array('post', $active_post_types)) {
-            return true;
-        }
-        if(isset($_REQUEST['post_type']) && in_array($_REQUEST['post_type'], $active_post_types)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function isAdminPostPage() {
-
-        return $this->isAdminEditPostPage() || $this->isAdminNewPostPage();
-    }
-
 
     /**
      * Gets an instance of our plugin.
