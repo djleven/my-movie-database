@@ -167,6 +167,20 @@ trait SettingsHeader {
                 -moz-appearance: textfield;
             }
 
+            /* Translation Credits */
+            .translation-credits h3 {
+                margin: 1.6em 0 0;
+            }
+            .translation-credits h4 {
+                margin: 1em 0 0.5em;
+            }
+            .translation-credits ul {
+                margin-top: 0.5em;
+            }
+            .translation-credits span {
+                font-weight: normal;
+                font-size:12px;
+            }
         </style>
         <div class="mmdb_admin_header">
             <img src="<?php echo MMDB_PLUGIN_URL ;?>assets/img/icon-64x64.png" class="admin-logo"/>
@@ -183,7 +197,7 @@ trait SettingsHeader {
                             <li>
                                 <span class="dashicons <?php echo $row['span_class']?>"></span><strong><?php echo $row['title']?>:</strong>
                                 <?php $text = isset($row['text']) ? $row['text'] : ''; echo $text; ?>
-                                <a href="<?php echo $row['url']?>" target="_blank">
+                                <a href="<?php echo $row['url']?>" target="_blank" target="_blank" rel="noopener noreferrer">
                                     <?php echo $row['url-text']?>
                                 </a>
                             </li>

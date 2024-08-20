@@ -141,6 +141,11 @@ class I18nConstants {
     */
     const I18n_CORE_SELECT = 'Select';
 
+    /*
+    * wp-admin/update-core.php
+    */
+    const I18n_CORE_TRANSLATIONS = 'Translations';
+
     /**
      * Custom post type creation
      *

@@ -49,6 +49,13 @@ class Constants {
     const ADMIN_EDIT_POST_PAGE = 'admin_edit_post_page';
 
     /**
+     * Credits Settings Group
+     */
+    const CREDITS_OPTION_GROUP_NAME = self::PLUGIN_ID_INIT . '_opt_credits';
+    const CREDITS_TRANSLATION_ID = self::PLUGIN_ID_INIT . '_translation_credits';
+    const CREDITS_DEVELOPMENT_ID = self::PLUGIN_ID_INIT . '_development_credits';
+
+    /**
      * Settings Option Values
      */
     const OPTION_VALUE_TMPL_TABS = 'tabs';

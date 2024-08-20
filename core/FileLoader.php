@@ -123,6 +123,8 @@ class FileLoader {
              */
             require_once self::MMDB_ADMIN_DIR . 'SettingsHeader.php';
             require_once self::MMDB_ADMIN_DIR . 'SettingsCacheController.php';
+            require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+            require_once self::MMDB_ADMIN_DIR . 'Credits.php';
             require_once self::MMDB_ADMIN_DIR . 'Settings.php';
         } else {
             /**

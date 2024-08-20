@@ -142,6 +142,12 @@ class Settings implements ActionHookSubscriberInterface {
             [
                 'id'    => Constants::CACHE_MANAGER_OPTION_GROUP_NAME,
                 'title' => esc_html__( 'Cache manager', 'my-movie-database' ),
+            ],
+            [
+                'id'    => Constants::CREDITS_OPTION_GROUP_NAME,
+                'html'  => true,
+                'desc' => Credits::getDescription(),
+                'title' => esc_html__( 'Credits', 'my-movie-database' ),
             ]
         ];
     }
@@ -499,6 +505,35 @@ class Settings implements ActionHookSubscriberInterface {
         ];
     }
 
+    /**
+     * Get the credits fields
+     *
+     * @since    3.0.4
+     * @return   array
+     */
+    private function getCreditFields() {
+
+        $dev_thanks =
+            'Heartfelt thank you to <a href="https://screenopolis.com" target="_blank" rel="noopener noreferrer"><b>Screenopolis</b></a> for their immense contribution to the development of the <b>My Movie Database Pro</b> plugin.';
+        return [
+            Constants::CREDITS_OPTION_GROUP_NAME => [
+                [
+                    'name'    => Constants::CREDITS_DEVELOPMENT_ID,
+                    'label' => esc_html__( 'Development',  'my-movie-database' ),
+                    'desc'   => $dev_thanks,
+                    'type'    => 'html',
+                ],
+                [
+                    'name'    => Constants::CREDITS_TRANSLATION_ID,
+                    'label' => __( I18nConstants::I18n_CORE_TRANSLATIONS ),
+                    'desc'   => Credits::getLanguages(),
+                    'type'    => 'html',
+                ],
+
+            ],
+
+        ];
+    }
 
     /**
      * Get/set all the settings fields to be then initialized and registered via `admin_init` hook
@@ -513,7 +548,8 @@ class Settings implements ActionHookSubscriberInterface {
         return array_merge(
                 $this->getTypeSectionFields(),
                 $this->getAfterTypeSectionsFields(),
-                $this->getCacheManagerFields()
+                $this->getCacheManagerFields(),
+                $this->getCreditFields()
         );
     }
 
