@@ -142,9 +142,23 @@ class I18nConstants {
     const I18n_CORE_SELECT = 'Select';
 
     /*
-    * wp-admin/update-core.php
+    * wp-admin/update-core.php:802 wp-admin/update-core.php:810
     */
     const I18n_CORE_TRANSLATIONS = 'Translations';
+
+    /*
+    * wp-admin/credits.php:27
+    * wp-admin/includes/plugin-install.php:786
+    */
+    const I18n_CORE_CONTRIBUTORS = 'Contributors';
+
+    /*
+    * wp-admin/about.php:40
+    * wp-admin/credits.php:14 wp-admin/credits.php:44
+    * wp-admin/freedoms.php:41
+    * wp-admin/privacy.php:35
+    * */
+    const I18n_CORE_CREDITS = 'Credits';
 
     /**
      * Custom post type creation

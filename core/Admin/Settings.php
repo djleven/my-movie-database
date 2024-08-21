@@ -145,8 +145,8 @@ class Settings implements ActionHookSubscriberInterface {
             [
                 'id'    => Constants::CREDITS_OPTION_GROUP_NAME,
                 'html'  => true,
-                'desc' => Credits::getDescription(),
-                'title' => esc_html__( 'Credits', 'my-movie-database' ),
+                'desc' => esc_html__( 'This plugin is made possible by the data The Movie Database (TMDb) provides, and we are grateful for their tremendous generosity.' ),
+                'title' => esc_html__( I18nConstants::I18n_CORE_CREDITS ),
             ]
         ];
     }

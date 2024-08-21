@@ -12,6 +12,8 @@
 
 namespace MyMovieDatabase\Admin;
 
+use MyMovieDatabase\I18nConstants;
+
 class Credits {
 
     CONST translation_credits = [
@@ -160,7 +162,8 @@ class Credits {
      */
     public static function getLanguages()
     {
-        $html = '<div class="translation-credits">';
+        $html = self::getDescription();
+        $html .= '<div class="translation-credits">';
         $translations = wp_get_available_translations();
         foreach (static::translation_credits as $language => $contributors) {
             $translation = $translations[$language];
@@ -184,7 +187,7 @@ class Credits {
             $html .= '</h4>';
 
             $html .= '<h4>';
-            $html .= esc_html__('Contributors:');
+            $html .= __(I18nConstants::I18n_CORE_CONTRIBUTORS);
             $html .= '</h4>';
 
             $html .= '<ul>';
