@@ -11,10 +11,9 @@
  */
 namespace MyMovieDatabase\Lib;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
-use MyMovieDatabase\FilterHookSubscriberInterface;
-
 use MyMovieDatabase\Constants;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
 
 /**
  * Besides registering the plugin textdomain this class is responsible for:

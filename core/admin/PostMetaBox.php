@@ -11,8 +11,10 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
-use MyMovieDatabase\FilterHookSubscriberInterface;
+
+
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpAdminPostContentType;
@@ -20,7 +22,6 @@ use MyMovieDatabase\Lib\ResourceAPI\BuildRequest;
 use MyMovieDatabase\I18nConstants;
 use MyMovieDatabase\TemplateFiles;
 use MyMovieDatabase\Constants;
-
 class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriberInterface {
 
     public $mmodb_content;

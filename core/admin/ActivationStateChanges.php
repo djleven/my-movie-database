@@ -11,10 +11,9 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
-use MyMovieDatabase\RegisterStateActivationHookSubscriberInterface;
-
 use MyMovieDatabase\Constants;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\RegisterStateActivationHookSubscriberInterface;
 
 class ActivationStateChanges implements ActionHookSubscriberInterface, RegisterStateActivationHookSubscriberInterface {
 

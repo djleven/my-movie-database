@@ -11,6 +11,11 @@
  */
 namespace MyMovieDatabase;
 
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\RegisterStateActivationHookSubscriberInterface;
+use MyMovieDatabase\interfaces\ShortcodeHookSubscriberInterface;
+
 /**
  * PluginAPIManager handles registering actions and hooks with the
  * WordPress Plugin API.

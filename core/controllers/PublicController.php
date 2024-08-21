@@ -12,11 +12,14 @@
  * @subpackage my-movie-database/core/controllers
  * @author     Kostas Stathakos <info@e-leven.net>
  */
-namespace MyMovieDatabase;
+namespace MyMovieDatabase\Controllers;
 
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
+use MyMovieDatabase\interfaces\ShortcodeHookSubscriberInterface;
+use MyMovieDatabase\Constants;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpShortcodeContentType;
-
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;

@@ -13,7 +13,7 @@
  */
 namespace MyMovieDatabase\Lib\ResourceAPI;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 
 abstract class AbstractEndpoint implements ActionHookSubscriberInterface {
 

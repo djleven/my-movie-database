@@ -12,7 +12,7 @@
 
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 
 class EditPostType implements ActionHookSubscriberInterface {

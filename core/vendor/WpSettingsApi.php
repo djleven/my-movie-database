@@ -1,5 +1,5 @@
 <?php
-
+namespace MyMovieDatabase\Vendor;
 /**
  * weDevs Settings API wrapper class
  *
@@ -9,8 +9,8 @@
  * @link https://tareq.co Tareq Hasan
  * @example example/oop-example.php How to use the class
  */
-if ( !class_exists( 'WeDevs_Settings_API' ) ):
-class WeDevs_Settings_API {
+
+class WpSettingsApi {
 
     /**
      * settings sections array
@@ -653,4 +653,3 @@ class WeDevs_Settings_API {
     }
 
 }
-endif;

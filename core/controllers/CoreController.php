@@ -9,12 +9,13 @@
  * @subpackage my-movie-database/core/controllers
  * @author     Kostas Stathakos <info@e-leven.net>
  */
-namespace MyMovieDatabase;
+namespace MyMovieDatabase\Controllers;
 
+use MyMovieDatabase\Constants;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\PostTypes\PostType;
 use MyMovieDatabase\Lib\LanguageManager;
-
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;

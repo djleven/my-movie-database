@@ -12,10 +12,13 @@
  * @subpackage my-movie-database/core/controllers
  * @author     Kostas Stathakos <info@e-leven.net>
  */
-namespace MyMovieDatabase\Admin;
+namespace MyMovieDatabase\Controllers;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
-
+use MyMovieDatabase\Admin\ActivationStateChanges;
+use MyMovieDatabase\Admin\EditPostType;
+use MyMovieDatabase\Admin\PostMetaBox;
+use MyMovieDatabase\Admin\Settings;
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\OptionsGroup;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Constants;

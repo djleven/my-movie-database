@@ -11,15 +11,14 @@
  */
 namespace MyMovieDatabase\Admin;
 
-use MyMovieDatabase\ActionHookSubscriberInterface;
-
+use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Lib\ResourceTypes\MovieResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\TvshowResourceType;
 use MyMovieDatabase\Lib\ResourceTypes\PersonResourceType;
-
 use MyMovieDatabase\Constants;
 use MyMovieDatabase\I18nConstants;
 use MyMovieDatabase\TemplateFiles;
+use MyMovieDatabase\Vendor\WpSettingsApi;
 
 class Settings implements ActionHookSubscriberInterface {
 
@@ -54,7 +53,7 @@ class Settings implements ActionHookSubscriberInterface {
      */
     public function __construct($plugin_resource_types) {
         $this->cacheController = new SettingsCacheController();
-        $this->settings_api = new \WeDevs_Settings_API;
+        $this->settings_api = new WpSettingsApi;
         $this->plugin_resource_types = $plugin_resource_types;
     }
 

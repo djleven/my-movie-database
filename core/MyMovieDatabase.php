@@ -16,8 +16,10 @@
  */
 namespace MyMovieDatabase;
 
-use MyMovieDatabase\Admin\AdminController;
 use MyMovieDatabase\Lib\OptionsGroup;
+use MyMovieDatabase\Controllers\CoreController;
+use MyMovieDatabase\Controllers\AdminController;
+use MyMovieDatabase\Controllers\PublicController;
 
 class MyMovieDatabase {
 
@@ -98,9 +100,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = '3.0.4';
-        $this->fileLoader = new FileLoader();
-        $this->fileLoader->loadCommonDependencies();
+        $this->version = '3.1.0';
         $this->manager = new PluginAPIManager();
         $this->advancedSettings = new OptionsGroup(Constants::ADVANCED_OPTION_GROUP_NAME);
         $this->run();
@@ -131,8 +131,6 @@ class MyMovieDatabase {
      */
     private function runAdmin() {
         $isSettingsPage = $this->isAdminSettingsPage();
-        $this->fileLoader->loadAdminDependencies($isSettingsPage);
-
         $this->adminController = new AdminController(
             $this->advancedSettings,
             $isSettingsPage ? $this->coreController->available_resource_types : null,
@@ -142,6 +140,7 @@ class MyMovieDatabase {
         $this->manager->register($this->adminController->activation_state_changes);
 
         if($isSettingsPage) {
+            require_once ABSPATH . 'wp-admin/includes/translation-install.php';
             $this->adminController->settings->setVersion($this->version);
             $this->manager->register( $this->adminController->settings );
             $this->manager->register( $this->adminController->settings->cacheController );
@@ -163,7 +162,6 @@ class MyMovieDatabase {
      * @access   private
      */
     private function runPublic() {
-        $this->fileLoader->loadPublicDependencies();
         $this->publicController = new PublicController(
             $this->advancedSettings,
             $this->coreController->active_post_types
