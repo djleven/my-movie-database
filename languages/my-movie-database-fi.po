@@ -1,0 +1,625 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - My Movie Database - Stable (latest release)\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-08-21T16:29:41+00:00\n"
+"PO-Revision-Date: +0000\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+
+#: assets/js/app/i18n.js:49
+msgid "Production countries"
+msgstr "Tuotantomaat"
+
+#: assets/js/app/i18n.js:45
+msgid "Original title"
+msgstr "Alkuperäinen nimi"
+
+#: assets/js/app/i18n.js:55
+msgid "Last air date"
+msgstr "Viimeinen esityspäivä"
+
+#: assets/js/app/i18n.js:54
+msgid "First aired"
+msgstr "Ensiesitys"
+
+#: assets/js/app/i18n.js:53
+msgid "Episodes"
+msgstr "Jaksoa"
+
+#: assets/js/app/i18n.js:52
+msgid "Created by"
+msgstr "Luonut"
+
+#. translators: Duration of tv show episode or movie.
+#: assets/js/app/i18n.js:48
+#: assets/js/app/i18n.js:57
+msgid "Runtime"
+msgstr "Kesto"
+
+#: assets/js/app/i18n.js:46
+msgid "Release date"
+msgstr "Julkaisupäivä"
+
+#: assets/js/app/i18n.js:44
+msgid "Original film language"
+msgstr "Alkuperäinen kieli"
+
+#: assets/js/app/i18n.js:42
+msgid "Starring"
+msgstr "Pääosassa"
+
+#. translators: Abbreviation for the word minutes, ex: 120 min.
+#: assets/js/app/i18n.js:39
+msgid "min"
+msgstr "min."
+
+#: assets/js/app/i18n.js:37
+msgid "Production companies"
+msgstr "Tuotantoyhtiöt"
+
+#: assets/js/app/i18n.js:34
+msgid "Genres"
+msgstr "Kategoriat"
+
+#: assets/js/app/i18n.js:27
+msgid "Tv roles"
+msgstr "Tv roolit"
+
+#: assets/js/app/i18n.js:25
+msgid "Movie roles"
+msgstr "Elokuvan roolit"
+
+#. translators: Other names the person is also known as, for example Jon Stewart is "also known as" Jonathan Stuart Leibowitz.
+#: assets/js/app/i18n.js:24
+msgid "Also known as"
+msgstr "Tunnettu myös"
+
+#. translators: Refers to the department of work, ex: Known for acting or directing.
+#: assets/js/app/i18n.js:22
+msgid "Known for"
+msgstr "Tunnettu"
+
+#: assets/js/app/i18n.js:20
+msgid "Department"
+msgstr "Osasto"
+
+#: assets/js/app/i18n.js:19
+msgid "Died on"
+msgstr "Kuollut"
+
+#: assets/js/app/i18n.js:17
+msgid "Birthday"
+msgstr "Syntynyt"
+
+#: assets/js/app/i18n.js:16
+#: assets/js/app/i18n.js:18
+msgid "Place of birth"
+msgstr "Syntymäpaikka"
+
+#: assets/js/app/i18n.js:12
+msgid "There is no description available"
+msgstr "Kuvausta ei ole saatavilla"
+
+#: core/Lib/ResourceTypes/AbstractResourceType.php:155
+#: assets/js/app/i18n.js:11
+msgid "Website"
+msgstr "Verkkosivu"
+
+#. translators: Acting role
+#: assets/js/app/i18n.js:10
+msgid "Role"
+msgstr "Rooli"
+
+#: assets/js/app/i18n.js:6
+msgid "Overview"
+msgstr "Yleiskatsaus"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:107
+msgid "Tv Show tags"
+msgstr "Tv-ohjelman tunnisteet"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:96
+msgid "Tv Show tag"
+msgstr "Tv-ohjelman tunniste"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:85
+msgid "Tv Show categories"
+msgstr "Tv-ohjelman kategoriat"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:74
+msgid "Tv Show category"
+msgstr "Tv-ohjelman kategoria"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:63
+msgid "Tv Shows"
+msgstr "Tv-ohjelmat"
+
+#: core/Lib/ResourceTypes/TvshowResourceType.php:46
+#: assets/js/app/i18n.js:51
+msgid "Seasons"
+msgstr "Kaudet"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:108
+msgid "Person tags"
+msgstr "Henkilön tunnisteet"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:97
+msgid "Person tag"
+msgstr "Henkilön tunniste"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:86
+msgid "Person categories"
+msgstr "Henkilön kategoriat"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:75
+msgid "Person category"
+msgstr "Henkilön kategoria"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:64
+msgid "Persons"
+msgstr "Henkilöt"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:114
+msgid "Movie tags"
+msgstr "Elokuvan tunnisteet"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:103
+msgid "Movie tag"
+msgstr "Elokuvan tunniste"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:92
+msgid "Movie categories"
+msgstr "Elokuvan kategoriat"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:81
+msgid "Movie category"
+msgstr "Elokuvan kategoria"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:59
+msgid "Movie"
+msgstr "Elokuva"
+
+#: core/Lib/ResourceTypes/MovieResourceType.php:47
+#: assets/js/app/i18n.js:41
+msgid "Trailer"
+msgstr "Traileri"
+
+#: core/Lib/ResourceTypes/AbstractResourceType.php:169
+#: assets/js/app/i18n.js:8
+msgid "Crew"
+msgstr "Esiintyjät"
+
+#: core/Admin/SettingsHeader.php:103
+msgid "Contact us"
+msgstr "Ota yhteyttä"
+
+#: core/Admin/SettingsHeader.php:102
+msgid "Need a special feature?"
+msgstr "Tarvitsetko erikoisominaisuutta?"
+
+#: core/Admin/Settings.php:521
+#: core/Admin/SettingsHeader.php:99
+msgid "Development"
+msgstr "Kehitys"
+
+#: core/Admin/SettingsHeader.php:96
+msgid "Add your website to our site showcase."
+msgstr "Lisää verkkosivustosi sivustoesittelyyn."
+
+#: core/Admin/SettingsHeader.php:93
+msgid "Showcase"
+msgstr "Sivustoesittely"
+
+#: core/Admin/SettingsHeader.php:90
+msgid "Join our mailing list."
+msgstr "Liity postituslistallemme."
+
+#: core/Admin/SettingsHeader.php:89
+msgid "Stay in the loop!"
+msgstr "Pysy ajan tasalla!"
+
+#: core/Admin/SettingsHeader.php:86
+msgid "Newsletter"
+msgstr "Uutiskirje"
+
+#: core/Admin/SettingsHeader.php:82
+msgid "Connect"
+msgstr "Yhteys"
+
+#: core/Admin/SettingsHeader.php:77
+msgid "Fill out a brief survey."
+msgstr "Täytä lyhyt kysely."
+
+#: core/Admin/SettingsHeader.php:76
+msgid "We'll love you for it!"
+msgstr "Rakastamme sinua siitä!"
+
+#: core/Admin/SettingsHeader.php:73
+msgid "Give feedback"
+msgstr "Anna palautetta"
+
+#: core/Admin/SettingsHeader.php:70
+msgid "Translate the plugin in your language."
+msgstr "Käännä lisäosa omalle kielellesi."
+
+#: core/Admin/SettingsHeader.php:67
+msgid "Translate"
+msgstr "Käännä"
+
+#: core/Admin/SettingsHeader.php:64
+msgid "Please leave your review."
+msgstr "Jätä arvostelusi."
+
+#: core/Admin/SettingsHeader.php:63
+msgid "It means a lot to us."
+msgstr "Se merkitsee meille paljon."
+
+#: core/Admin/SettingsHeader.php:60
+msgid "Review"
+msgstr "Palaute"
+
+#: core/Admin/SettingsHeader.php:56
+msgid "Contribute"
+msgstr "Osallistu"
+
+#: core/Admin/SettingsHeader.php:56
+msgid "Offer Help"
+msgstr "Tarjoa apua"
+
+#: core/Admin/SettingsHeader.php:51
+msgid "Open up a ticket."
+msgstr "Avaa tukipyyntö."
+
+#: core/Admin/SettingsHeader.php:50
+msgid "Still can't figure it out?"
+msgstr "Jäikö jotain epäselväksi?"
+
+#: core/Admin/SettingsHeader.php:44
+msgid "Configuration options"
+msgstr "Asetusvaihtoehdot"
+
+#: core/Admin/SettingsHeader.php:38
+msgid "How to use the plugin."
+msgstr "Kuinka käyttää lisäosaa."
+
+#: core/Admin/SettingsHeader.php:31
+msgid "Get Help"
+msgstr "Pyydä apua"
+
+#: core/Admin/SettingsCacheController.php:81
+msgid "An error has occurred."
+msgstr "Tapahtui virhe."
+
+#: core/Admin/Settings.php:493
+#: core/Lib/ResourceTypes/PersonResourceType.php:53
+msgid "Person"
+msgstr "Henkilö"
+
+#: core/Admin/Settings.php:492
+#: core/Lib/ResourceTypes/TvshowResourceType.php:52
+msgid "Tv Show"
+msgstr "Tv-ohjelma"
+
+#: core/Admin/Settings.php:491
+#: core/Lib/ResourceTypes/MovieResourceType.php:70
+msgid "Movies"
+msgstr "Elokuvat"
+
+#. translators: Resource type, ex: movie, tv show or person resource.
+#: core/Admin/Settings.php:486
+msgid "Select the type of cached resource to delete"
+msgstr "Valitse poistettavan välimuistissa olevan resurssin tyyppi"
+
+#: core/Admin/Settings.php:484
+msgid "Delete cached resource"
+msgstr "Poista välimuistissa oleva resurssi"
+
+#: core/Admin/Settings.php:460
+msgid "Will output data received from TMDB in your browser's (web developer tools) console"
+msgstr "Tulostaa TMDB:stä saadut tiedot selaimesi (web-kehittäjätyökalut) -konsoliin"
+
+#: core/Admin/Settings.php:449
+msgid "Stop using the Gutenberg editor for the plugin's post types?"
+msgstr "Lopetetaanko Gutenberg-editorin käyttö laajennuksen viestityypeille?"
+
+#: core/Admin/Settings.php:448
+msgid "Disable the Gutenberg editor?"
+msgstr "Poistetaanko Gutenberg-editori käytöstä?"
+
+#: core/Admin/Settings.php:429
+msgid "Include plugin css file"
+msgstr "Sisällytä pluginin css-tiedosto"
+
+#: core/Admin/Settings.php:413
+msgid "No, do not use wordpress categories"
+msgstr "Älä käytä WordPressin luokkia"
+
+#: core/Admin/Settings.php:406
+msgid "Wordpress Categories"
+msgstr "Wordpressin kategoriat"
+
+#: core/Admin/Settings.php:369
+msgid "None of the above"
+msgstr "Ei mikään ylläolevista"
+
+#: core/Admin/Settings.php:273
+msgid "Select the sections to be hidden"
+msgstr "Valitse piilotettavat osat"
+
+#: core/Admin/Settings.php:272
+msgid "Hide sections"
+msgstr "Piilota osat"
+
+#: core/Admin/Settings.php:267
+msgid "Before content"
+msgstr "Ennen sisältöä"
+
+#: core/Admin/Settings.php:266
+msgid "After content"
+msgstr "Sisällön jälkeen"
+
+#: core/Admin/Settings.php:262
+msgid "Choose to display MMDB info before or after the content"
+msgstr "Valitse, näytetäänkö MMDB-tiedot ennen sisältöä vai sen jälkeen"
+
+#: core/Admin/Settings.php:235
+msgid "Size of images / columns"
+msgstr "Kuvien/sarakkeiden koko"
+
+#: core/Admin/Settings.php:228
+msgid "Font color for the template content"
+msgstr "Fontin väri mallin sisällössä"
+
+#: core/Admin/Settings.php:220
+msgid "Background color for the template content"
+msgstr "Sisällön taustaväri"
+
+#: core/Admin/Settings.php:212
+msgid "Font color for the template header"
+msgstr "Otsikon väri"
+
+#: core/Admin/Settings.php:204
+msgid "Background color for the template header"
+msgstr "Otsikon taustaväri"
+
+#: core/Admin/Settings.php:191
+msgid "Select the template to use"
+msgstr "Valitse haluamasi malli"
+
+#: core/Admin/PostMetaBox.php:202
+msgid "Delete cache now"
+msgstr "Poista välimuisti"
+
+#: core/Lib/ResourceTypes/AbstractResourceType.php:151
+msgid "Overview Text"
+msgstr "Yleiskuvaus"
+
+#: core/Lib/ResourceTypes/AbstractResourceType.php:168
+#: assets/js/app/i18n.js:7
+msgid "Cast"
+msgstr "Esiintyjät"
+
+#: core/Admin/Settings.php:412
+msgid "Yes, associate them but do not show mmdb type posts in wordpress category pages as it conflicts with my theme or plugins"
+msgstr "Kyllä, yhdistä ne, mutta älä näytä mmdb-tyyppisiä viestejä WordPress-luokkasivuilla, koska se on ristiriidassa teemani tai laajennuksieni kanssa"
+
+#: core/Admin/Settings.php:411
+msgid "Yes, allow movies, tvshows and persons to be associated to wordpress categories"
+msgstr "Kyllä, salli elokuvien, tv-ohjelmien ja henkilöiden liittäminen WordPressin luokkiin"
+
+#. Author URI of the plugin
+msgid "https://e-leven.net/"
+msgstr "https://e-leven.net/"
+
+#. Author of the plugin
+msgid "Kostas Stathakos"
+msgstr "Kostas Stathakos"
+
+#. translators: %s: Number of days.
+#: core/Admin/PostMetaBox.php:200
+msgid "Cache expires in %s days"
+msgstr "Välimuisti vanhenee %s päivän kuluttua"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/my-movie-database/"
+msgstr "https://wordpress.org/plugins/my-movie-database/"
+
+#. Plugin Name of the plugin
+#: core/Admin/SettingsHeader.php:187
+msgid "My Movie Database"
+msgstr "My Movie Database"
+
+#: core/Admin/Settings.php:143
+msgid "Cache manager"
+msgstr "Välimuistin hallinta"
+
+#. translators: Refers to the tabs template.
+#: core/Admin/Settings.php:196
+msgid "With tabs"
+msgstr "Välilehtien kanssa"
+
+#. translators: Refers to the accordion template.
+#: core/Admin/Settings.php:198
+msgid "With accordion"
+msgstr "Haitari-toiminnolla"
+
+#: core/Admin/Settings.php:407
+msgid "Default Wordpress categories can be selectable for your your mmdb posts"
+msgstr "WordPressin oletusluokat voidaan valita mmdb-postauksillesi"
+
+#: core/Admin/Settings.php:418
+msgid "Overview on hover"
+msgstr "Näytä yleiskuvaus, kun osoitin on kohteen päällä"
+
+#: core/Admin/Settings.php:366
+msgid "No, use Posts and leave them as they are"
+msgstr "Ei, käytä postauksia ilman muutoksia"
+
+#. Description of the plugin
+msgid "The My Movie Database plugin compliments your content by adding information about the movies, the television shows and the people you choose. The data comes from the Movie Database (TMDb). This plugin was developed to enrich your movie or tvshow critique / review by 'automatically' adding the related information and allowing you to focus on your writing instead."
+msgstr "My Movie Database -laajennus täydentää sisältöäsi lisäämällä tietoja elokuvista, televisio-ohjelmista ja valitsemistasi ihmisistä. Tiedot tulevat elokuvatietokannasta (TMDb). Tämä laajennus on kehitetty rikastuttamaan elokuvan tai tv-ohjelman kritiikkiäsi / arvosteluasi lisäämällä siihen liittyvät tiedot \"automaattisesti\" ja antamalla sinun keskittyä kirjoittamiseen."
+
+#: core/Admin/Settings.php:396
+msgid "Select the type of taxonomy to be created for each enabled post type section."
+msgstr "Valitse luokituksen tyyppi kullekin käytössä olevalle osiolle eri viestityypeille."
+
+#. translators: %s: Plural version of resource / post type, ex: use movies, tv shows or persons.
+#: core/Admin/Settings.php:339
+msgid "I only want to use \"%s\" with shortcodes (or not at all)"
+msgstr "Aion käyttää \"%s\" vain lyhytkoodien kanssa (tai ei ollenkaan)"
+
+#. translators: %s: Post type, ex: movie, tv show or person section.
+#: core/Admin/Settings.php:300
+msgid "Enable \"%s\" section?"
+msgstr "Otetaanko osio \"%s\" käyttöön?"
+
+#: core/Admin/Settings.php:365
+msgid "No, use Posts but change the \"Posts\" menu label to \"Movies\""
+msgstr "Ei, käytä artikkeleita, mutta vaihda valikon otsikko \"Artikkelit\" muotoon \"Elokuvat\""
+
+#. translators: %s: Post type, ex: movie, tv show or person section.
+#: core/Admin/Settings.php:317
+msgid "Use a \"%s\" posts section (custom post type)"
+msgstr "Käytä osiota \"%s\" artikkeleille (muokattu viestityyppi)"
+
+#. translators: Movie and tv networks
+#: assets/js/app/i18n.js:36
+msgid "Networks"
+msgstr "Network"
+
+#: assets/js/app/i18n.js:28
+msgid "Tv crew credits"
+msgstr "TV:n tuotantotiimi"
+
+#: core/Admin/Settings.php:248
+msgid "Select the transition effect to use when switching sections"
+msgstr "Valitse siirtymätehoste, kun vaihdat osioiden välillä"
+
+#. translators: Refers a transition effect name.
+#: core/Admin/Settings.php:253
+msgid "Fade"
+msgstr "Sävy"
+
+#. translators: Refers a transition effect name.
+#: core/Admin/Settings.php:255
+msgid "Bounce"
+msgstr "Pomppia"
+
+#: core/Admin/Settings.php:247
+msgid "Transition effect"
+msgstr "Siirtymävaikutus"
+
+#: core/Admin/Settings.php:236
+msgid "Select the size of images for sections that display lists (ex: Crew and cast sections). Also affects column size of the responsive grid layout."
+msgstr "Valitse haluamasi kuvien koko luetteloita näyttäville osille (esim. tuotantoryhmä- ja näyttelijäosat). Tämä vaikuttaa myös sarakkeen leveyteen responsiivisessa ruudukkoasettelussa."
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:47
+#: assets/js/app/i18n.js:31
+msgid "Crew credits"
+msgstr "Tuotantoryhmä"
+
+#: core/Lib/ResourceTypes/PersonResourceType.php:46
+#: assets/js/app/i18n.js:30
+msgid "Cast credits"
+msgstr "Näyttelijät"
+
+#. translators: %s: Brand / Company website, ex: IMDb, TMDb, Rotten Tomatoes, etc
+#: assets/js/app/i18n.js:14
+msgid "%s Profile"
+msgstr "%s profiili"
+
+#. translators: %s: Number of episodes.
+#: assets/js/app/i18n.js:59
+msgid "%s episode"
+msgid_plural "%s episodes"
+msgstr[0] "%s jakso"
+msgstr[1] "jaksoa"
+
+#. translators: %s: Season number of tv show.
+#: assets/js/app/i18n.js:61
+msgid "Season %s"
+msgstr "Kausi %s"
+
+#. translators: %s: Name of API service provider, ex: TMDb, Google.
+#: core/Admin/Settings.php:442
+msgid "Enter your %s API key."
+msgstr "Lisää %s API-avain."
+
+#. translators: %s: Name of API service provider, ex: TMDb, Google.
+#: core/Admin/Settings.php:440
+msgid "%s API key"
+msgstr "%s API-avain"
+
+#. translators: Acronym for the term 'Project Translation Editor' of the WordPress translation system.
+#: core/Admin/Credits.php:183
+msgid "PTE:"
+msgstr ""
+
+#: core/Admin/Credits.php:185
+msgid "The role is currently vacant. Apply to be our PTE!"
+msgstr ""
+
+#. translators: %s: Language name, ex: French
+#: core/Admin/Credits.php:239
+msgid "Part or all of this translation is being used for %s"
+msgstr ""
+
+#: core/Admin/Credits.php:253
+msgid ""
+"Big thank to all our translation contributors! Completed translations on translate.wordpress.org are automatically shipped by WordPress (✓).\n"
+"            We are in need of Project Translation Editors (PTEs)!  \n"
+"            A PTE is a person who has access to validate and approve strings added by translation contributors on translate.wordpress.org, for a language locale of the plugin.\n"
+"            If want to become the plugin's PTE for your language locale, please email us at:"
+msgstr ""
+
+#: core/Admin/Settings.php:261
+msgid "Display position"
+msgstr ""
+
+#: core/Admin/Settings.php:419
+msgid "Show description on hover for person credits and tvshow seasons"
+msgstr ""
+
+#: core/Admin/Settings.php:459
+msgid "Debug Mode"
+msgstr ""
+
+#. translators: %s: Name of the resource provider, ex: TMDb, Google.
+#: core/Admin/Settings.php:499
+msgid "Enter the %s id of the cached resource to delete"
+msgstr ""
+
+#. translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US.
+#: core/Admin/SettingsCacheController.php:75
+msgid "The cache for the %1$s with TMDb id %2$s and locale %3$s was deleted."
+msgstr ""
+
+#. translators: 1: Resource type, ex: movie, tv show or person, 2: Numeric TMDb id, 3: Locale code, ex: en-US.
+#: core/Admin/SettingsCacheController.php:91
+msgid "The cache for the %1$s with TMDb id %2$s and locale %3$s was not found."
+msgstr ""
+
+#: assets/js/app/i18n.js:26
+msgid "Movie crew credits"
+msgstr ""
+
+#: assets/js/app/i18n.js:43
+msgid "Directing"
+msgstr ""
+
+#: core/Admin/Settings.php:148
+msgid "This plugin is made possible by the data The Movie Database (TMDb) provides, and we are grateful for their tremendous generosity."
+msgstr ""
+
+#. translators: %s: Link destination, ex: homepage, wikipedia, IMDb or TMDb.
+#: core/Lib/ResourceTypes/AbstractResourceType.php:154
+#: core/Lib/ResourceTypes/AbstractResourceType.php:162
+msgid "Link to %s"
+msgstr ""
