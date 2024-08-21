@@ -149,11 +149,19 @@ abstract class AbstractResourceType {
 
         $overview_section = [
             static::SECTION_OVERVIEW  => __( 'Overview Text', 'my-movie-database' ),
-            static::HOMEPAGE_LINK     => __( 'Homepage Link', 'my-movie-database' ),
+            static::HOMEPAGE_LINK     => sprintf(
+            /* translators: %s: Link destination, ex: homepage, wikipedia, IMDb or TMDb. */
+                esc_html__( 'Link to %s', 'my-movie-database' ),
+                esc_html__( 'Website', 'my-movie-database' )
+            ),
         ];
 
         if($hasIMDB) {
-            $overview_section[static::IMDB_LINK] = __( 'IMDB Link', 'my-movie-database' );
+            $overview_section[static::IMDB_LINK] = sprintf(
+            /* translators: %s: Link destination, ex: homepage, wikipedia, IMDb or TMDb. */
+                esc_html__( 'Link to %s', 'my-movie-database' ),
+                'IMDb'
+            );
         }
 
 		return array_merge($overview_section, [
