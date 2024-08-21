@@ -11,8 +11,6 @@
  */
 namespace MyMovieDatabase\Admin;
 
-
-
 use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
 use MyMovieDatabase\Lib\OptionsGroup;

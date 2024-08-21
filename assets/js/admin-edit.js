@@ -11,18 +11,27 @@ jQuery( function ( $ ) {
         },
         onChangeTMDbId: function() {
             $('#' + this.tmdbInputId).on('change', function () {
-                const deleteCacheWrapperEl = document.getElementById(adminEdit.deleteCacheWrapperId)
-                    if(deleteCacheWrapperEl) {
-                        deleteCacheWrapperEl.style.display = "none"
-                    }
-
+                adminEdit.hideDeleteCacheComponent()
                 adminEdit.updateTMDbLink(this.value)
             })
+        },
+        hideDeleteCacheComponent: function() {
+            const deleteCacheWrapperEl = document.getElementById(adminEdit.deleteCacheWrapperId)
+            if(deleteCacheWrapperEl) {
+                deleteCacheWrapperEl.style.display = "none"
+            }
         },
         onSubmit: function() {
             $('#' + this.deleteCachedButtonId).on('click', function () {
                 document.getElementById(adminEdit.shouldDeleteCachedInputId).value = "1"
-                document.getElementById("post").submit()
+                let submitBtn = document.getElementById("post")
+                if(submitBtn) {
+                   return submitBtn.submit()
+                } else {
+                    submitBtn = document.getElementsByClassName("editor-post-publish-button editor-post-publish-button__button")[0]
+                    submitBtn.click()
+                    adminEdit.hideDeleteCacheComponent()
+                }
             })
         },
         updateTMDbLink: function(newId) {
