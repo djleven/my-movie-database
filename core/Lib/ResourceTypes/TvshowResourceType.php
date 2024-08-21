@@ -44,7 +44,7 @@ class TvshowResourceType extends AbstractResourceType {
 
 	    return $this->getSectionLabels([
 		    static::SECTION_4   	  => __( 'Seasons', 'my-movie-database' ),
-	    ]);
+	    ], false);
 	}
 
     public static function getI18nDefaultLabel() {

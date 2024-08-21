@@ -104,7 +104,13 @@ export const SCHEMA = {
                 },
                 "section_4": {
                     "type": "boolean"
-                }
+                },
+                "imdb_link": {
+                    "type": "boolean"
+                },
+                "homepage_link": {
+                    "type": "boolean"
+                },
             },
             "required": [
                 "overview_text",

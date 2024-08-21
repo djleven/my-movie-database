@@ -36,6 +36,8 @@ abstract class AbstractResourceType {
     const SECTION_2 = 'section_2';
     const SECTION_3 = 'section_3';
     const SECTION_4 = 'section_4';
+    const IMDB_LINK = 'imdb_link';
+    const HOMEPAGE_LINK = 'homepage_link';
 
     abstract public static function getI18nDefaultLabel();
     abstract public static function getI18nDefaultPluralLabel();
@@ -126,6 +128,8 @@ abstract class AbstractResourceType {
 
         return [
             static::SECTION_OVERVIEW,
+            static::HOMEPAGE_LINK,
+            static::IMDB_LINK,
             static::SECTION_2,
             static::SECTION_3,
             static::SECTION_4
@@ -141,10 +145,18 @@ abstract class AbstractResourceType {
      *
      * @return    array
      */
-	public function getSectionLabels($sectionLabels) {
+	public function getSectionLabels($sectionLabels, $hasIMDB = true) {
 
-		return array_merge([
-			static::SECTION_OVERVIEW  => __( 'Overview Text', 'my-movie-database' ),
+        $overview_section = [
+            static::SECTION_OVERVIEW  => __( 'Overview Text', 'my-movie-database' ),
+            static::HOMEPAGE_LINK     => __( 'Homepage Link', 'my-movie-database' ),
+        ];
+
+        if($hasIMDB) {
+            $overview_section[static::IMDB_LINK] = __( 'IMDB Link', 'my-movie-database' );
+        }
+
+		return array_merge($overview_section, [
 			static::SECTION_2   	  => __( 'Cast', 'my-movie-database' ),
 			static::SECTION_3   	  => __( 'Crew', 'my-movie-database' )
 		], $sectionLabels);

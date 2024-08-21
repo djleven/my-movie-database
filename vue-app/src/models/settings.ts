@@ -54,4 +54,6 @@ export interface SectionShowSettings {
     [BaseTemplateSections.Section_2]: boolean
     [BaseTemplateSections.Section_3]: boolean
     [BaseTemplateSections.Section_4]: boolean
+    imdb_link?: boolean
+    homepage_link?:  boolean
 }

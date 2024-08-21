@@ -54,6 +54,7 @@ const mainMeta = computed(() => {
 const linksMeta = computed(() => {
   return {
     homepage: {
+      showIf: store.state.showSettings.homepage_link,
       value: content.value?.homepage
     }
   }
