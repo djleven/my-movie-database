@@ -35,6 +35,7 @@ export interface I18nScreenPlay extends I18nCommon {
 export interface I18nMovie extends I18nScreenPlay {
     trailer: string
     starring: string
+    directing: string
     original_language: string
     original_title: string
     release_date: string

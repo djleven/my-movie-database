@@ -17,6 +17,18 @@ const store = useStore();
 const $t = inject('$t')
 const content = computed(() => store.state.movie?.content)
 const getTitle = computed(() => getTitleWithYear(content.value?.title, content.value?.release_date))
+const getDirectors = computed(() => {
+  const directors = store.state.movie?.credits?.crew.filter((person) => {
+    return person.job_aggregate?.some((item) => {
+      return item.job === 'Director'
+    })
+  })
+  if (!directors?.length) {
+    return null;
+  }
+  directors.slice(0, 3)
+  return directors.map((person) => person.name).join(', ')
+})
 const mainMeta = computed(() => {
   return {
     release_date: {
@@ -28,6 +40,9 @@ const mainMeta = computed(() => {
       value: getPropertyAsCsvFromObjectArray(
           store.state.movie?.credits?.cast?.slice(0, 3)
       )
+    },
+    directing: {
+      value: getDirectors.value
     },
     genres: {
       showIf: content.value?.genres,

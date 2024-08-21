@@ -40,6 +40,7 @@ export default {
 // I18nMovie
     trailer: __('Trailer', 'my-movie-database'),
     starring: __('Starring', 'my-movie-database'),
+    directing: __('Directing', 'my-movie-database'),
     original_language: __('Original film language', 'my-movie-database'),
     original_title: __('Original title', 'my-movie-database'),
     release_date: __('Release date', 'my-movie-database'),
