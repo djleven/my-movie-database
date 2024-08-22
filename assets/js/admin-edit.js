@@ -28,7 +28,7 @@ jQuery( function ( $ ) {
                 if(submitBtn) {
                    return submitBtn.submit()
                 } else {
-                    submitBtn = document.getElementsByClassName("editor-post-publish-button editor-post-publish-button__button")[0]
+                    submitBtn = document.getElementsByClassName("editor-post-publish-button")[0]
                     submitBtn.click()
                     adminEdit.hideDeleteCacheComponent()
                 }

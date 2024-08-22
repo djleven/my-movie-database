@@ -143,8 +143,8 @@ class LanguageManager implements ActionHookSubscriberInterface, FilterHookSubscr
      */
     protected function isNonExistentLocalTranslation($src) {
 
-        return str_contains($src, '/plugins/' . Constants::PLUGIN_NAME_DASHES . '/' . static::LANGUAGE_FOLDER . '/')
-               && !is_readable($src);
+        return $this->str_contains($src, '/plugins/' . Constants::PLUGIN_NAME_DASHES . '/' . static::LANGUAGE_FOLDER . '/')
+            && !is_readable($src);
     }
 
     /**
@@ -177,17 +177,17 @@ class LanguageManager implements ActionHookSubscriberInterface, FilterHookSubscr
      * @return    bool
      */
     public function handle_i18n_json_files($file, $handle) {
-        if (!str_contains($file, Constants::PLUGIN_NAME_DASHES)) {
+        if (!$this->str_contains($file, Constants::PLUGIN_NAME_DASHES)) {
             return $file;
         }
 
-        if(str_contains($file, $handle)) {
+        if($this->str_contains($file, $handle)) {
             /** 1 and 2 */
             return $this->handleFilesWithHandleJSON($file, $handle);
         }
 
         $inCorrectHash = '-7d15a23e5780208e6e977a7174aa290f';
-        if(str_contains($file, $inCorrectHash)) {
+        if($this->str_contains($file, $inCorrectHash)) {
             /** 3, 4 and 5*/
             return $this->handleFilesWithHashAndFinalFallbackJSON($file, $inCorrectHash);
         }
@@ -229,7 +229,7 @@ class LanguageManager implements ActionHookSubscriberInterface, FilterHookSubscr
         $correctHash = '-4a703481cd11f3975571aec5fc83a803';
         /** 3 and 4 */
         $file = str_replace($inCorrectHash, $correctHash, $file);
-        if(str_contains($file, self::REMOTE_LANGUAGES_PATH) && !is_readable($file)) {
+        if($this->str_contains($file, self::REMOTE_LANGUAGES_PATH) && !is_readable($file)) {
             /** We are in 4 and the file does not exist, hence 5 */
             return str_replace(
                 self::REMOTE_LANGUAGES_PATH,
@@ -241,6 +241,21 @@ class LanguageManager implements ActionHookSubscriberInterface, FilterHookSubscr
         /** 3 or 4 */
         return $file;
     }
+
+    /**
+     * Implement a str_contains placeholder function for earlier PHP versions.
+     *
+     * TODO: remove when PHP 8 is minimum requirement
+     *
+     * @param     string $haystack
+     * @param     string $needle
+     * @return    bool
+     * @since     3.1.0
+     */
+    protected function str_contains($haystack, $needle) {
+        return strpos($haystack, $needle) !== false;
+    }
+
 
     /**
      * Get the final fallback path to a local non-locale specific translation file.
@@ -262,4 +277,3 @@ class LanguageManager implements ActionHookSubscriberInterface, FilterHookSubscr
         return $src;
     }
 }
-

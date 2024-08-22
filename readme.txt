@@ -3,7 +3,7 @@
 Contributors: djleven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6
 Tags: movie, movies, film, tv, television, television series, tv show, TMDb, cast, crew
-Requires at least: 4.9
+Requires at least: 5.0.22
 Requires PHP: 5.6
 Tested up to: 6.6.1
 Stable tag: 3.1.0

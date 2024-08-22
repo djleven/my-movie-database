@@ -166,6 +166,9 @@ class Credits {
         $html .= '<div class="translation-credits">';
         $translations = wp_get_available_translations();
         foreach (static::translation_credits as $language => $contributors) {
+            if(!array_key_exists($language, $translations)) {
+                continue;
+            }
             $translation = $translations[$language];
             $html .= '<h3>';
             $html .= $translation['english_name'] . '-' . $translation['native_name'];

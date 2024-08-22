@@ -16,7 +16,7 @@ namespace MyMovieDatabase\Controllers;
 
 use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
-use MyMovieDatabase\interfaces\ShortcodeHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\ShortcodeHookSubscriberInterface;
 use MyMovieDatabase\Constants;
 use MyMovieDatabase\Lib\WpContentTypes\WpPostContentType;
 use MyMovieDatabase\Lib\WpContentTypes\WpShortcodeContentType;

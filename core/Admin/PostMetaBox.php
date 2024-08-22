@@ -223,7 +223,7 @@ class PostMetaBox implements ActionHookSubscriberInterface, FilterHookSubscriber
         wp_enqueue_script( Constants::PLUGIN_NAME_UNDERSCORES . '_admin_edit',
             TemplateFiles::getJsFilePath($edit_js_file),
             ['jquery'],
-            0.1,
+            0.2,
             true
         );
     }

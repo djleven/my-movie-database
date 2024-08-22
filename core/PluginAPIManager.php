@@ -14,7 +14,7 @@ namespace MyMovieDatabase;
 use MyMovieDatabase\Interfaces\ActionHookSubscriberInterface;
 use MyMovieDatabase\Interfaces\FilterHookSubscriberInterface;
 use MyMovieDatabase\Interfaces\RegisterStateActivationHookSubscriberInterface;
-use MyMovieDatabase\interfaces\ShortcodeHookSubscriberInterface;
+use MyMovieDatabase\Interfaces\ShortcodeHookSubscriberInterface;
 
 /**
  * PluginAPIManager handles registering actions and hooks with the
