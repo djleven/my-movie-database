@@ -3,10 +3,10 @@
 Contributors: djleven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5DGNQGZU92N6
 Tags: movie, movies, film, tv, television, television series, tv show, TMDb, cast, crew
-Requires at least: 4.6
+Requires at least: 4.9
 Requires PHP: 5.6
-Tested up to: 6.2
-Stable tag: 3.0.3
+Tested up to: 6.6.1
+Stable tag: 3.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,25 @@ Now you can install it using the WordPress admin interface or by manually upload
 4. Locate the plugin and select **"Activate"**
 
 == Changelog ==
+
+= Version 3.1.0 - AUG 22ND, 2024 =
+
+**Features**
+
+*  Added: Setting to hide overview section IMDB and homepage links respectively.
+*  Added: Directors to movie overview section.
+
+**Bugfixes**
+
+* Delete cache not working on Gutenberg edit pages.
+
+**Enhancements**
+
+*  Added: Translation and development contribution credits on admin settings page.
+*  Added: Spanish and Finnish translations.
+*  Improved: German and French translation.
+*  Added: PSR-4 autoloader implementation.
+
 
 = Version 3.0.3 - MAY 19TH, 2023 =
 
