@@ -6,7 +6,7 @@ Tags: movie, movies, film, tv, television, television series, tv show, TMDb, cas
 Requires at least: 5.0.22
 Requires PHP: 5.6
 Tested up to: 6.6.1
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

@@ -100,7 +100,7 @@ class MyMovieDatabase {
      */
 
     private function __construct() {
-        $this->version = '3.1.0';
+        $this->version = '3.1.1';
         $this->manager = new PluginAPIManager();
         $this->advancedSettings = new OptionsGroup(Constants::ADVANCED_OPTION_GROUP_NAME);
         $this->run();
